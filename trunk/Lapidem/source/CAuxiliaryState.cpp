@@ -22,7 +22,6 @@ void CAuxiliaryState::Enter( )
 	m_nAttractTimer = 0;
 	m_nCreditScroll = 500;
 
-
 	pFile           = NULL;
 
 	m_nImageID      = m_pTM->LoadTexture( "resource/graphics/Lapidem_MainMenuBG.png" );
@@ -44,6 +43,7 @@ void CAuxiliaryState::Enter( )
 	{		
 		string _NameBuffer;
 		int  _ScoreBuffer;
+
 		fopen_s( &pFile, "resource/data/Lapidem_HighscoreTable.bin", "rb" );
 
 		if( pFile == NULL )
