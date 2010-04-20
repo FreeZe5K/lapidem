@@ -2,8 +2,6 @@
 //  File Name   :   "CMenuState.h"
 //
 //  Author Name :   Mike Hatter
-//
-//  Purpose     :   
 //////////////////////////////////////////////////////////////////////////
 #pragma once
 
@@ -15,9 +13,9 @@ class IGameState;
 
 class CMenuState : public IGameState
 {
-	private:
+private:
 	int                     m_nChoice;
-	int                     m_nImageID[2];
+	int                     m_nImageID;
 	int                     m_nSoundID[2];
 	int                     m_nAttractTimer;
 
