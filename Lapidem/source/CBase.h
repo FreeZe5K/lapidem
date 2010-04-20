@@ -57,6 +57,7 @@ public:
 	void SetSound( int nSound )     {    m_nSound       = nSound;   }
 	void SetWidth( int nWidth )     {    m_nWidth       = nWidth;   }
 	void SetHeight( int nHeight )   {    m_nHeight      = nHeight;  }
+	void SetType( int nType )		{	 m_nType		= nType;	}
 
 	void SetPosX( float fPosX )     {    m_fPositionX   = fPosX;    }
 	void SetPosY( float fPosY )     {    m_fPositionY   = fPosY;    }

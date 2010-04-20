@@ -42,19 +42,19 @@ void CAuxiliaryState::Enter( )
 
 	if( m_nState == 1 )
 	{		
-		char _NameBuffer[25];
+		string _NameBuffer;
 		int  _ScoreBuffer;
-		fopen_s( &pFile, "resources/data/Lapidem_HighscoreTable.bin", "rb" );
+		fopen_s( &pFile, "resource/data/Lapidem_HighscoreTable.bin", "rb" );
 
 		if( pFile == NULL )
 			return;
 
 		for( int i = 0; i < 10; i++ )
 		{
-			fread( &_NameBuffer, sizeof( char ), 25, pFile );
+			fread( &_NameBuffer, sizeof( string ), 10, pFile );
 			m_szPlayerNames[i] = _NameBuffer;
 
-			fread( &_ScoreBuffer, sizeof( _ScoreBuffer ), 1, pFile );
+			fread( &_ScoreBuffer, sizeof( _ScoreBuffer ), 10, pFile );
 			m_nPlayerScores[i] = _ScoreBuffer;
 		}
 
