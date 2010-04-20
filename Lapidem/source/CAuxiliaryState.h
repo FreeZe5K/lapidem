@@ -8,6 +8,10 @@
 #include "CGame.h"
 #include "IGameState.h"
 
+using std::ifstream;
+using std::ios_base;
+using std::string;
+
 class CGame;
 class IGameState;
 
@@ -25,6 +29,13 @@ private:
 	int                     m_nScrollSpeedTwo;
 	int                     m_nScrollSpeedThree;
 	int                     m_nScrollSpeedFour;
+
+	/////////////////////////
+	// High score info
+	string                  m_szPlayerNames[10];
+	int                     m_nPlayerScores[10];
+
+	FILE                    *pFile;
 
 	CSGD_Direct3D           *m_pD3D;
 	CSGD_TextureManager     *m_pTM;

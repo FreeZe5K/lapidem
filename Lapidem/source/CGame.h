@@ -33,6 +33,7 @@
 #include "CBitmapFont.h"
 #include <vector>                                 // We're going to store states in a vector.
 #include <stdlib.h>                               // We need this to run batch files.
+#include <fstream>
 #include <string>
 using std::string;
 

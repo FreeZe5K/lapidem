@@ -22,6 +22,9 @@ void CAuxiliaryState::Enter( )
 	m_nAttractTimer = 0;
 	m_nCreditScroll = 500;
 
+
+	pFile           = NULL;
+
 	m_nImageID      = m_pTM->LoadTexture( "resource/graphics/Lapidem_MainMenuBG.png" );
 
 	m_nSoundID[0]   = m_pWM->LoadWave( "resource/audio/Lapidem_MainMenuMusic.wav" );
@@ -36,6 +39,27 @@ void CAuxiliaryState::Enter( )
 	m_nScrollSpeedThree   = -128;
 	m_nScrollSpeedFour    = -128;
 	// - - - - - - - - - - - - - - - -
+
+	if( m_nState == 1 )
+	{		
+		char _NameBuffer[25];
+		int  _ScoreBuffer;
+		fopen_s( &pFile, "resources/data/Lapidem_HighscoreTable.bin", "rb" );
+
+		if( pFile == NULL )
+			return;
+
+		for( int i = 0; i < 10; i++ )
+		{
+			fread( &_NameBuffer, sizeof( char ), 25, pFile );
+			m_szPlayerNames[i] = _NameBuffer;
+
+			fread( &_ScoreBuffer, sizeof( _ScoreBuffer ), 1, pFile );
+			m_nPlayerScores[i] = _ScoreBuffer;
+		}
+
+		fclose( pFile );
+	}
 
 	m_pWM->Play( m_nSoundID[0], DSBPLAY_LOOPING );
 	m_pWM->SetVolume( m_nSoundID[0], CGame::GetInstance( )->GetMusicVolume( ) ); 
@@ -101,6 +125,8 @@ bool CAuxiliaryState::Input( )
 		// 2. Display the names and scores to the screen
 		// 3. Take a break.
 		// - - - - - - - - - - - - - - - - - -
+		if( m_pDI->CheckBufferedKeysEx( ) )
+			CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
 	}
 	else if( m_nState == 2 ) // How To Play
 	{
@@ -228,7 +254,22 @@ void CAuxiliaryState::Render( )
 	}
 	else if( m_nState == 1 ) // High Scores
 	{
+		int _ScoreHeight( 100 );
+		char _ScoreBuffer[16];
 
+		for( int i = 0; i < 10; i++ )
+		{
+			CGame::GetInstance( )->GetFont( )->Draw( m_szPlayerNames[i].c_str(), 30, 
+				_ScoreHeight, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			sprintf_s( _ScoreBuffer, "%i", m_nPlayerScores[i] );
+			CGame::GetInstance( )->GetFont( )->Draw( _ScoreBuffer, 150, 
+				_ScoreHeight, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			_ScoreHeight = _ScoreHeight + 30;
+		}
+		CGame::GetInstance( )->GetFont( )->Draw( "PRESS ANY KEY TO CONTINUE...", 50, 
+			450, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	}
 	else if( m_nState == 2 ) // How To Play
 	{
