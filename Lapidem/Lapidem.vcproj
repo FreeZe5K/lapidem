@@ -258,10 +258,6 @@
 				Name="Header Files"
 				>
 				<File
-					RelativePath=".\source\Wrappers\CEvent.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\Wrappers\CSGD_Direct3D.h"
 					>
 				</File>
@@ -279,10 +275,6 @@
 				</File>
 				<File
 					RelativePath=".\source\Wrappers\CSGD_WaveManager.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\Wrappers\IListener.h"
 					>
 				</File>
 				<File
