@@ -1,53 +1,53 @@
-///////////////////////////////////////////////////
-//File Name : "Cbase.h"
-//Author Name : Jonathan Caro
-//purpose : To encapsulate all related game object data
-//			and functionality
-///////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//  File Name   :   "CBase.cpp"
+//
+//  Author Name :   Jonathan Caro
+//
+//  Purpose     :   To encapsulate all related game 
+//                  object data and functionality.
+//////////////////////////////////////////////////////////////////////////
 #include "CBase.h"
 #include "Wrappers/CSGD_TextureManager.h" 
 
-CBase::CBase(void)
+CBase::CBase( )
 {
-	SetPosX(0);
-	SetPosY(0);
-	SetVelX(0);
-	SetVelY(0);
-	SetImage(-1);
-	SetSound(-1);
-	m_nRefCount = 1; //always start with a reference to yoruself
+	SetPosX( 0 );
+	SetPosY( 0 );
+	SetVelX( 0 );
+	SetVelY( 0 );
+	SetImage( -1 );
+	SetSound( -1 );
+
+	m_nRefCount = 1;
 }
 
-CBase::~CBase()
+CBase::~CBase( )
 {
-
 }
 
-void CBase::Update(float fElapsedTime)
+void CBase::Update( float fElapsedTime )
 {
-	SetPosX(GetPosX()+GetVelX() * fElapsedTime);
-	SetPosY(GetPosY()+GetVelY() * fElapsedTime);
+	SetPosX( GetPosX( ) + GetVelX( ) * fElapsedTime );
+	SetPosY( GetPosY( ) + GetVelY( ) * fElapsedTime );
 }
 
-void CBase::Render()
+void CBase::Render( )
 {
-	if(GetImage() != -1)
-	{
-		CSGD_TextureManager::GetInstance()->Draw(GetImage(), (int)GetPosX(), (int)GetPosY());
-	}
+	if( GetImage( ) != -1 )
+		CSGD_TextureManager::GetInstance( )->Draw( GetImage( ), ( int )GetPosX( ), ( int )GetPosY( ) );
 }
 
-RECT CBase::GetCollisionRect()
+RECT CBase::GetCollisionRect( )
 {
-	RECT tempRect = {(LONG)GetPosX(),(LONG) GetPosY(), (LONG)GetPosX() - GetWidth(),(LONG) GetPosY() +GetHeight()};
+	RECT tempRect = { ( LONG )GetPosX( ),( LONG )GetPosY( ), 
+		( LONG )GetPosX( ) - GetWidth( ),( LONG )GetPosY() + GetHeight( ) };
 	
 	return tempRect;
 }
-bool CBase::CheckCollision(CBase* pBase)
-{
-	if(IntersectRect(0,&GetCollisionRect(), &pBase->GetCollisionRect()))
-		return true;
 
-	else
-		return false;
+bool CBase::CheckCollision( CBase* pBase )
+{
+	if( IntersectRect( 0, &GetCollisionRect( ), &pBase->GetCollisionRect( ) ) )
+		return true;
+	else return false;
 }

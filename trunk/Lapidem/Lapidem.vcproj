@@ -204,6 +204,10 @@
 				UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 				>
 				<File
+					RelativePath=".\source\CBase.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CGame.cpp"
 					>
 				</File>
@@ -217,6 +221,10 @@
 				Filter="h;hpp;hxx;hm;inl;inc;xsd"
 				UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 				>
+				<File
+					RelativePath=".\source\CBase.h"
+					>
+				</File>
 				<File
 					RelativePath=".\source\CGame.h"
 					>
@@ -349,6 +357,38 @@
 					RelativePath=".\source\CMenuState.h"
 					>
 				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Helper Classes"
+			>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\source\CBitmapFont.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\source\CBitmapFont.cpp"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Game Objects"
+			>
+			<Filter
+				Name="Source Files"
+				>
+			</Filter>
+			<Filter
+				Name="Header Files"
+				>
 			</Filter>
 		</Filter>
 	</Files>

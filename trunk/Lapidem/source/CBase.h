@@ -3,79 +3,81 @@
 //
 //  Author Name :   Jonathan Caro
 //
-//  Purpose     :   Provides the base functionality of all other classes 
+//  Purpose     :   Provides the base functionality of all other classes.
 //////////////////////////////////////////////////////////////////////////
-#ifndef CBASE_H
-#define CBASE_H
+#pragma once
 #include "IBaseInterface.h"
 #include <windows.h>
 
-enum Types{OBJ_BASE, OBJ_PLAYER, OBJ_FIRE, OBJ_EARTH, OBJ_WIND, OBJ_ICE};
+enum Types{ OBJ_BASE, OBJ_PLAYER, OBJ_FIRE, OBJ_EARTH, OBJ_WIND, OBJ_ICE };
+
 class CBase : public IBaseInterface
 {
-	int m_nImageID;
-	int m_nSound;
-	float m_fPositionX;
-	float m_fPositionY;
-	float m_fVelocityX;
-	float m_fVelocityY;
-	int m_nWidth;
-	int m_nHeight;
-	int m_nRefCount;
+private:
+	int    m_nImageID;
+	int    m_nSound;
+	int    m_nWidth;
+	int    m_nHeight;
+	int    m_nRefCount;
+
+	float  m_fPositionX;
+	float  m_fPositionY;
+	float  m_fVelocityX;
+	float  m_fVelocityY;
 	
 protected:
 	int m_nType;
-public:
 
-	CBase();
-	~CBase();
+public:
+	CBase( );
+	~CBase( );
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Accessors"
 	//
 	//  Purpose   :   Get Stuff
 	//////////////////////////////////////////////////////////////////////////
-	int GetImage(void) {return m_nImageID;}
-	int GetSound(void) {return m_nSound;}
-	int GetWidth(void) {return m_nWidth;}
-	int GetHeight(void) {return m_nHeight;}
-	float GetPosX(void) {return m_fPositionX;}
-	float GetPosY(void) {return m_fPositionY;}
-	float GetVelX(void) {return m_fVelocityX;}
-	float GetVelY(void) {return m_fVelocityY;}
-	int GetType(void) {return m_nType;}
-	//////////////////////////////////////////////////////////////////////////
+	int   GetImage( )     {    return m_nImageID;        }
+	int   GetSound( )     {    return m_nSound;          }
+	int   GetWidth( )     {    return m_nWidth;          }
+	int   GetHeight( )    {    return m_nHeight;         }
+	int   GetType( )      {    return m_nType;           }
+
+	float GetPosX( )      {    return m_fPositionX;      }
+	float GetPosY( )      {    return m_fPositionY;      }
+	float GetVelX( )      {    return m_fVelocityX;      }
+	float GetVelY( )      {    return m_fVelocityY;      }
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Mutators"
 	//
 	//  Purpose   :   Set Stuff
 	//////////////////////////////////////////////////////////////////////////
-	void SetImage(int nImage) { m_nImageID = nImage;}
-	void SetSound(int nSound) { m_nSound = nSound;}
-	void SetWidth(int nWidth) { m_nWidth = nWidth;}
-	void SetHeight(int nHeight) { m_nHeight = nHeight;}
-	void SetPosX(float fPosX) {m_fPositionX = fPosX;}
-	void SetPosY(float fPosY) {m_fPositionY = fPosY;}
-	void SetVelX(float fVelX) {m_fVelocityX = fVelX;}
-	void SetVelY(float fVelY) {m_fVelocityY = fVelY;}
-	//////////////////////////////////////////////////////////////////////////
+	void SetImage( int nImage )     {    m_nImageID     = nImage;   }
+	void SetSound( int nSound )     {    m_nSound       = nSound;   }
+	void SetWidth( int nWidth )     {    m_nWidth       = nWidth;   }
+	void SetHeight( int nHeight )   {    m_nHeight      = nHeight;  }
+
+	void SetPosX( float fPosX )     {    m_fPositionX   = fPosX;    }
+	void SetPosY( float fPosY )     {    m_fPositionY   = fPosY;    }
+	void SetVelX( float fVelX )     {    m_fVelocityX   = fVelX;    }
+	void SetVelY( float fVelY )     {    m_fVelocityY   = fVelY;    }
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "GetCollisionRect"
 	//
 	//  Purpose   :   Returns the collision rect of the object.
 	//////////////////////////////////////////////////////////////////////////
-	RECT GetCollisionRect();
+	RECT GetCollisionRect( );
+
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "CheckCollision"
 	//
 	//  Purpose   :   Checks collision against passed in CBase. Handling of 
 	//				  collision can also be handled here.
 	//////////////////////////////////////////////////////////////////////////
-	bool CheckCollision (CBase* pbase);
-
-
+	bool CheckCollision( CBase* );
+	
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Update"
 	//
@@ -83,7 +85,7 @@ public:
 	//				  its position and velocity. If Input is needed, it should
 	//				  be added before update code.
 	//////////////////////////////////////////////////////////////////////////
-	virtual void Update( float  fElapsedTime);
+	virtual void Update( float );
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Render"
@@ -114,12 +116,8 @@ public:
 	void Release( )
 	{
 		m_nRefCount--;
-		if(m_nRefCount ==0)
-		{
+
+		if( 0 == m_nRefCount )
 			delete this;
-		}
 	}
 };
-
-
-#endif

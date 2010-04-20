@@ -91,11 +91,8 @@ bool CMenuState::Input( )
 
 void CMenuState::Update( )
 {
-	// TODO:: If one second has passed . . .
-	++m_nAttractTimer;
-
 	// TODO:: If 10 seconds have passed without input . . .
-	if( m_nAttractTimer >= 10 )
+	if( ++m_nAttractTimer >= 10 )
 	{ 
 		// TODO:: Set timer to zero and switch to attract mode
 	}
@@ -107,29 +104,28 @@ void CMenuState::Render( )
 		NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 200, 255, 255, 255 ) );
 
 	// - - - - - - - - - - - - - - - -
-	// Place holder until a bitmap
-	// font class is implemented.
+	// Fix the bitmap fonts to be kerned.
 	// - - - - - - - - - - - - - - - -
-	m_pD3D->DrawText( "OPTION 1", 70, 80 );
-	m_pD3D->DrawText( "OPTION 2", 70, 100 );
-	m_pD3D->DrawText( "OPTION 3", 70, 120 );
-	m_pD3D->DrawText( "OPTION 4", 70, 140 );
-	m_pD3D->DrawText( "OPTION 5", 70, 160 );
-	m_pD3D->DrawText( "OPTION 5", 70, 180 );
+	CGame::GetInstance( )->GetFont( )->Draw( "PLAY", 70, 80, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+	CGame::GetInstance( )->GetFont( )->Draw( "OPTIONS", 70, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+	CGame::GetInstance( )->GetFont( )->Draw( "HIGH SCORES", 70, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+	CGame::GetInstance( )->GetFont( )->Draw( "HOW TO PLAY", 70, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+	CGame::GetInstance( )->GetFont( )->Draw( "CREDITS", 70, 160, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+	CGame::GetInstance( )->GetFont( )->Draw( "EXIT", 70, 180, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	// - - - - - - - - - - - - - - - -
 
 	if( m_nChoice == 0 )
-		m_pTM->Draw( m_nImageID[1], 50, 80 );
+		CGame::GetInstance( )->GetFont( )->Draw( ">", 50, 76, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	else if( m_nChoice == 1 )
-		m_pTM->Draw( m_nImageID[1], 50, 100 );
+		CGame::GetInstance( )->GetFont( )->Draw( ">", 50, 96, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	else if( m_nChoice == 2 )
-		m_pTM->Draw( m_nImageID[1], 50, 120 );
+		CGame::GetInstance( )->GetFont( )->Draw( ">", 50, 116, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	else if( m_nChoice == 3 )
-		m_pTM->Draw( m_nImageID[1], 50, 140 );
+		CGame::GetInstance( )->GetFont( )->Draw( ">", 50, 140, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	else if( m_nChoice == 4 )
-		m_pTM->Draw( m_nImageID[1], 50, 160 );
+		CGame::GetInstance( )->GetFont( )->Draw( ">", 50, 156, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	else if( m_nChoice == 5 )
-		m_pTM->Draw( m_nImageID[1], 50, 180 );
+		CGame::GetInstance( )->GetFont( )->Draw( ">", 50, 176, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 }
 
 void CMenuState::Exit( )
