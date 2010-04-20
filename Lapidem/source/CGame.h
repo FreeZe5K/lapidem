@@ -24,7 +24,12 @@
 #include "CMenuState.h"
 
 //////////////////////////////
+// Base classes
+#include "CBase.h"
+
+//////////////////////////////
 // Additional Includes
+#include "CBitmapFont.h"
 #include <vector>                                 // We're going to store states in a vector.
 #include <stdlib.h>                               // We need this to run batch files.
 #include <string>
@@ -82,7 +87,8 @@ private:
 	bool                    m_bIsPaused;
 
 	//////////////////////////////
-	// Animations
+	// Bitmap Font
+	CBitmapFont*            m_bmFont;
 
 	//////////////////////////////
 	// Variables to count time
@@ -206,6 +212,7 @@ public:
 	//
 	//  Purpose   : Returns the specified type.
 	//////////////////////////////////////////////////////////////////////////
+	CBitmapFont* GetFont( )       const      { return m_bmFont;                }
 	bool GetDebugMode( )          const      { return m_bIsInDebug;            }
 
 	string GetCheatString( )      const      { return m_szCHEATSTRING;         }

@@ -20,6 +20,7 @@ CGame::CGame( )
 	m_pDS       = NULL;
 	m_pWM       = NULL;
 	m_pDI       = NULL;
+	m_bmFont    = NULL;
 
 	m_nImageID	             = -1;
 	m_nSoundID	             = -1;
@@ -53,6 +54,9 @@ void CGame::Initialize( HWND hWnd, HINSTANCE hInstance,
 	m_nScreenHeight       = nScreenHeight;
 	m_bIsNotFullscreen    = bIsWindowed;
 
+	m_bmFont              = new CBitmapFont();
+	m_bmFont->Load( "resource/graphics/Lapidem_Font.bmp" );
+
 	m_dwTimeStamp         = GetTickCount( );
 	m_dwPreviousTimeStamp = GetTickCount( );
 
@@ -62,6 +66,7 @@ void CGame::Initialize( HWND hWnd, HINSTANCE hInstance,
 void CGame::Shutdown( )
 {
 	ChangeState( NULL );
+	delete m_bmFont;
 
 	if( m_pDI )
 	{
