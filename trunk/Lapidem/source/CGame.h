@@ -22,6 +22,7 @@
 //////////////////////////////
 // Menus
 #include "CMenuState.h"
+#include "CAuxiliaryState.h"
 
 //////////////////////////////
 // Base classes
