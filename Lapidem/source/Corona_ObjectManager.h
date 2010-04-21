@@ -15,6 +15,7 @@ class Corona_ObjectManager
 	unsigned Refs;
 	static Corona_ObjectManager * CoMReference;
 	DynArray<CBase *> Objects;
+	//Change from CBase to CTBase
 	DynArray<CBase *> Terrain;
 
 	//Singleton Encapsulation:
@@ -27,7 +28,22 @@ class Corona_ObjectManager
 	void LoadObject(CBase*);
 	//Change From CBase to CTBase
 	void LoadTerrain(CBase*);
+
+/*
+	Multithreading Tools:
+
+	bool continue_thread;
 	
+	struct CollisionThread
+	{
+		bool* continue_thread;
+		DynArray<CBase*> * Objects;
+		DynArray<CTBase*> * Terrain;
+	};
+
+
+
+*/
 
 
 
