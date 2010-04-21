@@ -204,10 +204,6 @@
 				UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 				>
 				<File
-					RelativePath=".\source\CBase.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\source\CGame.cpp"
 					>
 				</File>
@@ -225,10 +221,6 @@
 				Filter="h;hpp;hxx;hm;inl;inc;xsd"
 				UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 				>
-				<File
-					RelativePath=".\source\CBase.h"
-					>
-				</File>
 				<File
 					RelativePath=".\source\CGame.h"
 					>
@@ -377,6 +369,10 @@
 					RelativePath=".\source\CBitmapFont.h"
 					>
 				</File>
+				<File
+					RelativePath=".\source\MDTS\DynArray.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Source Files"
@@ -390,13 +386,29 @@
 		<Filter
 			Name="Game Objects"
 			>
+			<File
+				RelativePath=".\source\Corona_ObjectManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\Corona_ObjectManager.h"
+				>
+			</File>
 			<Filter
 				Name="Source Files"
 				>
+				<File
+					RelativePath=".\source\CBase.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Header Files"
 				>
+				<File
+					RelativePath=".\source\CBase.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 	</Files>
