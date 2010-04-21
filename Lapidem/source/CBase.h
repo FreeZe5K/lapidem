@@ -9,7 +9,7 @@
 #include "IBaseInterface.h"
 #include <windows.h>
 
-enum Types{ OBJ_BASE, OBJ_PLAYER, OBJ_FIRE, OBJ_EARTH, OBJ_WIND, OBJ_ICE };
+enum Types{ OBJ_BASE, OBJ_PLAYER, OBJ_FIRE, OBJ_EARTH, OBJ_WIND, OBJ_ICE, OBJ_TERRA };
 
 class CBase : public IBaseInterface
 {
@@ -24,6 +24,8 @@ private:
 	float  m_fPositionY;
 	float  m_fVelocityX;
 	float  m_fVelocityY;
+
+	bool   m_bIsActive;
 	
 protected:
 	int m_nType;
@@ -48,6 +50,8 @@ public:
 	float GetVelX( )      {    return m_fVelocityX;      }
 	float GetVelY( )      {    return m_fVelocityY;      }
 
+	bool IsActive( )	  {	   return m_bIsActive;		 }
+
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Mutators"
 	//
@@ -63,6 +67,7 @@ public:
 	void SetPosY( float fPosY )     {    m_fPositionY   = fPosY;    }
 	void SetVelX( float fVelX )     {    m_fVelocityX   = fVelX;    }
 	void SetVelY( float fVelY )     {    m_fVelocityY   = fVelY;    }
+	void SetActive( bool bIsActive) {    m_bIsActive	= bIsActive;}
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "GetCollisionRect"

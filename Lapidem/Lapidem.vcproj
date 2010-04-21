@@ -369,10 +369,6 @@
 					RelativePath=".\source\CBitmapFont.h"
 					>
 				</File>
-				<File
-					RelativePath=".\source\MDTS\DynArray.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="Source Files"
