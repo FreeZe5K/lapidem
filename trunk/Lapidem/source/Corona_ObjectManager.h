@@ -24,9 +24,6 @@ class Corona_ObjectManager
 	Corona_ObjectManager& operator=(const Corona_ObjectManager&);
 	~Corona_ObjectManager() {};
 	
-	void LoadObject(CBase*);
-	//Change From CBase to CTBase
-	void LoadTerrain(CBase*);
 	void CheckCollisions();
 	void RemoveAllObjects(void);
 
@@ -57,9 +54,7 @@ class Corona_ObjectManager
 
 		for(terrain)
 			for(objects)
-				
-
-
+			
 
 		}
 */
@@ -72,7 +67,6 @@ public:
 	void DeleteInstance();
 	void UpdateObjects(float fElapsedTime);
 	void RenderObjects(void);
-
 	void AddObject(CBase* ObjectToAdd);
 	void RemoveObject(CBase* ObjectToRemove);
 

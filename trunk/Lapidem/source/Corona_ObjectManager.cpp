@@ -76,9 +76,9 @@ void Corona_ObjectManager::AddObject(CBase* ObjectToAdd)
 {
 	//Load Objects into the appropriate vector
 	if(ObjectToAdd->GetType() != OBJ_TERRA)
-		LoadObject(ObjectToAdd);
-	else//Change to CBase
-		LoadTerrain(ObjectToAdd);
+		Objects.push_back(ObjectToAdd);
+	else
+		Terrain.push_back(ObjectToAdd);
 }
 
 void Corona_ObjectManager::RemoveObject(CBase* ObjectToRemove)
@@ -113,16 +113,6 @@ void Corona_ObjectManager::RemoveObject(CBase* ObjectToRemove)
 	}
 }
 
-void Corona_ObjectManager::LoadObject(CBase* ToAdd)
-{
-	Objects.push_back(ToAdd);
-}
-
-//Change From CBase to CTBase
-void Corona_ObjectManager::LoadTerrain(CBase* ToAdd)
-{
-	Terrain.push_back(ToAdd);
-}
 
 void Corona_ObjectManager::CheckCollisions()
 {
