@@ -7,6 +7,7 @@
 //                  object data and functionality.
 //////////////////////////////////////////////////////////////////////////
 #include "CBase.h"
+#include "CCamera.h"
 #include "Wrappers/CSGD_TextureManager.h" 
 
 CBase::CBase( )
@@ -34,7 +35,7 @@ void CBase::Update( float fElapsedTime )
 void CBase::Render( )
 {
 	if( GetImage( ) != -1 )
-		CSGD_TextureManager::GetInstance( )->Draw( GetImage( ), ( int )GetPosX( ), ( int )GetPosY( ) );
+		CSGD_TextureManager::GetInstance( )->Draw( GetImage( ), ( int )(GetPosX( ) - CCamera::GetCamera()->GetXOffset()), ( int )(GetPosY( ) - CCamera::GetCamera()->GetYOffset()) );
 }
 
 RECT CBase::GetCollisionRect(float fElapsedTime)

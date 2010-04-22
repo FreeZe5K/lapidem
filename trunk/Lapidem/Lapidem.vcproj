@@ -269,10 +269,6 @@
 					RelativePath=".\source\Wrappers\CSGD_WaveManager.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\source\Wrappers\SGD_Math.cpp"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="Header Files"
@@ -379,6 +375,18 @@
 				>
 				<File
 					RelativePath=".\source\CBitmapFont.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CEvent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CLDevice.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Corona_EventHandler.h"
 					>
 				</File>
 			</Filter>
