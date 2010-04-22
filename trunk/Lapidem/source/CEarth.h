@@ -6,9 +6,12 @@
 class CEarth : public CSpell
 {
 	float m_fRotate;			//Used for the basic earth bolt. The bolt is "lobbed" and slowly rotated forwards it falls.	In Radians
+	
 	float m_fTimeTillRotate;	//When the basic earth bolt is created, it travels at a steady velocity, after the timer has expired
 								//the bolt begins to rotate forward until it collides with another object, at that point the rotation
 								// is set to 0 and the bolt should end up landing flat on a surface (unless it hits an enemy in which case it dissapears). 
+	
+	float m_fDisplay;		// How much the boulder should be rotated when displaying
 
 public:
 	CEarth();
