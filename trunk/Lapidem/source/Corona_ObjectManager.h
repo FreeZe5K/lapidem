@@ -10,6 +10,7 @@
 using std::vector;
 
 class CBase;
+class CCamera;
 
 class Corona_ObjectManager
 {
@@ -19,13 +20,15 @@ class Corona_ObjectManager
 	vector<CBase *> Terrain;
 
 	//Singleton Encapsulation:
-	Corona_ObjectManager() {};
+	Corona_ObjectManager() { };
 	Corona_ObjectManager(const Corona_ObjectManager& copy);
 	Corona_ObjectManager& operator=(const Corona_ObjectManager&);
 	~Corona_ObjectManager() {};
 	
 	void CheckCollisions();
 	void RemoveAllObjects(void);
+
+	CCamera * theCamera;
 
 
 /*

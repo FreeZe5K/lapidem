@@ -9,7 +9,7 @@
 #include "IBaseInterface.h"
 #include <windows.h>
 
-enum Types{ OBJ_BASE, OBJ_PLAYER, OBJ_FIRE, OBJ_EARTH, OBJ_WIND, OBJ_ICE, OBJ_TERRA };
+enum Types{ OBJ_BASE, OBJ_PLAYER, OBJ_FIRE, OBJ_EARTH, OBJ_WIND, OBJ_ICE, OBJ_TERRA }; //All Tiles need to have "at least" the OBJ_TERRA type.
 
 class CBase : public IBaseInterface
 {
