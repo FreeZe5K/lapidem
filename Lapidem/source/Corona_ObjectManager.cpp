@@ -134,7 +134,7 @@ void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
 		if(!IsOnScreen(Objects[index]))
 			continue;
 
-		for(unsigned int jay = (index + 1); jay < Objects.size(); ++jay)
+		for(unsigned jay = (index + 1); jay < Objects.size(); ++jay)
 		{
 			if(!IsOnScreen(Objects[jay]))
 				continue;
@@ -147,6 +147,13 @@ void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
 
 			ObjectsOnScreen.push_back(Objects[index]);
 		}
+	}
+
+	for(unsigned index = 0; index < ObjectsOnScreen.size(); ++index)
+	{
+			//Check the Objects on the screen's location against the terrain.
+
+
 	}
 }
 
