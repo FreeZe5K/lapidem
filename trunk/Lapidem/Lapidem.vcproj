@@ -417,6 +417,10 @@
 					RelativePath=".\source\CBase.h"
 					>
 				</File>
+				<File
+					RelativePath=".\source\CCharacter.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Spells"

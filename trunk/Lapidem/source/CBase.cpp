@@ -37,17 +37,27 @@ void CBase::Render( )
 		CSGD_TextureManager::GetInstance( )->Draw( GetImage( ), ( int )GetPosX( ), ( int )GetPosY( ) );
 }
 
-RECT CBase::GetCollisionRect( )
+RECT CBase::GetCollisionRect(float fElapsedTime)
 {
-	RECT tempRect = { ( LONG )GetPosX( ),( LONG )GetPosY( ), 
-		( LONG )GetPosX( ) - GetWidth( ),( LONG )GetPosY() + GetHeight( ) };
+	RECT tempRect = { ( LONG )(GetPosX( ) + GetVelX( ) * fElapsedTime),
+					  ( LONG )(GetPosY( ) + GetVelY( ) * fElapsedTime), 
+					  ( LONG )(GetPosX( ) + GetVelX( ) * fElapsedTime) + GetWidth( ),
+					  ( LONG )(GetPosY( ) + GetVelY( ) * fElapsedTime) + GetHeight( )};
 	
 	return tempRect;
 }
 
-bool CBase::CheckCollision( CBase* pBase )
+bool CBase::CheckCollision(float fElapsedTime, CBase* pBase )
 {
-	if( IntersectRect( 0, &GetCollisionRect( ), &pBase->GetCollisionRect( ) ) )
+
+	if( IntersectRect( 0, &GetCollisionRect(fElapsedTime), &pBase->GetCollisionRect(fElapsedTime) ) )
 		return true;
-	else return false;
+	
+	return false;
+}
+
+void CBase::HandleCollision(CBase*)
+{
+
+
 }

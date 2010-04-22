@@ -190,16 +190,7 @@ void CEarth::RenderTier3()
 
 }
 
-bool CEarth::CheckCollision(CBase* pbase)
-{
-	if(IntersectRect(0,&GetCollisionRect(), &pbase->GetCollisionRect()))
-	{
-		HandleCollision(pbase);
-		return true;
-	}
-	else
-		return false;
-}
+
 
 void CEarth::HandleCollision(CBase* pObject)
 {

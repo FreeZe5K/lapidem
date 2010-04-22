@@ -33,7 +33,7 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 	
 	while(iter != Objects.end())
 	{
-		if((*iter)->GetPosX() > theCamera->GetXOffset() && ((*iter)->GetPosX() < theCamera->GetWidth()))
+		if(IsOnScreen(*iter))
 		{
 			if((*iter)->IsActive())
 				(*iter)->Update(fElapsedTime);
@@ -47,7 +47,7 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 	iter = Terrain.begin();
 	while(iter != Terrain.end())
 	{
-		if((*iter)->GetPosX() > theCamera->GetXOffset() && ((*iter)->GetPosX() < theCamera->GetWidth()))
+		if(IsOnScreen(*iter))
 		{
 			if((*iter)->IsActive())
 				(*iter)->Update(fElapsedTime);
@@ -63,7 +63,7 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 		RemoveObject(DeadItems[index]);
 	}
 
-	CheckCollisions();
+	CheckCollisions(fElapsedTime);
 	
 }
 
@@ -71,13 +71,13 @@ void Corona_ObjectManager::RenderObjects(void)
 {
 	for(unsigned index = 0; index < Objects.size(); ++index)
 	{
-		if(Objects[index]->GetPosX() > theCamera->GetXOffset() && Objects[index]->GetPosX() < theCamera->GetWidth())
+		if(IsOnScreen(Objects[index]))
 			Objects[index]->Render();
 	}
 
 	for(unsigned index = 0; index < Terrain.size(); ++index)
 	{
-		if(Terrain[index]->GetPosX() > theCamera->GetXOffset() && Terrain[index]->GetPosX() < theCamera->GetWidth())
+		if(IsOnScreen(Terrain[index]))
 			Terrain[index]->Render();
 	}
 }
@@ -125,10 +125,29 @@ void Corona_ObjectManager::RemoveObject(CBase* ObjectToRemove)
 }
 
 
-void Corona_ObjectManager::CheckCollisions()
+void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
 {
+	vector<CBase*> ObjectsOnScreen;
 
+	for(unsigned index = 0; index < Objects.size(); ++index)
+	{
+		if(!IsOnScreen(Objects[index]))
+			continue;
 
+		for(unsigned int jay = (index + 1); jay < Objects.size(); ++jay)
+		{
+			if(!IsOnScreen(Objects[jay]))
+				continue;
+			
+			if(Objects[index]->CheckCollision(fElapsedTime, Objects[jay]))
+			{
+				Objects[index]->HandleCollision(Objects[jay]);
+				Objects[jay]->HandleCollision(Objects[index]);
+			}
+
+			ObjectsOnScreen.push_back(Objects[index]);
+		}
+	}
 }
 
 void Corona_ObjectManager::RemoveAllObjects(void)
@@ -143,4 +162,13 @@ void Corona_ObjectManager::RemoveAllObjects(void)
 	}
 	Objects.clear();
 	Terrain.clear();
+}
+bool Corona_ObjectManager::IsOnScreen(CBase* Object)
+{
+	if(Object->GetPosX() > theCamera->GetXOffset() && Object->GetPosX() < theCamera->GetWidth())
+		if(Object->GetPosY() > theCamera->GetYOffset() && Object->GetPosY() < theCamera->GetHeight())
+			return true;
+
+
+	return false;
 }

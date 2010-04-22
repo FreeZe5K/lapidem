@@ -102,16 +102,7 @@ void CFire::RenderTier3()
 
 }
 
-bool CFire::CheckCollision(CBase* pbase)
-{
-	if(IntersectRect(0,&GetCollisionRect(), &pbase->GetCollisionRect()))
-	{
-		HandleCollision(pbase);
-		return true;
-	}
-	else
-		return false;
-}
+
 
 void CFire::HandleCollision(CBase* pObject)
 {

@@ -25,8 +25,9 @@ class Corona_ObjectManager
 	Corona_ObjectManager& operator=(const Corona_ObjectManager&);
 	~Corona_ObjectManager() {};
 	
-	void CheckCollisions();
+	void CheckCollisions(float fElapsedTime);
 	void RemoveAllObjects(void);
+	bool IsOnScreen(CBase*);
 
 	CCamera * theCamera;
 
