@@ -45,9 +45,9 @@ public:
 	//	Input	  :	  pShooter	-	The object that created the spell
 	//				  nTier		-	The level of the spell to create	
 	//
-	//  Purpose   :   Create and return an Ice spell based on tier provided
+	//  Purpose   :   Create and put into object manager an Ice spell based on tier provided
 	//////////////////////////////////////////////////////////////////////////
-	CIce* CreateIce(CBase* pShooter, int nTier);
+	void CreateIce(CBase* pShooter, int nTier);
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "CreateFire"
@@ -55,9 +55,9 @@ public:
 	//	Input	  :	  pShooter	-	The object that created the spell
 	//				  nTier		-	The level of the spell to create	
 	//
-	//  Purpose   :   Create and return a Fire spell based on tier provided
+	//  Purpose   :   Create and put into object manager a Fire spell based on tier provided
 	//////////////////////////////////////////////////////////////////////////
-	CFire* CreateFire(CBase* pShooter, int nTier);
+	void CreateFire(CBase* pShooter, int nTier);
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "CreateWind"
@@ -65,9 +65,9 @@ public:
 	//	Input	  :	  pShooter	-	The object that created the spell
 	//				  nTier		-	The level of the spell to create	
 	//
-	//  Purpose   :   Create and return a Wind spell based on tier provided
+	//  Purpose   :   Create and put into object manager a Wind spell based on tier provided
 	//////////////////////////////////////////////////////////////////////////
-	//CWind* CreateWind(CBase* pShooter, int nTier);
+	void CreateWind(CBase* pShooter, int nTier);
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "CreateEarth"
@@ -75,9 +75,9 @@ public:
 	//	Input	  :	  pShooter	-	The object that created the spell
 	//				  nTier		-	The level of the spell to create	
 	//
-	//  Purpose   :   Create and return an Earth spell based on tier provided
+	//  Purpose   :   Create and put into object manager an Earth spell based on tier provided
 	//////////////////////////////////////////////////////////////////////////
-	//CEarth* CreateEarth(CBase* pShooter, int nTier);
+	void CreateEarth(CBase* pShooter, int nTier);
 
 	
 
@@ -109,6 +109,16 @@ public:
 			m_pSF = 0;
 		}
 	}
+
+	//////////////////////////////////////////////////////////////////////////
+	//  Function  :   "Mutators"	
+	//
+	//  Purpose   :   Change stuff
+	//////////////////////////////////////////////////////////////////////////
+	void AddWindXP(int nXP);
+	void AddEarthXP(int nXP);
+	void AddFireXP(int nXP);
+	void AddIceXP(int nXP);
 };
 
 

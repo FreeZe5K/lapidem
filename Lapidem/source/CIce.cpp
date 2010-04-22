@@ -24,9 +24,7 @@ void CIce::Update(float fElapsedTime)
 	SetLifespan(GetLifespan() - fElapsedTime);
 	if(GetLifespan() < 0)
 	{
-		////////////////////////////////////////////////////////////////
-		//TODO: Carona_ObjectManager->GetInstance()->RemoveObject(this);
-		////////////////////////////////////////////////////////////////
+		SetActive(false);
 	}
 	switch(GetTier())
 	{
@@ -119,9 +117,7 @@ void CIce::HandleCollision(CBase* pObject)
 {
 	if(GetTier() ==1)
 	{
-		////////////////////////////////////////////////////////////////
-		//TODO: Carona_ObjectManager->GetInstance()->RemoveObject(this);
-		////////////////////////////////////////////////////////////////
+		SetActive(false);
 	}
 	else if(GetTier() ==2)
 	{

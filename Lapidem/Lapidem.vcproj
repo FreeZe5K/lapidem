@@ -169,6 +169,10 @@
 			Name="Interfaces"
 			>
 			<File
+				RelativePath=".\source\IAIState.h"
+				>
+			</File>
+			<File
 				RelativePath=".\source\IBaseInterface.h"
 				>
 			</File>
@@ -403,6 +407,74 @@
 				>
 				<File
 					RelativePath=".\source\CBase.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Spells"
+				>
+				<Filter
+					Name="Header"
+					>
+					<File
+						RelativePath=".\source\CEarth.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CFire.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CIce.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CSpell.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CSpellFactory.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CWind.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Source"
+					>
+					<File
+						RelativePath=".\source\CEarth.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CFire.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CIce.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CSpell.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CSpellFactory.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CWind.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="AIStates"
+				>
+				<File
+					RelativePath=".\source\FireAi.h"
 					>
 				</File>
 			</Filter>
