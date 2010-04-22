@@ -9,8 +9,9 @@
 #include "Wrappers/CSGD_TextureManager.h" 
 
 ////////////////////////////////////////
-//TODO:Include ObjectFactory once finished
+//TODO:Include ObjectManager once finished
 ////////////////////////////////////////
+#include "Corona_ObjectManager.h"
 
 CSpell::CSpell() : CBase()
 {
@@ -88,16 +89,7 @@ void CSpell::Update(float fElapsedTime)
 	}
 
 }
-bool CSpell::CheckCollision (CBase* pbase)
-{
-	if(IntersectRect(0,&GetCollisionRect(), &pbase->GetCollisionRect()))
-	{
-		HandleCollision(pbase);
-		return true;
-	}
-	else
-		return false;
-}
+
 
 void CSpell::HandleCollision(CBase* pObject)
 {

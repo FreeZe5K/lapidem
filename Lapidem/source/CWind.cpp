@@ -103,16 +103,7 @@ void CWind::RenderTier3()
 
 }
 
-bool CWind::CheckCollision(CBase* pbase)
-{
-	if(IntersectRect(0,&GetCollisionRect(), &pbase->GetCollisionRect()))
-	{
-		HandleCollision(pbase);
-		return true;
-	}
-	else
-		return false;
-}
+
 
 void CWind::HandleCollision(CBase* pObject)
 {

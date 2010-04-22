@@ -70,7 +70,7 @@ public:
 	//  Purpose   :   The effect of the collision including object destruction
 	//			      and damage dealing is done here.
 	//////////////////////////////////////////////////////////////////////////
-	virtual void HandleCollision(CBase* pObject);
+	void HandleCollision(CBase* pObject);
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Update"

@@ -9,7 +9,9 @@
 #include "IBaseInterface.h"
 #include <windows.h>
 
-enum Types{ OBJ_BASE, OBJ_PLAYER, OBJ_FIRE, OBJ_EARTH, OBJ_WIND, OBJ_ICE, OBJ_TERRA }; //All Tiles need to have "at least" the OBJ_TERRA type.
+enum Types   { OBJ_BASE, OBJ_PLAYER, OBJ_TERRA }; //All Tiles need to have "at least" the OBJ_TERRA type.
+enum EleType { OBJ_FIRE, OBJ_ICE, OBJ_WIND, OBJ_EARTH};//Probably shouldn't be prefixed with OBJ_, thanks Jon.
+
 
 class CBase : public IBaseInterface
 {
@@ -73,8 +75,10 @@ public:
 	//  Function  :   "GetCollisionRect"
 	//
 	//  Purpose   :   Returns the collision rect of the object.
+	//				  The Collision Rect is the rect the object will occupy
+	//				  next frame;
 	//////////////////////////////////////////////////////////////////////////
-	RECT GetCollisionRect( );
+	RECT GetCollisionRect(float fElapsedTime);
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "CheckCollision"
@@ -82,7 +86,8 @@ public:
 	//  Purpose   :   Checks collision against passed in CBase. Handling of 
 	//				  collision can also be handled here.
 	//////////////////////////////////////////////////////////////////////////
-	bool CheckCollision( CBase* );
+	bool CheckCollision( float, CBase* );
+	virtual void HandleCollision(CBase*);
 	
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Update"

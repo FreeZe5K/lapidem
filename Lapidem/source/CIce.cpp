@@ -102,16 +102,6 @@ void CIce::RenderTier3()
 
 }
 
-bool CIce::CheckCollision(CBase* pbase)
-{
-	if(IntersectRect(0,&GetCollisionRect(), &pbase->GetCollisionRect()))
-	{
-		HandleCollision(pbase);
-		return true;
-	}
-	else
-		return false;
-}
 
 void CIce::HandleCollision(CBase* pObject)
 {
