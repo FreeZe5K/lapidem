@@ -1,4 +1,5 @@
 #include "Corona_ObjectManager.h"
+#include "CCamera.h"
 #include "CBase.h"
 
 Corona_ObjectManager * Corona_ObjectManager::CoMReference = NULL;
@@ -6,7 +7,10 @@ Corona_ObjectManager * Corona_ObjectManager::CoMReference = NULL;
 Corona_ObjectManager* Corona_ObjectManager::GetInstance()
 {
 	if(!CoMReference)
+	{
 		CoMReference = new Corona_ObjectManager();
+		GetInstance()->theCamera = CCamera::GetCamera();
+	}
 
 	return CoMReference;
 }
@@ -16,6 +20,7 @@ void Corona_ObjectManager::DeleteInstance()
 	if(CoMReference)
 	{
 		RemoveAllObjects();
+		theCamera->ShutDownCamera();
 		delete this;
 	}
 }
@@ -23,16 +28,18 @@ void Corona_ObjectManager::DeleteInstance()
 
 void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 {
-	//TODO Check against camera to decide if an object needs to be updated.
 	vector<CBase*> DeadItems;
 	vector<CBase*>::iterator iter = Objects.begin();
 	
 	while(iter != Objects.end())
 	{
-		if((*iter)->IsActive())
-			(*iter)->Update(fElapsedTime);
-		else
-			DeadItems.push_back(*iter);
+		if((*iter)->GetPosX() > theCamera->GetXOffset() && ((*iter)->GetPosX() < theCamera->GetWidth()))
+		{
+			if((*iter)->IsActive())
+				(*iter)->Update(fElapsedTime);
+			else
+				DeadItems.push_back(*iter);
+		}
 
 		++iter;
 	}
@@ -40,10 +47,13 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 	iter = Terrain.begin();
 	while(iter != Terrain.end())
 	{
-		if((*iter)->IsActive())
-			(*iter)->Update(fElapsedTime);
-		else
-			DeadItems.push_back(*iter);
+		if((*iter)->GetPosX() > theCamera->GetXOffset() && ((*iter)->GetPosX() < theCamera->GetWidth()))
+		{
+			if((*iter)->IsActive())
+				(*iter)->Update(fElapsedTime);
+			else
+				DeadItems.push_back(*iter);
+		}
 
 		++iter;
 	}	
@@ -53,32 +63,33 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 		RemoveObject(DeadItems[index]);
 	}
 
-	//TODO Replace with a thread started in the constructor;
 	CheckCollisions();
 	
 }
 
 void Corona_ObjectManager::RenderObjects(void)
 {
-	//TODO Check against camera to decide if an object needs to be Rendered.
 	for(unsigned index = 0; index < Objects.size(); ++index)
 	{
-		Objects[index]->Render();
+		if(Objects[index]->GetPosX() > theCamera->GetXOffset() && Objects[index]->GetPosX() < theCamera->GetWidth())
+			Objects[index]->Render();
 	}
 
 	for(unsigned index = 0; index < Terrain.size(); ++index)
 	{
-		Terrain[index]->Render();
+		if(Terrain[index]->GetPosX() > theCamera->GetXOffset() && Terrain[index]->GetPosX() < theCamera->GetWidth())
+			Terrain[index]->Render();
 	}
 }
 
 void Corona_ObjectManager::AddObject(CBase* ObjectToAdd)
 {
-	//Load Objects into the appropriate vector
 	if(ObjectToAdd->GetType() != OBJ_TERRA)
 		Objects.push_back(ObjectToAdd);
 	else
 		Terrain.push_back(ObjectToAdd);
+
+	ObjectToAdd->AddRef();
 }
 
 void Corona_ObjectManager::RemoveObject(CBase* ObjectToRemove)
