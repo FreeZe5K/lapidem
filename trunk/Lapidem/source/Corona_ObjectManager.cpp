@@ -149,12 +149,21 @@ void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
 		}
 	}
 
-	for(unsigned index = 0; index < ObjectsOnScreen.size(); ++index)
-	{
-			//Check the Objects on the screen's location against the terrain.
+			//TODO? Optimize Terrain collision check
+		for(unsigned index = 0; index < Terrain.size(); ++index)
+		{
+			if(!IsOnScreen(Terrain[index]))
+				continue;
 
-
-	}
+			for(unsigned jay = 0; jay < ObjectsOnScreen.size(); ++jay)
+			{
+				if(Terrain[index]->CheckCollision(fElapsedTime, ObjectsOnScreen[jay]))
+				{
+					Terrain[index]->HandleCollision(ObjectsOnScreen[jay]);
+					ObjectsOnScreen[jay]->HandleCollision(Terrain[index]);
+				}
+			}
+		}
 }
 
 void Corona_ObjectManager::RemoveAllObjects(void)

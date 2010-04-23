@@ -1,17 +1,16 @@
 #pragma once
-#include "CLDevice.h"
 
 #include <list>
 #include <map>
-using namespace std::multimap;
-using namespace std::pair;
-using namespace std::list;
+using namespace std;
+
+#include "CLDevice.h"
 
 
 class Corona_EventHandler
 {
 	multimap<EVENTID, CLDevice*> m_pClients;
-	List<EVENTID>				 m_pEvents;
+	list<EVENTID>				 m_pEvents;
 
 	Corona_EventHandler() {}
 	Corona_EventHandler(const Corona_EventHandler &) {}

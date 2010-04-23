@@ -4,7 +4,7 @@
 
 class CSpellFactory;
 
-class CCharacter : public CBase, public CLDevice
+class CCharacter : public CBase
 {
 	int m_nHealth;
 	CSpellFactory* m_pSpells;
@@ -17,7 +17,6 @@ class CCharacter : public CBase, public CLDevice
 
 public:
 
-	void HandleEvent(CEvent *pEvent);
-
+	
 
 };
