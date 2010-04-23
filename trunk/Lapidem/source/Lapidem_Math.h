@@ -13,6 +13,7 @@
 #define RAND_FLOAT(min,max)      (((rand()/(float)RAND_MAX)*((max)-(min)))+(min))
 
 #define MAX_RAND_RANGE           0x7FFFFFFFUL
+#define PI                       3.141592653589732
 #define IA                       16807
 #define IM                       2147483647
 #define IQ                       127773
@@ -30,6 +31,36 @@ typedef unsigned long   ul32;
 typedef float           f32;
 
 static long idum = 0;
+
+struct tVector2D
+{
+	f32 _x;
+	f32 _y;
+
+	tVector2D operator+( const tVector2D& _v )
+	{
+		tVector2D _add = { _x + _v._x, _y + _v._y };
+		return _add;
+	}
+
+	tVector2D operator-( const tVector2D& _v )
+	{
+		tVector2D _sub = { _x - _v._x, _y - _v._y };
+		return _sub;
+	}
+
+	tVector2D operator*( const f32 _f )
+	{
+		tVector2D _mult = { _x * _f, _y * _f };
+		return _mult;
+	}
+
+	tVector2D operator/( const f32 _f )
+	{
+		tVector2D _div = { _x / _f, _y / _f };
+		return _div;
+	}
+};
 
 class Lapidem_Math
 {
@@ -69,16 +100,17 @@ public:
 	/////////////////////////
 	// Physics.
 	/////////////////////////
-
-	// - Lerp
-	// - Gravity
-	// - 
+	// - Gravity.
 
 	/////////////////////////
 	// Vector math.
 	/////////////////////////
-
-	// - 
+	// - Angle between.
+	// - Lerp.
+	// - Equal floats.
+	// - Vector normalize.
+	// - Dot product.
+	// - Vector length.
 
 	/////////////////////////
 	// Bit manipulation.
