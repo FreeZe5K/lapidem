@@ -421,6 +421,10 @@
 					RelativePath=".\source\CBase.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\source\CEnemy.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Header Files"
@@ -431,6 +435,10 @@
 				</File>
 				<File
 					RelativePath=".\source\CCharacter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CEnemy.h"
 					>
 				</File>
 			</Filter>
@@ -498,7 +506,11 @@
 				Name="AIStates"
 				>
 				<File
-					RelativePath=".\source\FireAi.h"
+					RelativePath=".\source\AIStateEarth.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\IAIState.h"
 					>
 				</File>
 			</Filter>
