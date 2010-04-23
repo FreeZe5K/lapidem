@@ -1,0 +1,8 @@
+C:\Users\Pablo Leon\Desktop\Corona!\LapidemWorldEditor\LapidemWorldEditor\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Pablo Leon\Desktop\Corona!\LapidemWorldEditor\LapidemWorldEditor\obj\Debug\LapidemWorldEditor.Form1.resources
+C:\Users\Pablo Leon\Desktop\Corona!\LapidemWorldEditor\LapidemWorldEditor\obj\Debug\LapidemWorldEditor.Properties.Resources.resources
+C:\Users\Pablo Leon\Desktop\Corona!\LapidemWorldEditor\LapidemWorldEditor\obj\Debug\LapidemWorldEditor.csproj.GenerateResource.Cache
+C:\Users\Pablo Leon\Desktop\Corona!\LapidemWorldEditor\LapidemWorldEditor\bin\Debug\LapidemWorldEditor.exe
+C:\Users\Pablo Leon\Desktop\Corona!\LapidemWorldEditor\LapidemWorldEditor\bin\Debug\LapidemWorldEditor.pdb
+C:\Users\Pablo Leon\Desktop\Corona!\LapidemWorldEditor\LapidemWorldEditor\obj\Debug\LapidemWorldEditor.exe
+C:\Users\Pablo Leon\Desktop\Corona!\LapidemWorldEditor\LapidemWorldEditor\obj\Debug\LapidemWorldEditor.pdb
