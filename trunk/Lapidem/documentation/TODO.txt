@@ -1,3 +1,1 @@
-The SGD_Math needs to be removed, when I try, the solution no longer compiles..
-
--Sam
+Nothing to do here.

@@ -22,6 +22,8 @@
 //////////////////////////////
 // Menus
 #include "CMenuState.h"
+#include "CPauseMenuState.h"
+#include "CGameplayState.h"
 #include "CAuxiliaryState.h"
 
 //////////////////////////////
@@ -216,6 +218,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	CBitmapFont* GetFont( )       const      { return m_bmFont;                }
 	bool GetDebugMode( )          const      { return m_bIsInDebug;            }
+	bool GetPaused( )             const      { return m_bIsPaused;             }
 
 	string GetCheatString( )      const      { return m_szCHEATSTRING;         }
 
@@ -233,6 +236,7 @@ public:
 	//  Purpose   : Modifies the specified type.
 	//////////////////////////////////////////////////////////////////////////
 	void SetDebugMode( bool _b )             { m_bIsInDebug           = _b;    }
+	void SetPaused( bool _b )                { m_bIsPaused            = _b;    }
 	void SetCheatString( string _s )         { m_szCHEATSTRING        = _s;    }
 	void SetMusicVolume( int _i )            { m_nMusicVolume         = _i;    }
 	void SetSoundFXVolume( int _i )          { m_nSoundEffectVolume   = _i;    }

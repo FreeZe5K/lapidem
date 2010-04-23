@@ -65,9 +65,7 @@ bool CMenuState::Input( )
 	if( m_pDI->KeyPressed( DIK_RETURN ) )
 	{
 		if( m_nChoice == 0 )      // Play
-		{
-			//CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
-		}
+			CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
 
 		else if( m_nChoice == 1 ) // Options
 		{ 

@@ -169,10 +169,6 @@
 			Name="Interfaces"
 			>
 			<File
-				RelativePath=".\source\IAIState.h"
-				>
-			</File>
-			<File
 				RelativePath=".\source\IBaseInterface.h"
 				>
 			</File>
@@ -353,6 +349,10 @@
 					RelativePath=".\source\CMenuState.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\source\CPauseMenuState.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Header Files"
@@ -363,6 +363,10 @@
 				</File>
 				<File
 					RelativePath=".\source\CMenuState.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CPauseMenuState.h"
 					>
 				</File>
 			</Filter>
@@ -389,6 +393,10 @@
 					RelativePath=".\source\Corona_EventHandler.h"
 					>
 				</File>
+				<File
+					RelativePath=".\source\Lapidem_Math.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Source Files"
@@ -397,19 +405,15 @@
 					RelativePath=".\source\CBitmapFont.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\source\Lapidem_Math.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
 			Name="Game Objects"
 			>
-			<File
-				RelativePath=".\source\Corona_ObjectManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\Corona_ObjectManager.h"
-				>
-			</File>
 			<Filter
 				Name="Source Files"
 				>
@@ -495,6 +499,58 @@
 				>
 				<File
 					RelativePath=".\source\FireAi.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Manager"
+				>
+				<File
+					RelativePath=".\source\Corona_ObjectManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Corona_ObjectManager.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Particle World"
+			>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\source\CEmitter.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CParticle.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CParticleManager.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\source\CEmitter.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CFlyweight.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CParticle.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CParticleManager.h"
 					>
 				</File>
 			</Filter>
