@@ -201,7 +201,7 @@ void CAuxiliaryState::Update( )
 	}
 	else if( m_nState == 3 ) // Credits
 	{
-		if( --m_nCreditScroll < -150 )
+		if( --m_nCreditScroll < -500 )
 			CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
 	}
 }
@@ -306,16 +306,33 @@ void CAuxiliaryState::Render( )
 	}
 	else if( m_nState == 3 ) // Credits
 	{
-		CGame::GetInstance( )->GetFont( )->Draw( "PROGRAMMERS", 30, 
+		CGame::GetInstance( )->GetFont( )->Draw( "EXECUTIVE PRODUCERS", 30, 
 			m_nCreditScroll, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-		CGame::GetInstance( )->GetFont( )->Draw( "MIKE HATTER", 80, 
+		CGame::GetInstance( )->GetFont( )->Draw( "DUSTIN CLIGMAN", 80, 
 			m_nCreditScroll + 40, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-		CGame::GetInstance( )->GetFont( )->Draw( "PABLO LEON", 80, 
+		CGame::GetInstance( )->GetFont( )->Draw( "JOHN O'LESKE", 80, 
 			m_nCreditScroll + 70, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+		CGame::GetInstance( )->GetFont( )->Draw( "ASSOCIATE PRODUCER", 30, 
+			m_nCreditScroll + 120, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		CGame::GetInstance( )->GetFont( )->Draw( "SEAN HATHAWAY", 80, 
+			m_nCreditScroll + 160, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+		CGame::GetInstance( )->GetFont( )->Draw( "MUSIC", 30, 
+			m_nCreditScroll + 210, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		CGame::GetInstance( )->GetFont( )->Draw( "MICHAL JELONEK", 80, 
+			m_nCreditScroll + 250, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+		CGame::GetInstance( )->GetFont( )->Draw( "PROGRAMMERS", 30, 
+			m_nCreditScroll + 300, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		CGame::GetInstance( )->GetFont( )->Draw( "MIKE HATTER", 80, 
+			m_nCreditScroll + 340, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		CGame::GetInstance( )->GetFont( )->Draw( "PABLO LEON", 80, 
+			m_nCreditScroll + 370, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		CGame::GetInstance( )->GetFont( )->Draw( "JONATHAN CARO", 80, 
-			m_nCreditScroll + 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			m_nCreditScroll + 400, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		CGame::GetInstance( )->GetFont( )->Draw( "SAMUEL MATHIS", 80, 
-			m_nCreditScroll + 130, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			m_nCreditScroll + 430, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	}
 }
 

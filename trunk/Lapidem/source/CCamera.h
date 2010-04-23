@@ -41,7 +41,7 @@ class CCamera
 public:
 
 	//Creates the Camera.
-	void InitCamera(float, float, float, float, float, float, CBase*);
+	static void InitCamera(float, float, float, float, float, float, CBase*);
 	void ShutDownCamera();
 
 	//Updates the Camera's Place and hooks

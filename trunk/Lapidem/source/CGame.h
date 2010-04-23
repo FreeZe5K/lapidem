@@ -228,6 +228,9 @@ public:
 
 	float GetElapsedTime( )       const      { return m_fElapsedTime;          }
 
+	int GetScreenWidth( )		  const		 { return m_nScreenWidth;		   }
+	int GetScreenHeight( )		  const      { return m_nScreenHeight;		   }
+
 	DWORD GetFPSTimeStamp( )      const      { return m_dwFPSTimeStamp;        }
 
 	//////////////////////////////////////////////////////////////////////////
