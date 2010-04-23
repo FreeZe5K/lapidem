@@ -22,9 +22,8 @@ void CAuxiliaryState::Enter( )
 	m_nAttractTimer = 0;
 	m_nCreditScroll = 500;
 
-	pFile           = NULL;
-
-	m_nImageID      = m_pTM->LoadTexture( "resource/graphics/Lapidem_MainMenuBG.png" );
+	m_nImageID[0]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_MainMenuBG.png" );
+	m_nImageID[1]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_HowToPlay.png" );
 
 	m_nSoundID[0]   = m_pWM->LoadWave( "resource/audio/Lapidem_MainMenuMusic.wav" );
 	m_nSoundID[1]   = m_pWM->LoadWave( "resource/audio/Lapidem_MainMenuTick.wav" );
@@ -41,24 +40,47 @@ void CAuxiliaryState::Enter( )
 
 	if( m_nState == 1 )
 	{		
-		string _NameBuffer;
-		int  _ScoreBuffer;
+		char*   _NameBuffer    = "";
+		char*   _ScoreBuffer   = "";
+		int     _tempName( 0 );
 
-		fopen_s( &pFile, "resource/data/Lapidem_HighscoreTable.bin", "rb" );
+		fstream fs( "resource/data/Lapidem_HighscoreTable.bin", ios::in | ios::binary );
 
-		if( pFile == NULL )
-			return;
-
-		for( int i = 0; i < 10; i++ )
+		// - - - - - - - - - - - - - - - -
+		// This doesn't load in correctly
+		// past the first name. 
+		// 
+		// The file is in the following format:
+		//
+		// - Highscore Player 1's name
+		// - Highscore Player 1's score
+		// - Player 2, Player 3, ...
+		// All the way until 10.
+		// 
+		// The player's name is a string.
+		// The player's score is an int32.
+		//
+		// Have at it...
+		// - - - - - - - - - - - - - - - -
+		if( fs.is_open( ) )
 		{
-			fread( &_NameBuffer, sizeof( string ), 10, pFile );
-			m_szPlayerNames[i] = _NameBuffer;
+			for( int i = 0; i < 10; i++ )
+			{
+				fs.read( ( char* )&_tempName, 1 );
+				_NameBuffer = new char[_tempName + 1];
+				fs.read( _NameBuffer, _tempName );
+				m_szPlayerNames[i] = _NameBuffer;
+				_NameBuffer[_tempName] = '\0';
 
-			fread( &_ScoreBuffer, sizeof( _ScoreBuffer ), 10, pFile );
-			m_nPlayerScores[i] = _ScoreBuffer;
+				fs.read( ( char* )&_tempName, 1 );
+				_ScoreBuffer = new char[_tempName + 1];
+				fs.read( _ScoreBuffer, _tempName );
+				m_nPlayerScores[i] = int( _ScoreBuffer );
+				_ScoreBuffer[_tempName] = '\0';
+			}
+			fs.close( );
 		}
-
-		fclose( pFile );
+		// - - - - - - - - - - - - - - - -
 	}
 
 	m_pWM->Play( m_nSoundID[0], DSBPLAY_LOOPING );
@@ -130,6 +152,8 @@ bool CAuxiliaryState::Input( )
 	}
 	else if( m_nState == 2 ) // How To Play
 	{
+		if( m_pDI->CheckBufferedKeysEx( ) )
+			CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
 	}
 	else if( m_nState == 3 ) // Credits
 	{
@@ -184,8 +208,12 @@ void CAuxiliaryState::Update( )
 
 void CAuxiliaryState::Render( )
 {
-	m_pTM->Draw( m_nImageID, 0, 0, 1.0f, 1.0f, 
-		NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 200, 255, 255, 255 ) );
+	if( m_nState == 2 )
+		m_pTM->Draw( m_nImageID[1], 0, 0, 1.0f, 1.0f, 
+			NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 200, 255, 255, 255 ) );
+	else
+		m_pTM->Draw( m_nImageID[0], 0, 0, 1.0f, 1.0f, 
+			NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 200, 255, 255, 255 ) );
 
 	// - - - - - - - - - - - - - - - - - -
 	// Fix the bitmap fonts to be kerned.
@@ -268,12 +296,13 @@ void CAuxiliaryState::Render( )
 
 			_ScoreHeight = _ScoreHeight + 30;
 		}
-		CGame::GetInstance( )->GetFont( )->Draw( "PRESS ANY KEY TO CONTINUE...", 50, 
+		CGame::GetInstance( )->GetFont( )->Draw( "PRESS ANY KEY TO CONTINUE", 45, 
 			450, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	}
 	else if( m_nState == 2 ) // How To Play
 	{
-
+		CGame::GetInstance( )->GetFont( )->Draw( "PRESS ANY KEY TO CONTINUE", 45, 
+			450, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	}
 	else if( m_nState == 3 ) // Credits
 	{
@@ -295,5 +324,6 @@ void CAuxiliaryState::Exit( )
 	m_nChoice = 0;
 	m_pWM->UnloadWave( m_nSoundID[1] );
 	m_pWM->UnloadWave( m_nSoundID[0] );
-	m_pTM->UnloadTexture( m_nImageID );
+	m_pTM->UnloadTexture( m_nImageID[1] );
+	m_pTM->UnloadTexture( m_nImageID[0] );
 }

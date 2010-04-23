@@ -8,8 +8,8 @@
 #include "CGame.h"
 #include "IGameState.h"
 
-using std::ifstream;
-using std::ios_base;
+using std::fstream;
+using std::ios;
 using std::string;
 
 class CGame;
@@ -20,7 +20,7 @@ class CAuxiliaryState : public IGameState
 private:
 	int                     m_nState;
 	int                     m_nChoice;
-	int                     m_nImageID;
+	int                     m_nImageID[2];
 	int                     m_nSoundID[2];
 	int                     m_nCreditScroll;
 	int                     m_nAttractTimer;
@@ -34,8 +34,6 @@ private:
 	// High score info
 	string                  m_szPlayerNames[10];
 	int                     m_nPlayerScores[10];
-
-	FILE                    *pFile;
 
 	CSGD_Direct3D           *m_pD3D;
 	CSGD_TextureManager     *m_pTM;
