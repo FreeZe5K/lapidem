@@ -4,6 +4,8 @@
 #include "IGameState.h"
 
 class IGameState;
+class CCamera;
+class Corona_ObjectManager;
 
 class CGameplayState : public IGameState
 {
@@ -18,6 +20,9 @@ private:
 	CSGD_DirectSound        *m_pDS;
 	CSGD_WaveManager        *m_pWM;
 	CSGD_DirectInput        *m_pDI;
+	Corona_ObjectManager	*m_pCoM;
+	CCamera					*theCamera;
+	
 
 	CGameplayState( )  { /* DO NOTHING */ }
 	~CGameplayState( ) { /* DO NOTHING */ }

@@ -1,4 +1,6 @@
 #include "CGameplayState.h"
+#include "CCamera.h"
+#include "Corona_ObjectManager.h"
 
 CGameplayState* CGameplayState::GetInstance( )
 {
@@ -13,6 +15,11 @@ void CGameplayState::Enter( )
 	m_pDS           = CSGD_DirectSound::GetInstance();
 	m_pWM           = CSGD_WaveManager::GetInstance();
 	m_pDI           = CSGD_DirectInput::GetInstance();
+	m_pCoM			= Corona_ObjectManager::GetInstance();
+
+	CCamera::InitCamera(0.0f, 0.0f, (float)CGame::GetInstance()->GetScreenWidth(), (float)CGame::GetInstance()->GetScreenHeight(),
+						CGame::GetInstance()->GetScreenWidth() * .66f, CGame::GetInstance()->GetScreenHeight() * .66f, NULL );
+
 
 	// - - - - - - - - - - - - - -
 	// Change the background image.
@@ -20,7 +27,7 @@ void CGameplayState::Enter( )
 	m_nImageID      = m_pTM->LoadTexture( "resource/graphics/placeholderArt.png" );
 	// - - - - - - - - - - - - - -
 
-	m_nSoundID[0]   = m_pWM->LoadWave( "resource/audio/Lapidem_MainMenuMusic.wav" );
+	m_nSoundID[0]   = m_pWM->LoadWave( "resource/audio/Lapidem_LevelOneMusic.wav" );
 	m_nSoundID[1]   = m_pWM->LoadWave( "resource/audio/Lapidem_MainMenuTick.wav" );
 
 	m_pWM->Play( m_nSoundID[0], DSBPLAY_LOOPING );
@@ -33,8 +40,9 @@ bool CGameplayState::Input( )
 	// - - - - - - - - - - - - - -
 	// Remove this code when
 	// functionality is added.
+	// Sam:: Why? We need a pause =).
 	// - - - - - - - - - - - - - -
-	if( m_pDI->KeyPressed( DIK_P ) )
+	if( m_pDI->KeyPressed( DIK_P ) || m_pDI->KeyPressed( DIK_ESCAPE ) )
 	{
 		CGame::GetInstance( )->PushState( CPauseMenuState::GetInstance( ) );
 		CGame::GetInstance( )->SetPaused( true );
@@ -46,12 +54,14 @@ bool CGameplayState::Input( )
 
 void CGameplayState::Update( )
 {
+	m_pCoM->UpdateObjects(CGame::GetInstance()->GetElapsedTime());
 }
 
 void CGameplayState::Render( )
 {
 	m_pTM->Draw( m_nImageID, 0, 0, 1.0f, 1.0f, 
 		NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 200, 255, 255, 255 ) );
+	m_pCoM->RenderObjects();
 }
 
 void CGameplayState::Exit( )
