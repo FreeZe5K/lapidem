@@ -11,9 +11,9 @@
 #include "Wrappers/CSGD_TextureManager.h" 
 
 
-CTerrainBase::CTerrainBase() : CBase()
+CTerrainBase::CTerrainBase()
 {
-	
+	m_nType = OBJ_TERRA;
 }
 CTerrainBase::~CTerrainBase()
 {
@@ -39,10 +39,6 @@ void CTerrainBase::HandleCollision(CBase*)
 
 }
 
-void CTerrainBase::Update( float fDT )
-{
-	CBase::Update(fDT);
-}
 
 void CTerrainBase::Render( ) 
 {

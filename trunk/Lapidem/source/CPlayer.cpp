@@ -1,4 +1,5 @@
 #include "CPlayer.h"
+#include "CSpell.h"
 
 
 void CPlayer::Update(float fElapsedTime)
@@ -25,7 +26,17 @@ void CPlayer::Update(float fElapsedTime)
 
 	}
 
+	if(m_bIsJumping)
+	{
+		m_fJumpTimer += fElapsedTime;
 
+		if(m_fJumpTimer <= 1)
+			SetVelY(-100);
+		else if(GetVelY()!= 0)
+			SetVelY(150);
+		else
+			m_bIsJumping = false;
+	}
 }
 
 void CPlayer::Attack(int nTier)
@@ -44,5 +55,52 @@ void CPlayer::Attack(int nTier)
 	case OBJ_WIND:
 		m_pSpells->CreateWind(this, nTier);
 		break;
+	}
+}
+
+void CPlayer::Jump()
+{
+	if(m_bIsJumping)
+		return;
+
+	m_bIsJumping = true;
+	m_fJumpTimer = 0.0f;
+}
+
+void CPlayer::HandleCollision(CBase * collidingObject)
+{
+	if(collidingObject->GetType() == OBJ_TERRA)
+	{
+		//If we've hit the tile from above or below.
+		if(GetPosX() > collidingObject->GetPosX() && GetPosX() < collidingObject->GetWidth())
+		{
+			//From Above:
+			if(GetPosY() < collidingObject->GetPosY())
+			{
+				//Set the Velocity to 0, the shuttle has landed.
+				SetVelY( 0.0f );
+				//Check for ground penetration, correct if needed
+				if(GetPosY() + GetHeight() > collidingObject->GetPosY())
+					SetPosY( collidingObject->GetPosY() - GetHeight() - 1);
+			}
+			//From Below
+			else
+				SetPosY(collidingObject->GetPosY() + collidingObject->GetHeight() + 1);
+
+		}
+		//We've hit the tile from the left or right side.
+		else
+		{
+
+			
+
+
+
+			return;
+		}
+	}
+	else if(collidingObject->GetType() == OBJ_SPELL && !((CSpell*)collidingObject)->PlayerShot())
+	{
+		m_nHealth -= ((CSpell*)collidingObject)->GetDamage();
 	}
 }

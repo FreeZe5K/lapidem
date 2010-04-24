@@ -3,12 +3,15 @@
 
 class CPlayer : public CCharacter
 {
-	
+	bool m_bIsJumping;
+	float m_fJumpTimer;
 
 
 public:
-	CPlayer() {m_nHealth = 200; currAnimation = 0; m_SpellType = OBJ_FIRE; currDirec = RIGHT; m_nType = OBJ_PLAYER;}
+	CPlayer() {m_nHealth = 200; m_bIsJumping = false; currAnimation = 0; m_SpellType = OBJ_FIRE; currDirec = RIGHT; m_nType = OBJ_PLAYER; m_fJumpTimer = 0.0f;}
 	void Update(float fElapsedTime);
 	void Attack(int nTier);
+	void Jump();
+	void HandleCollision(CBase *);
 
 };
