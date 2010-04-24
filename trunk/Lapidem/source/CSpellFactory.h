@@ -12,8 +12,6 @@
 #ifndef CSPELLFACTORY_H
 #define CSPELLFACTORY_H
 
-class CBase;
-
 class CCharacter;
 class CIce;
 class CFire;
@@ -47,7 +45,7 @@ public:
 	//
 	//  Purpose   :   Create and put into object manager an Ice spell based on tier provided
 	//////////////////////////////////////////////////////////////////////////
-	void CreateIce(CBase* pShooter, int nTier);
+	void CreateIce(CCharacter* pShooter, int nTier);
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "CreateFire"
@@ -57,7 +55,7 @@ public:
 	//
 	//  Purpose   :   Create and put into object manager a Fire spell based on tier provided
 	//////////////////////////////////////////////////////////////////////////
-	void CreateFire(CBase* pShooter, int nTier);
+	void CreateFire(CCharacter* pShooter, int nTier);
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "CreateWind"
@@ -67,7 +65,7 @@ public:
 	//
 	//  Purpose   :   Create and put into object manager a Wind spell based on tier provided
 	//////////////////////////////////////////////////////////////////////////
-	void CreateWind(CBase* pShooter, int nTier);
+	void CreateWind(CCharacter* pShooter, int nTier);
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "CreateEarth"
@@ -77,7 +75,7 @@ public:
 	//
 	//  Purpose   :   Create and put into object manager an Earth spell based on tier provided
 	//////////////////////////////////////////////////////////////////////////
-	void CreateEarth(CBase* pShooter, int nTier);
+	void CreateEarth(CCharacter* pShooter, int nTier);
 
 	
 
