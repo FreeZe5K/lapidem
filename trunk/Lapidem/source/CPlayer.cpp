@@ -72,7 +72,7 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 	if(collidingObject->GetType() == OBJ_TERRA)
 	{
 		//If we've hit the tile from above or below.
-		if(GetPosX() > collidingObject->GetPosX() && GetPosX() < collidingObject->GetWidth())
+		if(GetPosX() > collidingObject->GetPosX() && GetPosX() < collidingObject->GetPosX() + collidingObject->GetWidth())
 		{
 			//From Above:
 			if(GetPosY() < collidingObject->GetPosY())
