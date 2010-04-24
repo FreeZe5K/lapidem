@@ -52,8 +52,9 @@ RECT CBase::GetCollisionRect(float fElapsedTime)
 
 bool CBase::CheckCollision(float fElapsedTime, CBase* pBase )
 {
+	RECT tempRect;
 
-	if( IntersectRect( 0, &GetCollisionRect(fElapsedTime), &pBase->GetCollisionRect(fElapsedTime) ) )
+	if( IntersectRect( &tempRect, &GetCollisionRect(fElapsedTime), &pBase->GetCollisionRect(fElapsedTime) ) )
 		return true;
 	
 	return false;
