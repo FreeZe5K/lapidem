@@ -2,6 +2,7 @@
 #include "CCamera.h"
 #include "CPlayer.h"
 #include "Corona_ObjectManager.h"
+#include "Corona_EventHandler.h"
 
 CGameplayState* CGameplayState::GetInstance( )
 {
@@ -24,6 +25,7 @@ void CGameplayState::Enter( )
 						CGame::GetInstance()->GetScreenWidth() * .66f, CGame::GetInstance()->GetScreenHeight() * .66f, m_pPlayerOne );
 
 	m_pCoM			= Corona_ObjectManager::GetInstance();
+	m_pCeH			= Corona_EventHandler::GetInstance();
 
 
 	// - - - - - - - - - - - - - -
@@ -38,6 +40,16 @@ void CGameplayState::Enter( )
 	m_pWM->Play( m_nSoundID[0], DSBPLAY_LOOPING );
 	m_pWM->SetVolume( m_nSoundID[0], CGame::GetInstance( )->GetMusicVolume( ) ); 
 	m_pWM->SetVolume( m_nSoundID[1], CGame::GetInstance( )->GetSoundFXVolume( ) ); 
+
+	{//Player One Init (For Testing!):
+
+		m_pPlayerOne->SetImage(m_pTM->LoadTexture( "resource/graphics/Lapidem_TempJack.png"));
+		m_pPlayerOne->SetPosX(200);
+		m_pPlayerOne->SetPosY(200);
+		m_pPlayerOne->SetWidth(16);
+		m_pPlayerOne->SetHeight(64);
+
+	}
 
 	m_pCoM->AddObject(m_pPlayerOne);
 
@@ -61,6 +73,30 @@ bool CGameplayState::Input( )
 	}
 	// - - - - - - - - - - - - - -
 
+	if( m_pDI->KeyDown( DIK_D ) )
+		m_pPlayerOne->SetVelX( 100 );
+	else if( m_pDI->KeyDown( DIK_A ) )
+		m_pPlayerOne->SetVelX( -100 );
+	else
+		m_pPlayerOne->SetVelX( 0 );
+
+	if( m_pDI->KeyDown( DIK_W ) )
+		m_pPlayerOne->Jump();
+
+
+	if( m_pPlayerTwo )
+	{
+		if(m_pDI->KeyDown( DIK_LEFT) )
+			m_pPlayerTwo->SetVelX( -100 );
+		else if( m_pDI->KeyDown( DIK_RIGHT ) )
+			m_pPlayerTwo->SetVelX( 100 );
+		else
+			m_pPlayerTwo->SetVelX( 0 );
+
+		if( m_pDI->KeyDown( DIK_UP ) )
+			m_pPlayerTwo->Jump();
+	}
+
 	return true;
 }
 
@@ -78,6 +114,7 @@ void CGameplayState::Render( )
 
 void CGameplayState::Exit( )
 {
+
 	m_pWM->UnloadWave( m_nSoundID[1] );
 	m_pWM->UnloadWave( m_nSoundID[0] );
 	m_pTM->UnloadTexture( m_nImageID );

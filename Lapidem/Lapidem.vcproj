@@ -216,7 +216,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\CLevel.cpp"
+					RelativePath=".\source\Corona_EventHandler.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CTerrainBase.cpp"
 					>
 				</File>
 				<File
@@ -234,6 +238,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\CEvent.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CGame.h"
 					>
 				</File>
@@ -242,7 +250,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\CLDevice.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CLevel.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Corona_EventHandler.h"
 					>
 				</File>
 			</Filter>
@@ -390,18 +406,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\CEvent.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CLDevice.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\Corona_EventHandler.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\Lapidem_Math.h"
 					>
 				</File>
@@ -429,21 +433,18 @@
 					RelativePath=".\source\CBase.cpp"
 					>
 				</File>
-
-				<File
-					RelativePath=".\source\CTerrainBase.cpp"
-					>
-				</File>
-
 				<File
 					RelativePath=".\source\CEnemy.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CLevel.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\source\CPlayer.cpp"
 					>
 				</File>
-
 			</Filter>
 			<Filter
 				Name="Header Files"
@@ -456,12 +457,6 @@
 					RelativePath=".\source\CCharacter.h"
 					>
 				</File>
-
-				<File
-					RelativePath=".\source\CTerrainBase.h"
-					>
-				</File>
-
 				<File
 					RelativePath=".\source\CEnemy.h"
 					>
@@ -470,7 +465,10 @@
 					RelativePath=".\source\CPlayer.h"
 					>
 				</File>
-
+				<File
+					RelativePath=".\source\CTerrainBase.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Spells"

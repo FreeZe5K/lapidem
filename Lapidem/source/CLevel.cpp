@@ -163,7 +163,7 @@ void CLevel::LoadNewLevel( char* filename )
 
 		if( m_pTerrainTiles.size() > 0 )
 		{
-			// STUFF TO DO HERE
+			//TODO STUFF TO DO HERE
 			for(unsigned int i = 0; i < m_pTerrainTiles.size(); ++i )
 			{
 				m_pTerrainTiles[i]->SetActive(false);
@@ -244,12 +244,6 @@ void CLevel::LoadNewLevel( char* filename )
 
 
 		}
-
-
-
-
-
-
 
 
 		delete version;

@@ -21,7 +21,7 @@ void Corona_ObjectManager::DeleteInstance()
 	{
 		RemoveAllObjects();
 		theCamera->ShutDownCamera();
-		delete this;
+		CoMReference = NULL;
 	}
 }
 
@@ -64,6 +64,7 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 	}
 
 	CheckCollisions(fElapsedTime);
+	theCamera->Update(fElapsedTime);
 	
 }
 
@@ -144,9 +145,10 @@ void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
 				Objects[index]->HandleCollision(Objects[jay]);
 				Objects[jay]->HandleCollision(Objects[index]);
 			}
+		}
 
 			ObjectsOnScreen.push_back(Objects[index]);
-		}
+		
 	}
 
 			//TODO? Optimize Terrain collision check
@@ -181,8 +183,8 @@ void Corona_ObjectManager::RemoveAllObjects(void)
 }
 bool Corona_ObjectManager::IsOnScreen(CBase* Object)
 {
-	if(Object->GetPosX() > theCamera->GetXOffset() && Object->GetPosX() < theCamera->GetWidth())
-		if(Object->GetPosY() > theCamera->GetYOffset() && Object->GetPosY() < theCamera->GetHeight())
+	if(Object->GetPosX() >= theCamera->GetXOffset() && Object->GetPosX() <= theCamera->GetWidth())
+		if(Object->GetPosY() >= theCamera->GetYOffset() && Object->GetPosY() <= theCamera->GetHeight())
 			return true;
 
 
