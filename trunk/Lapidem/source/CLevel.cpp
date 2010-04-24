@@ -75,6 +75,12 @@ CLevel::~CLevel()
 		
 	}
 
+//	if( GetTileSet() != -1 )
+//			CSGD_TextureManager::GetInstance()->UnloadTexture( GetTileSet());
+		
+//		if( GetBackGroundImage() != -1 )
+//			CSGD_TextureManager::GetInstance()->UnloadTexture( GetBackGroundImage() );
+
 }
 
 void CLevel::LoadNewLevel( char* filename )
@@ -155,7 +161,7 @@ void CLevel::LoadNewLevel( char* filename )
 		{
 		szTemp = "resource\\graphics\\";
 		szTemp += szBGI;
-		SetTileSetID(CSGD_TextureManager::GetInstance()->LoadTexture(szTemp.c_str()));
+		SetBackGroundImage(CSGD_TextureManager::GetInstance()->LoadTexture(szTemp.c_str()));
 		}
 
 		//////////////////
@@ -254,7 +260,30 @@ void CLevel::LoadNewLevel( char* filename )
 
 			switch(Type)
 			{
+			case NONE:
+				break;
 			default:
+				CTerrainBase* newTerrain = new CTerrainBase();
+
+				newTerrain->SetType( OBJ_EVENT );
+				newTerrain->SetTypeTerrain( Type );
+				newTerrain->SetBaseTileID( GetBaseTileID() );
+				newTerrain->SetDamage(0);
+				newTerrain->SetHealth(100);
+				newTerrain->SetHeight( GetTileHeight());
+				newTerrain->SetWidth( GetTileWidth());
+				newTerrain->SetImage( GetTileSet());
+				newTerrain->SetPosX( (float)(i%GetWorldCollumn())*GetTileWidth());
+				newTerrain->SetPosY( (float)(i/GetWorldCollumn())*GetTileHeight());
+				newTerrain->SetTileCollumns( GetTileCollumn());
+				newTerrain->SetTileID(GetBaseTileID());
+				newTerrain->SetTileRows( GetTileRow());
+				newTerrain->SetVelX(0);
+				newTerrain->SetVelY(0);
+				
+				m_pEventTiles.push_back(newTerrain);
+				Corona_ObjectManager::GetInstance()->AddObject(newTerrain);
+
 
 				
 				break;
@@ -270,3 +299,25 @@ void CLevel::LoadNewLevel( char* filename )
 		in.close();
 	}
 }
+
+void CLevel::RenderBackGround()
+	{
+		if( GetBackGroundImage() != -1 )
+			CSGD_TextureManager::GetInstance()->Draw( GetBackGroundImage(), 0,0 );
+
+	}
+
+bool CLevel::LoadNextLevel(  )
+{
+	if( GetNextLevelFileName())
+	{
+		string szTemp = "resource\\data\\";
+		szTemp += szBGI;
+		LoadNewLevel( szTemp.c_str() );
+		return true;
+	}
+
+	return false;
+}
+
+

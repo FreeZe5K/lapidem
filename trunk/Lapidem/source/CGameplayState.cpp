@@ -31,6 +31,9 @@ void CGameplayState::Enter( )
 	// - - - - - - - - - - - - - -
 	// Change the background image.
 	// - - - - - - - - - - - - - -
+	/* Note by Pablo
+		Background image will be handled by the CLevel.
+	*/
 	m_nImageID      = m_pTM->LoadTexture( "resource/graphics/placeholderArt.png" );
 	// - - - - - - - - - - - - - -
 
@@ -56,7 +59,7 @@ void CGameplayState::Enter( )
 	if(m_pPlayerTwo)
 		m_pCoM->AddObject(m_pPlayerTwo);
 
-	theLevel.LoadNewLevel("resource/data/testLvl.laplvl");
+	theLevel.LoadNewLevel("resource/data/textlvl2.laplvl");
 }
 
 bool CGameplayState::Input( )
@@ -109,6 +112,7 @@ void CGameplayState::Render( )
 {
 	m_pTM->Draw( m_nImageID, 0, 0, 1.0f, 1.0f, 
 		NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 200, 255, 255, 255 ) );
+	theLevel.RenderBackGround();
 	m_pCoM->RenderObjects();
 }
 
