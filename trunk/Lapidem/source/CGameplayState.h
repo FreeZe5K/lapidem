@@ -2,6 +2,7 @@
 
 #include "CGame.h"
 #include "IGameState.h"
+#include "CLevel.h"
 
 class CCamera;
 class CPlayer;
@@ -24,6 +25,8 @@ private:
 	CSGD_DirectInput        *m_pDI;
 	Corona_ObjectManager	*m_pCoM;
 	CCamera					*theCamera;
+
+	CLevel					theLevel;
 
 	CPlayer					*m_pPlayerOne;
 	CPlayer					*m_pPlayerTwo;
