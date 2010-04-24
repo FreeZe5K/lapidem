@@ -3,9 +3,11 @@
 #include "CGame.h"
 #include "IGameState.h"
 
-class IGameState;
 class CCamera;
+class CPlayer;
+class IGameState;
 class Corona_ObjectManager;
+
 
 class CGameplayState : public IGameState
 {
@@ -22,8 +24,10 @@ private:
 	CSGD_DirectInput        *m_pDI;
 	Corona_ObjectManager	*m_pCoM;
 	CCamera					*theCamera;
-	
 
+	CPlayer					*m_pPlayerOne;
+	CPlayer					*m_pPlayerTwo;
+	
 	CGameplayState( )  { /* DO NOTHING */ }
 	~CGameplayState( ) { /* DO NOTHING */ }
 	CGameplayState( const CGameplayState& );

@@ -1,5 +1,6 @@
 #include "CGameplayState.h"
 #include "CCamera.h"
+#include "CPlayer.h"
 #include "Corona_ObjectManager.h"
 
 CGameplayState* CGameplayState::GetInstance( )
@@ -15,10 +16,14 @@ void CGameplayState::Enter( )
 	m_pDS           = CSGD_DirectSound::GetInstance();
 	m_pWM           = CSGD_WaveManager::GetInstance();
 	m_pDI           = CSGD_DirectInput::GetInstance();
-	m_pCoM			= Corona_ObjectManager::GetInstance();
+
+	m_pPlayerOne	= new CPlayer();
+	m_pPlayerTwo	= NULL;
 
 	CCamera::InitCamera(0.0f, 0.0f, (float)CGame::GetInstance()->GetScreenWidth(), (float)CGame::GetInstance()->GetScreenHeight(),
-						CGame::GetInstance()->GetScreenWidth() * .66f, CGame::GetInstance()->GetScreenHeight() * .66f, NULL );
+						CGame::GetInstance()->GetScreenWidth() * .66f, CGame::GetInstance()->GetScreenHeight() * .66f, m_pPlayerOne );
+
+	m_pCoM			= Corona_ObjectManager::GetInstance();
 
 
 	// - - - - - - - - - - - - - -
@@ -33,6 +38,11 @@ void CGameplayState::Enter( )
 	m_pWM->Play( m_nSoundID[0], DSBPLAY_LOOPING );
 	m_pWM->SetVolume( m_nSoundID[0], CGame::GetInstance( )->GetMusicVolume( ) ); 
 	m_pWM->SetVolume( m_nSoundID[1], CGame::GetInstance( )->GetSoundFXVolume( ) ); 
+
+	m_pCoM->AddObject(m_pPlayerOne);
+
+	if(m_pPlayerTwo)
+		m_pCoM->AddObject(m_pPlayerTwo);
 }
 
 bool CGameplayState::Input( )

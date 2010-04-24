@@ -14,6 +14,8 @@ CBase::CBase( )
 {
 	SetPosX( 0 );
 	SetPosY( 0 );
+	SetWidth( 0 );
+	SetHeight( 0 );
 	SetVelX( 0 );
 	SetVelY( 0 );
 	SetImage( -1 );

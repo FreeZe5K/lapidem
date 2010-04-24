@@ -18,6 +18,8 @@ void CCamera::InitCamera(float fPosX, float fPosY, float fWidth, float fHeight, 
 		theCamera->SetCameraHeight(fHeight);
 		theCamera->SetPlayerHooks(fXHook, fYHook);
 		theCamera->thePlayer = ObjectToFollow;
+		theCamera->SetVelocityX(0.0f);
+		theCamera->SetVelocityY(0.0f);
 	}
 }
 

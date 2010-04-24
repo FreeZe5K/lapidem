@@ -11,17 +11,11 @@
 #include "CSpellFactory.h"
 
 
-
-///////////////////////////////////////
-//TODO:Remove once CCharacter is added
-///////////////////////////////////////
-#include "CBase.h"
-///////////////////////////////////////
-
 //////////////////////////////
 //TODO: Incluce CCharacter
 //////////////////////////////
 #include "Corona_ObjectManager.h"
+#include "CCharacter.h"
 #include "CFire.h"
 #include "CIce.h"
 #include "CEarth.h"
@@ -89,7 +83,7 @@ void CSpellFactory::AddIceXP(int nXP)
 }
 
 
-void CSpellFactory::CreateEarth(CBase* pShooter, int nTier)
+void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 {
 	switch(nTier)
 	{
@@ -126,7 +120,7 @@ void CSpellFactory::CreateEarth(CBase* pShooter, int nTier)
 	}
 }
 
-void CSpellFactory::CreateFire(CBase* pShooter, int nTier)
+void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 {
 	switch(nTier)
 	{
@@ -165,7 +159,7 @@ void CSpellFactory::CreateFire(CBase* pShooter, int nTier)
 	}
 }
 
-void CSpellFactory::CreateIce(CBase* pShooter, int nTier)
+void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 {
 	switch(nTier)
 	{
@@ -208,7 +202,7 @@ void CSpellFactory::CreateIce(CBase* pShooter, int nTier)
 }
 
 
-void CSpellFactory::CreateWind(CBase* pShooter, int nTier)
+void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 {
 	switch(nTier)
 	{
