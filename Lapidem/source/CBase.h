@@ -52,6 +52,8 @@ public:
 	float GetVelX( )      {    return m_fVelocityX;      }
 	float GetVelY( )      {    return m_fVelocityY;      }
 
+	int	  GetRefCount( )  {		return m_nRefCount;		}
+
 	bool IsActive( )	  {	   return m_bIsActive;		 }
 
 	//////////////////////////////////////////////////////////////////////////

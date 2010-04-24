@@ -118,4 +118,5 @@ void CGameplayState::Exit( )
 	m_pWM->UnloadWave( m_nSoundID[1] );
 	m_pWM->UnloadWave( m_nSoundID[0] );
 	m_pTM->UnloadTexture( m_nImageID );
+	Corona_ObjectManager::GetInstance()->RemoveAllObjects();
 }

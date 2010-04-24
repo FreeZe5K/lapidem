@@ -40,24 +40,39 @@ CLevel::~CLevel()
 
 	if( m_pEventTiles.size() > 0 )
 	{
+		// Test
+		//for( UINT i = 0; i < m_pEventTiles.size(); ++i )
+		//		delete m_pEventTiles[i];
+
+		
 		for( UINT i = 0; i < m_pEventTiles.size(); ++i )
 		{
 			m_pEventTiles[i]->SetActive(false);
+			int x = m_pEventTiles[i]->GetRefCount();
+			for( int j = 0; j < m_pEventTiles[i]->GetRefCount(); ++j )
 			m_pEventTiles[i]->Release();
 		}
 		m_pEventTiles.clear();
+		
 
 	}
 
 	if( m_pTerrainTiles.size() > 0 )
 	{
+		//Test
+		//for( UINT i = 0; i < m_pTerrainTiles.size(); ++i )
+		//	delete m_pEventTiles;
+		
 		for( UINT i = 0; i < m_pTerrainTiles.size(); ++i )
 		{
 			m_pTerrainTiles[i]->SetActive(false);
+			int x = m_pTerrainTiles[i]->GetRefCount();
+
+			for( int j = 0; j < m_pTerrainTiles[i]->GetRefCount(); ++j )
 			m_pTerrainTiles[i]->Release();
 		}
 		m_pTerrainTiles.clear();
-
+		
 	}
 
 }
@@ -167,8 +182,10 @@ void CLevel::LoadNewLevel( char* filename )
 			for(unsigned int i = 0; i < m_pTerrainTiles.size(); ++i )
 			{
 				m_pTerrainTiles[i]->SetActive(false);
+				for( int j = 0; j < m_pTerrainTiles[i]->GetRefCount(); ++j )
 				m_pTerrainTiles[i]->Release();
 			}
+			m_pTerrainTiles.clear();
 
 
 		}
@@ -220,8 +237,11 @@ void CLevel::LoadNewLevel( char* filename )
 			for(unsigned int i = 0; i < m_pEventTiles.size(); ++i )
 			{
 				m_pEventTiles[i]->SetActive(false);
+				for( int j = 0; j < m_pEventTiles[i]->GetRefCount(); ++j )
 				m_pEventTiles[i]->Release();
 			}
+			m_pEventTiles.clear();
+
 		}
 		
 		for( int i = 0; i < GetWorldCollumn()*GetWorldRow(); ++i )
