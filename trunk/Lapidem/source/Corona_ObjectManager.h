@@ -26,7 +26,6 @@ class Corona_ObjectManager
 	~Corona_ObjectManager() {};
 	
 	void CheckCollisions(float fElapsedTime);
-	void RemoveAllObjects(void);
 	bool IsOnScreen(CBase*);
 
 	CCamera * theCamera;
@@ -73,5 +72,7 @@ public:
 	void RenderObjects(void);
 	void AddObject(CBase* ObjectToAdd);
 	void RemoveObject(CBase* ObjectToRemove);
+	void RemoveAllObjects(void);
+
 
 };
