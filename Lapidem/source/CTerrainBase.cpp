@@ -7,6 +7,7 @@
 //					by the terrains but not included in CBase
 //////////////////////////////////////////////////////////////////////////
 #include "CTerrainBase.h"
+#include "CSpell.h"
 #include "CCamera.h"
 #include "Wrappers/CSGD_TextureManager.h" 
 
@@ -32,11 +33,26 @@ RECT CTerrainBase::GetRectFromAlgorithm( int nTileID )
 	return r;
 }
 
-
-
-void CTerrainBase::HandleCollision(CBase*)
+void CTerrainBase::Update( float fDT)
 {
+	CBase::Update(fDT);
 
+	if( GetHealth() <= 0 )
+		SetActive(false);
+
+}
+
+
+void CTerrainBase::HandleCollision(CBase* pBase)
+{
+	switch( pBase->GetType() )
+	{
+	case OBJ_SPELL:
+		SetHealth( GetHealth() - ((CSpell*)pBase)->GetDamage() );
+		break;
+
+
+	};
 }
 
 
