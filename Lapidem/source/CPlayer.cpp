@@ -30,12 +30,15 @@ void CPlayer::Update(float fElapsedTime)
 	{
 		m_fJumpTimer += fElapsedTime;
 
-		if(m_fJumpTimer <= 1)
+		if(m_fJumpTimer <= .5)
 			SetVelY(-100);
 		else if(GetVelY()!= 0)
 			SetVelY(150);
 		else
+		{
 			m_bIsJumping = false;
+			m_fJumpTimer = 0.0f;
+		}
 	}
 }
 
@@ -64,7 +67,7 @@ void CPlayer::Jump()
 		return;
 
 	m_bIsJumping = true;
-	m_fJumpTimer = 0.0f;
+	//m_fJumpTimer = 0.0f;
 }
 
 void CPlayer::HandleCollision(CBase * collidingObject)
@@ -75,7 +78,7 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 		if(GetPosX() > collidingObject->GetPosX() && GetPosX() < collidingObject->GetPosX() + collidingObject->GetWidth())
 		{
 			//From Above:
-			if(GetPosY() < collidingObject->GetPosY())
+		if(GetPosY() < collidingObject->GetPosY())
 			{
 				//Set the Velocity to 0, the shuttle has landed.
 				SetVelY( 0.0f );

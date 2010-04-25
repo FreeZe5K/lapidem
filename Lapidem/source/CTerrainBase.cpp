@@ -13,7 +13,7 @@
 
 CTerrainBase::CTerrainBase()
 {
-	m_nType = OBJ_TERRA;
+
 }
 CTerrainBase::~CTerrainBase()
 {
