@@ -3,7 +3,6 @@ Earth Enemy
 Player -> Terrain side/side collision.
 Player -> Fall off Cliff.
 Gamepad controls
-Boundry is currently being destroyed by spells.
 Wind / Ice / Earth t1 spells usage.
 Give Spells Particle effects.
 
@@ -13,6 +12,7 @@ Animation Warehouse / Engine (90% complete)
 Save and Load games (Three Profiles)
 Choose Multiplayer or single player games.
 Profile Functions (Profiler done).
+Bitmap Kerning
 
 Jon comments Sam's Code.
 
