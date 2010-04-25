@@ -124,6 +124,10 @@ void CGameplayState::Exit( )
 	m_pWM->UnloadWave( m_nSoundID[1] );
 	m_pWM->UnloadWave( m_nSoundID[0] );
 	m_pTM->UnloadTexture( m_nImageID );
+	if(m_pPlayerOne)
+	m_pPlayerOne->Release();
+	if(m_pPlayerTwo)
+	m_pPlayerTwo->Release();
 	Corona_ObjectManager::GetInstance()->RemoveAllObjects();
 	theLevel.Clear();
 
