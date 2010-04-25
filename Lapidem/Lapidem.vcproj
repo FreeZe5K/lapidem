@@ -216,6 +216,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\CLevel.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\Corona_EventHandler.cpp"
 					>
 				</File>
@@ -435,10 +439,6 @@
 				</File>
 				<File
 					RelativePath=".\source\CEnemy.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CLevel.cpp"
 					>
 				</File>
 				<File

@@ -258,12 +258,14 @@ void CLevel::LoadNewLevel( char* filename )
 			//in.read( (char*)&size, sizeof(char));
 			in.read( (char*)&data , sizeof(int));
 
+			//if( Type != GetBaseTileID() )
 			switch(Type)
 			{
 			case NONE:
 				break;
 			default:
 				CTerrainBase* newTerrain = new CTerrainBase();
+
 
 				newTerrain->SetType( OBJ_EVENT );
 				newTerrain->SetTypeTerrain( Type );
@@ -312,8 +314,8 @@ bool CLevel::LoadNextLevel(  )
 	if( GetNextLevelFileName())
 	{
 		string szTemp = "resource\\data\\";
-		szTemp += szBGI;
-		LoadNewLevel( szTemp.c_str() );
+		szTemp += GetNextLevelFileName();
+		LoadNewLevel( (char*)szTemp.c_str() );
 		return true;
 	}
 
