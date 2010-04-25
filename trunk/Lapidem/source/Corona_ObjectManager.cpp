@@ -2,6 +2,7 @@
 #include "CCamera.h"
 #include "CBase.h"
 #include "CTerrainBase.h"
+#include "CProfiler.h"
 
 Corona_ObjectManager * Corona_ObjectManager::CoMReference = NULL;
 
@@ -29,6 +30,10 @@ void Corona_ObjectManager::DeleteInstance()
 
 void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 {
+#if _DEBUG
+	CProfiler::GetInstance()->Start("ObjectManager Update");
+#endif
+
 	vector<CBase*> DeadItems;
 	vector<CBase*>::iterator iter = Objects.begin();
 	
@@ -66,6 +71,10 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 
 	CheckCollisions(fElapsedTime);
 	theCamera->Update(fElapsedTime);
+
+#if _DEBUG
+	CProfiler::GetInstance()->End("ObjectManager Update");
+#endif
 	
 }
 
@@ -129,6 +138,9 @@ void Corona_ObjectManager::RemoveObject(CBase* ObjectToRemove)
 
 void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
 {
+#if _DEBUG
+	CProfiler::GetInstance()->Start("ObjectManager CheckCollision");
+#endif
 	vector<CBase*> ObjectsOnScreen;
 
 	for(unsigned index = 0; index < Objects.size(); ++index)
@@ -167,6 +179,10 @@ void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
 				}
 			}
 		}
+
+#if _DEBUG
+	CProfiler::GetInstance()->End("ObjectManager CheckCollision");
+#endif
 }
 
 void Corona_ObjectManager::RemoveAllObjects(void)
@@ -184,8 +200,8 @@ void Corona_ObjectManager::RemoveAllObjects(void)
 }
 bool Corona_ObjectManager::IsOnScreen(CBase* Object)
 {
-	if(Object->GetPosX() >= theCamera->GetXOffset() && Object->GetPosX() <= theCamera->GetWidth())
-		if(Object->GetPosY() >= theCamera->GetYOffset() && Object->GetPosY() <= theCamera->GetHeight())
+	if(Object->GetPosX() + Object->GetWidth() >= theCamera->GetXOffset() && Object->GetPosX() <= theCamera->GetWidth())
+		if(Object->GetPosY() + Object->GetHeight() >= theCamera->GetYOffset() && Object->GetPosY() <= theCamera->GetHeight())
 			return true;
 
 
