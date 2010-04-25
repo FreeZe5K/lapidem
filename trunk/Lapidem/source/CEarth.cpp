@@ -1,5 +1,6 @@
 #include "CEarth.h"
 #include "Wrappers/CSGD_TextureManager.h"
+#include "CCamera.h" 
 #include <math.h>
 
 const float PI = 3.14159f;
@@ -175,8 +176,7 @@ void CEarth::RenderTier1()
 {
 	if(GetImage() != -1)
 	{
-		RECT boulder;// = {0,0,64,64};
-		CSGD_TextureManager::GetInstance()->Draw(GetImage(), (int)GetPosX(), (int)GetPosY(),1,1,&boulder,GetWidth()/2.0f,GetHeight()/2.0f,m_fRotate);
+		CSGD_TextureManager::GetInstance()->Draw(GetImage(), (int)GetPosX() - CCamera::GetCamera()->GetXOffset(), (int)GetPosY()- CCamera::GetCamera()->GetYOffset());
 	}
 }
 
