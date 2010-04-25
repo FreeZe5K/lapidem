@@ -224,10 +224,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\CTerrainBase.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\source\WinMain.cpp"
 					>
 				</File>
@@ -443,6 +439,10 @@
 				</File>
 				<File
 					RelativePath=".\source\CPlayer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CTerrainBase.cpp"
 					>
 				</File>
 			</Filter>

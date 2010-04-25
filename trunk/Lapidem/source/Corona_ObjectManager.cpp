@@ -1,6 +1,7 @@
 #include "Corona_ObjectManager.h"
 #include "CCamera.h"
 #include "CBase.h"
+#include "CTerrainBase.h"
 
 Corona_ObjectManager * Corona_ObjectManager::CoMReference = NULL;
 
@@ -87,7 +88,7 @@ void Corona_ObjectManager::AddObject(CBase* ObjectToAdd)
 {
 	if(ObjectToAdd->GetType() != OBJ_TERRA)
 		Objects.push_back(ObjectToAdd);
-	else
+	else if(((CTerrainBase*)ObjectToAdd)->GetTileID() != ((CTerrainBase*)ObjectToAdd)->GetBaseTile())
 		Terrain.push_back(ObjectToAdd);
 
 	ObjectToAdd->AddRef();

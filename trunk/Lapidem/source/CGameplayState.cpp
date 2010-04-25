@@ -86,6 +86,9 @@ bool CGameplayState::Input( )
 	if( m_pDI->KeyDown( DIK_W ) )
 		m_pPlayerOne->Jump();
 
+	if( m_pDI->KeyDown( DIK_F ) )
+		m_pPlayerOne->Attack(1);
+
 
 	if( m_pPlayerTwo )
 	{
@@ -118,7 +121,6 @@ void CGameplayState::Render( )
 
 void CGameplayState::Exit( )
 {
-
 	m_pWM->UnloadWave( m_nSoundID[1] );
 	m_pWM->UnloadWave( m_nSoundID[0] );
 	m_pTM->UnloadTexture( m_nImageID );
