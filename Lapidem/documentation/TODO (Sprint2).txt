@@ -1,0 +1,15 @@
+Enemy Spawner
+Earth Enemy
+Player -> Terrain side/side collision.
+Player -> Fall off Cliff.
+Boundry is currently being destroyed by spells.
+Wind / Ice / Earth t1 spells usage.
+Give Spells Particle effects.
+
+Art request lulz
+
+Animation Warehouse / Engine (90% complete)
+Save and Load games (Three Profiles)
+Profile Functions (Profiler done).
+
+Jon comments Sam's Code.

@@ -90,11 +90,12 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 			else
 				SetPosY(collidingObject->GetPosY() + collidingObject->GetHeight() + 1);
 
+			return;
+
 		}
 		//We've hit the tile from the left or right side.
 		else
 		{
-
 			
 
 

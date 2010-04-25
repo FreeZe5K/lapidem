@@ -3,6 +3,7 @@
 #include "CPlayer.h"
 #include "Corona_ObjectManager.h"
 #include "Corona_EventHandler.h"
+#include "CProfiler.h"
 
 CGameplayState* CGameplayState::GetInstance( )
 {
@@ -86,7 +87,7 @@ bool CGameplayState::Input( )
 	if( m_pDI->KeyDown( DIK_W ) )
 		m_pPlayerOne->Jump();
 
-	if( m_pDI->KeyDown( DIK_F ) )
+	if( m_pDI->KeyPressed( DIK_F ) )
 		m_pPlayerOne->Attack(1);
 
 
@@ -130,5 +131,9 @@ void CGameplayState::Exit( )
 	m_pPlayerTwo->Release();
 	Corona_ObjectManager::GetInstance()->RemoveAllObjects();
 	theLevel.Clear();
+
+#if _DEBUG
+	CProfiler::GetInstance()->Save("CodeProfilerOutput.txt");
+#endif
 
 }

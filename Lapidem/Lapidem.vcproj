@@ -406,6 +406,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\CProfiler.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\Lapidem_Math.h"
 					>
 				</File>
@@ -415,6 +419,10 @@
 				>
 				<File
 					RelativePath=".\source\CBitmapFont.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CProfiler.cpp"
 					>
 				</File>
 				<File
