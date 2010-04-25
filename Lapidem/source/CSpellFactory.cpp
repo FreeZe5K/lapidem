@@ -11,15 +11,13 @@
 #include "CSpellFactory.h"
 
 
-//////////////////////////////
-//TODO: Incluce CCharacter
-//////////////////////////////
 #include "Corona_ObjectManager.h"
 #include "CCharacter.h"
 #include "CFire.h"
 #include "CIce.h"
 #include "CEarth.h"
 #include "CWind.h"
+#include "CCamera.h"
 
 CSpellFactory* CSpellFactory::m_pSF = NULL;
 
@@ -92,12 +90,58 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 			CEarth* newearth = new CEarth();
 			newearth->SetPosX(pShooter->GetPosX());
 			newearth->SetPosY(pShooter->GetPosY());
-			///////////////////////////////////////////////////////////////////////////////////
-			//TODO: once direction is implemented... change vel x and y base on that direction.
-			///////////////////////////////////////////////////////////////////////////////////
-			newearth->SetVelX(125.0f);
-			newearth->SetVelY(-75.0f);
-			///////////////////////////////////////////////////////////////////////////////////
+			DIRECTION wheretoshoot = pShooter->GetDirection();
+			switch(wheretoshoot)
+			{
+			case 0:
+				{
+					newearth->SetVelX(-150);
+					newearth->SetVelY(0);
+					break;
+				}
+			case 1:
+				{
+					newearth->SetVelX(150);
+					newearth->SetVelY(0);
+					break;
+				}
+			case 2:
+				{
+					newearth->SetVelX(0);
+					newearth->SetVelY(-150);
+					break;
+				}
+			case 3:
+				{
+					newearth->SetVelX(0);
+					newearth->SetVelY(150);
+					break;
+				}
+			case 4:
+				{
+					newearth->SetVelX(-75);
+					newearth->SetVelY(-75);
+					break;
+				}
+			case 5:
+				{
+					newearth->SetVelX(-75);
+					newearth->SetVelY(75);
+					break;
+				}
+			case 6:
+				{
+					newearth->SetVelX(75);
+					newearth->SetVelY(-75);
+					break;
+				}
+			case 7:
+				{
+					newearth->SetVelX(75);
+					newearth->SetVelY(75);
+					break;
+				}
+			}
 			newearth->SetDamage(20 + 4* m_nEarthLVL);
 			newearth->SetLifespan(10.0f + 1.5f* m_nEarthLVL);
 			newearth->SetActive(true);
@@ -110,7 +154,7 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 			{
 				newearth->ShotBy(false);
 			}
-			newearth->SetType(OBJ_EARTH);
+			newearth->SetElement(OBJ_EARTH);
 			newearth->SetHeight(32);
 			newearth->SetWidth(32);	
 			Corona_ObjectManager::GetInstance()->AddObject(newearth);
@@ -127,19 +171,66 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 	case 1: // First Tier... Basic Spell
 		{
 			CFire* newfire = new CFire();
-			newfire->SetPosX(pShooter->GetPosX());
-			newfire->SetPosY(pShooter->GetPosY());
-			///////////////////////////////////////////////////////////////////////////////////
-			//TODO: once direction is implemented... change vel x and y base on that direction.
-			///////////////////////////////////////////////////////////////////////////////////
-			newfire->SetVelX(150);
-			newfire->SetVelY(0);
-			///////////////////////////////////////////////////////////////////////////////////
+			newfire->SetPosX(pShooter->GetPosX());// - CCamera::GetCamera()->GetXOffset());
+			newfire->SetPosY(pShooter->GetPosY());// - CCamera::GetCamera()->GetYOffset());
+
+			DIRECTION wheretoshoot = pShooter->GetDirection();
+			switch(wheretoshoot)
+			{
+			case 0:
+				{
+					newfire->SetVelX(-150);
+					newfire->SetVelY(0);
+					break;
+				}
+			case 1:
+				{
+					newfire->SetVelX(150);
+					newfire->SetVelY(0);
+					break;
+				}
+			case 2:
+				{
+					newfire->SetVelX(0);
+					newfire->SetVelY(-150);
+					break;
+				}
+			case 3:
+				{
+					newfire->SetVelX(0);
+					newfire->SetVelY(150);
+					break;
+				}
+			case 4:
+				{
+					newfire->SetVelX(-75);
+					newfire->SetVelY(-75);
+					break;
+				}
+			case 5:
+				{
+					newfire->SetVelX(-75);
+					newfire->SetVelY(75);
+					break;
+				}
+			case 6:
+				{
+					newfire->SetVelX(75);
+					newfire->SetVelY(-75);
+					break;
+				}
+			case 7:
+				{
+					newfire->SetVelX(75);
+					newfire->SetVelY(75);
+					break;
+				}
+			}
 			newfire->SetDamage(12 + (3 * m_nFireLVL));
 			newfire->SetDOT(3 + (1 * (m_nFireLVL>>1)));
 			newfire->SetLifespan(5.0f);
 			newfire->SetActive(true);
-			
+
 			newfire->SetTier(nTier);
 			if(pShooter->GetType() == OBJ_PLAYER)
 			{
@@ -151,7 +242,7 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 			}
 			newfire->SetWidth(32);
 			newfire->SetHeight(16);
-			newfire->SetType(OBJ_FIRE);
+			newfire->SetElement(OBJ_FIRE);
 			Corona_ObjectManager::GetInstance()->AddObject(newfire);
 			newfire->Release();
 			break;
@@ -167,19 +258,65 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 		{
 			CIce* newice = new CIce();
 
-			newice->SetPosX(pShooter->GetPosX());
-			newice->SetPosY(pShooter->GetPosY());
-			///////////////////////////////////////////////////////////////////////////////////
-			//TODO: once direction is implemented... change vel x and y base on that direction.
-			///////////////////////////////////////////////////////////////////////////////////
-			newice->SetVelX(150);
-			newice->SetVelY(0);
-			///////////////////////////////////////////////////////////////////////////////////
+			newice->SetPosX(pShooter->GetPosX()+ CCamera::GetCamera()->GetXOffset());
+			newice->SetPosY(pShooter->GetPosY()+ CCamera::GetCamera()->GetYOffset());
+			DIRECTION wheretoshoot = pShooter->GetDirection();
+			switch(wheretoshoot)
+			{
+			case 0:
+				{
+					newice->SetVelX(-150);
+					newice->SetVelY(0);
+					break;
+				}
+			case 1:
+				{
+					newice->SetVelX(150);
+					newice->SetVelY(0);
+					break;
+				}
+			case 2:
+				{
+					newice->SetVelX(0);
+					newice->SetVelY(-150);
+					break;
+				}
+			case 3:
+				{
+					newice->SetVelX(0);
+					newice->SetVelY(150);
+					break;
+				}
+			case 4:
+				{
+					newice->SetVelX(-75);
+					newice->SetVelY(-75);
+					break;
+				}
+			case 5:
+				{
+					newice->SetVelX(-75);
+					newice->SetVelY(75);
+					break;
+				}
+			case 6:
+				{
+					newice->SetVelX(75);
+					newice->SetVelY(-75);
+					break;
+				}
+			case 7:
+				{
+					newice->SetVelX(75);
+					newice->SetVelY(75);
+					break;
+				}
+			}
 			newice->SetDamage(9 + 2* m_nIceLVL);
 			newice->SetSlow(10.0f + 2.0f * m_nIceLVL);
 			newice->SetWidth(32);
 			newice->SetHeight(16);
-			newice->SetType(OBJ_ICE);
+			newice->SetElement(OBJ_ICE);
 			newice->SetActive(true);
 			newice->SetLifespan(5.0f);
 
@@ -193,7 +330,7 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 			}
 
 			newice->SetTier(nTier);
-			
+
 			Corona_ObjectManager::GetInstance()->AddObject(newice);
 			newice->Release();
 			break;
@@ -209,17 +346,63 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 	case 1: // First Tier... Basic wind Spell
 		{
 			CWind* newwind = new CWind();
-			newwind->SetPosX(pShooter->GetPosX());
-			newwind->SetPosY(pShooter->GetPosY());
-			///////////////////////////////////////////////////////////////////////////////////
-			//TODO: once direction is implemented... change vel x and y base on that direction.
-			///////////////////////////////////////////////////////////////////////////////////
-			newwind->SetVelX(200.0f);
-			newwind->SetVelY(0.0f);
-			///////////////////////////////////////////////////////////////////////////////////
-			
+			newwind->SetPosX(pShooter->GetPosX()+ CCamera::GetCamera()->GetXOffset());
+			newwind->SetPosY(pShooter->GetPosY()+ CCamera::GetCamera()->GetYOffset());
+			DIRECTION wheretoshoot = pShooter->GetDirection();
+			switch(wheretoshoot)
+			{
+			case 0:
+				{
+					newwind->SetVelX(-150);
+					newwind->SetVelY(0);
+					break;
+				}
+			case 1:
+				{
+					newwind->SetVelX(150);
+					newwind->SetVelY(0);
+					break;
+				}
+			case 2:
+				{
+					newwind->SetVelX(0);
+					newwind->SetVelY(-150);
+					break;
+				}
+			case 3:
+				{
+					newwind->SetVelX(0);
+					newwind->SetVelY(150);
+					break;
+				}
+			case 4:
+				{
+					newwind->SetVelX(-75);
+					newwind->SetVelY(-75);
+					break;
+				}
+			case 5:
+				{
+					newwind->SetVelX(-75);
+					newwind->SetVelY(75);
+					break;
+				}
+			case 6:
+				{
+					newwind->SetVelX(75);
+					newwind->SetVelY(-75);
+					break;
+				}
+			case 7:
+				{
+					newwind->SetVelX(75);
+					newwind->SetVelY(75);
+					break;
+				}
+			}
+
 			newwind->SetActive(true);
-			newwind->SetType(OBJ_WIND);
+			newwind->SetElement(OBJ_WIND);
 			newwind->SetDamage(9 + m_nWindLVL);
 			newwind->SetPushBack(10.0f + 5 *m_nWindLVL);
 			newwind->SetLifespan(5.0f);
