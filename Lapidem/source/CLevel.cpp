@@ -217,7 +217,6 @@ void CLevel::LoadNewLevel( char* filename )
 			//in.read( (char*)&size, sizeof(char));
 			in.read( (char*)&Type , sizeof(int));
 
-			if( ID != GetBaseTileID() )
 			switch ( Type )
 			{
 				
@@ -241,7 +240,8 @@ void CLevel::LoadNewLevel( char* filename )
 				newTerrain->SetVelY(0);
 
 				m_pTerrainTiles.push_back(newTerrain);
-				Corona_ObjectManager::GetInstance()->AddObject(newTerrain);
+				if( ID != GetBaseTileID() )
+					Corona_ObjectManager::GetInstance()->AddObject(newTerrain);
 
 
 				break;
@@ -332,4 +332,43 @@ bool CLevel::LoadNextLevel(  )
 	return false;
 }
 
+
+	CBase* CLevel::CheckCollision( CBase* pBase )
+	{
+		int nX = pBase->GetPosX();
+		int nY = pBase->GetPosY();
+		int nX2 = nX + pBase->GetWidth();
+		int nY2 = nY + pBase->GetHeight();
+
+		nX /= GetTileWidth();
+		nY /= GetTileHeight();
+		nX2 /= GetTileWidth();
+		nY2 /= GetTileHeight();
+
+		int index = nX + nY*GetWorldCollumn();
+
+		CTerrainBase* pTerra = (CTerrainBase*)m_pTerrainTiles[ index ];
+		if(  pTerra->GetTileID() != GetBaseTileID() )
+			return m_pTerrainTiles[ index ];
+		
+		index = nX2 + nY*GetWorldCollumn();
+
+		pTerra = (CTerrainBase*)m_pTerrainTiles[ index ];
+		if(  pTerra->GetTileID() != GetBaseTileID() )
+			return m_pTerrainTiles[ index ];
+		
+		index = nX + nY2*GetWorldCollumn();
+
+		 pTerra = (CTerrainBase*)m_pTerrainTiles[ index ];
+		if(  pTerra->GetTileID() != GetBaseTileID() )
+			return m_pTerrainTiles[ index ];
+		
+		index = nX2 + nY2*GetWorldCollumn();
+
+		 pTerra = (CTerrainBase*)m_pTerrainTiles[ index ];
+		if(  pTerra->GetTileID() != GetBaseTileID() )
+			return m_pTerrainTiles[ index ];
+
+		return NULL;
+	}
 

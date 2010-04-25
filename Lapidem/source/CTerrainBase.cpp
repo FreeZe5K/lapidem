@@ -37,8 +37,12 @@ void CTerrainBase::Update( float fDT)
 {
 	CBase::Update(fDT);
 
+	if( GetTypeTerrain() == T_ROCK )
 	if( GetHealth() <= 0 )
+	{
+		SetTileID( GetBaseTile());
 		SetActive(false);
+	}
 
 }
 
