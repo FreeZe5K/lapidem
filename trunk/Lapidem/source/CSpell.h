@@ -26,6 +26,7 @@ class CSpell : public CBase//, public CEmitter
 	int m_nTier;		// Determines the tier of the spell as well as the update and render for the spell
 	int m_nDamage;		// How much damage the spell does on collision with an object
 	int m_nDirection;	// Enumed(sp?) to represent a direction the spell is  beign shot at
+	int m_nElement;		// Enum for which element the spell is... Fire Earth Wind Ice
 public:
 
 	CSpell();	// constructor
@@ -41,6 +42,7 @@ public:
 	int GetTier(void) {return m_nTier;}
 	int GetDamage(void) {return m_nDamage;}
 	int GetDirection(void) {return m_nDirection;}
+	int GetElement(void) {return m_nElement;}
 	//////////////////////////////////////////////////////////////////////////
 	
 	//////////////////////////////////////////////////////////////////////////
@@ -53,6 +55,7 @@ public:
 	void SetTier(int nTier) {m_nTier = nTier;}
 	void SetDamage(int nDamage) {m_nDamage = nDamage;}
 	void SetDirection(int nDirection) {m_nDirection = nDirection;}
+	void SetElement(int nElement) {m_nElement = nElement;}
 	//////////////////////////////////////////////////////////////////////////
 
 	//////////////////////////////////////////////////////////////////////////

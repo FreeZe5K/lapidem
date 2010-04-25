@@ -8,6 +8,7 @@
 //////////////////////////////////////////////////////////////////////////
 #include "CWind.h"
 #include "Wrappers/CSGD_TextureManager.h"
+#include "CCamera.h"
 
 CWind::CWind() : CSpell()
 {
@@ -89,7 +90,7 @@ void CWind::RenderTier1()
 {
 	if(GetImage() != -1)
 	{
-		CSGD_TextureManager::GetInstance()->Draw(GetImage(), (int)GetPosX(), (int)GetPosY());
+		CSGD_TextureManager::GetInstance()->Draw(GetImage(), (int)GetPosX() - CCamera::GetCamera()->GetXOffset(), (int)GetPosY()- CCamera::GetCamera()->GetYOffset());
 	}
 }
 

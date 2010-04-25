@@ -8,14 +8,12 @@
 #include "CSpell.h"
 #include "Wrappers/CSGD_TextureManager.h" 
 
-////////////////////////////////////////
-//TODO:Include ObjectManager once finished
-////////////////////////////////////////
+
 #include "Corona_ObjectManager.h"
 
 CSpell::CSpell() : CBase()
 {
-	
+	SetType(OBJ_SPELL);
 }
 
 CSpell::~CSpell()
@@ -65,9 +63,7 @@ void CSpell::Update(float fElapsedTime)
 	SetLifespan(GetLifespan() - fElapsedTime);
 	if(GetLifespan() <=0)
 	{
-		////////////////////////////////////////////////////////////////
-		//TODO: Carona_ObjectManager->GetInstance()->RemoveObject(this);
-		////////////////////////////////////////////////////////////////
+		SetActive(false);
 	}
 	switch(m_nTier)
 	{

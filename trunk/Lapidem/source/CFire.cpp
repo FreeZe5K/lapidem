@@ -8,10 +8,12 @@
 //////////////////////////////////////////////////////////////////////////
 #include "CFire.h"
 #include "Wrappers/CSGD_TextureManager.h"
+#include "CTerrainBase.h"
+#include "CCamera.h"
 
 CFire::CFire() :CSpell()
 {
-
+	SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/fire.bmp",D3DCOLOR_XRGB(0,0,0)));
 }
 
 CFire::~CFire()
@@ -88,7 +90,7 @@ void CFire::RenderTier1()
 {
 	if(GetImage() != -1)
 	{
-		CSGD_TextureManager::GetInstance()->Draw(GetImage(), (int)GetPosX(), (int)GetPosY());
+		CSGD_TextureManager::GetInstance()->Draw(GetImage(), (int)GetPosX() - CCamera::GetCamera()->GetXOffset(), (int)GetPosY()- CCamera::GetCamera()->GetYOffset());
 	}
 }
 
@@ -108,7 +110,17 @@ void CFire::HandleCollision(CBase* pObject)
 {
 	if(GetTier() ==1)
 	{
-		SetActive(false);
+		if(pObject->GetType() == OBJ_PLAYER)
+		{
+		}
+		else if(pObject->GetType() == OBJ_TERRA)
+		{
+		//	if(((CTerrainBase*)pObject)->GetTypeTerrain() == T_ROCK);
+		//	{
+				((CTerrainBase*)pObject)->SetHealth(((CTerrainBase*)pObject)->GetHealth()- GetDamage());
+				SetActive(false);
+		//	}
+		}
 	}
 	else if(GetTier() ==2)
 	{
