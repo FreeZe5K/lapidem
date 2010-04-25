@@ -34,9 +34,16 @@ CLevel::CLevel()
 
 CLevel::~CLevel()
 {
-	
-	if(m_szNextLevelFileName)
+	if(m_szNextLevelFileName != "")
 		delete	m_szNextLevelFileName;
+	Clear();
+}
+
+void CLevel::Clear()
+{
+	/*
+	if(m_szNextLevelFileName != "")
+		delete	m_szNextLevelFileName;*/
 
 	if( m_pEventTiles.size() > 0 )
 	{
@@ -44,16 +51,16 @@ CLevel::~CLevel()
 		//for( UINT i = 0; i < m_pEventTiles.size(); ++i )
 		//		delete m_pEventTiles[i];
 
-		
+
 		for( UINT i = 0; i < m_pEventTiles.size(); ++i )
 		{
 			m_pEventTiles[i]->SetActive(false);
-			int x = m_pEventTiles[i]->GetRefCount();
-			for( int j = 0; j < m_pEventTiles[i]->GetRefCount(); ++j )
-			m_pEventTiles[i]->Release();
+			//int x = m_pEventTiles[i]->GetRefCount();
+			//for( int j = 0; j < m_pEventTiles[i]->GetRefCount(); ++j )
+				m_pEventTiles[i]->Release();
 		}
 		m_pEventTiles.clear();
-		
+
 
 	}
 
@@ -62,24 +69,25 @@ CLevel::~CLevel()
 		//Test
 		//for( UINT i = 0; i < m_pTerrainTiles.size(); ++i )
 		//	delete m_pEventTiles;
-		
+
 		for( UINT i = 0; i < m_pTerrainTiles.size(); ++i )
 		{
 			m_pTerrainTiles[i]->SetActive(false);
-			int x = m_pTerrainTiles[i]->GetRefCount();
+			//int x = m_pTerrainTiles[i]->GetRefCount();
 
-			for( int j = 0; j < m_pTerrainTiles[i]->GetRefCount(); ++j )
-			m_pTerrainTiles[i]->Release();
+			//for( int j = 0; j < m_pTerrainTiles[i]->GetRefCount(); ++j )
+				m_pTerrainTiles[i]->Release();
 		}
 		m_pTerrainTiles.clear();
-		
+
 	}
 
-//	if( GetTileSet() != -1 )
-//			CSGD_TextureManager::GetInstance()->UnloadTexture( GetTileSet());
-		
-//		if( GetBackGroundImage() != -1 )
-//			CSGD_TextureManager::GetInstance()->UnloadTexture( GetBackGroundImage() );
+	//	if( GetTileSet() != -1 )
+	//			CSGD_TextureManager::GetInstance()->UnloadTexture( GetTileSet());
+
+	//		if( GetBackGroundImage() != -1 )
+	//			CSGD_TextureManager::GetInstance()->UnloadTexture( GetBackGroundImage() );
+
 
 }
 
@@ -89,28 +97,28 @@ void CLevel::LoadNewLevel( char* filename )
 
 	if( in.is_open() )
 	{
-		   /*
-                 *      Version test
-                 *  World Dimension
-                 *  Tile width
-                 *  tile height
-				 *		collumntile
-				 *		rowtile
-                 *      tileset filename
-                 *      background filename
-				 *		bgm filename
-                 *      nextlevel filename
-                 *      base tileID
-                 *      tiles
-                 *      events
-                 */
+		/*
+		*      Version test
+		*  World Dimension
+		*  Tile width
+		*  tile height
+		*		collumntile
+		*		rowtile
+		*      tileset filename
+		*      background filename
+		*		bgm filename
+		*      nextlevel filename
+		*      base tileID
+		*      tiles
+		*      events
+		*/
 
 		char size;
 		int data;
 
 		in.read( (char*)&size, sizeof(char));
 
-		char* version = new char[size+1];
+		char version[64];// = new char[size+1];
 		in.read( version, size );
 		version[size] =0;
 
@@ -133,7 +141,7 @@ void CLevel::LoadNewLevel( char* filename )
 		//in.read( (char*)&size, sizeof(char));
 		in.read( (char*)&data, sizeof(int));
 		SetTileRow(data);
-	
+
 		if( GetTileSet() != -1 )
 			CSGD_TextureManager::GetInstance()->UnloadTexture( GetTileSet());
 		in.read( (char*)&size, sizeof(char));
@@ -143,10 +151,10 @@ void CLevel::LoadNewLevel( char* filename )
 		string szTemp;
 		if( size != 1 )
 		{
-		
-		szTemp = "resource\\graphics\\";
-		szTemp += szTileSet;
-		SetTileSetID(CSGD_TextureManager::GetInstance()->LoadTexture(szTemp.c_str()));
+
+			szTemp = "resource\\graphics\\";
+			szTemp += szTileSet;
+			SetTileSetID(CSGD_TextureManager::GetInstance()->LoadTexture(szTemp.c_str()));
 		}else
 			SetTileSetID(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/ScA_WorldTileset.PNG"));
 
@@ -159,9 +167,9 @@ void CLevel::LoadNewLevel( char* filename )
 		szBGI[size] = 0;
 		if( size != 1)
 		{
-		szTemp = "resource\\graphics\\";
-		szTemp += szBGI;
-		SetBackGroundImage(CSGD_TextureManager::GetInstance()->LoadTexture(szTemp.c_str()));
+			szTemp = "resource\\graphics\\";
+			szTemp += szBGI;
+			SetBackGroundImage(CSGD_TextureManager::GetInstance()->LoadTexture(szTemp.c_str()));
 		}
 
 		//////////////////
@@ -172,10 +180,10 @@ void CLevel::LoadNewLevel( char* filename )
 		char szBGM[64];
 		in.read( szBGM, sizeof(char)*size );
 
-		
 
-		if( GetNextLevelFileName() != NULL )
-			delete m_szNextLevelFileName;
+
+		/*if( GetNextLevelFileName() != NULL )
+			delete m_szNextLevelFileName;*/
 		in.read( (char*)&size, sizeof(char));
 		char* szNextLvl = new char[size+1];
 		in.read( szNextLvl, sizeof(char)*(size) );
@@ -189,13 +197,13 @@ void CLevel::LoadNewLevel( char* filename )
 			{
 				m_pTerrainTiles[i]->SetActive(false);
 				for( int j = 0; j < m_pTerrainTiles[i]->GetRefCount(); ++j )
-				m_pTerrainTiles[i]->Release();
+					m_pTerrainTiles[i]->Release();
 			}
 			m_pTerrainTiles.clear();
 
 
 		}
-		
+
 		//in.read( (char*)&size, sizeof(char));
 		in.read( (char*)&data, sizeof(int));
 		SetBaseTileID(data);
@@ -209,8 +217,10 @@ void CLevel::LoadNewLevel( char* filename )
 			//in.read( (char*)&size, sizeof(char));
 			in.read( (char*)&Type , sizeof(int));
 
+			if( ID != GetBaseTileID() )
 			switch ( Type )
 			{
+				
 			default:
 				CTerrainBase* newTerrain = new CTerrainBase();
 
@@ -229,7 +239,7 @@ void CLevel::LoadNewLevel( char* filename )
 				newTerrain->SetTileRows( GetTileRow());
 				newTerrain->SetVelX(0);
 				newTerrain->SetVelY(0);
-				
+
 				m_pTerrainTiles.push_back(newTerrain);
 				Corona_ObjectManager::GetInstance()->AddObject(newTerrain);
 
@@ -244,15 +254,15 @@ void CLevel::LoadNewLevel( char* filename )
 			{
 				m_pEventTiles[i]->SetActive(false);
 				for( int j = 0; j < m_pEventTiles[i]->GetRefCount(); ++j )
-				m_pEventTiles[i]->Release();
+					m_pEventTiles[i]->Release();
 			}
 			m_pEventTiles.clear();
 
 		}
-		
+
 		for( int i = 0; i < GetWorldCollumn()*GetWorldRow(); ++i )
 		{
-			
+
 			//in.read( (char*)&size, sizeof(char));
 			in.read( (char*)&Type , sizeof(int));
 			//in.read( (char*)&size, sizeof(char));
@@ -282,32 +292,32 @@ void CLevel::LoadNewLevel( char* filename )
 				newTerrain->SetTileRows( GetTileRow());
 				newTerrain->SetVelX(0);
 				newTerrain->SetVelY(0);
-				
+
 				m_pEventTiles.push_back(newTerrain);
 				Corona_ObjectManager::GetInstance()->AddObject(newTerrain);
 
 
-				
+
 				break;
 
 			};
-			
+
 
 
 		}
 
 
-		delete version;
+		//delete version;
 		in.close();
 	}
 }
 
 void CLevel::RenderBackGround()
-	{
-		if( GetBackGroundImage() != -1 )
-			CSGD_TextureManager::GetInstance()->Draw( GetBackGroundImage(), 0,0 );
+{
+	if( GetBackGroundImage() != -1 )
+		CSGD_TextureManager::GetInstance()->Draw( GetBackGroundImage(), 0,0 );
 
-	}
+}
 
 bool CLevel::LoadNextLevel(  )
 {
