@@ -77,10 +77,10 @@ void CAuxiliaryState::Enter( )
 				fs.read( _ScoreBuffer, _tempName );
 				m_nPlayerScores[i] = int( _ScoreBuffer );
 				_ScoreBuffer[_tempName] = '\0';
+
 				delete[] _NameBuffer;
 				delete[] _ScoreBuffer;
-			}
-			fs.close( );
+			} fs.close( );
 		}
 		// - - - - - - - - - - - - - - - -
 	}
@@ -203,7 +203,7 @@ void CAuxiliaryState::Update( )
 	}
 	else if( m_nState == 3 ) // Credits
 	{
-		if( --m_nCreditScroll < -500 )
+		if( --m_nCreditScroll < -470 )
 			CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
 	}
 }

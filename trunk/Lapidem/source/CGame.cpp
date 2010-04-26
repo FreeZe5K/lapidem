@@ -55,7 +55,7 @@ void CGame::Initialize( HWND hWnd, HINSTANCE hInstance,
 	m_bIsNotFullscreen    = bIsWindowed;
 
 	m_bmFont              = new CBitmapFont();
-	m_bmFont->Load( "resource/graphics/Lapidem_Font.bmp" );
+	m_bmFont->Load( "resource/graphics/Lapidem_Font.bmp", "resource/data/Lapidem_BitmapFontSizes.txt" );
 
 	m_dwTimeStamp         = GetTickCount( );
 	m_dwPreviousTimeStamp = GetTickCount( );
@@ -68,7 +68,12 @@ void CGame::Shutdown( )
 	
 	ChangeState( NULL );
 	CSpellFactory::GetInstance()->DeleteInstance();
-	delete m_bmFont;
+
+	if( m_bmFont )
+	{
+		delete m_bmFont;
+		m_bmFont = NULL;
+	}
 
 	if( m_pDI )
 	{

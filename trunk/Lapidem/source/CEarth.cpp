@@ -176,7 +176,8 @@ void CEarth::RenderTier1()
 {
 	if(GetImage() != -1)
 	{
-		CSGD_TextureManager::GetInstance()->Draw(GetImage(), (int)GetPosX() - CCamera::GetCamera()->GetXOffset(), (int)GetPosY()- CCamera::GetCamera()->GetYOffset());
+		CSGD_TextureManager::GetInstance()->Draw(GetImage(), int( GetPosX() - 
+			CCamera::GetCamera()->GetXOffset() ), int( GetPosY()- CCamera::GetCamera()->GetYOffset() ) );
 	}
 }
 

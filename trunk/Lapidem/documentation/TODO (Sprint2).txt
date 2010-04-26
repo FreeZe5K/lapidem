@@ -7,7 +7,6 @@ Art request lulz
 
 Save and Load games (Three Profiles)
 Choose Multiplayer or single player games.
-Bitmap Kerning
 
 Jon comments Sam's Code.
 Profile Functions (Profiler done).
