@@ -26,19 +26,14 @@ void CPlayer::Update(float fElapsedTime)
 
 	}
 
+	SetVelY(150);
+
 	if(m_bIsJumping)
 	{
 		m_fJumpTimer += fElapsedTime;
 
 		if(m_fJumpTimer <= .5)
 			SetVelY(-100);
-		else if(GetVelY()!= 0)
-			SetVelY(150);
-		else
-		{
-			m_bIsJumping = false;
-			m_fJumpTimer = 0.0f;
-		}
 	}
 }
 
@@ -85,6 +80,8 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 				//Check for ground penetration, correct if needed
 				if(GetPosY() + GetHeight() > collidingObject->GetPosY())
 					SetPosY( collidingObject->GetPosY() - GetHeight() - 1);
+				m_bIsJumping = false;
+				m_fJumpTimer = 0.0f;
 			}
 			//From Below
 			else

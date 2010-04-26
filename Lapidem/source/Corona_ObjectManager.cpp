@@ -35,7 +35,7 @@ void Corona_ObjectManager::DeleteInstance()
 
 void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 {
-#if _DEBUG
+#ifdef _DEBUG
 	CProfiler::GetInstance()->Start("ObjectManager Update");
 #endif
 
@@ -84,7 +84,7 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 			m_fTimer = 0.0f;
 			Corona_EventHandler::GetInstance()->SendEvent("OffScreenPulse");
 		}
-#if _DEBUG
+#ifdef _DEBUG
 	CProfiler::GetInstance()->End("ObjectManager Update");
 #endif
 	
@@ -92,6 +92,9 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 
 void Corona_ObjectManager::RenderObjects(void)
 {
+#ifdef _DEBUG
+	CProfiler::GetInstance()->Start("ObjectManager Render");
+#endif
 	for(unsigned index = 0; index < Objects.size(); ++index)
 	{
 		if(IsOnScreen(Objects[index]))
@@ -103,6 +106,10 @@ void Corona_ObjectManager::RenderObjects(void)
 		if(IsOnScreen(Terrain[index]))
 			Terrain[index]->Render();
 	}
+
+#ifdef _DEBUG
+	CProfiler::GetInstance()->End("ObjectManager Render");
+#endif
 }
 
 void Corona_ObjectManager::AddObject(CBase* ObjectToAdd)
@@ -150,7 +157,7 @@ void Corona_ObjectManager::RemoveObject(CBase* ObjectToRemove)
 
 void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
 {
-#if _DEBUG
+#ifdef _DEBUG
 	CProfiler::GetInstance()->Start("ObjectManager CheckCollision");
 #endif
 	vector<CBase*> ObjectsOnScreen;
@@ -212,7 +219,7 @@ void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
 		}
 
 #endif
-#if _DEBUG
+#ifdef _DEBUG
 	CProfiler::GetInstance()->End("ObjectManager CheckCollision");
 #endif
 }

@@ -1,18 +1,14 @@
-Enemy Spawner
 Earth Enemy
 Player -> Terrain side/side collision.
-Player -> Fall off Cliff.
 Gamepad controls
 Wind / Ice / Earth t1 spells usage.
 Give Spells Particle effects.
 
 Art request lulz
 
-Animation Warehouse / Engine (90% complete)
 Save and Load games (Three Profiles)
 Choose Multiplayer or single player games.
-Profile Functions (Profiler done).
 Bitmap Kerning
 
 Jon comments Sam's Code.
-
+Profile Functions (Profiler done).
