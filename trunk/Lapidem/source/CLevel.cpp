@@ -351,6 +351,8 @@ bool CLevel::LoadNextLevel(  )
 			for( int j = nY; j <= nY2; j +=1)
 			{
 				int index = i + j*GetWorldCollumn();
+				if( index <0 || index > m_pTerrainTiles.size() )
+					continue;
 
 				CTerrainBase* pTerra = (CTerrainBase*)m_pTerrainTiles[ index ];
 				if(  pTerra->GetTileID() != GetBaseTileID()  && !pTerra->TerrainCollided() )
