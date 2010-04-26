@@ -110,6 +110,7 @@ bool CGameplayState::Input( )
 void CGameplayState::Update( )
 {
 	m_pCoM->UpdateObjects(CGame::GetInstance()->GetElapsedTime());
+	m_pCeH->ProcessEvents();
 }
 
 void CGameplayState::Render( )
@@ -118,6 +119,7 @@ void CGameplayState::Render( )
 		NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 200, 255, 255, 255 ) );
 	theLevel.RenderBackGround();
 	m_pCoM->RenderObjects();
+
 }
 
 void CGameplayState::Exit( )
