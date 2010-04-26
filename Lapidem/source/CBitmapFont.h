@@ -7,6 +7,11 @@
 //////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "Wrappers/CSGD_TextureManager.h"
+#include <vector>
+#include <fstream>
+using std::vector;
+using std::ios_base;
+using std::ifstream;
 
 class CBitmapFont
 {
@@ -15,8 +20,11 @@ private:
 	int  m_nCharWidth;
 	int  m_nCharheight;
 	int  m_nNumColumns;
+	int  m_nSpaceSize;
 
 	char m_cStartChar;
+
+	vector<int> m_vChars;
 
 	RECT CellAlgorithm( int );
 
@@ -24,6 +32,7 @@ public:
 	CBitmapFont();
 	~CBitmapFont();
 
-	void Load( const char* );
-	void Draw( const char*, int, int, float, DWORD );
+	bool Load( const char*, const char* );
+	void EachLetter( int, int, int, float, float, DWORD );
+	void Draw( const char*, int, int, float, DWORD, int nSpace = 0 );
 };

@@ -112,11 +112,6 @@ void CMenuState::Render( )
 	m_pTM->Draw( m_nImageID, 0, 0, 1.0f, 1.0f, 
 		NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 200, 255, 255, 255 ) );
 
-	// - - - - - - - - - - - - - - - -
-	// Draws the text.
-	//	TODO::
-	//		Fix the bitmap fonts to be kerned.
-	// - - - - - - - - - - - - - - - -
 	if( m_nChoice == 0 )
 	{		
 		CGame::GetInstance( )->GetFont( )->Draw( ">", 50, 96, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
