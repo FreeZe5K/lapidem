@@ -4,6 +4,10 @@
 #include "CTerrainBase.h"
 #include "CProfiler.h"
 
+#include "CGameplayState.h"
+
+#define __PABLOS_COLLISION 
+
 Corona_ObjectManager * Corona_ObjectManager::CoMReference = NULL;
 
 Corona_ObjectManager* Corona_ObjectManager::GetInstance()
@@ -164,6 +168,25 @@ void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
 		
 	}
 
+#ifdef  __PABLOS_COLLISION
+	//////////////
+	// Try at optimization
+	//////////////
+			for(unsigned jay = 0; jay < ObjectsOnScreen.size(); ++jay)
+			{
+				CBase* pBase = CGameplayState::GetInstance()->GetLevel()->CheckCollision( ObjectsOnScreen[jay]);
+				while( pBase )
+				{
+					pBase->HandleCollision( ObjectsOnScreen[jay]);
+					ObjectsOnScreen[jay]->HandleCollision(pBase );
+					
+					pBase = CGameplayState::GetInstance()->GetLevel()->CheckCollision( ObjectsOnScreen[jay] );
+				}
+				
+			}
+#else
+
+
 			//TODO? Optimize Terrain collision check
 		for(unsigned index = 0; index < Terrain.size(); ++index)
 		{
@@ -180,6 +203,7 @@ void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
 			}
 		}
 
+#endif
 #if _DEBUG
 	CProfiler::GetInstance()->End("ObjectManager CheckCollision");
 #endif

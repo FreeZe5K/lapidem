@@ -127,5 +127,5 @@ public:
 	// Purpose:		Verifies if there is a collision beetween the terrain and the passed object
 	//				returns the terrain object if a collision occurs
 	////////////////////////////////////////////////////////////////////////////////////
-	CBase* CheckCollision( CBase* pBase );
+	CBase* CheckCollision( CBase* pBase);
 };
