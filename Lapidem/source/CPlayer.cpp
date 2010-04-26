@@ -1,5 +1,6 @@
 #include "CPlayer.h"
 #include "CSpell.h"
+#include "CTerrainBase.h"
 #include "CGame.h"
 #include "Wrappers/CSGD_DirectInput.h"
 
@@ -85,6 +86,10 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 {
 	if( collidingObject->GetType() == OBJ_TERRA )
 	{
+		int TerraType = ((CTerrainBase*)collidingObject)->GetTypeTerrain();
+		if( TerraType == T_LAVA || TerraType == T_WATER )
+			return;
+
 		RECT r;
 		IntersectRect( &r, & this->GetCollisionRect(0), &collidingObject->GetCollisionRect(0) );
 
