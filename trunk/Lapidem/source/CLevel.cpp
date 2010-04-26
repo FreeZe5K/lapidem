@@ -229,6 +229,8 @@ void CLevel::LoadNewLevel( char* filename )
 
 			switch ( Type )
 			{
+			case 0:
+				break;
 
 			default:
 				CTerrainBase* newTerrain = new CTerrainBase();
@@ -377,8 +379,8 @@ bool CLevel::LoadNextLevel(  )
 
 CBase* CLevel::CheckCollision( CBase* pBase  )
 {
-	int nX = pBase->GetPosX();
-	int nY = pBase->GetPosY();
+	int nX = int( pBase->GetPosX() );
+	int nY = int( pBase->GetPosY() );
 	int nX2 = nX + pBase->GetWidth();
 	int nY2 = nY + pBase->GetHeight();
 
@@ -391,7 +393,7 @@ CBase* CLevel::CheckCollision( CBase* pBase  )
 		for( int j = nY; j <= nY2; j +=1)
 		{
 			int index = i + j*GetWorldCollumn();
-			if( index <0 || index > m_pTerrainTiles.size() )
+			if( index <0 || index > int( m_pTerrainTiles.size() ) )
 				continue;
 
 			CTerrainBase* pTerra = (CTerrainBase*)m_pTerrainTiles[ index ];
