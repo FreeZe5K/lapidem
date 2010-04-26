@@ -72,7 +72,7 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 	{
 		//If we've hit the tile from above or below.
 		if(GetPosX() > collidingObject->GetPosX() && 
-			GetPosX() + (GetWidth() *.25) < collidingObject->GetPosX() + collidingObject->GetWidth())
+			GetPosX() < collidingObject->GetPosX() + collidingObject->GetWidth())
 		{
 			//From Above:
 		if(GetPosY() < collidingObject->GetPosY())
@@ -95,8 +95,8 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 			if(GetPosX() < collidingObject->GetPosX())
 				SetPosX(collidingObject->GetPosX() - GetWidth());
 
-			else if(GetPosY() + GetHeight() != collidingObject->GetPosY() + 1.25f)
-				SetPosX(collidingObject->GetPosX() + collidingObject->GetWidth() + 1);
+			//else if(GetPosY() + GetHeight() != collidingObject->GetPosY() + 1.25f)
+			//	SetPosX(collidingObject->GetPosX() + collidingObject->GetWidth());
 
 			return;
 		}
