@@ -1,11 +1,10 @@
 #pragma once
-#include "Corona_EventHandler.h"
 #include "CCharacter.h"
 
 class IAIState;
 
 
-class CEnemy : public CCharacter, public CLDevice
+class CEnemy : public CCharacter
 {
 	IAIState* currState;
 

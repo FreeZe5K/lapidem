@@ -15,12 +15,14 @@ class CCamera;
 class Corona_ObjectManager
 {
 	static Corona_ObjectManager * CoMReference;
+	float m_fTimer;
+
 	vector<CBase *> Objects;
 	//Change from CBase to CTBase
 	vector<CBase *> Terrain;
 
 	//Singleton Encapsulation:
-	Corona_ObjectManager() { };
+	Corona_ObjectManager() {m_fTimer = 0.0f; }
 	Corona_ObjectManager(const Corona_ObjectManager& copy);
 	Corona_ObjectManager& operator=(const Corona_ObjectManager&);
 	~Corona_ObjectManager() {};
