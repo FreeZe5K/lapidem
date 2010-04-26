@@ -2,9 +2,9 @@
 #include "CSpell.h"
 #include "CGame.h"
 
-
 void CPlayer::Update(float fElapsedTime)
 {
+
 	CBase::Update(fElapsedTime);
 	
 	if( GetVelX() > 0 )
@@ -68,6 +68,8 @@ void CPlayer::Jump()
 
 void CPlayer::HandleCollision(CBase * collidingObject)
 {
+
+
 	if(collidingObject->GetType() == OBJ_TERRA)
 	{
 		//If we've hit the tile from above or below.
@@ -86,6 +88,7 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 			else
 				SetPosY(collidingObject->GetPosY() + collidingObject->GetHeight() + 1);
 
+
 			return;
 
 		}
@@ -95,9 +98,8 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 			if(GetPosX() < collidingObject->GetPosX())
 				SetPosX(collidingObject->GetPosX() - GetWidth());
 
-			//else if(GetPosY() + GetHeight() != collidingObject->GetPosY() + 1.25f)
-			//	SetPosX(collidingObject->GetPosX() + collidingObject->GetWidth());
-
+			else if(GetPosY() + GetHeight() != collidingObject->GetPosY() + 1.25f)
+				SetPosX(collidingObject->GetPosX() + collidingObject->GetWidth());
 			return;
 		}
 

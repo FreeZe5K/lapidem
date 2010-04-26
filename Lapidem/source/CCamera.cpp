@@ -1,8 +1,6 @@
 #include "CCamera.h"
 #include "CBase.h"
 
-//#include "CGameplayState.h"
-
 CCamera * CCamera::theCamera = 0;
 
 void CCamera::InitCamera(float fPosX, float fPosY, float fWidth, float fHeight, CBase* ObjectToFollow)
@@ -31,7 +29,6 @@ void CCamera::ShutDownCamera()
 
 void CCamera::Update(float fElapsedTime)
 {
-
 	int width = theCamera->GetWidth()-theCamera->GetXOffset();
 	int height = theCamera->GetHeight()-theCamera->GetYOffset();
 
@@ -133,7 +130,5 @@ void CCamera::Update(float fElapsedTime)
 
 		theCamera->SetCameraXOffset(theCamera->GetXOffset() + theCamera->GetVelocityX() * fElapsedTime);
 		theCamera->SetCameraYOffset(theCamera->GetYOffset() + theCamera->GetVelocityY() * fElapsedTime);
-	
-	
 	
 }
