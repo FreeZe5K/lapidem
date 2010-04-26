@@ -15,6 +15,8 @@ public:
 	CEnemySpawner() { m_pEnemy = NULL; m_bIsReadyToSpawn = true; m_bIsOnScreen = false;
 	Corona_EventHandler::GetInstance()->RegisterClient(this, "OffScreenPulse");
 	Corona_EventHandler::GetInstance()->RegisterClient(this, "EnemyDied");}
+	~CEnemySpawner() {Corona_EventHandler::GetInstance()->UnregisterClient("OffScreenPulse", this);
+					  Corona_EventHandler::GetInstance()->UnregisterClient("EnemyDied", this);}
 
 	void Update(float fElapsedTime) {m_bIsOnScreen = true;}
 	void Render()					{m_bIsOnScreen = false;}

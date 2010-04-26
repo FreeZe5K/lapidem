@@ -1,31 +1,39 @@
 #include "CPlayer.h"
 #include "CSpell.h"
 #include "CGame.h"
+#include "Wrappers/CSGD_DirectInput.h"
 
 void CPlayer::Update(float fElapsedTime)
 {
 
 	CBase::Update(fElapsedTime);
+
+	CSGD_DirectInput * DI = (CSGD_DirectInput::GetInstance());
 	
-	if( GetVelX() > 0 )
+	if( DI->KeyDown( DIK_D ) )
 	{
-		if(GetVelY() < 0)
+		if( DI->KeyDown( DIK_W ) )
 			currDirec = RIGHT_UP;
-		else if( GetVelY() > 0 )
+		else if( DI->KeyDown( DIK_S ) )
 			currDirec = RIGHT_DOWN;
 		else
 			currDirec = RIGHT;
 	}
-	else if( GetVelX() < 0)
+	else if( DI->KeyDown( DIK_A ) )
 	{
-		if(GetVelY() < 0)
+		if(DI->KeyDown( DIK_W ) )
 			currDirec = LEFT_UP;
-		else if( GetVelY() > 0 )
+		else if( DI->KeyDown( DIK_S ) )
 			currDirec = LEFT_DOWN;
 		else
 			currDirec = LEFT;
 
 	}
+	else if(DI->KeyDown(DIK_S))
+		currDirec = DOWN;
+	else if(DI->KeyDown(DIK_W))
+		currDirec = UP;
+
 
 	SetVelY(150);
 
@@ -36,24 +44,31 @@ void CPlayer::Update(float fElapsedTime)
 		if(m_fJumpTimer <= .75)
 			SetVelY(-100);
 	}
+
+	m_fFireTimer = m_fFireTimer + fElapsedTime;
+
 }
 
 void CPlayer::Attack(int nTier)
 {
-	switch(m_SpellType)
+	if(m_fFireTimer > .25f)
 	{
-	case OBJ_EARTH:
-		m_pSpells->CreateEarth(this, nTier);
-		break;
-	case OBJ_FIRE:
-		m_pSpells->CreateFire(this, nTier);
-		break;
-	case OBJ_ICE:
-		m_pSpells->CreateIce(this, nTier);
-		break;
-	case OBJ_WIND:
-		m_pSpells->CreateWind(this, nTier);
-		break;
+		switch(m_SpellType)
+		{
+			case OBJ_EARTH:
+				m_pSpells->CreateEarth(this, nTier);
+				break;
+			case OBJ_FIRE:
+				m_pSpells->CreateFire(this, nTier);
+				break;
+			case OBJ_ICE:
+				m_pSpells->CreateIce(this, nTier);
+				break;
+			case OBJ_WIND:
+				m_pSpells->CreateWind(this, nTier);
+				break;
+		}
+		m_fFireTimer = 0.0f;
 	}
 }
 
