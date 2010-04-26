@@ -112,6 +112,12 @@ bool CGame::Main( )
 	m_fElapsedTime         = float( dwStartTimeStamp - m_dwPreviousTimeStamp ) / 1000.0f;
 	m_dwPreviousTimeStamp  = dwStartTimeStamp;
 
+
+#ifdef _DEBUG
+	if(m_fElapsedTime > .25f)
+		m_fElapsedTime = .25f;
+#endif
+
 	if( !Input( ) ) 
 		return false;
 

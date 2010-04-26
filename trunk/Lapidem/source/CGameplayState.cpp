@@ -61,6 +61,11 @@ void CGameplayState::Enter( )
 		m_pCoM->AddObject(m_pPlayerTwo);
 
 	theLevel.LoadNewLevel("resource/data/level1.laplvl");
+	
+
+	CBase* pEntry = theLevel.GetEntryPoint();
+	m_pPlayerOne->SetPosX( pEntry->GetPosX());
+	m_pPlayerOne->SetPosY( pEntry->GetPosY());
 }
 
 bool CGameplayState::Input( )
@@ -138,6 +143,7 @@ void CGameplayState::Exit( )
 	//m_pCeH->ShutDownSystem();
 	
 	theLevel.Clear();
+	m_pCoM->DeleteInstance();
 
 #if _DEBUG
 	CProfiler::GetInstance()->Save("CodeProfilerOutput.txt");
