@@ -1,6 +1,7 @@
 #include "CEnemy.h"
 #include "IAIState.h"
 #include "AIStateEarth.h"
+#include "Corona_EventHandler.h"
 
 CEnemy::CEnemy(EleType ElementToBe)
 {
@@ -27,5 +28,11 @@ void CEnemy::Update(float fElapsedTime)
 
 	if(currState->Update(fElapsedTime, this))
 		currState->Attack(NULL);
+
+	if(m_nHealth <= 0)
+	{
+		Corona_EventHandler::GetInstance()->SendEvent("EnemyDied", (void*)this);
+		SetActive(false);
+	}
 
 }

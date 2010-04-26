@@ -1,4 +1,5 @@
 #include "Corona_ObjectManager.h"
+#include "Corona_EventHandler.h"
 #include "CCamera.h"
 #include "CBase.h"
 #include "CTerrainBase.h"
@@ -76,6 +77,13 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 	CheckCollisions(fElapsedTime);
 	theCamera->Update(fElapsedTime);
 
+	m_fTimer += fElapsedTime;
+	
+		if(m_fTimer >= 5)
+		{
+			m_fTimer = 0.0f;
+			Corona_EventHandler::GetInstance()->SendEvent("OffScreenPulse");
+		}
 #if _DEBUG
 	CProfiler::GetInstance()->End("ObjectManager Update");
 #endif
