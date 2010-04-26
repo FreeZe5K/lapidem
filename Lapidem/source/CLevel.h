@@ -128,4 +128,7 @@ public:
 	//				returns the terrain object if a collision occurs
 	////////////////////////////////////////////////////////////////////////////////////
 	CBase* CheckCollision( CBase* pBase);
+
+CBase* GetEntryPoint();
+
 };
