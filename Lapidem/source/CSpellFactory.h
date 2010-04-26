@@ -88,7 +88,7 @@ public:
 	static CSpellFactory* GetInstance(void) 
 	{
 		if(m_pSF == 0)
-			m_pSF = new CSpellFactory;
+			m_pSF = new CSpellFactory();
 		return m_pSF;
 	}
 
@@ -101,7 +101,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	void DeleteInstance(void)
 	{
-		if(m_pSF)
+		if(m_pSF != 0)
 		{
 			delete m_pSF;
 			m_pSF = 0;

@@ -10,10 +10,14 @@
 #include "Wrappers/CSGD_TextureManager.h"
 #include "CTerrainBase.h"
 #include "CCamera.h"
+#include "CParticleManager.h"
 
 CFire::CFire() :CSpell()
 {
 	SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/fire.bmp",D3DCOLOR_XRGB(0,0,0)));
+	//m_pEmitter = CEmitterFactory::GetInstance()->CreateEmitter("Fire");
+	SetType(OBJ_SPELL);
+	SetElement(OBJ_FIRE);
 }
 
 CFire::~CFire()

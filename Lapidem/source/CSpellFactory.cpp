@@ -37,7 +37,7 @@ CSpellFactory::CSpellFactory()
 
 CSpellFactory::~CSpellFactory()
 {
-	DeleteInstance();
+	//DeleteInstance();
 }
 
 void CSpellFactory::AddWindXP(int nXP)

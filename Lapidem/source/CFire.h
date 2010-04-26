@@ -10,10 +10,12 @@
 #define CFIRE_H
 
 #include "CSpell.h"
+class CEmitter;
 
 class CFire : public CSpell
 {
 	int m_nDOT;		//Determines the Damage Over Time to apply to the enemy or terrain
+	CEmitter* m_pEmitter;
 
 public:
 
