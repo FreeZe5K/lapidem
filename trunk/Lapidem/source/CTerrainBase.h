@@ -26,6 +26,8 @@ class CTerrainBase : public CBase
 	int m_nTileCollumns;
 	int m_nTileRows;
 
+	bool m_bCollided;
+
 public:
 	CTerrainBase();
 	~CTerrainBase();
@@ -40,6 +42,7 @@ public:
 	int GetTileRows() {	return m_nTileRows;	}
 	int GetBaseTile() { return m_nBaseTileID; }
 	int GetTypeTerrain() { return m_nTerrainType; }
+	bool TerrainCollided() { return m_bCollided; }
 	RECT GetRectFromAlgorithm( int nTileID );
 
 	
@@ -53,6 +56,7 @@ public:
 	void SetBaseTileID( int nBaseTileID ) {	m_nBaseTileID = nBaseTileID;	}
 	void SetTileRows( int nTileRows ) {	m_nTileRows = nTileRows;	}
 	void SetTypeTerrain( int nTerrainType ) { m_nTerrainType = nTerrainType;}
+	void SetCollided( bool bCollided ) { m_bCollided= bCollided; }
 
 	//////////////////////////////////////////////////////////////////////////
 	//	Function	: "HandleCollision"

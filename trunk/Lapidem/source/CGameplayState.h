@@ -46,4 +46,7 @@ public:
 	void Update( );
 	void Render( );
 	void Exit( );
+
+	
+	CLevel* GetLevel() { return &theLevel;}
 };

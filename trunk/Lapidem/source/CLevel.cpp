@@ -333,7 +333,9 @@ bool CLevel::LoadNextLevel(  )
 }
 
 
-	CBase* CLevel::CheckCollision( CBase* pBase )
+
+
+	CBase* CLevel::CheckCollision( CBase* pBase  )
 	{
 		int nX = pBase->GetPosX();
 		int nY = pBase->GetPosY();
@@ -345,29 +347,19 @@ bool CLevel::LoadNextLevel(  )
 		nX2 /= GetTileWidth();
 		nY2 /= GetTileHeight();
 
-		int index = nX + nY*GetWorldCollumn();
+		for( int i = nX; i <= nX2; i+=1)
+			for( int j = nY; j <= nY2; j +=1)
+			{
+				int index = i + j*GetWorldCollumn();
 
-		CTerrainBase* pTerra = (CTerrainBase*)m_pTerrainTiles[ index ];
-		if(  pTerra->GetTileID() != GetBaseTileID() )
-			return m_pTerrainTiles[ index ];
+				CTerrainBase* pTerra = (CTerrainBase*)m_pTerrainTiles[ index ];
+				if(  pTerra->GetTileID() != GetBaseTileID()  && !pTerra->TerrainCollided() )
+					return m_pTerrainTiles[ index ];
+
+			}
+
 		
-		index = nX2 + nY*GetWorldCollumn();
-
-		pTerra = (CTerrainBase*)m_pTerrainTiles[ index ];
-		if(  pTerra->GetTileID() != GetBaseTileID() )
-			return m_pTerrainTiles[ index ];
 		
-		index = nX + nY2*GetWorldCollumn();
-
-		 pTerra = (CTerrainBase*)m_pTerrainTiles[ index ];
-		if(  pTerra->GetTileID() != GetBaseTileID() )
-			return m_pTerrainTiles[ index ];
-		
-		index = nX2 + nY2*GetWorldCollumn();
-
-		 pTerra = (CTerrainBase*)m_pTerrainTiles[ index ];
-		if(  pTerra->GetTileID() != GetBaseTileID() )
-			return m_pTerrainTiles[ index ];
 
 		return NULL;
 	}

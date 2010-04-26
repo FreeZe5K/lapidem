@@ -14,6 +14,7 @@
 
 CTerrainBase::CTerrainBase()
 {
+	SetCollided(false);
 
 }
 CTerrainBase::~CTerrainBase()
@@ -37,6 +38,8 @@ void CTerrainBase::Update( float fDT)
 {
 	CBase::Update(fDT);
 
+	SetCollided(false);
+
 	if( GetTypeTerrain() == T_ROCK )
 	if( GetHealth() <= 0 )
 	{
@@ -54,9 +57,12 @@ void CTerrainBase::HandleCollision(CBase* pBase)
 	case OBJ_SPELL:
 		SetHealth( GetHealth() - ((CSpell*)pBase)->GetDamage() );
 		break;
+	
 
 
 	};
+		SetCollided(true);
+
 }
 
 
