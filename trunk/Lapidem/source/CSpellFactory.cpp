@@ -245,6 +245,7 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 			newfire->SetElement(OBJ_FIRE);
 			Corona_ObjectManager::GetInstance()->AddObject(newfire);
 			newfire->Release();
+			int x = 0;
 			break;
 		}
 	}
