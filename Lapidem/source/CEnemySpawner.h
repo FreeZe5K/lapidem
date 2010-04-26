@@ -1,11 +1,11 @@
 #pragma once
-#include "CBase.h"
+#include "CTerrainBase.h"
 #include "CLDevice.h"
 #include "Corona_EventHandler.h"
 
 class CEnemy;
 
-class CEnemySpawner : public CBase, public CLDevice
+class CEnemySpawner : public CTerrainBase , public CLDevice
 {
 	CEnemy* m_pEnemy;
 	bool m_bIsReadyToSpawn;

@@ -10,6 +10,7 @@
 #include "Wrappers/CSGD_TextureManager.h"
 #include "Corona_ObjectManager.h"// CSGD_TextureManager.h"
 #include "CTerrainBase.h"
+#include "CEnemySpawner.h"
 #include <fstream>
 #include <string>
 using namespace std;
@@ -33,16 +34,25 @@ CLevel::CLevel()
 
 CLevel::~CLevel()
 {
-	if(m_szNextLevelFileName != "")
+	if(m_szNextLevelFileName)
+	{
 		delete	m_szNextLevelFileName;
+		m_szNextLevelFileName = 0;
+
+	}
 	Clear();
+
+
 }
 
 void CLevel::Clear()
 {
-	/*
-	if(m_szNextLevelFileName != "")
-		delete	m_szNextLevelFileName;*/
+
+	if(m_szNextLevelFileName )
+	{
+		delete	m_szNextLevelFileName;
+		m_szNextLevelFileName = 0;
+	}
 
 	if( m_pEventTiles.size() > 0 )
 	{
@@ -56,7 +66,7 @@ void CLevel::Clear()
 			m_pEventTiles[i]->SetActive(false);
 			//int x = m_pEventTiles[i]->GetRefCount();
 			//for( int j = 0; j < m_pEventTiles[i]->GetRefCount(); ++j )
-				m_pEventTiles[i]->Release();
+			m_pEventTiles[i]->Release();
 		}
 		m_pEventTiles.clear();
 
@@ -69,13 +79,13 @@ void CLevel::Clear()
 		//for( UINT i = 0; i < m_pTerrainTiles.size(); ++i )
 		//	delete m_pEventTiles;
 
-		for( UINT i = 0; i < m_pTerrainTiles.size(); ++i )
+		for( UINT i = 0; i < m_pTerrainTiles.size() ; ++i )
 		{
 			m_pTerrainTiles[i]->SetActive(false);
 			//int x = m_pTerrainTiles[i]->GetRefCount();
 
-			//for( int j = 0; j < m_pTerrainTiles[i]->GetRefCount(); ++j )
-				m_pTerrainTiles[i]->Release();
+			//	for( int j = 0; j < m_pTerrainTiles[i]->GetRefCount(); ++j )
+			m_pTerrainTiles[i]->Release();
 		}
 		m_pTerrainTiles.clear();
 
@@ -183,7 +193,7 @@ void CLevel::LoadNewLevel( char* filename )
 
 
 		/*if( GetNextLevelFileName() != NULL )
-			delete m_szNextLevelFileName;*/
+		delete m_szNextLevelFileName;*/
 		in.read( (char*)&size, sizeof(char));
 		char* szNextLvl = new char[size+1];
 		in.read( szNextLvl, sizeof(char)*(size) );
@@ -219,7 +229,7 @@ void CLevel::LoadNewLevel( char* filename )
 
 			switch ( Type )
 			{
-				
+
 			default:
 				CTerrainBase* newTerrain = new CTerrainBase();
 
@@ -227,7 +237,7 @@ void CLevel::LoadNewLevel( char* filename )
 				newTerrain->SetTypeTerrain( Type );
 				newTerrain->SetBaseTileID( GetBaseTileID() );
 				newTerrain->SetDamage(0);
-				newTerrain->SetHealth(100);
+				newTerrain->SetHealth(50);
 				newTerrain->SetHeight( GetTileHeight());
 				newTerrain->SetWidth( GetTileWidth());
 				newTerrain->SetImage( GetTileSet());
@@ -273,31 +283,60 @@ void CLevel::LoadNewLevel( char* filename )
 			{
 			case NONE:
 				break;
+			case ENEMY_SPW:
+				{
+					CEnemySpawner* spwn = new CEnemySpawner();
+
+					spwn->SetType( OBJ_EVENT );
+					spwn->SetTypeTerrain( ENEMY_SPW );
+					spwn->SetBaseTileID( GetBaseTileID() );
+					spwn->SetDamage(0);
+					spwn->SetHealth(1);
+					spwn->SetHeight( GetTileHeight());
+					spwn->SetWidth( GetTileWidth());
+					spwn->SetImage( GetTileSet());
+					spwn->SetPosX( (float)(i%GetWorldCollumn())*GetTileWidth());
+					spwn->SetPosY( (float)(i/GetWorldCollumn())*GetTileHeight());
+					spwn->SetTileCollumns( GetTileCollumn());
+					spwn->SetTileID(GetBaseTileID());
+					spwn->SetTileRows( GetTileRow());
+					spwn->SetVelX(0);
+					spwn->SetVelY(0);
+
+					m_pEventTiles.push_back(spwn);
+					Corona_ObjectManager::GetInstance()->AddObject(spwn);
+				}
+				break;
+				//case ENTRY_POINT:
+				//	//CTerrainBase* entry = new CTerrainBase();
+
+				//	break;
 			default:
-				CTerrainBase* newTerrain = new CTerrainBase();
+				{
+					CTerrainBase* newTerrain = new CTerrainBase();
 
 
-				newTerrain->SetType( OBJ_EVENT );
-				newTerrain->SetTypeTerrain( Type );
-				newTerrain->SetBaseTileID( GetBaseTileID() );
-				newTerrain->SetDamage(0);
-				newTerrain->SetHealth(100);
-				newTerrain->SetHeight( GetTileHeight());
-				newTerrain->SetWidth( GetTileWidth());
-				newTerrain->SetImage( GetTileSet());
-				newTerrain->SetPosX( (float)(i%GetWorldCollumn())*GetTileWidth());
-				newTerrain->SetPosY( (float)(i/GetWorldCollumn())*GetTileHeight());
-				newTerrain->SetTileCollumns( GetTileCollumn());
-				newTerrain->SetTileID(GetBaseTileID());
-				newTerrain->SetTileRows( GetTileRow());
-				newTerrain->SetVelX(0);
-				newTerrain->SetVelY(0);
+					newTerrain->SetType( OBJ_EVENT );
+					newTerrain->SetTypeTerrain( Type );
+					newTerrain->SetBaseTileID( GetBaseTileID() );
+					newTerrain->SetDamage(0);
+					newTerrain->SetHealth(100);
+					newTerrain->SetHeight( GetTileHeight());
+					newTerrain->SetWidth( GetTileWidth());
+					newTerrain->SetImage( GetTileSet());
+					newTerrain->SetPosX( (float)(i%GetWorldCollumn())*GetTileWidth());
+					newTerrain->SetPosY( (float)(i/GetWorldCollumn())*GetTileHeight());
+					newTerrain->SetTileCollumns( GetTileCollumn());
+					newTerrain->SetTileID(GetBaseTileID());
+					newTerrain->SetTileRows( GetTileRow());
+					newTerrain->SetVelX(0);
+					newTerrain->SetVelY(0);
 
-				m_pEventTiles.push_back(newTerrain);
-				Corona_ObjectManager::GetInstance()->AddObject(newTerrain);
+					m_pEventTiles.push_back(newTerrain);
+					Corona_ObjectManager::GetInstance()->AddObject(newTerrain);
 
 
-
+				}
 				break;
 
 			};
@@ -336,34 +375,46 @@ bool CLevel::LoadNextLevel(  )
 
 
 
-	CBase* CLevel::CheckCollision( CBase* pBase  )
-	{
-		int nX = pBase->GetPosX();
-		int nY = pBase->GetPosY();
-		int nX2 = nX + pBase->GetWidth();
-		int nY2 = nY + pBase->GetHeight();
+CBase* CLevel::CheckCollision( CBase* pBase  )
+{
+	int nX = pBase->GetPosX();
+	int nY = pBase->GetPosY();
+	int nX2 = nX + pBase->GetWidth();
+	int nY2 = nY + pBase->GetHeight();
 
-		nX /= GetTileWidth();
-		nY /= GetTileHeight();
-		nX2 /= GetTileWidth();
-		nY2 /= GetTileHeight();
+	nX /= GetTileWidth();
+	nY /= GetTileHeight();
+	nX2 /= GetTileWidth();
+	nY2 /= GetTileHeight();
 
-		for( int i = nX; i <= nX2; i+=1)
-			for( int j = nY; j <= nY2; j +=1)
-			{
-				int index = i + j*GetWorldCollumn();
-				if( index <0 || index > m_pTerrainTiles.size() )
-					continue;
+	for( int i = nX; i <= nX2; i+=1)
+		for( int j = nY; j <= nY2; j +=1)
+		{
+			int index = i + j*GetWorldCollumn();
+			if( index <0 || index > m_pTerrainTiles.size() )
+				continue;
 
-				CTerrainBase* pTerra = (CTerrainBase*)m_pTerrainTiles[ index ];
-				if(  pTerra->GetTileID() != GetBaseTileID()  && !pTerra->TerrainCollided() )
-					return m_pTerrainTiles[ index ];
+			CTerrainBase* pTerra = (CTerrainBase*)m_pTerrainTiles[ index ];
+			if(  pTerra->GetTileID() != GetBaseTileID()  && !pTerra->TerrainCollided() )
+				return m_pTerrainTiles[ index ];
 
-			}
+		}
 
-		
-		
+
+
 
 		return NULL;
-	}
+}
 
+
+//
+//	if( /*object*/->GetType() == OBJ_EVENT )
+//	{
+//		if ( ((CBaseTerrain()/*object*/)->GetTerrainType() == ENTRY_POINT )
+//		{
+//			
+//		}
+//	}
+//
+//
+//

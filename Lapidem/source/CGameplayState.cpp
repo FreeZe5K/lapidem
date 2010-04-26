@@ -60,7 +60,7 @@ void CGameplayState::Enter( )
 	if(m_pPlayerTwo)
 		m_pCoM->AddObject(m_pPlayerTwo);
 
-	theLevel.LoadNewLevel("resource/data/textlvl2.laplvl");
+	theLevel.LoadNewLevel("resource/data/level1.laplvl");
 }
 
 bool CGameplayState::Input( )
