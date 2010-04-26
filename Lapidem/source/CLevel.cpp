@@ -229,7 +229,7 @@ void CLevel::LoadNewLevel( char* filename )
 
 			switch ( Type )
 			{
-			case 0:
+			case 'a':
 				break;
 
 			default:
