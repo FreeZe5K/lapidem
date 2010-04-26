@@ -3,12 +3,9 @@
 
 //#include "CGameplayState.h"
 
-#define XHOOK_MIN_DISTANCE (int)theCamera->GetPlayerXhookDistance() >> 1
-#define YHOOK_MIN_DISTANCE (int)theCamera->GetPlayerXhookDistance() >> 1
-
 CCamera * CCamera::theCamera = 0;
 
-void CCamera::InitCamera(float fPosX, float fPosY, float fWidth, float fHeight, float fXHook, float fYHook, CBase* ObjectToFollow)
+void CCamera::InitCamera(float fPosX, float fPosY, float fWidth, float fHeight, CBase* ObjectToFollow)
 {
 	if(!theCamera)
 	{
@@ -17,7 +14,6 @@ void CCamera::InitCamera(float fPosX, float fPosY, float fWidth, float fHeight, 
 		theCamera->SetCameraYOffset(fPosY);
 		theCamera->SetCameraWidth(fWidth);
 		theCamera->SetCameraHeight(fHeight);
-		theCamera->SetPlayerHooks(fXHook, fYHook);
 		theCamera->thePlayer = ObjectToFollow;
 		theCamera->SetVelocityX(0.0f);
 		theCamera->SetVelocityY(0.0f);
@@ -27,22 +23,18 @@ void CCamera::InitCamera(float fPosX, float fPosY, float fWidth, float fHeight, 
 void CCamera::ShutDownCamera()
 {
 	if(theCamera)
+	{
 		delete theCamera;
+		theCamera = NULL;
+	}
 }
 
 void CCamera::Update(float fElapsedTime)
 {
-		//float DistanceX = thePlayer->GetPosX() - theCamera->GetXOffset(); 
-		//float DistanceY = thePlayer->GetPosY() - theCamera->GetYOffset();
 
 	int width = theCamera->GetWidth()-theCamera->GetXOffset();
-	int height = theCamera->GetHeight()-theCamera->GetYOffset();/*
-	theCamera->SetCameraXOffset( thePlayer->GetPosX() - (width/2));
-	theCamera->SetCameraYOffset( thePlayer->GetPosY() - (height/2));*/
+	int height = theCamera->GetHeight()-theCamera->GetYOffset();
 
-
-		//int fScreenCenterX = (int)width>>1;
-		//int fScreenCenterY = (int)width>>1;
 		RECT rCamera;
 		rCamera.left = GetXOffset();
 		rCamera.right = rCamera.left + GetWidth();
@@ -52,15 +44,11 @@ void CCamera::Update(float fElapsedTime)
 		
 
 		RECT rPlayer = thePlayer->GetCollisionRect(fElapsedTime);
-		//rPlayer.left -= 100;
-		//rPlayer.right += 100;
-		//rPlayer.top -= 100;
-		//rPlayer.bottom += 100;
 
 		int CenterOfScreenX = theCamera->GetXOffset() + width/2;
 		int CenterOfScreenY = theCamera->GetYOffset() + height/2;
 
-			RECT rHook ;//= { CenterOfScreenX - 100, CenterOfScreenY - 100, CenterOfScreenX+100, CenterOfScreenY+100 };
+		RECT rHook ;//= { CenterOfScreenX - 100, CenterOfScreenY - 100, CenterOfScreenX+100, CenterOfScreenY+100 };
 
 			
 		rHook.left = CenterOfScreenX - 100;
@@ -143,24 +131,9 @@ void CCamera::Update(float fElapsedTime)
 		//	theCamera->SetVelocityY( 0.0f );
 
 
-
-	/*
-
-		if(DistanceX > theCamera->GetPlayerXhookDistance() || DistanceX < XHOOK_MIN_DISTANCE)
-			theCamera->SetVelocityX(thePlayer->GetVelX());
-		else
-			theCamera->SetVelocityX(0.0f);
-
-		if(DistanceY > theCamera->GetPlayerXhookDistance() || DistanceY < YHOOK_MIN_DISTANCE)
-			theCamera->SetVelocityY(thePlayer->GetVelY());
-		else
-			theCamera->SetVelocityY(0.0f);*/
-
 		theCamera->SetCameraXOffset(theCamera->GetXOffset() + theCamera->GetVelocityX() * fElapsedTime);
 		theCamera->SetCameraYOffset(theCamera->GetYOffset() + theCamera->GetVelocityY() * fElapsedTime);
 	
-			/*theCamera->SetCameraXOffset(rCamera.left);
-		theCamera->SetCameraYOffset(rCamera.top );*/
 	
 	
 }

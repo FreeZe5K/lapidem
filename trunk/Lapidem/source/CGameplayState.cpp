@@ -22,8 +22,8 @@ void CGameplayState::Enter( )
 	m_pPlayerOne	= new CPlayer();
 	m_pPlayerTwo	= NULL;
 
-	CCamera::InitCamera(0.0f, 0.0f, (float)CGame::GetInstance()->GetScreenWidth(), (float)CGame::GetInstance()->GetScreenHeight(),
-						CGame::GetInstance()->GetScreenWidth() * .66f, CGame::GetInstance()->GetScreenHeight() * .66f, m_pPlayerOne );
+	CCamera::InitCamera(0.0f, 0.0f, (float)CGame::GetInstance()->GetScreenWidth(),
+						(float)CGame::GetInstance()->GetScreenHeight(), m_pPlayerOne );
 
 	m_pCoM			= Corona_ObjectManager::GetInstance();
 	m_pCeH			= Corona_EventHandler::GetInstance();
@@ -131,7 +131,9 @@ void CGameplayState::Exit( )
 	m_pPlayerOne->Release();
 	if(m_pPlayerTwo)
 	m_pPlayerTwo->Release();
-	Corona_ObjectManager::GetInstance()->RemoveAllObjects();
+	theCamera->ShutDownCamera();
+	theCamera = NULL;
+	m_pCoM->RemoveAllObjects();
 	CCamera::GetCamera()->ShutDownCamera();
 	//m_pCeH->ShutDownSystem();
 	

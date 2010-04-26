@@ -16,8 +16,6 @@ class CCamera
 	//Before Jon Asks: Hooks are used to determine how far the Player has moved, 
 	//and if the Camera needs to move in response.  No, I don't know how this is going to work in multiplayer,
 	//We'll figure that shit out later.
-	float m_fPlayerXhook;
-	float m_fPlayerYhook;
 
 	float m_fVelocityX;
 	float m_fVelocityY;
@@ -33,7 +31,6 @@ class CCamera
 	void SetCameraYOffset(float fPosY)				{m_fPosY = fPosY;}
 	void SetCameraWidth(float fWidth)				{m_fWidth = fWidth;}
 	void SetCameraHeight(float fHeight)				{m_fHeight = fHeight;}
-	void SetPlayerHooks(float fXHook, float fYHook) {m_fPlayerXhook = fXHook, m_fPlayerYhook = fYHook; }
 
 	CBase * thePlayer;
 
@@ -41,7 +38,7 @@ class CCamera
 public:
 
 	//Creates the Camera.
-	static void InitCamera(float, float, float, float, float, float, CBase*);
+	static void InitCamera(float, float, float, float, CBase*);
 	void ShutDownCamera();
 
 	//Updates the Camera's Place and hooks
@@ -51,10 +48,6 @@ public:
 	static CCamera* GetCamera()		 {return theCamera;}
 	float GetVelocityX()			 {return m_fVelocityX; }
 	float GetVelocityY()			 {return m_fVelocityY; }
-	float GetPlayerXhookLocation()	 {return m_fPosX + m_fPlayerXhook;}
-	float GetPlayerYhookLocation()	 {return m_fPosY + m_fPlayerYhook;}
-	float GetPlayerXhookDistance()	 {return m_fPlayerXhook;}
-	float GetPlayerYhookDistance()	 {return m_fPlayerYhook;}
 	float GetXOffset()				 {return m_fPosX;}
 	float GetYOffset()				 {return m_fPosY;}
 	float GetWidth()				 {return m_fPosX + m_fWidth;}
