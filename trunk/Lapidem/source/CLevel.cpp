@@ -285,6 +285,34 @@ void CLevel::LoadNewLevel( char* filename )
 			{
 			case NONE:
 				break;
+			case END_POINT:
+				{
+					CTerrainBase* endPt = new CTerrainBase();
+
+
+					endPt->SetType( OBJ_EVENT );
+					endPt->SetTypeTerrain( Type );
+					endPt->SetBaseTileID( GetBaseTileID() );
+					endPt->SetDamage(0);
+					endPt->SetHealth(100);
+					endPt->SetHeight( GetTileHeight());
+					endPt->SetWidth( GetTileWidth());
+					endPt->SetImage( GetTileSet());
+					endPt->SetPosX( (float)(i%GetWorldCollumn())*GetTileWidth());
+					endPt->SetPosY( (float)(i/GetWorldCollumn())*GetTileHeight());
+					endPt->SetTileCollumns( GetTileCollumn());
+					endPt->SetTileID(GetBaseTileID());
+					endPt->SetTileRows( GetTileRow());
+					endPt->SetVelX(0);
+					endPt->SetVelY(0);
+
+					
+					//m_pEventTiles.push_back(endPt);
+					Corona_ObjectManager::GetInstance()->AddObject(endPt);
+					endPt->Release();
+
+				}
+				break;
 			case ENEMY_SPW:
 				{
 					CEnemySpawner* spwn = new CEnemySpawner();
@@ -313,29 +341,58 @@ void CLevel::LoadNewLevel( char* filename )
 				//	//CTerrainBase* entry = new CTerrainBase();
 
 				//	break;
+			case WATER_THR:
+				{
+					CTerrainBase* newEvent = new CTerrainBase();
+
+
+					newEvent->SetType( OBJ_EVENT );
+					newEvent->SetTypeTerrain( Type );
+					newEvent->SetBaseTileID( GetBaseTileID() );
+					newEvent->SetDamage(0);
+					newEvent->SetHealth(100);
+					newEvent->SetHeight( GetTileHeight());
+					newEvent->SetWidth( GetTileWidth());
+					newEvent->SetImage( GetTileSet());
+					newEvent->SetPosX( (float)(i%GetWorldCollumn())*GetTileWidth());
+					newEvent->SetPosY( (float)(i/GetWorldCollumn())*GetTileHeight());
+					newEvent->SetTileCollumns( GetTileCollumn());
+					newEvent->SetTileID(GetBaseTileID());
+					newEvent->SetTileRows( GetTileRow());
+					newEvent->SetVelX(0);
+					newEvent->SetVelY(0);
+
+					
+					m_pEventTiles.push_back(newEvent);
+					//Corona_ObjectManager::GetInstance()->AddObject(newEvent);
+
+
+				}
+				break;
 			default:
 				{
-					CTerrainBase* newTerrain = new CTerrainBase();
+					CTerrainBase* newEvent = new CTerrainBase();
 
 
-					newTerrain->SetType( OBJ_EVENT );
-					newTerrain->SetTypeTerrain( Type );
-					newTerrain->SetBaseTileID( GetBaseTileID() );
-					newTerrain->SetDamage(0);
-					newTerrain->SetHealth(100);
-					newTerrain->SetHeight( GetTileHeight());
-					newTerrain->SetWidth( GetTileWidth());
-					newTerrain->SetImage( GetTileSet());
-					newTerrain->SetPosX( (float)(i%GetWorldCollumn())*GetTileWidth());
-					newTerrain->SetPosY( (float)(i/GetWorldCollumn())*GetTileHeight());
-					newTerrain->SetTileCollumns( GetTileCollumn());
-					newTerrain->SetTileID(GetBaseTileID());
-					newTerrain->SetTileRows( GetTileRow());
-					newTerrain->SetVelX(0);
-					newTerrain->SetVelY(0);
+					newEvent->SetType( OBJ_EVENT  );
+					newEvent->SetTypeTerrain( Type );
+					newEvent->SetBaseTileID( GetBaseTileID() );
+					newEvent->SetDamage(0);
+					newEvent->SetHealth(100);
+					newEvent->SetHeight( GetTileHeight());
+					newEvent->SetWidth( GetTileWidth());
+					newEvent->SetImage( GetTileSet());
+					newEvent->SetPosX( (float)(i%GetWorldCollumn())*GetTileWidth());
+					newEvent->SetPosY( (float)(i/GetWorldCollumn())*GetTileHeight());
+					newEvent->SetTileCollumns( GetTileCollumn());
+					newEvent->SetTileID(GetBaseTileID());
+					newEvent->SetTileRows( GetTileRow());
+					newEvent->SetVelX(0);
+					newEvent->SetVelY(0);
 
-					m_pEventTiles.push_back(newTerrain);
-					Corona_ObjectManager::GetInstance()->AddObject(newTerrain);
+					
+					m_pEventTiles.push_back(newEvent);
+					//Corona_ObjectManager::GetInstance()->AddObject(newEvent);
 
 
 				}
@@ -408,6 +465,17 @@ CBase* CLevel::CheckCollision( CBase* pBase  )
 		return NULL;
 }
 
+CBase* CLevel::GetEntryPoint()
+{
+	for(unsigned int i = 0; i < m_pEventTiles.size(); ++i )
+	{
+		if( ((CTerrainBase*)m_pEventTiles[i])->GetTypeTerrain() == ENTRY_POINT )
+			return m_pEventTiles[i];
+	}
+
+	return NULL;
+
+}
 
 //
 //	if( /*object*/->GetType() == OBJ_EVENT )

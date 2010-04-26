@@ -68,10 +68,45 @@ void CPlayer::Jump()
 
 void CPlayer::HandleCollision(CBase * collidingObject)
 {
+	if( collidingObject->GetType() == OBJ_TERRA )
+	{
+		RECT r;
+		IntersectRect( &r, & this->GetCollisionRect(0), &collidingObject->GetCollisionRect(0) );
+
+		int nRectWidth = r.right -r.left;
+		int nRectHeight = r.bottom - r.top;
+
+		if( nRectHeight > nRectWidth )
+		{
+			if( this->GetPosX() > collidingObject->GetPosX() )
+				SetPosX( GetPosX() + nRectWidth );
+			else if ( this->GetPosX() < collidingObject->GetPosX() )
+				SetPosX( GetPosX() - nRectWidth );
+		}
+		else if( nRectHeight < nRectWidth ) 
+		{
+			
+			if( this->GetPosY() > collidingObject->GetPosY() )
+				SetPosY( GetPosY() + nRectHeight  );
+			else if(this->GetPosY() < collidingObject->GetPosY() )
+			{
+				
+				m_bIsJumping = false;
+				m_fJumpTimer = 0.0f;
+				
+				SetPosY( GetPosY() - nRectHeight );
+			}
+
+		}
 
 
+	}
+
+/*
 	if(collidingObject->GetType() == OBJ_TERRA)
 	{
+		
+	
 		//If we've hit the tile from above or below.
 		if(GetPosX() > collidingObject->GetPosX() && 
 			GetPosX() < collidingObject->GetPosX() + collidingObject->GetWidth())
@@ -103,6 +138,8 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 			return;
 		}
 
+		*/
+
 		/*RECT collRect = {};
 
 		IntersectRect(&collRect, &GetCollisionRect(CGame::GetInstance()->GetElapsedTime()), &collidingObject->GetCollisionRect(CGame::GetInstance()->GetElapsedTime()));*/
@@ -132,7 +169,7 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 				SetPosX(collidingObject->GetPosX() + collidingObject->GetHeight() + 1);
 
 		}*/
-	}
+	
 
 	else if(collidingObject->GetType() == OBJ_SPELL && !((CSpell*)collidingObject)->PlayerShot())
 	{
