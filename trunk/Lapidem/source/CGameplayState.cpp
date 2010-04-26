@@ -87,7 +87,7 @@ bool CGameplayState::Input( )
 	if( m_pDI->KeyDown( DIK_W ) )
 		m_pPlayerOne->Jump();
 
-	if( m_pDI->KeyPressed( DIK_F ) )
+	if( m_pDI->KeyDown( DIK_F ) )
 		m_pPlayerOne->Attack(1);
 
 
