@@ -9,7 +9,6 @@
 #include "CLevel.h"
 #include "Wrappers/CSGD_TextureManager.h"
 #include "Corona_ObjectManager.h"// CSGD_TextureManager.h"
-
 #include "CTerrainBase.h"
 #include <fstream>
 #include <string>
@@ -93,6 +92,7 @@ void CLevel::Clear()
 
 void CLevel::LoadNewLevel( char* filename )
 {
+
 	ifstream in( filename, ios::in|ios::binary);
 
 	if( in.is_open() )
@@ -310,6 +310,7 @@ void CLevel::LoadNewLevel( char* filename )
 		//delete version;
 		in.close();
 	}
+
 }
 
 void CLevel::RenderBackGround()

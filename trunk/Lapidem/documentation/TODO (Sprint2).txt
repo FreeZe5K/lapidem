@@ -1,5 +1,4 @@
 Earth Enemy
-Player -> Terrain side/side collision.
 Gamepad controls
 Wind / Ice / Earth t1 spells usage.
 Give Spells Particle effects.
