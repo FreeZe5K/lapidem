@@ -132,10 +132,14 @@ void CGameplayState::Exit( )
 	if(m_pPlayerTwo)
 	m_pPlayerTwo->Release();
 	Corona_ObjectManager::GetInstance()->RemoveAllObjects();
+	CCamera::GetCamera()->ShutDownCamera();
+	//m_pCeH->ShutDownSystem();
+	
 	theLevel.Clear();
 
 #if _DEBUG
 	CProfiler::GetInstance()->Save("CodeProfilerOutput.txt");
+	CProfiler::GetInstance()->DeleteInstance();
 #endif
 
 }

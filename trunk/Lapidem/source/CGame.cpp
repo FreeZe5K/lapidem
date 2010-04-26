@@ -6,7 +6,7 @@
 //  Purpose     :   The main game loop.
 //////////////////////////////////////////////////////////////////////////
 #include "CGame.h"
-
+#include "CSpellFactory.h"
 CGame *CGame::GetInstance( )
 {
 	static CGame instance;
@@ -65,7 +65,9 @@ void CGame::Initialize( HWND hWnd, HINSTANCE hInstance,
 
 void CGame::Shutdown( )
 {
+	
 	ChangeState( NULL );
+	CSpellFactory::GetInstance()->DeleteInstance();
 	delete m_bmFont;
 
 	if( m_pDI )
