@@ -77,6 +77,8 @@ void CAuxiliaryState::Enter( )
 				fs.read( _ScoreBuffer, _tempName );
 				m_nPlayerScores[i] = int( _ScoreBuffer );
 				_ScoreBuffer[_tempName] = '\0';
+				delete[] _NameBuffer;
+				delete[] _ScoreBuffer;
 			}
 			fs.close( );
 		}
