@@ -33,38 +33,6 @@ class Corona_ObjectManager
 	CCamera * theCamera;
 
 
-/*
-	Multithreading Tools:
-
-	bool continue_thread;
-	
-	struct CollisionStruct
-	{
-		bool* continue_thread;
-		vector<CBase*> * Objects;
-		vector<CTBase*> * Terrain;
-	};
-
-	void * CheckCollision(void * CollisionStruct)
-	{
-		CollisionStruct * CS = &CollisionStruct
-
-		while(*(CS->coninuethread))
-		{
-
-		for(Objects)
-			for(objects)
-				if(CheckCollision)
-					resolvecollision
-
-		for(terrain)
-			for(objects)
-			
-
-		}
-*/
-
-
 
 public:
 
