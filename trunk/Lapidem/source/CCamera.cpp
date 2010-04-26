@@ -49,7 +49,7 @@ void CCamera::Update(float fElapsedTime)
 
 			
 		rHook.left = CenterOfScreenX - 100;
-		rHook.top = CenterOfScreenY - 50;
+		rHook.top = CenterOfScreenY - 70;
 		rHook.right =CenterOfScreenX + 100;
 		rHook.bottom = CenterOfScreenY + 50;
 		RECT r;
