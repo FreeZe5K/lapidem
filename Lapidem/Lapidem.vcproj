@@ -403,6 +403,14 @@
 				Name="Header Files"
 				>
 				<File
+					RelativePath=".\source\CAnimation.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CAnimationWarehouse.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CBitmapFont.h"
 					>
 				</File>
@@ -419,7 +427,19 @@
 				Name="Source Files"
 				>
 				<File
+					RelativePath=".\source\CAnimation.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CAnimationWarehouse.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CBitmapFont.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CCharacter.cpp"
 					>
 				</File>
 				<File

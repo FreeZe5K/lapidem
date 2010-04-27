@@ -58,8 +58,7 @@ void CFire::Update(float fElapsedTime)
 
 void CFire::UpdateTier1(float fElapsedTime)
 {
-	SetPosX(GetPosX()+GetVelX() * fElapsedTime);
-	SetPosY(GetPosY()+GetVelY() * fElapsedTime);	
+	CSpell::UpdateTier1(fElapsedTime);	
 }
 
 void CFire::UpdateTier2(float fElapsedTime)
