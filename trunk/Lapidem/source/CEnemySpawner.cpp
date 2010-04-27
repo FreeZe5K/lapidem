@@ -8,9 +8,7 @@ void CEnemySpawner::HandleEvent(CEvent* pEvent)
 	{
 		if(m_bIsReadyToSpawn)
 		{
-			m_pEnemy = new CEnemy(OBJ_EARTH);
-			m_pEnemy->SetPosX(GetPosX());
-			m_pEnemy->SetPosY(GetPosY());
+			m_pEnemy = new CEnemy(OBJ_EARTH, GetPosX(), GetPosY());
 			Corona_ObjectManager::GetInstance()->AddObject(m_pEnemy);
 			m_bIsReadyToSpawn = false;
 		}

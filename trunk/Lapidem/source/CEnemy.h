@@ -10,7 +10,7 @@ class CEnemy : public CCharacter
 
 public:
 
-	CEnemy(EleType); 
+	CEnemy(EleType, float, float); 
 	void Update(float fElapsedTime);
 	void HandleCollision(CBase*);
 

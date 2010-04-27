@@ -66,7 +66,7 @@ void CPlayer::Update(float fElapsedTime)
 		m_fJumpTimer += fElapsedTime;
 
 		if(m_fJumpTimer <= .75)
-			SetVelY(-150);
+			SetVelY(-100);
 	}
 
 	m_fFireTimer = m_fFireTimer + fElapsedTime;
