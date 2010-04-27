@@ -9,6 +9,7 @@ class CPlayer;
 class IGameState;
 class Corona_ObjectManager;
 class Corona_EventHandler;
+class CEmitterFactory;
 
 
 class CGameplayState : public IGameState
@@ -27,6 +28,7 @@ private:
 	Corona_ObjectManager	*m_pCoM;
 	Corona_EventHandler		*m_pCeH;
 	CCamera					*theCamera;
+	CEmitterFactory			*m_pEF;
 
 	CLevel					theLevel;
 
