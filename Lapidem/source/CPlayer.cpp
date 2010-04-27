@@ -2,17 +2,25 @@
 #include "CSpell.h"
 #include "CTerrainBase.h"
 #include "CGame.h"
+#include "CAnimation.h"
 #include "Wrappers/CSGD_DirectInput.h"
+#include "CAnimationWarehouse.h"
 
 void CPlayer::Update(float fElapsedTime)
 {
 
+	animation->Update(fElapsedTime);
 	CBase::Update(fElapsedTime);
+
+	SetWidth(animation->GetFrames()->DrawRect.right - animation->GetFrames()->DrawRect.left);
+	SetHeight(animation->GetFrames()->DrawRect.bottom - animation->GetFrames()->DrawRect.top);
+
 
 	CSGD_DirectInput * DI = (CSGD_DirectInput::GetInstance());
 	
 	if( DI->KeyDown( DIK_D ) )
 	{
+		animation = CAnimationWarehouse::GetInstance()->GetAnimation(0,1);
 		if( DI->KeyDown( DIK_W ) )
 			currDirec = RIGHT_UP;
 		else if( DI->KeyDown( DIK_S ) )
@@ -22,6 +30,7 @@ void CPlayer::Update(float fElapsedTime)
 	}
 	else if( DI->KeyDown( DIK_A ) )
 	{
+		animation = CAnimationWarehouse::GetInstance()->GetAnimation(0,1);
 		if(DI->KeyDown( DIK_W ) )
 			currDirec = LEFT_UP;
 		else if( DI->KeyDown( DIK_S ) )
@@ -34,7 +43,18 @@ void CPlayer::Update(float fElapsedTime)
 		currDirec = DOWN;
 	else if(DI->KeyDown(DIK_W))
 		currDirec = UP;
-
+	else
+	{
+		animation = CAnimationWarehouse::GetInstance()->GetAnimation(0,0);
+	}
+	if(currDirec == RIGHT || currDirec== RIGHT_DOWN || currDirec == RIGHT_UP)
+	{
+		IsRotated = true;
+	}
+	else
+	{
+		IsRotated = false;
+	}
 
 	SetVelY(150);
 

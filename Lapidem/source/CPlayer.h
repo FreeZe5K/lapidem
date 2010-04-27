@@ -5,6 +5,7 @@ class CPlayer : public CCharacter
 {
 	bool m_bIsJumping;
 	float m_fJumpTimer;
+
 	float m_fFireTimer;
 
 
