@@ -238,18 +238,18 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 			newfire->SetLifespan(5.0f);
 			newfire->SetActive(true);
 		
-			CEmitter* emitter;
-			emitter = m_pEF->CreateEmitter("FireSpell");
-			emitter->SetPosX(newfire->GetPosX());// - getwidth/2
-			emitter->SetPosY(newfire->GetPosY());// same here
+			//CEmitter* emitter;
+			//emitter = m_pEF->CreateEmitter("FireSpell");
+			//emitter->SetPosX(newfire->GetPosX());// - getwidth/2
+			//emitter->SetPosY(newfire->GetPosY());// same here
 
-			emitter->GetParticle()->SetPosX(newfire->GetPosX());// - getwidth/2
-			emitter->GetParticle()->SetPosY(newfire->GetPosY());// same here
+			//emitter->GetParticle()->SetPosX(newfire->GetPosX());// - getwidth/2
+			//emitter->GetParticle()->SetPosY(newfire->GetPosY());// same here
 
-			emitter->SetLooping(true);
-			CParticleManager::GetInstance()->AddEmitter(emitter);
+			//emitter->SetLooping(true);
+			//CParticleManager::GetInstance()->AddEmitter(emitter);
 
-			emitter = NULL;
+			//emitter = NULL;
 
 			newfire->SetTier(nTier);
 			if(pShooter->GetType() == OBJ_PLAYER)

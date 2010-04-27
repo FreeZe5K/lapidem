@@ -445,6 +445,7 @@ CBase* CLevel::CheckCollision( CBase* pBase  )
 	nY /= GetTileHeight();
 	nX2 /= GetTileWidth();
 	nY2 /= GetTileHeight();
+	CTerrainBase* pTerra ;
 
 	for( int i = nX; i <= nX2; i+=1)
 		for( int j = nY; j <= nY2; j +=1)
@@ -453,12 +454,20 @@ CBase* CLevel::CheckCollision( CBase* pBase  )
 			if( index <0 || index > int( m_pTerrainTiles.size() ) )
 				continue;
 
-			CTerrainBase* pTerra = (CTerrainBase*)m_pTerrainTiles[ index ];
+			pTerra= (CTerrainBase*)m_pTerrainTiles[ index ];
 			if(  pTerra->GetTileID() != GetBaseTileID()  && !pTerra->TerrainCollided() )
 				return m_pTerrainTiles[ index ];
 
 		}
 
+		
+	for( int i = nX; i <= nX2; i+=1)
+		for( int j = nY; j <= nY2; j +=1)
+		{
+			int index = i + j*GetWorldCollumn();
+			pTerra= (CTerrainBase*)m_pTerrainTiles[ index ];
+			pTerra->SetCollided(false);
+		}
 
 
 
