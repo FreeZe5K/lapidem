@@ -7,13 +7,16 @@
 #include "CSpell.h"
 #include "Wrappers/CSGD_TextureManager.h"
 
-CEnemy::CEnemy(EleType ElementToBe)
+CEnemy::CEnemy(EleType ElementToBe, float initx, float inity)
 {
 	m_nType = OBJ_ENEMY;
 	switch(ElementToBe)
 	{
 	case OBJ_EARTH:
 		currState = new AIStateEarth();
+		SetPosX(initx);
+		SetPosY(inity);
+		((AIStateEarth *)currState)->SetInitPos((int)GetPosX(), (int)GetPosY());
 		SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/lapidem_lulzenemy.png"));
 		SetHeight(64);
 		SetWidth(16);
@@ -30,14 +33,12 @@ CEnemy::CEnemy(EleType ElementToBe)
 
 void CEnemy::Update(float fElapsedTime)
 {
-	//TODO replace NULL with a target.
-	//Possible Solution: Replace the Update call's
-	//Return type with a CCharacter *, which would be the target...
 
-	CCharacter::Update(fElapsedTime);
 
 	if(currState->Update(fElapsedTime, this))
 		currState->Attack(NULL);
+
+	CCharacter::Update(fElapsedTime);
 
 	if(m_nHealth <= 0)
 	{

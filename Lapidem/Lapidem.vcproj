@@ -220,6 +220,10 @@
 					Name="Source Files"
 					>
 					<File
+						RelativePath=".\source\AIStateEarth.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CCharacter.cpp"
 						>
 					</File>

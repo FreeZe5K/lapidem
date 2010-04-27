@@ -19,6 +19,7 @@ private:
 	int                     m_nSoundID[2];
 
 	bool                    m_bIsPaused;
+	bool					m_bTwoPlayers;
 
 	CSGD_Direct3D           *m_pD3D;
 	CSGD_TextureManager     *m_pTM;
@@ -53,4 +54,6 @@ public:
 
 	
 	CLevel* GetLevel() { return &theLevel;}
+
+	void bTwoPlayerMode(bool ysorno) { m_bTwoPlayers = ysorno; }
 };
