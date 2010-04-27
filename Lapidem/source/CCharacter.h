@@ -21,4 +21,6 @@ public:
 	CCharacter();
 	DIRECTION GetDirection() {return currDirec;}
 	void Render(void);
+	void SetEleType(EleType newType) {m_SpellType = newType;}
+	void Update(float fElapsedTime);
 };

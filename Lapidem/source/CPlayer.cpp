@@ -6,15 +6,19 @@
 #include "Wrappers/CSGD_DirectInput.h"
 #include "CAnimationWarehouse.h"
 
+
+CPlayer::CPlayer()
+{
+	animation = CAnimationWarehouse::GetInstance()->GetAnimation(0,0); 
+	m_fFireTimer = 0.0; m_nHealth = 200; m_bIsJumping = false;
+	currAnimation = 0; m_SpellType = OBJ_FIRE;
+	currDirec = RIGHT; m_nType = OBJ_PLAYER; m_fJumpTimer = 0.0f;
+}
+
 void CPlayer::Update(float fElapsedTime)
 {
 
-	animation->Update(fElapsedTime);
-	CBase::Update(fElapsedTime);
-
-	SetWidth(animation->GetFrames()->DrawRect.right - animation->GetFrames()->DrawRect.left);
-	SetHeight(animation->GetFrames()->DrawRect.bottom - animation->GetFrames()->DrawRect.top);
-
+	CCharacter::Update(fElapsedTime);
 
 	CSGD_DirectInput * DI = (CSGD_DirectInput::GetInstance());
 	
@@ -56,7 +60,6 @@ void CPlayer::Update(float fElapsedTime)
 		IsRotated = false;
 	}
 
-	SetVelY(150);
 
 	if(m_bIsJumping)
 	{
@@ -77,8 +80,12 @@ void CPlayer::Attack(int nTier)
 		switch(m_SpellType)
 		{
 			case OBJ_EARTH:
+				{
+					if(m_fFireTimer < 1.5f)
+						return;
 				m_pSpells->CreateEarth(this, nTier);
 				break;
+				}
 			case OBJ_FIRE:
 				m_pSpells->CreateFire(this, nTier);
 				break;
@@ -104,11 +111,14 @@ void CPlayer::Jump()
 
 void CPlayer::HandleCollision(CBase * collidingObject)
 {
-	if( collidingObject->GetType() == OBJ_TERRA )
+	if( collidingObject->GetType() == OBJ_TERRA || (collidingObject->GetType() == OBJ_SPELL && ((CSpell*)collidingObject)->GetElement() == OBJ_EARTH))
 	{
-		int TerraType = ((CTerrainBase*)collidingObject)->GetTypeTerrain();
-		if( TerraType == T_LAVA || TerraType == T_WATER )
-			return;
+		if(collidingObject->GetType() == OBJ_TERRA)
+		{
+			int TerraType = ((CTerrainBase*)collidingObject)->GetTypeTerrain();
+			if( TerraType == T_LAVA || TerraType == T_WATER )
+				return;
+		}
 
 		RECT r;
 		IntersectRect( &r, & this->GetCollisionRect(0), &collidingObject->GetCollisionRect(0) );
@@ -127,7 +137,12 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 		{
 			
 			if( this->GetPosY() > collidingObject->GetPosY() )
+			{
+				if(collidingObject->GetType() == OBJ_SPELL)
+					return;
 				SetPosY( GetPosY() + nRectHeight  );
+				
+			}
 			else if(this->GetPosY() < collidingObject->GetPosY() )
 			{
 				
@@ -138,8 +153,6 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 			}
 
 		}
-
-
 	}
 
 /*

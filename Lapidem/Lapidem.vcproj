@@ -435,11 +435,31 @@
 		<Filter
 			Name="Game Objects"
 			>
+			<File
+				RelativePath=".\source\CAnimation.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\CAnimation.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\CAnimationWarehouse.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\CAnimationWarehouse.h"
+				>
+			</File>
 			<Filter
 				Name="Source Files"
 				>
 				<File
 					RelativePath=".\source\CBase.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CCharacter.cpp"
 					>
 				</File>
 				<File
