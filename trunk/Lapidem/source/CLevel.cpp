@@ -29,6 +29,7 @@ CLevel::CLevel()
 	SetBackGroundImage(-1);
 	SetBGM(-1);
 	SetNextLevelFileName(0);
+	m_szLevelFileName = 0;
 
 }
 
@@ -38,6 +39,11 @@ CLevel::~CLevel()
 	{
 		delete	m_szNextLevelFileName;
 		m_szNextLevelFileName = 0;
+
+	}if(m_szLevelFileName)
+	{
+		delete	m_szLevelFileName;
+		m_szLevelFileName = 0;
 
 	}
 	Clear();
@@ -102,11 +108,14 @@ void CLevel::Clear()
 
 void CLevel::LoadNewLevel( char* filename )
 {
-
+	
 	ifstream in( filename, ios::in|ios::binary);
 
 	if( in.is_open() )
 	{
+		m_szLevelFileName = new char[ strlen(filename)+1 ];
+		strcpy_s( m_szLevelFileName, strlen(filename)+1, filename );
+		m_szLevelFileName[strlen(filename)] = 0;
 		/*
 		*      Version test
 		*  World Dimension
@@ -239,7 +248,7 @@ void CLevel::LoadNewLevel( char* filename )
 				newTerrain->SetTypeTerrain( Type );
 				newTerrain->SetBaseTileID( GetBaseTileID() );
 				newTerrain->SetDamage(0);
-				newTerrain->SetHealth(50);
+				newTerrain->SetHealth(150);
 				newTerrain->SetHeight( GetTileHeight());
 				newTerrain->SetWidth( GetTileWidth());
 				newTerrain->SetImage( GetTileSet());
