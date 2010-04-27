@@ -12,6 +12,7 @@
 
 CIce::CIce() :CSpell()
 {
+	SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/ice.bmp",D3DCOLOR_XRGB(0,0,0)));
 
 }
 
@@ -25,7 +26,7 @@ void CIce::Update(float fElapsedTime)
 	SetLifespan(GetLifespan() - fElapsedTime);
 	if(GetLifespan() < 0)
 	{
-		SetActive(false);
+		//SetActive(false);
 	}
 	switch(GetTier())
 	{
@@ -109,7 +110,14 @@ void CIce::HandleCollision(CBase* pObject)
 {
 	if(GetTier() ==1)
 	{
-		SetActive(false);
+		if(pObject->GetType() == OBJ_TERRA)
+		{
+		//	if(((CTerrainBase*)pObject)->GetTypeTerrain() == T_ROCK);
+		//	{
+				//((CTerrainBase*)pObject)->SetHealth(((CTerrainBase*)pObject)->GetHealth()- GetDamage());
+				SetActive(false);
+		//	}
+		}
 	}
 	else if(GetTier() ==2)
 	{
