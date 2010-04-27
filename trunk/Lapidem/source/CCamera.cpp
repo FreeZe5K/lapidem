@@ -42,16 +42,17 @@ void CCamera::Update(float fElapsedTime)
 
 	RECT rPlayer = thePlayer->GetCollisionRect(fElapsedTime);
 
+	
 	int CenterOfScreenX = int( theCamera->GetXOffset() + width / 2 );
 	int CenterOfScreenY = int( theCamera->GetYOffset() + height / 2 );
 
 	RECT rHook ;//= { CenterOfScreenX - 100, CenterOfScreenY - 100, CenterOfScreenX+100, CenterOfScreenY+100 };
 
-
-	rHook.left = CenterOfScreenX - 100;
-	rHook.top = CenterOfScreenY - 70;
-	rHook.right =CenterOfScreenX + 100;
-	rHook.bottom = CenterOfScreenY + 50;
+int x = thePlayer->GetWidth();
+	rHook.left = CenterOfScreenX - (thePlayer->GetWidth()<<2);
+	rHook.top = CenterOfScreenY - (thePlayer->GetHeight());
+	rHook.right =CenterOfScreenX + (thePlayer->GetWidth()<<2);
+	rHook.bottom = CenterOfScreenY + (thePlayer->GetHeight());
 	RECT r;
 
 	if(!IntersectRect(&r, &rPlayer, & rCamera ))

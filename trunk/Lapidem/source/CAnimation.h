@@ -48,7 +48,7 @@ public:
 		m_bIsPlaying = true;
 	}
 
-	vector<Frame*> GetFrames(void) {return m_vFrames;}
+	Frame* GetFrames(void) {return m_vFrames[m_nFrame];}
 	int GetFrame(void) {return m_nFrame;}
 	int GetImageID(void) {return m_nImageID;}
 
