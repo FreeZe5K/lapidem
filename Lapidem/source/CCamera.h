@@ -13,10 +13,6 @@ class CCamera
 	float m_fWidth;
 	float m_fHeight;
 
-	//Before Jon Asks: Hooks are used to determine how far the Player has moved, 
-	//and if the Camera needs to move in response.  No, I don't know how this is going to work in multiplayer,
-	//We'll figure that shit out later.
-
 	float m_fVelocityX;
 	float m_fVelocityY;
 

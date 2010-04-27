@@ -1,6 +1,6 @@
 #include "CAnimationWarehouse.h"
 #include "CAnimation.h"
-#include "SGD Wrappers/CSGD_TextureManager.h"
+#include "Wrappers/CSGD_TextureManager.h"
 
 #include <fstream>
 using namespace std;
@@ -25,7 +25,7 @@ void CAnimationWarehouse::LoadAnimationSet(char* Filename, DWORD keycolor)
 
 			char* animationname = new char[AnimNameLength+1];
 			in.read(animationname,sizeof(char)* AnimNameLength);
-			delete animationname;
+			delete[] animationname;
 
 			int animationid = 0;
 			in.read((char*) & animationid, sizeof(int));
@@ -43,7 +43,7 @@ void CAnimationWarehouse::LoadAnimationSet(char* Filename, DWORD keycolor)
 			PictureFileName[PictureFileNameLength] =0;
 
 			//load into texture manager and save id
-			anim->SetImageID(CSGD_TextureManager::GetInstance()->LoadTexture(PictureFileName,keycolor));
+			anim->SetImageID(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/highpriest_m_sheet.bmp",keycolor));
 			delete[] PictureFileName;
 
 			bool looping;

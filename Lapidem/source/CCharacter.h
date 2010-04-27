@@ -2,17 +2,15 @@
 #include "CBase.h"
 #include "CLDevice.h"
 #include "CSpellFactory.h"
+class CAnimation;
 
 enum DIRECTION {LEFT, RIGHT, UP, DOWN, LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN};
 
 class CCharacter : public CBase
 {
-	
-
-
-	//TODO add Animation *
-
 protected:
+	CAnimation* animation;
+	bool IsRotated;
 	int m_nHealth;
 	int currAnimation;
 	CSpellFactory* m_pSpells;
@@ -20,8 +18,7 @@ protected:
 	DIRECTION currDirec;
 
 public:
-	CCharacter() {m_pSpells = CSpellFactory::GetInstance();}
+	CCharacter();
 	DIRECTION GetDirection() {return currDirec;}
-	
-
+	void Render(void);
 };
