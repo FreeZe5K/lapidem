@@ -4,6 +4,8 @@
 #include "Corona_ObjectManager.h"
 #include "Corona_EventHandler.h"
 #include "CProfiler.h"
+#include "CParticleManager.h"
+#include "CAnimationWarehouse.h"
 
 CGameplayState* CGameplayState::GetInstance( )
 {
@@ -18,6 +20,11 @@ void CGameplayState::Enter( )
 	m_pDS           = CSGD_DirectSound::GetInstance();
 	m_pWM           = CSGD_WaveManager::GetInstance();
 	m_pDI           = CSGD_DirectInput::GetInstance();
+
+	m_pEF			= CEmitterFactory::GetInstance();
+	m_pEF->Initialize();
+
+	CAnimationWarehouse::GetInstance()->LoadAnimationSet("resource/idlewalk.Anim",D3DCOLOR_XRGB(255,255,255));
 
 	m_pPlayerOne	= new CPlayer();
 	m_pPlayerTwo	= NULL;
@@ -129,6 +136,11 @@ void CGameplayState::Render( )
 
 void CGameplayState::Exit( )
 {
+	if(m_pEF)
+	{
+		m_pEF->UnloadAll();
+		m_pEF = NULL;
+	}
 	m_pWM->UnloadWave( m_nSoundID[1] );
 	m_pWM->UnloadWave( m_nSoundID[0] );
 	m_pTM->UnloadTexture( m_nImageID );
