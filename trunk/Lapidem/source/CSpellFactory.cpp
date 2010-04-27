@@ -18,6 +18,7 @@
 #include "CEarth.h"
 #include "CWind.h"
 #include "CCamera.h"
+#include "CParticleManager.h"
 
 CSpellFactory* CSpellFactory::m_pSF = NULL;
 
@@ -32,12 +33,18 @@ CSpellFactory::CSpellFactory()
 	m_nWindXP = 0;
 	m_nFireXP = 0;
 	m_nIceXP = 0;
+	
+	m_pEF = CEmitterFactory::GetInstance();
+
 }
 
 
 CSpellFactory::~CSpellFactory()
 {
-	//DeleteInstance();
+	if(m_pEF)
+	{
+		m_pEF = NULL;
+	}
 }
 
 void CSpellFactory::AddWindXP(int nXP)
@@ -171,8 +178,8 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 	case 1: // First Tier... Basic Spell
 		{
 			CFire* newfire = new CFire();
-			newfire->SetPosX(pShooter->GetPosX());// - CCamera::GetCamera()->GetXOffset());
-			newfire->SetPosY(pShooter->GetPosY());// - CCamera::GetCamera()->GetYOffset());
+			newfire->SetPosX(pShooter->GetPosX());
+			newfire->SetPosY(pShooter->GetPosY());
 
 			DIRECTION wheretoshoot = pShooter->GetDirection();
 			switch(wheretoshoot)
@@ -230,6 +237,19 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 			newfire->SetDOT(3 + (1 * (m_nFireLVL>>1)));
 			newfire->SetLifespan(5.0f);
 			newfire->SetActive(true);
+		
+			CEmitter* emitter;
+			emitter = m_pEF->CreateEmitter("FireSpell");
+			emitter->SetPosX(newfire->GetPosX());// - getwidth/2
+			emitter->SetPosY(newfire->GetPosY());// same here
+
+			emitter->GetParticle()->SetPosX(newfire->GetPosX());// - getwidth/2
+			emitter->GetParticle()->SetPosY(newfire->GetPosY());// same here
+
+			emitter->SetLooping(true);
+			CParticleManager::GetInstance()->AddEmitter(emitter);
+
+			emitter = NULL;
 
 			newfire->SetTier(nTier);
 			if(pShooter->GetType() == OBJ_PLAYER)
@@ -243,6 +263,7 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 			newfire->SetWidth(32);
 			newfire->SetHeight(16);
 			newfire->SetElement(OBJ_FIRE);
+
 			Corona_ObjectManager::GetInstance()->AddObject(newfire);
 			newfire->Release();
 			int x = 0;
@@ -259,8 +280,8 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 		{
 			CIce* newice = new CIce();
 
-			newice->SetPosX(pShooter->GetPosX()+ CCamera::GetCamera()->GetXOffset());
-			newice->SetPosY(pShooter->GetPosY()+ CCamera::GetCamera()->GetYOffset());
+			newice->SetPosX(pShooter->GetPosX());
+			newice->SetPosY(pShooter->GetPosY());
 			DIRECTION wheretoshoot = pShooter->GetDirection();
 			switch(wheretoshoot)
 			{
@@ -347,8 +368,8 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 	case 1: // First Tier... Basic wind Spell
 		{
 			CWind* newwind = new CWind();
-			newwind->SetPosX(pShooter->GetPosX()+ CCamera::GetCamera()->GetXOffset());
-			newwind->SetPosY(pShooter->GetPosY()+ CCamera::GetCamera()->GetYOffset());
+			newwind->SetPosX(pShooter->GetPosX());
+			newwind->SetPosY(pShooter->GetPosY());
 			DIRECTION wheretoshoot = pShooter->GetDirection();
 			switch(wheretoshoot)
 			{

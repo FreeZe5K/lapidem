@@ -26,6 +26,7 @@ CEarth::CEarth() : CSpell()
 	m_fRotate = PI/4.0f;
 	m_fDisplay = m_fRotate;
 	m_fTimeTillRotate = 1.0f;
+	SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/LapidemEarth.bmp",D3DCOLOR_XRGB(0,0,0)));
 }
 
 CEarth::~CEarth()

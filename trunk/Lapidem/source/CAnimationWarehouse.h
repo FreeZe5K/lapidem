@@ -13,7 +13,7 @@ class CAnimationWarehouse
 	vector<vector<CAnimation*>> m_vAnimationList;	// vector... of a vector... of animations. Animation set storing a bunch of Animations
 	
 	CAnimationWarehouse(){}							// singletoooooooonnnnn
-	~CAnimationWarehouse() {DeleteInstance();}
+	~CAnimationWarehouse() {}
 	CAnimationWarehouse(CAnimationWarehouse& copy) {}
 public:
 
