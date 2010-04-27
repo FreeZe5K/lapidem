@@ -45,7 +45,7 @@ void CMenuState::Enter( )
 
 bool CMenuState::Input( )
 {
-	if( 0 == m_nState )
+	if( 0 == m_nState ) // Main menu
 	{
 		if( m_pDI->KeyPressed( DIK_UP ) )
 		{
@@ -109,13 +109,40 @@ bool CMenuState::Input( )
 
 		if( m_pDI->KeyPressed( DIK_RETURN ) )
 		{
-			if( m_nChoice == 0 ) // Single Player
-				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
-			else if( m_nChoice == 1 ) // Two Player
-				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
+			if( m_nChoice == 0 ) // New Game
+				m_nState = 2;
+			else if( m_nChoice == 1 ) // Load Game
+			{ /* TODO :: LOAD GAME */ }
 			else if( m_nChoice == 2 ) // Cancel
 			{
 				m_nState = 0;
+				m_nChoice = 0;
+			}
+		}
+	}
+	else if( 2 == m_nState )
+	{
+		if( m_pDI->KeyPressed( DIK_UP ) )
+		{
+			if( --m_nChoice < 0 )
+				m_nChoice = 2;
+		}
+
+		if( m_pDI->KeyPressed( DIK_DOWN ) )
+		{
+			if( ++m_nChoice > 2 )
+				m_nChoice = 0;
+		}
+
+		if( m_pDI->KeyPressed( DIK_RETURN ) )
+		{
+			if( m_nChoice == 0 ) // Single Player
+				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
+			else if( m_nChoice == 1 ) // Two Player
+			{ /* TODO :: MULTIPLAYER */ }
+			else if( m_nChoice == 2 ) // Cancel
+			{
+				m_nState = 1;
 				m_nChoice = 0;
 			}
 		}
@@ -202,6 +229,30 @@ void CMenuState::Render( )
 		}
 	}
 	else if( 1 == m_nState )
+	{
+		if( m_nChoice == 0 ) 
+		{
+			CGame::GetInstance( ) ->GetFont( )->Draw( ">", 50, 96, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( ) ->GetFont( )->Draw( "NEW GAME", 80, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( ) ->GetFont( )->Draw( "LOAD GAME", 70, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( ) ->GetFont( )->Draw( "CANCEL", 70, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		}
+		else if( m_nChoice == 1 )
+		{
+			CGame::GetInstance( ) ->GetFont( )->Draw( ">", 50, 116, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( ) ->GetFont( )->Draw( "NEW GAME", 70, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( ) ->GetFont( )->Draw( "LOAD GAME", 80, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( ) ->GetFont( )->Draw( "CANCEL", 70, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		}
+		else if( m_nChoice == 2 )
+		{
+			CGame::GetInstance( ) ->GetFont( )->Draw( ">", 50, 136, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( ) ->GetFont( )->Draw( "NEW GAME", 70, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( ) ->GetFont( )->Draw( "LOAD GAME", 70, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( ) ->GetFont( )->Draw( "CANCEL", 80, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		}
+	}
+	else if( 2 == m_nState )
 	{
 		if( m_nChoice == 0 ) 
 		{
