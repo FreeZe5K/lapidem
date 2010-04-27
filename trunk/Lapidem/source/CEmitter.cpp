@@ -1,6 +1,5 @@
 #include "CEmitter.h"
 #include "Lapidem_Math.h"
-#include <Windows.h>      // do we really need this?
 #include "CCamera.h"
 
 CEmitter::CEmitter( )
@@ -41,6 +40,12 @@ void CEmitter::Render( )
 			m_vLiveParticles[u]->Render( );
 }
 
+void CEmitter::UpdateParticlePos( int nPosX, int nPosY)
+{
+	SetPosX( float( nPosX ) );
+	SetPosY( float( nPosY ) );
+}
+
 void CEmitter::Update( float fET )
 {
 	m_fEmitTimer = m_fEmitTimer + fET;
@@ -50,7 +55,7 @@ void CEmitter::Update( float fET )
 
 	CParticle *particle;
 
-	while( m_fEmitTimer >= m_fSpawnTime )
+	if( m_fEmitTimer >= m_fSpawnTime )
 	{
 		if( m_nParticlesMade < m_nNumParticles )
 		{
@@ -68,25 +73,26 @@ void CEmitter::Update( float fET )
 		else
 		{
 			if( ( m_vDeadParticles.size( ) + m_vLiveParticles.size( ) ) 
-				== m_nNumParticles && !m_bLooping )
-				break;
-
-			if( m_vDeadParticles.size( ) == 0 )
-				m_fEmitTimer = 0;
-
-			if( m_vDeadParticles.size() > 0 )
+				!= m_nNumParticles && !m_bLooping )
 			{
-				for( u32 u = 0; u < u32( m_nEmitRate ); u++ )
+
+				if( m_vDeadParticles.size( ) == 0 )
+					m_fEmitTimer = 0;
+
+				if( m_vDeadParticles.size() > 0 )
 				{
-					if( ( m_vDeadParticles.size( ) + 
-						m_vLiveParticles.size( ) ) >= u32( m_nNumParticles ) )
-						break;
+					for( u32 u = 0; u < u32( m_nEmitRate ); u++ )
+					{
+						if( ( m_vDeadParticles.size( ) + 
+							m_vLiveParticles.size( ) ) >= u32( m_nNumParticles ) )
+							break;
 
-					if( m_vDeadParticles.size( ) == 0 )
-						break;
+						if( m_vDeadParticles.size( ) == 0 )
+							break;
 
-					AddParticle( m_vDeadParticles[0] );
-					m_vDeadParticles.erase( m_vDeadParticles.begin( ) );
+						AddParticle( m_vDeadParticles[0] );
+						m_vDeadParticles.erase( m_vDeadParticles.begin( ) );
+					}
 				}
 			}
 		}
@@ -134,8 +140,8 @@ void CEmitter::AddParticle( CParticle *_p )
 	_p->SetAccelX( m_pParticle->GetAccelX( ) );
 	_p->SetAccelY( m_pParticle->GetAccelY( ) );
 
-	_p->SetHeight( 16 ); // m_Particle->GetHeight()
-	_p->SetWidth( 16 );  // m_Particle->GetWidth()
+	_p->SetHeight( 16 );
+	_p->SetWidth( 16 );
 
 	_p->SetStartScale( m_pParticle->GetStartScale( ) );
 	_p->SetEndScale( m_pParticle->GetEndScale( ) );
@@ -186,7 +192,7 @@ Vector2D CEmitter::VectorRotate( Vector2D _vector, float _rad )
 }
 
 float CEmitter::DegreeToRadian( float _deg )
-{ return ( ( _deg ) * ( 3.141592654f / 180.0f ) ); }
+{ return float( ( ( _deg ) * ( PI / 180.0f ) ) ); }
 
 CEmitter& CEmitter::operator=( const CEmitter& _emit )
 {

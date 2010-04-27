@@ -123,7 +123,7 @@ bool CGame::Main( )
 
 	CheckForCheats( );
 
-	Update( float( m_nFPS ) );
+	Update( float( m_fElapsedTime ) );
 	Render( );
 
 	m_nFrameCount++;

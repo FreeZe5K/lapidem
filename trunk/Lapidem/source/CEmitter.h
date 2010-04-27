@@ -101,4 +101,7 @@ public:
 	void SetLooping( bool _b )             { m_bLooping           = _b;   }
 
 	void SetName( char* _sz )              { m_szName             = _sz;  }
+
+	
+	void UpdateParticlePos( int nPosX, int nPosY);
 };

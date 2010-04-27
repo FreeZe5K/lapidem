@@ -9,7 +9,7 @@
 #define CSPELL_H
 #include "CBase.h"
 
-
+class CEmitter;
 
 ///////////////////////////////////////////
 //TODO: Once Emitter is finished uncomment
@@ -27,6 +27,9 @@ class CSpell : public CBase//, public CEmitter
 	int m_nDamage;		// How much damage the spell does on collision with an object
 	int m_nDirection;	// Enumed(sp?) to represent a direction the spell is  beign shot at
 	int m_nElement;		// Enum for which element the spell is... Fire Earth Wind Ice
+
+	
+	CEmitter* m_pEmitter;
 public:
 
 	CSpell();	// constructor
@@ -56,6 +59,7 @@ public:
 	void SetDamage(int nDamage) {m_nDamage = nDamage;}
 	void SetDirection(int nDirection) {m_nDirection = nDirection;}
 	void SetElement(int nElement) {m_nElement = nElement;}
+	void SetEmitter( CEmitter* pEm ) { m_pEmitter = pEm; }
 	//////////////////////////////////////////////////////////////////////////
 
 	//////////////////////////////////////////////////////////////////////////

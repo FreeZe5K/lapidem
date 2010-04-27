@@ -258,26 +258,23 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 
 			Corona_ObjectManager::GetInstance()->AddObject(newfire);
 
-			// - - 
-
 			CEmitter *emitter;
 			emitter = m_pEF->CreateEmitter( "firespell" );
-			emitter->SetPosX( newfire->GetPosX( ) ); //  - ( newfire->GetWidth( ) / 2 )
-			emitter->SetPosY( newfire->GetPosY( ) ); //  - ( newfire->GetHeight( ) / 2 )
+			emitter->SetPosX( newfire->GetPosX( ) - ( newfire->GetWidth( ) / 2 ) );
+			emitter->SetPosY( newfire->GetPosY( ) - ( newfire->GetHeight( ) / 2 ) );
 
 			emitter->SetVelX( newfire->GetVelX( ) );
 			emitter->SetVelY( newfire->GetVelY( ) );
 
-			emitter->GetParticle( )->SetPosX( newfire->GetPosX( ) ); //  - ( newfire->GetWidth( ) / 2 )
-			emitter->GetParticle( )->SetPosY( newfire->GetPosY( ) ); // - ( newfire->GetHeight( ) / 2 )
+			emitter->GetParticle( )->SetPosX( newfire->GetPosX( ) - ( newfire->GetWidth( )  ) );
+			emitter->GetParticle( )->SetPosY( newfire->GetPosY( ) - ( newfire->GetHeight( )  ) );
 			emitter->SetLooping( true );
+
+			newfire->SetEmitter(emitter);
 			CParticleManager::GetInstance( )->AddEmitter( emitter );
 			emitter = NULL;
 
-			// - - 
-
 			newfire->Release();
-
 			break;
 		}
 	}

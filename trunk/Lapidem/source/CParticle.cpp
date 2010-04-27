@@ -68,22 +68,11 @@ void CParticle::Update( float fET )
 
 void CParticle::Render( )
 {
-	//if( GetImageID( ) > -1 )
-	//	/*m_pTM->Draw( GetImageID( ), int( m_fCurrentPosX - 
-	//	CCamera::GetCamera( )->GetXOffset( ) ),
-	//	int( m_fCurrentPosY - CCamera::GetCamera( )->GetYOffset( ) ),
-	//	m_fScaleOut, m_fScaleOut, NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB
-	//	( GetAlpha( ), GetRed( ), GetGreen( ), GetBlue( ) ) );*/
-	//	m_pTM->Draw( GetImageID( ), 200,
-	//	200, 0, 0, 0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB
-	//	( 255, GetRed( ), GetGreen( ), GetBlue( ) ) );
-	if( GetImageID( ) > -1 )
-		/*m_pTM->Draw( GetImageID( ), int( m_fCurrentPosX - 
-		CCamera::GetCamera( )->GetXOffset( ) ),
+	if( GetImageID( ) != -1 )
+		m_pTM->Draw( 1, int( m_fCurrentPosX - 
+		CCamera::GetCamera( )->GetXOffset( ) ), 
 		int( m_fCurrentPosY - CCamera::GetCamera( )->GetYOffset( ) ),
 		m_fScaleOut, m_fScaleOut, NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB
-		( GetAlpha( ), GetRed( ), GetGreen( ), GetBlue( ) ) );*/
-		m_pTM->Draw( GetImageID( ), 200, 200, 
-		1, 1, 0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB
-		( GetAlpha( ) , GetRed( ), GetGreen( ), GetBlue( ) ) );
+		( 255, GetRed( ), GetGreen( ), GetBlue( ) ) );
+
 }

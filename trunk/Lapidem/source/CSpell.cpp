@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////////////////
 #include "CSpell.h"
 #include "Wrappers/CSGD_TextureManager.h" 
+#include "CEmitter.h"
 
 
 #include "Corona_ObjectManager.h"
@@ -14,15 +15,18 @@
 CSpell::CSpell() : CBase()
 {
 	SetType(OBJ_SPELL);
+	m_pEmitter = NULL;
 }
 
 CSpell::~CSpell()
 {
-
 }
 
 void CSpell::UpdateTier1(float fElapsedTime)
-{
+{	
+	if( m_pEmitter )
+		m_pEmitter->UpdateParticlePos( int( GetPosX( ) ), int( GetPosY( ) ) );
+
 	SetPosX(GetPosX()+GetVelX() * fElapsedTime);
 	SetPosY(GetPosY()+GetVelY() * fElapsedTime);
 }
@@ -60,6 +64,7 @@ void CSpell::RenderTier3(void)
 }
 void CSpell::Update(float fElapsedTime)
 {
+
 	SetLifespan(GetLifespan() - fElapsedTime);
 	if(GetLifespan() <=0)
 	{
