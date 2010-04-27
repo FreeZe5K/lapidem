@@ -14,6 +14,7 @@ class IGameState;
 class CMenuState : public IGameState
 {
 private:
+	int                     m_nState;
 	int                     m_nChoice;
 	int                     m_nImageID;
 	int                     m_nSoundID[2];
