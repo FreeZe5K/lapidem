@@ -1,7 +1,7 @@
 #include "CEmitter.h"
 #include "Lapidem_Math.h"
 #include <Windows.h>      // do we really need this?
-//#include "CCamera.h"    // When applicable
+#include "CCamera.h"
 
 CEmitter::CEmitter( )
 {
@@ -76,7 +76,7 @@ void CEmitter::Update( float fET )
 
 			if( m_vDeadParticles.size() > 0 )
 			{
-				for( u32 i = 0; i < u32( m_nEmitRate ); i++ )
+				for( u32 u = 0; u < u32( m_nEmitRate ); u++ )
 				{
 					if( ( m_vDeadParticles.size( ) + 
 						m_vLiveParticles.size( ) ) >= u32( m_nNumParticles ) )
@@ -86,7 +86,6 @@ void CEmitter::Update( float fET )
 						break;
 
 					AddParticle( m_vDeadParticles[0] );
-
 					m_vDeadParticles.erase( m_vDeadParticles.begin( ) );
 				}
 			}
@@ -95,18 +94,17 @@ void CEmitter::Update( float fET )
 		m_fEmitTimer = m_fEmitTimer - m_fSpawnTime;
 	}
 
-	for( u32 i = 0; i < m_vLiveParticles.size(); i++)
+	for( u32 u = 0; u < m_vLiveParticles.size(); u++)
 	{
-		if( m_vLiveParticles[i]->GetAge( ) >= m_fLifeSpan )
+		if( m_vLiveParticles[u]->GetAge( ) >= m_fLifeSpan )
 		{
-			m_vDeadParticles.push_back( m_vLiveParticles[i] );
+			m_vDeadParticles.push_back( m_vLiveParticles[u] );
 
-			if( i < m_vLiveParticles.size() )
-				m_vLiveParticles.erase( m_vLiveParticles.begin( ) + i );
+			if( u < m_vLiveParticles.size() )
+				m_vLiveParticles.erase( m_vLiveParticles.begin( ) + u );
 
-			i--;
-		}
-		else m_vLiveParticles[i]->Update( fET );
+			u--;
+		} else m_vLiveParticles[u]->Update( fET );
 	}
 }
 

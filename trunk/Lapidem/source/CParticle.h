@@ -1,7 +1,10 @@
 #pragma once
 
 #include "CFlyweight.h"
+#include "CCamera.h"
 #include "Wrappers/CSGD_TextureManager.h"
+
+class CCamera;
 
 class CParticle : public CFlyweight
 {
@@ -31,6 +34,8 @@ private:
 public:
 	CParticle( );
 	~CParticle( );
+
+	CParticle( CBase* pBase );
 
 	float GetPosX( )       const    { return m_fCurrentPosX;    }
 	float GetPosY( )       const    { return m_fCurrentPosY;    }

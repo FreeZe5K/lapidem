@@ -37,9 +37,9 @@ void CMenuState::Enter( )
 	m_nScrollSpeedFour    = -128;
 	// - - - - - - - - - - - - - - - -
 
-	m_pWM->Play( m_nSoundID[0], DSBPLAY_LOOPING );
 	m_pWM->SetVolume( m_nSoundID[0], CGame::GetInstance( )->GetMusicVolume( ) ); 
 	m_pWM->SetVolume( m_nSoundID[1], CGame::GetInstance( )->GetSoundFXVolume( ) ); 
+	m_pWM->Play( m_nSoundID[0], DSBPLAY_LOOPING );
 }
 
 bool CMenuState::Input( )
@@ -98,7 +98,7 @@ bool CMenuState::Input( )
 	return true;
 }
 
-void CMenuState::Update( )
+void CMenuState::Update( float fET )
 {
 	// TODO:: If 10 seconds have passed without input . . .
 	if( ++m_nAttractTimer >= 10 )

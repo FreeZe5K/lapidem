@@ -4,7 +4,10 @@
 #include "Wrappers/CSGD_Direct3D.h"
 #include "Wrappers/CSGD_TextureManager.h"
 #include <vector>
-using namespace std;
+using std::vector;
+
+class CEmitter;
+class CParticle;
 
 class CParticleManager
 {

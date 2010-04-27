@@ -28,7 +28,7 @@ public:
 
 	void Enter( );
 	bool Input( );
-	void Update( );
+	void Update( float );
 	void Render( );
 	void Exit( );
 };

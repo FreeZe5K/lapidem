@@ -67,6 +67,10 @@ void CGameplayState::Enter( )
 	if(m_pPlayerTwo)
 		m_pCoM->AddObject(m_pPlayerTwo);
 
+	m_pPM = CParticleManager::GetInstance( );
+	m_pEF = CEmitterFactory::GetInstance( );
+	m_pEF->Initialize( );
+
 	theLevel.LoadNewLevel("resource/data/level1.laplvl");
 	
 
@@ -119,28 +123,34 @@ bool CGameplayState::Input( )
 	return true;
 }
 
-void CGameplayState::Update( )
+void CGameplayState::Update( float fET )
 {
 	m_pCoM->UpdateObjects(CGame::GetInstance()->GetElapsedTime());
+	m_pPM->Update( fET );
 	m_pCeH->ProcessEvents();
 }
 
 void CGameplayState::Render( )
 {
-	m_pTM->Draw( m_nImageID, 0, 0, 1.0f, 1.0f, 
-		NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 200, 255, 255, 255 ) );
 	theLevel.RenderBackGround();
 	m_pCoM->RenderObjects();
-
+	m_pPM->Render( );
 }
 
 void CGameplayState::Exit( )
 {
-	if(m_pEF)
+	if( m_pPM )
 	{
-		m_pEF->UnloadAll();
+		m_pPM->UnloadAll( );
+		m_pPM = NULL;
+	}
+
+	if( m_pEF )
+	{
+		m_pEF->UnloadAll( );
 		m_pEF = NULL;
 	}
+
 	m_pWM->UnloadWave( m_nSoundID[1] );
 	m_pWM->UnloadWave( m_nSoundID[0] );
 	m_pTM->UnloadTexture( m_nImageID );
@@ -161,5 +171,4 @@ void CGameplayState::Exit( )
 	CProfiler::GetInstance()->Save("CodeProfilerOutput.txt");
 	CProfiler::GetInstance()->DeleteInstance();
 #endif
-
 }

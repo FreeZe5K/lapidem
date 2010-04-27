@@ -166,7 +166,7 @@ bool CAuxiliaryState::Input( )
 	return true;
 }
 
-void CAuxiliaryState::Update( )
+void CAuxiliaryState::Update( float fET )
 {
 	// - - - - - - - - - - - - - - - - - -
 	// If 10 seconds have passed 

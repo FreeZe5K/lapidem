@@ -1,6 +1,5 @@
 #include "CParticleManager.h"
 #include "CGame.h"
-//#include "CCamera.h"        // Include this later.
 #include <fstream>
 using std::ifstream;
 using std::ios_base;
@@ -43,27 +42,25 @@ void CParticleManager::Render( )
 {
 	for( u32 u = 0; u < m_vEmitters.size( ); u++ )
 	{
-		// Uncomment this when the camera is implemented.
-		// - - - - - - - - - - - - - - - - - - - - - - - - -
-		//if( m_vEmitters[i]->GetPosX( ) > CCamera::GetInstance( )->GetXOffset( ) 
-		//	&& m_vEmitters[i]->GetPosY( ) > CCamera::GetInstance( )->GetYOffset( ) 
-		//	&& m_vEmitters[i]->GetPosX( ) < ( CCamera::GetInstance( )->GetXOffset( ) 
-		//	+ CGame::GetInstance( )->GetScreenWidth( ) ) && m_vEmitters[i]->GetPosY( ) 
-		//	< ( CCamera::GetInstance( )->GetYOffset( ) + CGame::GetInstance( )->GetScreenHeight( ) ) ) 
+		//if( m_vEmitters[u]->GetPosX( ) > CCamera::GetCamera( )->GetXOffset( ) 
+		//	&& m_vEmitters[u]->GetPosY( ) > CCamera::GetCamera( )->GetYOffset( ) 
+		//	&& m_vEmitters[u]->GetPosX( ) < ( CCamera::GetCamera( )->GetXOffset( ) 
+		//	+ CGame::GetInstance( )->GetScreenWidth( ) ) && m_vEmitters[u]->GetPosY( ) 
+		//	< ( CCamera::GetCamera( )->GetYOffset( ) + CGame::GetInstance( )->GetScreenHeight( ) ) ) 
 		//{
-		ul32 _source;
-		ul32 _destination;
+			ul32 _source;
+			ul32 _destination;
 
-		m_pD3D->GetDirect3DDevice( )->GetRenderState( D3DRS_SRCBLEND, &_source );
-		m_pD3D->GetDirect3DDevice( )->GetRenderState( D3DRS_DESTBLEND, &_destination );
+			m_pD3D->GetDirect3DDevice( )->GetRenderState( D3DRS_SRCBLEND, &_source );
+			m_pD3D->GetDirect3DDevice( )->GetRenderState( D3DRS_DESTBLEND, &_destination );
 
-		m_pD3D->GetDirect3DDevice( )->SetRenderState( D3DRS_SRCBLEND, m_vEmitters[u]->GetSourceBlend( ) );
-		m_pD3D->GetDirect3DDevice( )->SetRenderState( D3DRS_DESTBLEND, m_vEmitters[u]->GetDestinationBlend( ) );
+			m_pD3D->GetDirect3DDevice( )->SetRenderState( D3DRS_SRCBLEND, m_vEmitters[u]->GetSourceBlend( ) );
+			m_pD3D->GetDirect3DDevice( )->SetRenderState( D3DRS_DESTBLEND, m_vEmitters[u]->GetDestinationBlend( ) );
 
-		m_vEmitters[u]->Render( );
+			m_vEmitters[u]->Render( );
 
-		m_pD3D->GetDirect3DDevice( )->SetRenderState( D3DRS_SRCBLEND, _source );
-		m_pD3D->GetDirect3DDevice( )->SetRenderState( D3DRS_DESTBLEND, _destination );
+			m_pD3D->GetDirect3DDevice( )->SetRenderState( D3DRS_SRCBLEND, _source );
+			m_pD3D->GetDirect3DDevice( )->SetRenderState( D3DRS_DESTBLEND, _destination );
 		//}
 	}
 }
@@ -121,7 +118,7 @@ CEmitter *CEmitterFactory::CreateEmitter( const char *szName )
 
 int CEmitterFactory::Load( const char* szFileName, const char* szEmitterName )
 {
-	char* _path = "././resource/graphics/";
+	char* _path = "resource/graphics/";
 
 	int _numParticles;
 	int _srcBlend;
@@ -214,7 +211,7 @@ int CEmitterFactory::Load( const char* szFileName, const char* szEmitterName )
 		_stringSize = 0;
 		fin.read( ( char* )&_stringSize, sizeof( char ) );
 
-		_image = new char[int( _stringSize + 1 )];
+		_image = new char[int( _stringSize ) + 1];
 		fin.read( ( char* )_image, _stringSize );
 		_image[int( _stringSize )] = '\0';
 
@@ -273,8 +270,14 @@ int CEmitterFactory::Load( const char* szFileName, const char* szEmitterName )
 		strcpy_s( _fullPath, ( strlen( _path ) + strlen( _image ) ) + 1, _path );
 		strcat_s( _fullPath, ( strlen( _path ) + strlen( _image ) ) + 1, _image );
 
-		delete[]  _fullPath;
+		m_pEmitter->GetParticle( )->SetImageID( m_pTM->LoadTexture( 
+			_fullPath, D3DCOLOR_XRGB( 0, 0, 0 ) ) );
+
+		m_vEmitters.push_back( m_pEmitter );
+
+		delete[] _fullPath;
 		delete[] _name;
+		_name = NULL;
 		delete[] _image;
 	} fin.close( );
 
@@ -297,5 +300,5 @@ void CEmitterFactory::Initialize( )
 {
 	m_pTM = CSGD_TextureManager::GetInstance( );
 
-	Load( "resource/data/spell.bin", "spell" );
+	Load( "resource/data/spell.bin", "firespell" );
 }

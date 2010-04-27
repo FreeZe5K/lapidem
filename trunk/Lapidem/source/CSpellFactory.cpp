@@ -10,7 +10,6 @@
 //////////////////////////////////////////////////////////////////////////
 #include "CSpellFactory.h"
 
-
 #include "Corona_ObjectManager.h"
 #include "CCharacter.h"
 #include "CFire.h"
@@ -35,14 +34,17 @@ CSpellFactory::CSpellFactory()
 	m_nIceXP = 0;
 	
 	m_pEF = CEmitterFactory::GetInstance();
-
 }
-
 
 CSpellFactory::~CSpellFactory()
 {
 	if(m_pEF)
 	{
+		m_pEF = NULL;
+	}
+	if( m_pEF )
+	{
+		m_pEF->UnloadAll( );
 		m_pEF = NULL;
 	}
 }
@@ -233,24 +235,11 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 					break;
 				}
 			}
+
 			newfire->SetDamage(12 + (3 * m_nFireLVL));
 			newfire->SetDOT(3 + (1 * (m_nFireLVL>>1)));
 			newfire->SetLifespan(5.0f);
 			newfire->SetActive(true);
-		
-			//CEmitter* emitter;
-			//emitter = m_pEF->CreateEmitter("FireSpell");
-			//emitter->SetPosX(newfire->GetPosX());// - getwidth/2
-			//emitter->SetPosY(newfire->GetPosY());// same here
-
-			//emitter->GetParticle()->SetPosX(newfire->GetPosX());// - getwidth/2
-			//emitter->GetParticle()->SetPosY(newfire->GetPosY());// same here
-
-			//emitter->SetLooping(true);
-			//CParticleManager::GetInstance()->AddEmitter(emitter);
-
-			//emitter = NULL;
-
 			newfire->SetTier(nTier);
 			if(pShooter->GetType() == OBJ_PLAYER)
 			{
@@ -265,8 +254,27 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 			newfire->SetElement(OBJ_FIRE);
 
 			Corona_ObjectManager::GetInstance()->AddObject(newfire);
+
+			// - - 
+
+			CEmitter *emitter;
+			emitter = m_pEF->CreateEmitter( "firespell" );
+			emitter->SetPosX( newfire->GetPosX( ) ); //  - ( newfire->GetWidth( ) / 2 )
+			emitter->SetPosY( newfire->GetPosY( ) ); //  - ( newfire->GetHeight( ) / 2 )
+
+			emitter->SetVelX( newfire->GetVelX( ) );
+			emitter->SetVelY( newfire->GetVelY( ) );
+
+			emitter->GetParticle( )->SetPosX( newfire->GetPosX( ) ); //  - ( newfire->GetWidth( ) / 2 )
+			emitter->GetParticle( )->SetPosY( newfire->GetPosY( ) ); // - ( newfire->GetHeight( ) / 2 )
+			emitter->SetLooping( true );
+			CParticleManager::GetInstance( )->AddEmitter( emitter );
+			emitter = NULL;
+
+			// - - 
+
 			newfire->Release();
-			int x = 0;
+
 			break;
 		}
 	}
