@@ -12,6 +12,8 @@
 #ifndef CSPELLFACTORY_H
 #define CSPELLFACTORY_H
 
+#include "CParticleManager.h"
+
 class CCharacter;
 class CIce;
 class CFire;

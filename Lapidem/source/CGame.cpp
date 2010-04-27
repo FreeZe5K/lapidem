@@ -123,7 +123,7 @@ bool CGame::Main( )
 
 	CheckForCheats( );
 
-	Update( );
+	Update( float( m_nFPS ) );
 	Render( );
 
 	m_nFrameCount++;
@@ -156,12 +156,12 @@ bool CGame::Input( )
 	return true;
 }
 
-void CGame::Update( )
+void CGame::Update( float _fps )
 {
 	if( !m_bIsPaused )
 		if( m_vGS.size( ) > 0 )
 			for( unsigned int index = 0; index < m_vGS.size( ); index++ )
-				m_vGS[index]->Update( );
+				m_vGS[index]->Update( _fps );
 	m_pWM->Update( );
 }
 

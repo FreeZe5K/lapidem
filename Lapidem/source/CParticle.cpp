@@ -36,10 +36,10 @@ CParticle::~CParticle( )
 
 void CParticle::Update( float fET )
 {
-	SetAge( GetAge( ) < m_fLifeSpan );
+	SetAge( GetAge( ) + fET );
 
-	if( GetAge( ) < m_fLifeSpan )
-	{
+	//if( GetAge( ) < m_fLifeSpan )
+	//{
 		float _a        = float( m_nEndAlpha - m_nStartAlpha );
 		float _r        = float( m_nEndRed - m_nStartRed );
 		float _g        = float( m_nEndGreen - m_nStartGreen );
@@ -50,17 +50,17 @@ void CParticle::Update( float fET )
 		m_fVelYStart    = m_fVelYStart + GetAccelY( ) * fET;
 		m_fVelYEnd      = m_fVelYEnd + GetAccelY( ) * fET;
 
-		SetAlpha( int( float( _a * ( GetAge( ) / m_fLifeSpan ) ) + m_nStartAlpha ) );
-		SetRed( int( float( _r * ( GetAge( ) / m_fLifeSpan ) ) + m_nStartRed ) );
-		SetGreen( int( float( _g * ( GetAge( ) / m_fLifeSpan ) ) + m_nStartGreen ) );
-		SetBlue( int( float( _b * ( GetAge( ) / m_fLifeSpan ) ) + m_nStartBlue ) );
+		SetAlpha(  int( float( _a * ( GetAge( ) / m_fLifeSpan ) ) + m_nStartAlpha ) );
+		SetRed(    int( float( _r * ( GetAge( ) / m_fLifeSpan ) ) + m_nStartRed ) );
+		SetGreen(  int( float( _g * ( GetAge( ) / m_fLifeSpan ) ) + m_nStartGreen ) );
+		SetBlue(   int( float( _b * ( GetAge( ) / m_fLifeSpan ) ) + m_nStartBlue ) );
 
 		SetVelX( ( ( m_fVelXEnd - m_fVelXStart ) * ( GetAge( ) / m_fLifeSpan ) ) + m_fVelXStart );
 		SetVelY( ( ( m_fVelYEnd - m_fVelYStart ) * ( GetAge( ) / m_fLifeSpan ) ) + m_fVelYStart );
 
 		m_fScaleOut     = ( ( m_fScaleEnd - m_fScaleStart ) * 
 			( GetAge( ) / m_fLifeSpan ) ) + m_fScaleStart;
-	}
+	//}
 
 	m_fCurrentPosX      = m_fCurrentPosX + ( GetVelX( ) * fET );
 	m_fCurrentPosY      = m_fCurrentPosY + ( GetVelY( ) * fET );
@@ -68,10 +68,22 @@ void CParticle::Update( float fET )
 
 void CParticle::Render( )
 {
+	//if( GetImageID( ) > -1 )
+	//	/*m_pTM->Draw( GetImageID( ), int( m_fCurrentPosX - 
+	//	CCamera::GetCamera( )->GetXOffset( ) ),
+	//	int( m_fCurrentPosY - CCamera::GetCamera( )->GetYOffset( ) ),
+	//	m_fScaleOut, m_fScaleOut, NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB
+	//	( GetAlpha( ), GetRed( ), GetGreen( ), GetBlue( ) ) );*/
+	//	m_pTM->Draw( GetImageID( ), 200,
+	//	200, 0, 0, 0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB
+	//	( 255, GetRed( ), GetGreen( ), GetBlue( ) ) );
 	if( GetImageID( ) > -1 )
-		m_pTM->Draw( GetImageID( ), int( m_fCurrentPosX 
-		/* - CCamera::GetInstance( )->GetXOffset( ) */),
-		int( m_fCurrentPosY /* - CCamera::GetInstance( )->GetYOffset( ) */),
+		/*m_pTM->Draw( GetImageID( ), int( m_fCurrentPosX - 
+		CCamera::GetCamera( )->GetXOffset( ) ),
+		int( m_fCurrentPosY - CCamera::GetCamera( )->GetYOffset( ) ),
 		m_fScaleOut, m_fScaleOut, NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB
-		( GetAlpha( ), GetRed( ), GetGreen( ), GetBlue( ) ) );
+		( GetAlpha( ), GetRed( ), GetGreen( ), GetBlue( ) ) );*/
+		m_pTM->Draw( GetImageID( ), 200, 200, 
+		1, 1, 0, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB
+		( GetAlpha( ) , GetRed( ), GetGreen( ), GetBlue( ) ) );
 }

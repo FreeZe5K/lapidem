@@ -10,28 +10,32 @@
 #include "Wrappers/CSGD_TextureManager.h"
 #include "CTerrainBase.h"
 #include "CCamera.h"
-#include "CParticleManager.h"
 
 CFire::CFire() :CSpell()
 {
+	// - - - - - - - - - - - - - - -
+	// TODO ::
+	//      Delete this and replace
+	//      with particle effects.
+	// - - - - - - - - - - - - - - -
 	SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/fire.bmp",D3DCOLOR_XRGB(0,0,0)));
-	//m_pEmitter = CEmitterFactory::GetInstance()->CreateEmitter("Fire");
+	// - - - - - - - - - - - - - - -
+
 	SetType(OBJ_SPELL);
 	SetElement(OBJ_FIRE);
 }
 
 CFire::~CFire()
 {
-
 }
 
 void CFire::Update(float fElapsedTime)
 {
 	SetLifespan(GetLifespan() - fElapsedTime);
+
 	if(GetLifespan() < 0)
-	{
 		SetActive(false);
-	}
+
 	switch(GetTier())
 	{
 	case 1:
@@ -101,15 +105,11 @@ void CFire::RenderTier1()
 
 void CFire::RenderTier2()
 {
-
 }
 
 void CFire::RenderTier3()
 {
-
 }
-
-
 
 void CFire::HandleCollision(CBase* pObject)
 {

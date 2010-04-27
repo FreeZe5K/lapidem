@@ -2,6 +2,7 @@
 
 #include "CGame.h"
 #include "IGameState.h"
+#include "CParticleManager.h"
 #include "CLevel.h"
 
 class CCamera;
@@ -10,7 +11,6 @@ class IGameState;
 class Corona_ObjectManager;
 class Corona_EventHandler;
 class CEmitterFactory;
-
 
 class CGameplayState : public IGameState
 {
@@ -30,6 +30,9 @@ private:
 	CCamera					*theCamera;
 	CEmitterFactory			*m_pEF;
 
+	CEmitterFactory         *m_pEF;
+	CParticleManager        *m_pPM;
+
 	CLevel					theLevel;
 
 	CPlayer					*m_pPlayerOne;
@@ -45,7 +48,7 @@ public:
 
 	void Enter( );
 	bool Input( );
-	void Update( );
+	void Update( float );
 	void Render( );
 	void Exit( );
 

@@ -76,7 +76,7 @@ bool CPauseMenuState::Input( )
 	return true;
 }
 
-void CPauseMenuState::Update( )
+void CPauseMenuState::Update( float fET )
 {
 }
 
