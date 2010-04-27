@@ -167,83 +167,205 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Interfaces"
-			>
-			<File
-				RelativePath=".\source\IBaseInterface.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\IGameState.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Resource Files"
-			>
-			<File
-				RelativePath=".\source\resource.aps"
-				>
-			</File>
-			<File
-				RelativePath=".\source\resource.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\resource.rc"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="Game Core"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			Name="Game Objects"
 			>
 			<Filter
-				Name="Source Files"
-				Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
-				UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
+				Name="Terrain"
 				>
-				<File
-					RelativePath=".\source\CCamera.cpp"
+				<Filter
+					Name="Header Files"
 					>
-				</File>
-				<File
-					RelativePath=".\source\CGame.cpp"
+					<File
+						RelativePath=".\source\CTerrainBase.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Source Files"
 					>
-				</File>
-				<File
-					RelativePath=".\source\CGameplayState.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CLevel.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\Corona_EventHandler.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\WinMain.cpp"
-					>
-				</File>
+					<File
+						RelativePath=".\source\CTerrainBase.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
+				Name="Characters"
+				>
+				<Filter
+					Name="Header Files"
+					>
+					<File
+						RelativePath=".\source\AIStateEarth.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CCharacter.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CEnemy.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CPlayer.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\IAIState.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Source Files"
+					>
+					<File
+						RelativePath=".\source\CCharacter.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CEnemy.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CPlayer.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Spells"
+				>
+				<Filter
+					Name="Header Files"
+					>
+					<File
+						RelativePath=".\source\CEarth.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CFire.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CIce.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CSpell.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CWind.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Source Files"
+					>
+					<File
+						RelativePath=".\source\CEarth.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CFire.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CIce.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CSpell.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CWind.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Misc."
+				>
+				<Filter
+					Name="Header Files"
+					>
+					<File
+						RelativePath=".\source\CBase.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CCamera.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\Corona_ObjectManager.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\IBaseInterface.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Source Files"
+					>
+					<File
+						RelativePath=".\source\CBase.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CCamera.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\Corona_ObjectManager.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Particles"
+				>
+				<Filter
+					Name="Header Files"
+					>
+					<File
+						RelativePath=".\source\CEmitter.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CFlyweight.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CParticle.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="Source Files"
+					>
+					<File
+						RelativePath=".\source\CEmitter.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CParticle.cpp"
+						>
+					</File>
+				</Filter>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Game States"
+			>
+			<Filter
 				Name="Header Files"
-				Filter="h;hpp;hxx;hm;inl;inc;xsd"
-				UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 				>
 				<File
-					RelativePath=".\source\CCamera.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CEvent.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CGame.h"
+					RelativePath=".\source\CAuxiliaryState.h"
 					>
 				</File>
 				<File
@@ -251,123 +373,27 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\CLDevice.h"
+					RelativePath=".\source\CMenuState.h"
 					>
 				</File>
 				<File
-					RelativePath=".\source\CLevel.h"
+					RelativePath=".\source\CPauseMenuState.h"
 					>
 				</File>
 				<File
-					RelativePath=".\source\Corona_EventHandler.h"
+					RelativePath=".\source\IGameState.h"
 					>
 				</File>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="Wrappers"
-			>
-			<Filter
-				Name="Source Files"
-				>
-				<File
-					RelativePath=".\source\Wrappers\CSGD_Direct3D.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\Wrappers\CSGD_DirectInput.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\Wrappers\CSGD_DirectSound.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\Wrappers\CSGD_TextureManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\Wrappers\CSGD_WaveManager.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Header Files"
-				>
-				<File
-					RelativePath=".\source\Wrappers\CSGD_Direct3D.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\Wrappers\CSGD_DirectInput.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\Wrappers\CSGD_DirectSound.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\Wrappers\CSGD_TextureManager.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\Wrappers\CSGD_WaveManager.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\Wrappers\SGD_Math.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\Wrappers\SGD_Util.h"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="Tiny XML"
-			>
-			<Filter
-				Name="Source Files"
-				>
-				<File
-					RelativePath=".\source\tinyXML\tinystr.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\tinyXML\tinyxml.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\tinyXML\tinyxmlerror.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\tinyXML\tinyxmlparser.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Header Files"
-				>
-				<File
-					RelativePath=".\source\tinyXML\tinystr.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\tinyXML\tinyxml.h"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="Menus"
-			>
 			<Filter
 				Name="Source Files"
 				>
 				<File
 					RelativePath=".\source\CAuxiliaryState.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CGameplayState.cpp"
 					>
 				</File>
 				<File
@@ -379,25 +405,9 @@
 					>
 				</File>
 			</Filter>
-			<Filter
-				Name="Header Files"
-				>
-				<File
-					RelativePath=".\source\CAuxiliaryState.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CMenuState.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CPauseMenuState.h"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
-			Name="Helper Classes"
+			Name="Misc"
 			>
 			<Filter
 				Name="Header Files"
@@ -407,11 +417,19 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\CAnimationWarehouse.h"
+					RelativePath=".\source\CBitmapFont.h"
 					>
 				</File>
 				<File
-					RelativePath=".\source\CBitmapFont.h"
+					RelativePath=".\source\CEvent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CLDevice.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Corona_EventHandler.h"
 					>
 				</File>
 				<File
@@ -431,15 +449,11 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\CAnimationWarehouse.cpp"
-					>
-				</File>
-				<File
 					RelativePath=".\source\CBitmapFont.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\source\CCharacter.cpp"
+					RelativePath=".\source\Corona_EventHandler.cpp"
 					>
 				</File>
 				<File
@@ -450,68 +464,20 @@
 					RelativePath=".\source\Lapidem_Math.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\source\WinMain.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
-			Name="Game Objects"
+			Name="Managers / Factories"
 			>
-			<File
-				RelativePath=".\source\CAnimation.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\CAnimation.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\CAnimationWarehouse.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\CAnimationWarehouse.h"
-				>
-			</File>
-			<Filter
-				Name="Source Files"
-				>
-				<File
-					RelativePath=".\source\CBase.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CCharacter.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CEnemy.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CEnemySpawner.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CPlayer.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CTerrainBase.cpp"
-					>
-				</File>
-			</Filter>
 			<Filter
 				Name="Header Files"
 				>
 				<File
-					RelativePath=".\source\CBase.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CCharacter.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CEnemy.h"
+					RelativePath=".\source\CAnimationWarehouse.h"
 					>
 				</File>
 				<File
@@ -519,139 +485,99 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\CPlayer.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CTerrainBase.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Spells"
-				>
-				<Filter
-					Name="Header"
-					>
-					<File
-						RelativePath=".\source\CEarth.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\CFire.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\CIce.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\CSpell.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\CSpellFactory.h"
-						>
-					</File>
-					<File
-						RelativePath=".\source\CWind.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Source"
-					>
-					<File
-						RelativePath=".\source\CEarth.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\source\CFire.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\source\CIce.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\source\CSpell.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\source\CSpellFactory.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\source\CWind.cpp"
-						>
-					</File>
-				</Filter>
-			</Filter>
-			<Filter
-				Name="AIStates"
-				>
-				<File
-					RelativePath=".\source\AIStateEarth.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\IAIState.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Manager"
-				>
-				<File
-					RelativePath=".\source\Corona_ObjectManager.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\Corona_ObjectManager.h"
-					>
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="Particle World"
-			>
-			<Filter
-				Name="Source Files"
-				>
-				<File
-					RelativePath=".\source\CEmitter.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CParticle.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CParticleManager.cpp"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Header Files"
-				>
-				<File
-					RelativePath=".\source\CEmitter.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CFlyweight.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CParticle.h"
+					RelativePath=".\source\CLevel.h"
 					>
 				</File>
 				<File
 					RelativePath=".\source\CParticleManager.h"
 					>
 				</File>
+				<File
+					RelativePath=".\source\CSpellFactory.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\source\CAnimationWarehouse.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CEnemySpawner.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CLevel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CParticleManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CSpellFactory.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
+		<Filter
+			Name="Wrappers"
+			>
+			<File
+				RelativePath=".\source\Wrappers\CSGD_Direct3D.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\Wrappers\CSGD_Direct3D.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\Wrappers\CSGD_DirectInput.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\Wrappers\CSGD_DirectInput.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\Wrappers\CSGD_DirectSound.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\Wrappers\CSGD_DirectSound.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\Wrappers\CSGD_TextureManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\Wrappers\CSGD_TextureManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\Wrappers\CSGD_WaveManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\Wrappers\CSGD_WaveManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\source\Wrappers\SGD_Util.h"
+				>
+			</File>
+		</Filter>
+		<File
+			RelativePath=".\source\CGame.cpp"
+			>
+		</File>
+		<File
+			RelativePath=".\source\CGame.h"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

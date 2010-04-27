@@ -12,6 +12,7 @@
 
 CWind::CWind() : CSpell()
 {
+	SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/wind.bmp",D3DCOLOR_XRGB(0,0,0)));
 
 }
 
@@ -111,7 +112,14 @@ void CWind::HandleCollision(CBase* pObject)
 {
 	if(GetTier() ==1)
 	{
-		SetActive(false);
+		if(pObject->GetType() == OBJ_TERRA)
+		{
+		//	if(((CTerrainBase*)pObject)->GetTypeTerrain() == T_ROCK);
+		//	{
+				//((CTerrainBase*)pObject)->SetHealth(((CTerrainBase*)pObject)->GetHealth()- GetDamage());
+				SetActive(false);
+		//	}
+		}
 
 		/* 
 		if vel == + push them right 
