@@ -65,3 +65,35 @@ void CBase::HandleCollision(CBase*)
 
 
 }
+
+
+void CBase::MoveOutOf( CBase* pSolidObject )
+{
+		RECT r;
+		IntersectRect( &r, & this->GetCollisionRect(0), &pSolidObject->GetCollisionRect(0) );
+
+		int nRectWidth = r.right -r.left;
+		int nRectHeight = r.bottom - r.top;
+
+		if( nRectHeight > nRectWidth )
+		{
+			if( this->GetPosX() > pSolidObject->GetPosX() )
+				SetPosX( GetPosX() + nRectWidth );
+			else if ( this->GetPosX() < pSolidObject->GetPosX() )
+				SetPosX( GetPosX() - nRectWidth );
+		}
+		else if( nRectHeight < nRectWidth ) 
+		{
+			
+			if( this->GetPosY() > pSolidObject->GetPosY() )
+			{
+				SetPosY( GetPosY() + nRectHeight  );
+				
+			}
+			else if(this->GetPosY() < pSolidObject->GetPosY() )
+			{
+				SetPosY( GetPosY() - nRectHeight );
+			}
+
+		}
+}

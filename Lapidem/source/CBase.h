@@ -133,4 +133,15 @@ public:
 		if( 0 == m_nRefCount )
 			delete this;
 	}
+
+	
+	/////////////////////////////////////////////////////////////////////////
+	//Function:	"MoveOutOf"
+	//
+	//Purpose:	When objects collide, use this helper function to move the 
+	//			invoking object out of the parameter object
+	/////////////////////////////////////////////////////////////////////////
+
+	void MoveOutOf( CBase* pSolidObject );
+
 };

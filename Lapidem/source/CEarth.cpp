@@ -170,7 +170,7 @@ void CEarth::Render()
 			RenderTier3();
 			break;
 		}
-	}
+	};
 }
 
 void CEarth::RenderTier1()
@@ -203,10 +203,26 @@ void CEarth::HandleCollision(CBase* pObject)
 		if(pObject->GetPosX() + 1 > GetPosX() + GetWidth() || pObject->GetPosX() + GetWidth() - 1 < GetPosX())
 			SetVelX(GetVelX() * -.75f);
 
-		if(pObject->GetPosY() + 1 > GetPosY() + GetHeight() || pObject->GetPosY() + GetHeight() - 1 < GetPosY())
-			SetVelY(0.0f);
-		}
+		if(pObject->GetPosY() + GetHeight() - 1 < GetPosY())
+			SetVelY(GetVelX() * -.75f);
 
+
+		if(pObject->GetPosY() + 1 > GetPosY() + GetHeight() )
+			SetVelY(GetVelY() * -.5f);
+
+		this->MoveOutOf(pObject);
+		
+		}
+		if( pObject->GetType() == OBJ_SPELL )
+		{
+			if( ((CSpell*)pObject)->GetElement() == OBJ_EARTH )
+			{
+				SetVelX(GetVelX() * -.75f);
+				SetVelY(GetVelY() * -.5f);
+			}
+			pObject->MoveOutOf(this);
+
+		}
 	}
 	else if(GetTier() ==2)
 	{
@@ -216,4 +232,5 @@ void CEarth::HandleCollision(CBase* pObject)
 	{
 		// holy crap everything go splode
 	}
+
 }

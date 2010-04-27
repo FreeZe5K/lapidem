@@ -33,6 +33,7 @@ class CLevel
 	int m_nBGM;
 
 	char* m_szNextLevelFileName;
+	char* m_szLevelFileName;
 
 	vector<CBase*>	m_pTerrainTiles;
 	vector<CBase*>	m_pEventTiles;
@@ -60,7 +61,9 @@ public:
 	int GetBackGroundImage(){return m_nBackGroundImageID;}
 	int GetBGM(){return m_nBGM;}
 
+	//	filename ----------------------   whatever#.laplvl"
 	char* GetNextLevelFileName(){return m_szNextLevelFileName;}
+	char* GetLevelFileName(){return m_szLevelFileName;}
 
 private:
 	
