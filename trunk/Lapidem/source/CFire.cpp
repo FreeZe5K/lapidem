@@ -122,7 +122,7 @@ void CFire::HandleCollision(CBase* pObject)
 		{
 		//	if(((CTerrainBase*)pObject)->GetTypeTerrain() == T_ROCK);
 		//	{
-				((CTerrainBase*)pObject)->SetHealth(((CTerrainBase*)pObject)->GetHealth()- GetDamage());
+				//((CTerrainBase*)pObject)->SetHealth(((CTerrainBase*)pObject)->GetHealth()- GetDamage());
 				SetActive(false);
 		//	}
 		}

@@ -465,6 +465,8 @@ CBase* CLevel::CheckCollision( CBase* pBase  )
 		for( int j = nY; j <= nY2; j +=1)
 		{
 			int index = i + j*GetWorldCollumn();
+			if( index <0 || index > int( m_pTerrainTiles.size() ) )
+				continue;
 			pTerra= (CTerrainBase*)m_pTerrainTiles[ index ];
 			pTerra->SetCollided(false);
 		}
