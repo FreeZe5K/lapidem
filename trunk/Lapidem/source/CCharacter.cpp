@@ -2,22 +2,41 @@
 #include "CAnimationWarehouse.h"
 #include "CAnimation.h"
 #include "CCamera.h"
+#include "CSpell.h"
 #include "Wrappers/CSGD_TextureManager.h"
 #include <windows.h>
 
 CCharacter::CCharacter()
 {
 	m_pSpells = CSpellFactory::GetInstance();
-	animation = CAnimationWarehouse::GetInstance()->GetAnimation(0,0);
+	animation = NULL;
 }
 
 void CCharacter::Render()
 {
-	if( animation->GetImageID() != -1 && !IsRotated)
-		CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), ( int )(GetPosX( ) - CCamera::GetCamera()->GetXOffset()), ( int )(GetPosY( ) - CCamera::GetCamera()->GetYOffset()),1.0f,1.0f,&animation->GetFrames()->DrawRect);
-	else if(IsRotated)
+	if(animation)
 	{
-		CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), ( int )(GetPosX( ) - CCamera::GetCamera()->GetXOffset() + (GetWidth() >>1)), ( int )(GetPosY( ) - CCamera::GetCamera()->GetYOffset()),-1.0f,1.0f,&animation->GetFrames()->DrawRect);
+		if( animation->GetImageID() != -1 && !IsRotated)
+			CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), ( int )(GetPosX( ) - CCamera::GetCamera()->GetXOffset()), ( int )(GetPosY( ) - CCamera::GetCamera()->GetYOffset()),1.0f,1.0f,&animation->GetFrames()->DrawRect);
+		else if(animation->GetImageID() != -1 && IsRotated)
+		{
+			CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), ( int )(GetPosX( ) - CCamera::GetCamera()->GetXOffset() + (GetWidth() >>1)), ( int )(GetPosY( ) - CCamera::GetCamera()->GetYOffset()),-1.0f,1.0f,&animation->GetFrames()->DrawRect);
+		}
 	}
+	else CBase::Render();
 	
+}
+void CCharacter::Update(float fElapsedTime)
+{
+	CBase::Update(fElapsedTime);
+	if(animation)
+	{
+		animation->Update(fElapsedTime);
+		SetWidth(animation->GetFrames()->DrawRect.right - animation->GetFrames()->DrawRect.left);
+		SetHeight(animation->GetFrames()->DrawRect.bottom - animation->GetFrames()->DrawRect.top);
+	}
+		SetVelY(150);
+		
+
+
 }

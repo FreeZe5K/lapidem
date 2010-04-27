@@ -52,16 +52,6 @@ void CGameplayState::Enter( )
 	m_pWM->SetVolume( m_nSoundID[0], CGame::GetInstance( )->GetMusicVolume( ) ); 
 	m_pWM->SetVolume( m_nSoundID[1], CGame::GetInstance( )->GetSoundFXVolume( ) ); 
 
-	{//Player One Init (For Testing!):
-
-		m_pPlayerOne->SetImage(m_pTM->LoadTexture( "resource/graphics/Lapidem_TempJack.png"));
-		m_pPlayerOne->SetPosX(200);
-		m_pPlayerOne->SetPosY(200);
-		m_pPlayerOne->SetWidth(16);
-		m_pPlayerOne->SetHeight(64);
-
-	}
-
 	m_pCoM->AddObject(m_pPlayerOne);
 
 	if(m_pPlayerTwo)
@@ -105,6 +95,15 @@ bool CGameplayState::Input( )
 
 	if( m_pDI->KeyDown( DIK_F ) )
 		m_pPlayerOne->Attack(1);
+
+	if( m_pDI->KeyPressed( DIK_1 ) )
+		m_pPlayerOne->SetEleType(OBJ_EARTH);
+	else if( m_pDI->KeyPressed( DIK_2 ) )
+		m_pPlayerOne->SetEleType( OBJ_FIRE );
+	else if( m_pDI->KeyPressed( DIK_3 ) )
+		m_pPlayerOne->SetEleType( OBJ_ICE );
+	else if( m_pDI->KeyPressed( DIK_4 ) )
+		m_pPlayerOne->SetEleType( OBJ_WIND );
 
 
 	if( m_pPlayerTwo )

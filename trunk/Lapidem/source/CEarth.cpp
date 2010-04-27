@@ -65,7 +65,7 @@ void CEarth::Update(float fElapsedTime)
 void CEarth::UpdateTier1(float fElapsedTime)
 {
 	
-	SetVelY(GetVelY() + 0.25f);
+	SetVelY(GetVelY() + fElapsedTime * 100);
 	if(m_fTimeTillRotate > 0)
 	{
 		m_fTimeTillRotate -= fElapsedTime;
@@ -198,7 +198,14 @@ void CEarth::HandleCollision(CBase* pObject)
 {
 	if(GetTier() ==1)
 	{
-		SetActive(false);
+		if(pObject->GetType() == OBJ_TERRA)
+		{
+		if(pObject->GetPosX() + 1 > GetPosX() + GetWidth() || pObject->GetPosX() + GetWidth() - 1 < GetPosX())
+			SetVelX(GetVelX() * -.75f);
+
+		if(pObject->GetPosY() + 1 > GetPosY() + GetHeight() || pObject->GetPosY() + GetHeight() - 1 < GetPosY())
+			SetVelY(0.0f);
+		}
 
 	}
 	else if(GetTier() ==2)

@@ -12,6 +12,7 @@ public:
 
 	CEnemy(EleType); 
 	void Update(float fElapsedTime);
+	void HandleCollision(CBase*);
 
 
 };

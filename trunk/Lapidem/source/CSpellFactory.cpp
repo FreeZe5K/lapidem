@@ -97,7 +97,7 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 	case 1: // First Tier... Basic Boulder
 		{
 			CEarth* newearth = new CEarth();
-			newearth->SetPosX(pShooter->GetPosX());
+			newearth->SetPosX(pShooter->GetPosX() + pShooter->GetWidth() + 2);
 			newearth->SetPosY(pShooter->GetPosY());
 			DIRECTION wheretoshoot = pShooter->GetDirection();
 			switch(wheretoshoot)
@@ -105,6 +105,7 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 			case 0:
 				{
 					newearth->SetVelX(-150);
+					newearth->SetPosX(pShooter->GetPosX() - 34);
 					newearth->SetVelY(0);
 					break;
 				}
@@ -129,12 +130,14 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 			case 4:
 				{
 					newearth->SetVelX(-75);
+					newearth->SetPosX(pShooter->GetPosX() - 34);
 					newearth->SetVelY(-75);
 					break;
 				}
 			case 5:
 				{
 					newearth->SetVelX(-75);
+					newearth->SetPosX(pShooter->GetPosX() - 34);
 					newearth->SetVelY(75);
 					break;
 				}
@@ -181,7 +184,7 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 		{
 			CFire* newfire = new CFire();
 			newfire->SetPosX(pShooter->GetPosX());
-			newfire->SetPosY(pShooter->GetPosY());
+			newfire->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
 
 			DIRECTION wheretoshoot = pShooter->GetDirection();
 			switch(wheretoshoot)

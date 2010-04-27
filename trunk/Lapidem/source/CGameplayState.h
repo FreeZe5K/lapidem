@@ -28,7 +28,6 @@ private:
 	Corona_ObjectManager	*m_pCoM;
 	Corona_EventHandler		*m_pCeH;
 	CCamera					*theCamera;
-	CEmitterFactory			*m_pEF;
 
 	CEmitterFactory         *m_pEF;
 	CParticleManager        *m_pPM;
