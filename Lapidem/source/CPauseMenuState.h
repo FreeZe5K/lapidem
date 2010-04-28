@@ -1,11 +1,36 @@
 #pragma once
 
 #include "IGameState.h"
+#include "CPlayer.h"
 #include "CGame.h"
+
+class CGame;
+class CPlayer;
+class IGameState;
+class CSGD_Direct3D;
+class CSGD_TextureManager;
+class CSGD_DirectSound;
+class CSGD_WaveManager;
+class CSGD_DirectInput;
 
 class CPauseMenuState : public IGameState
 {
 private:
+	// - - - - - - - - - - -
+	// For saving
+	// - - - - - - - - - - -
+	struct tSlotInfo
+	{
+		int            _nPlayerCount;
+		int            _nPositionX;
+		int            _nPositionY;
+		int            _nSinglePlayerScore;
+		int            _nPlayerOneScore;
+		int            _nPlayerTwoScore;
+	} _tSlotOne, _tSlotTwo, _tSlotThree;
+	// - - - - - - - - - - -
+
+	int                     m_nState;
 	int                     m_nChoice;
 	int                     m_nImageID;
 	int                     m_nSoundID;
@@ -24,7 +49,7 @@ private:
 public:
 	static CPauseMenuState* GetInstance( );
 
-	bool SaveGame( const char* );
+	bool SaveGame( int ); 
 
 	void Enter( );
 	bool Input( );

@@ -19,6 +19,7 @@ void CAuxiliaryState::Enter( )
 	m_pWM           = CSGD_WaveManager::GetInstance();
 	m_pDI           = CSGD_DirectInput::GetInstance();
 
+	m_nChoice       = 0;
 	m_nAttractTimer = 0;
 	m_nCreditScroll = 500;
 
@@ -40,11 +41,14 @@ void CAuxiliaryState::Enter( )
 
 	if( m_nState == 1 )
 	{		
-		char*   _NameBuffer    = "";
-		char*   _ScoreBuffer   = "";
-		int     _tempName( 0 );
+		char*   _NameBuffer( "" );
+		int     _tempSize( 0 );
+		string  _szNames[10] = { 0 };
+		int     _nScores[10] = { 0 };
 
-		fstream fs( "resource/data/Lapidem_HighscoreTable.bin", ios::in | ios::binary );
+		//fstream fs( "resource/data/Lapidem_HighscoreTable.bin", ios::in | ios::binary );
+		ifstream fin( "resource/data/Lapidem_HighscoreTable.bin", 
+			std::ios_base::in | std::ios_base::binary );
 
 		// - - - - - - - - - - - - - - - -
 		// This doesn't load in correctly
@@ -62,26 +66,27 @@ void CAuxiliaryState::Enter( )
 		//
 		// Have at it...
 		// - - - - - - - - - - - - - - - -
-		if( fs.is_open( ) )
+		if( fin.is_open( ) )
 		{
-			for( int i = 0; i < 10; i++ )
-			{
-				fs.read( ( char* )&_tempName, 1 );
-				_NameBuffer = new char[_tempName + 1];
-				fs.read( _NameBuffer, _tempName );
-				m_szPlayerNames[i] = _NameBuffer;
-				_NameBuffer[_tempName] = '\0';
+			//for( int i = 0; i < 10; i++ )
+			//{
+			//	fin.read( ( char* )&_tempSize, sizeof( string ) );
+			//	_NameBuffer = new char[_tempSize + 1];
+			//	fin.read( _NameBuffer, _tempSize );
+			//	_szNames[i] = _NameBuffer;
 
-				fs.read( ( char* )&_tempName, 1 );
-				_ScoreBuffer = new char[_tempName + 1];
-				fs.read( _ScoreBuffer, _tempName );
-				m_nPlayerScores[i] = int( _ScoreBuffer );
-				_ScoreBuffer[_tempName] = '\0';
+			//	fin.read( ( char* )&_nScores[i], sizeof( int ) );
 
-				delete[] _NameBuffer;
-				delete[] _ScoreBuffer;
-			} fs.close( );
-		}
+			//	// - -
+			//	m_szPlayerNames[i] = _szNames[i];
+			//	m_nPlayerScores[i] = _nScores[i];
+			//	// - -
+
+			//	delete[] _NameBuffer;
+			//	_NameBuffer = NULL;
+			//}
+
+		} fin.close( );
 		// - - - - - - - - - - - - - - - -
 	}
 
@@ -144,11 +149,6 @@ bool CAuxiliaryState::Input( )
 	}
 	else if( m_nState == 1 ) // High Scores
 	{
-		// - - - - - - - - - - - - - - - - - -
-		// 1. Parse the "Lapidem_HighscoreTable.bin"
-		// 2. Display the names and scores to the screen
-		// 3. Take a break.
-		// - - - - - - - - - - - - - - - - - -
 		if( m_pDI->CheckBufferedKeysEx( ) )
 			CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
 	}
@@ -298,6 +298,7 @@ void CAuxiliaryState::Render( )
 
 			_ScoreHeight = _ScoreHeight + 30;
 		}
+
 		CGame::GetInstance( )->GetFont( )->Draw( "PRESS ANY KEY TO CONTINUE", 45, 
 			450, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	}
@@ -340,7 +341,6 @@ void CAuxiliaryState::Render( )
 
 void CAuxiliaryState::Exit( )
 {
-	m_nChoice = 0;
 	m_pWM->UnloadWave( m_nSoundID[1] );
 	m_pWM->UnloadWave( m_nSoundID[0] );
 	m_pTM->UnloadTexture( m_nImageID[1] );

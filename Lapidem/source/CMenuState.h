@@ -10,12 +10,28 @@
 
 class CGame;
 class IGameState;
+class CSGD_Direct3D;
+class CSGD_TextureManager;
+class CSGD_DirectSound;
+class CSGD_WaveManager;
+class CSGD_DirectInput;
 
 class CMenuState : public IGameState
 {
 private:
+	struct tSlots
+	{
+		int            nPlayerCount;
+		int            nPositionX;
+		int            nPositionY;
+		int            nSinglePlayerScore;
+		int            nPlayerOneScore;
+		int            nPlayerTwoScore;
+	} tSlotOne, tSlotTwo, tSlotThree;
+
 	int                     m_nState;
 	int                     m_nChoice;
+	int                     m_nPlayerCount;
 	int                     m_nImageID;
 	int                     m_nSoundID[2];
 	int                     m_nAttractTimer;
@@ -38,6 +54,14 @@ private:
 
 public:
 	static CMenuState* GetInstance( );
+
+	int GetPlayerCount( )      { return m_nPlayerCount; }
+
+	tSlots GetSlotOne( )       { return tSlotOne;       }
+	tSlots GetSlotTwo( )       { return tSlotTwo;       }
+	tSlots GetSlotThree( )     { return tSlotThree;     }
+
+	bool Load( int );
 
 	void Enter( );
 	bool Input( );
