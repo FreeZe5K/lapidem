@@ -32,9 +32,8 @@ void CGameplayState::Enter( )
 	CCamera::InitCamera(0.0f, 0.0f, (float)CGame::GetInstance()->GetScreenWidth(),
 						(float)CGame::GetInstance()->GetScreenHeight(), m_pPlayerOne );
 
-	m_pCoM			= Corona_ObjectManager::GetInstance();
-	m_pCeH			= Corona_EventHandler::GetInstance();
-
+	m_pCoM			   = Corona_ObjectManager::GetInstance();
+	m_pCeH			   = Corona_EventHandler::GetInstance();
 
 	// - - - - - - - - - - - - - -
 	// Change the background image.
@@ -61,27 +60,59 @@ void CGameplayState::Enter( )
 	m_pEF = CEmitterFactory::GetInstance( );
 	m_pEF->Initialize( );
 
-	theLevel.LoadNewLevel("resource/data/level1.laplvl");
-	
+	theLevel.LoadNewLevel("resource/data/level1.laplvl");	
 
 	CBase* pEntry = theLevel.GetEntryPoint();
-	m_pPlayerOne->SetPosX( pEntry->GetPosX());
-	m_pPlayerOne->SetPosY( pEntry->GetPosY());
+
+	if( m_bLoadedFromFile )
+	{
+		// todo - handle what to do if
+		// more then one player is active.
+		if( 1 == m_nSlotLoadedFrom )
+		{
+			pEntry->SetPosX( float( CMenuState::GetInstance( )->GetSlotOne( ).nPositionX ) );
+			m_pPlayerOne->SetPosX( float( CMenuState::GetInstance( )->GetSlotOne( ).nPositionX ) );
+			pEntry->SetPosY( float( CMenuState::GetInstance( )->GetSlotOne( ).nPositionY ) );
+			m_pPlayerOne->SetPosY( float( CMenuState::GetInstance( )->GetSlotOne( ).nPositionY ) );
+			m_nPlayerOneScore     = CMenuState::GetInstance( )->GetSlotOne( ).nPlayerOneScore;
+			m_nPlayerTwoScore     = CMenuState::GetInstance( )->GetSlotOne( ).nPlayerTwoScore;
+			m_nSinglePlayerScore  = CMenuState::GetInstance( )->GetSlotOne( ).nSinglePlayerScore;
+		}
+		else if( 2 == m_nSlotLoadedFrom )
+		{
+			pEntry->SetPosX( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionX ) );
+			m_pPlayerOne->SetPosX( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionX ) );
+			pEntry->SetPosY( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionY ) );
+			m_pPlayerOne->SetPosY( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionY ) );
+			m_nPlayerOneScore     = CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerOneScore;
+			m_nPlayerTwoScore     = CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerTwoScore;
+			m_nSinglePlayerScore  = CMenuState::GetInstance( )->GetSlotTwo( ).nSinglePlayerScore;
+		}
+		else if( 3 == m_nSlotLoadedFrom )
+		{
+			pEntry->SetPosX( float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionX ) );
+			m_pPlayerOne->SetPosX( float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionX ) );
+			pEntry->SetPosY( float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionY ) );
+			m_pPlayerOne->SetPosY( float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionY ) );
+			m_nPlayerOneScore     = CMenuState::GetInstance( )->GetSlotThree( ).nPlayerOneScore;
+			m_nPlayerTwoScore     = CMenuState::GetInstance( )->GetSlotThree( ).nPlayerTwoScore;
+			m_nSinglePlayerScore  = CMenuState::GetInstance( )->GetSlotThree( ).nSinglePlayerScore;
+		}
+	}
+	else
+	{
+		m_pPlayerOne->SetPosX( pEntry->GetPosX());
+		m_pPlayerOne->SetPosY( pEntry->GetPosY());
+	}
 }
 
 bool CGameplayState::Input( )
 {
-	// - - - - - - - - - - - - - -
-	// Remove this code when
-	// functionality is added.
-	// Sam:: Why? We need a pause =).
-	// - - - - - - - - - - - - - -
 	if( m_pDI->KeyPressed( DIK_P ) || m_pDI->KeyPressed( DIK_ESCAPE ) )
 	{
 		CGame::GetInstance( )->PushState( CPauseMenuState::GetInstance( ) );
 		CGame::GetInstance( )->SetPaused( true );
 	}
-	// - - - - - - - - - - - - - -
 
 	if( m_pDI->KeyDown( DIK_D ) )
 		m_pPlayerOne->SetVelX( 100 );
@@ -104,7 +135,6 @@ bool CGameplayState::Input( )
 		m_pPlayerOne->SetEleType( OBJ_ICE );
 	else if( m_pDI->KeyPressed( DIK_4 ) )
 		m_pPlayerOne->SetEleType( OBJ_WIND );
-
 
 	if( m_pPlayerTwo )
 	{
@@ -165,6 +195,8 @@ void CGameplayState::Exit( )
 	
 	theLevel.Clear();
 	m_pCoM->DeleteInstance();
+
+	m_bLoadedFromFile = false;
 
 #if _DEBUG
 	CProfiler::GetInstance()->Save("CodeProfilerOutput.txt");
