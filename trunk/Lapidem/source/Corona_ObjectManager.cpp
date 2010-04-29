@@ -56,19 +56,19 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 		++iter;
 	}
 
-	iter = Terrain.begin();
-	while(iter != Terrain.end())
-	{
-		if(IsOnScreen(*iter))
-		{
-			if((*iter)->IsActive())
-				(*iter)->Update(fElapsedTime);
-			else
-				DeadItems.push_back(*iter);
-		}
+	//vector<CBase*>::iterator iter = Terrain.begin();
+	//while(iter != Terrain.end())
+	//{
+	//	if(IsOnScreen(*iter))
+	//	{
+	//		if((*iter)->IsActive())
+	//			(*iter)->Update(fElapsedTime);
+	//		else
+	//			DeadItems.push_back(*iter);
+	//	}
 
-		++iter;
-	}	
+	//	++iter;
+	//}	
 
 	for(unsigned index = 0; index < DeadItems.size(); ++index)
 	{
@@ -102,11 +102,11 @@ void Corona_ObjectManager::RenderObjects(void)
 			Objects[index]->Render();
 	}
 
-	for(unsigned index = 0; index < Terrain.size(); ++index)
+	/*for(unsigned index = 0; index < Terrain.size(); ++index)
 	{
 		if(IsOnScreen(Terrain[index]))
 			Terrain[index]->Render();
-	}
+	}*/
 
 #ifdef _DEBUG
 	CProfiler::GetInstance()->End("ObjectManager Render");
@@ -115,10 +115,10 @@ void Corona_ObjectManager::RenderObjects(void)
 
 void Corona_ObjectManager::AddObject(CBase* ObjectToAdd)
 {
-	if(ObjectToAdd->GetType() != OBJ_TERRA)
+	//if(ObjectToAdd->GetType() != OBJ_TERRA)
 		Objects.push_back(ObjectToAdd);
-	else if(((CTerrainBase*)ObjectToAdd)->GetTileID() != ((CTerrainBase*)ObjectToAdd)->GetBaseTile())
-		Terrain.push_back(ObjectToAdd);
+//	else if(((CTerrainBase*)ObjectToAdd)->GetTileID() != ((CTerrainBase*)ObjectToAdd)->GetBaseTile())
+//		Terrain.push_back(ObjectToAdd);
 
 	ObjectToAdd->AddRef();
 }
@@ -142,18 +142,7 @@ void Corona_ObjectManager::RemoveObject(CBase* ObjectToRemove)
 	}
 
 	
-	iter = Terrain.begin();
-
-	while(iter != Terrain.end())
-	{
-		if(*iter == ObjectToRemove)
-		{
-			(*iter)->Release();
-			Terrain.erase(iter);
-			return;
-		}
-		++iter;
-	}
+	
 }
 
 
@@ -236,12 +225,8 @@ void Corona_ObjectManager::RemoveAllObjects(void)
 	{
 		Objects[index]->Release();
 	}
-	for(unsigned index = 0; index < Terrain.size(); ++index)
-	{
-		Terrain[index]->Release();
-	}
+	
 	Objects.clear();
-	Terrain.clear();
 
 #ifdef _DEBUG
 	CProfiler::GetInstance()->End("ObjectManager RemoveAllObjects");

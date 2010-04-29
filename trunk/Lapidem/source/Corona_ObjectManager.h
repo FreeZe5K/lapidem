@@ -19,7 +19,7 @@ class Corona_ObjectManager
 
 	vector<CBase *> Objects;
 	//Change from CBase to CTBase
-	vector<CBase *> Terrain;
+	//vector<CBase *> Terrain;
 
 	//Singleton Encapsulation:
 	Corona_ObjectManager() {m_fTimer = 0.0f; }

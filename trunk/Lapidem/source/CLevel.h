@@ -36,6 +36,7 @@ class CLevel
 	char* m_szLevelFileName;
 
 	vector<CBase*>	m_pTerrainTiles;
+	vector<CBase*>	m_pRenderObjs;
 	vector<CBase*>	m_pEventTiles;
 
 public:
@@ -92,6 +93,9 @@ private:
 
 public:
 
+	void Update( float fElapsedTime );
+	void Render();
+
 	/////////////////////////////////////////////////////////////////////////////////////
 	// Function: "LoadNewLevel"
 	//
@@ -133,5 +137,7 @@ public:
 	CBase* CheckCollision( CBase* pBase);
 
 CBase* GetEntryPoint();
+
+bool IsOnScreen(CBase* Object);
 
 };
