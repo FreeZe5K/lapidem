@@ -198,7 +198,23 @@ int Lapidem_Math::IncInt( int i )
 	}
 }
 
+u32 Lapidem_Math::IncUInt( u32 i )
+{
+	_asm {
+		mov eax, i
+			inc eax
+	}
+}
+
 int Lapidem_Math::DecInt( int i )
+{
+	_asm { 
+		mov eax, i
+			dec eax
+	}
+}
+
+u32 Lapidem_Math::DecUInt( u32 i )
 {
 	_asm { 
 		mov eax, i

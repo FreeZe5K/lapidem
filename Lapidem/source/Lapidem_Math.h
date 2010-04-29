@@ -133,5 +133,7 @@ public:
 	// Misc math.
 	/////////////////////////
 	int IncInt( int );
+	u32 IncUInt( u32 );
 	int DecInt( int );
+	u32 DecUInt( u32 );
 };

@@ -468,10 +468,6 @@
 					RelativePath=".\source\Lapidem_Math.cpp"
 					>
 				</File>
-				<File
-					RelativePath=".\source\WinMain.cpp"
-					>
-				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -529,59 +525,99 @@
 		<Filter
 			Name="Wrappers"
 			>
-			<File
-				RelativePath=".\source\Wrappers\CSGD_Direct3D.cpp"
+			<Filter
+				Name="Header Files"
 				>
-			</File>
-			<File
-				RelativePath=".\source\Wrappers\CSGD_Direct3D.h"
+				<File
+					RelativePath=".\source\Wrappers\CSGD_Direct3D.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Wrappers\CSGD_DirectInput.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Wrappers\CSGD_DirectSound.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Wrappers\CSGD_TextureManager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Wrappers\CSGD_WaveManager.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Wrappers\SGD_Util.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Source Files"
 				>
-			</File>
-			<File
-				RelativePath=".\source\Wrappers\CSGD_DirectInput.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\Wrappers\CSGD_DirectInput.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\Wrappers\CSGD_DirectSound.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\Wrappers\CSGD_DirectSound.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\Wrappers\CSGD_TextureManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\Wrappers\CSGD_TextureManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\Wrappers\CSGD_WaveManager.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\Wrappers\CSGD_WaveManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\source\Wrappers\SGD_Util.h"
-				>
-			</File>
+				<File
+					RelativePath=".\source\Wrappers\CSGD_Direct3D.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Wrappers\CSGD_DirectInput.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Wrappers\CSGD_DirectSound.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Wrappers\CSGD_TextureManager.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Wrappers\CSGD_WaveManager.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
-		<File
-			RelativePath=".\source\CGame.cpp"
+		<Filter
+			Name="Game Core"
 			>
-		</File>
-		<File
-			RelativePath=".\source\CGame.h"
-			>
-		</File>
+			<Filter
+				Name="Source Files"
+				>
+				<File
+					RelativePath=".\source\CGame.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\WinMain.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Header Files"
+				>
+				<File
+					RelativePath=".\source\CGame.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Resources"
+				>
+				<File
+					RelativePath=".\resource\graphics\_default.ico"
+					>
+				</File>
+				<File
+					RelativePath=".\source\resource.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Resource.rc"
+					>
+				</File>
+			</Filter>
+		</Filter>
 	</Files>
 	<Globals>
 	</Globals>
