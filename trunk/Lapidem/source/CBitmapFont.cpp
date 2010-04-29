@@ -71,34 +71,23 @@ void CBitmapFont::Draw( const char* szTextToPrint, int nPosX, int nPosY, float f
 		if( id == 0 || id == 64 ) nPosX = nPosX + 16;
 		else
 		{
-			if( char( id + 32 ) == 'I' || 
-				char( id + 32 ) == 'i' || 
-				char( id + 32 ) == 'L' || 
-				char( id + 32 ) == 'l' )
-				nPosX = nPosX - ( int( 5 * fScale ) );
-
-			else if( char( id + 32 ) == 't' )
-				nPosX = nPosX- ( int( 8 * fScale ) );
-
-			else if( char( id + 32 ) == 'r' || 
-				char( id + 32 ) == 'n' )
-				nPosX = nPosX - ( int( 3 * fScale ) );
-
-			else if( char( id + 32 ) == 'a' || 
-				char( id + 32 ) == 's' || 
-				char( id + 32 ) == 'y' || 
-				char( id + 32 ) == 'g' || 
-				char( id + 32 ) == 'b' )
+			if( char( id + 32 ) == 'I' )
+				nPosX = nPosX - int( 4 * fScale );
+			else if( char( id + 32 ) == 'L' )
+				nPosX = nPosX - int( 2 * fScale );
+			else if( char( id + 32 ) == 'R' || 
+				char( id + 32 ) == 'N' )
+				nPosX = nPosX - int( 3 * fScale );
+			else if( char( id + 32 ) == 'A' || 
+				char( id + 32 ) == 'S' || 
+				char( id + 32 ) == 'Y' || 
+				char( id + 32 ) == 'G' || 
+				char( id + 32 ) == 'B' )
 				nPosX = nPosX - ( int( 2 * fScale ) );
-
-			else if( char( id + 32 ) == 'u' || 
-				char( id + 32 ) == 'x' || 
-				char( id + 32 ) == 'e' || 
-				char( id + 32 ) == 'o' || 
-				char( id + 32 ) == 'p' || 
-				char( id + 32 ) == 'c' )
-				nPosX = nPosX - ( int( 1 * fScale ) );
-
+			else if( char( id + 32 ) == 'U' || 
+				char( id + 32 ) == 'X' ||
+				char( id + 32 ) == 'P' )
+				nPosX = nPosX - ( int( 2 * fScale ) );
 			else if( char( id + 32 ) == 'm' )
 				nPosX = nPosX + ( int( 3 * fScale ) );
 
