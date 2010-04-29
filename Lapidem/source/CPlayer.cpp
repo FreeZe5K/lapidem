@@ -119,7 +119,14 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 	{
 		if(collidingObject->GetType() == OBJ_TERRA)
 		{
+
+
+
 			int TerraType = ((CTerrainBase*)collidingObject)->GetTypeTerrain();
+
+			if( TerraType == END_POINT)
+				CGame::GetInstance()->ChangeState( CMenuState::GetInstance());
+
 			if( TerraType == T_LAVA || TerraType == T_WATER )
 				return;
 		}
