@@ -139,8 +139,8 @@ int CEmitterFactory::Load( const char* szFileName, const char* szEmitterName )
 	float _endVelY;
 	float _accelX;
 	float _accelY;
-	float _spreadX;
-	float _spreadY;
+	//float _spreadX;
+	//float _spreadY;
 
 	u1 _startAlpha;
 	u1 _startRed;
@@ -163,7 +163,12 @@ int CEmitterFactory::Load( const char* szFileName, const char* szEmitterName )
 	ifstream fin( szFileName, ios::in | ios::binary );
 
 	if( fin.is_open( ) )
-	{
+	{		
+		fin.read( ( char* )&_stringSize, sizeof( char ) );
+		char name[32];
+		fin.read( name, _stringSize );
+		name[_stringSize ] =0;
+
 		fin.read( ( char* )&_numParticles, sizeof( int ) );
 
 		fin.read( ( char* )&_startAlpha, sizeof( u1 ) );
@@ -199,21 +204,13 @@ int CEmitterFactory::Load( const char* szFileName, const char* szEmitterName )
 		fin.read( ( char* )&_accelX, sizeof( f32 ) );
 		fin.read( ( char* )&_accelY, sizeof( f32 ) );
 
-		fin.read( ( char* )&_spreadX, sizeof( f32 ) );
-		fin.read( ( char* )&_spreadY, sizeof( f32 ) );
-
+		// - - - - - - - - - - - - - - - -
+		// Fix reading this in . . .
+		// - - - - - - - - - - - - - - - -
 		fin.read( ( char* )&_srcBlend, sizeof( int ) );
 		fin.read( ( char* )&_destBlend, sizeof( int ) );
-
-		fin.read( ( char* )&_stringSize, sizeof( char ) );
-		_name = new char[u32( _stringSize )] = '\0';
-
-		_stringSize = 0;
-		fin.read( ( char* )&_stringSize, sizeof( char ) );
-
-		_image = new char[int( _stringSize ) + 1];
-		fin.read( ( char* )_image, _stringSize );
-		_image[int( _stringSize )] = '\0';
+		
+		fin.close( );
 
 		m_pEmitter->SetNumParticles( _numParticles );
 		m_pEmitter->GetParticle( )->SetStartAlpha( _startAlpha );
@@ -223,7 +220,7 @@ int CEmitterFactory::Load( const char* szFileName, const char* szEmitterName )
 
 		if( szEmitterName )
 			m_pEmitter->SetName( ( char* )szEmitterName ); 
-		else m_pEmitter->SetName( _name );
+		else m_pEmitter->SetName( name );
 
 		m_pEmitter->SetEmitRate( _emitRate );
 
@@ -259,16 +256,16 @@ int CEmitterFactory::Load( const char* szFileName, const char* szEmitterName )
 		m_pEmitter->SetEmitTimer( 0.0f );
 		m_pEmitter->SetSpawnTime( 0.1f );
 
-		m_pEmitter->SetSpreadX( _spreadX );
-		m_pEmitter->SetSpreadY( _spreadY );
+		m_pEmitter->SetSpreadX( 0.3f ); // _spreadX
+		m_pEmitter->SetSpreadY( 0.3f ); // _spreadY
 
-		m_pEmitter->SetSourceBlend( _srcBlend );
-		m_pEmitter->SetDestinationBlend( _destBlend );
+		m_pEmitter->SetSourceBlend( 5 );//_srcBlend
+		m_pEmitter->SetDestinationBlend( 7 );//_destBlend
 
-		char* _fullPath = new char[int( strlen( _path ) + strlen( _image ) ) + 1];
+		char* _fullPath = new char[int( strlen( _path ) + strlen( name ) ) + 1];
 
-		strcpy_s( _fullPath, ( strlen( _path ) + strlen( _image ) ) + 1, _path );
-		strcat_s( _fullPath, ( strlen( _path ) + strlen( _image ) ) + 1, _image );
+		strcpy_s( _fullPath, ( strlen( _path ) + strlen( name ) ) + 1, _path );
+		strcat_s( _fullPath, ( strlen( _path ) + strlen( name ) ) + 1, name );
 
 		m_pEmitter->GetParticle( )->SetImageID( m_pTM->LoadTexture( 
 			_fullPath, D3DCOLOR_XRGB( 0, 0, 0 ) ) );
@@ -276,10 +273,10 @@ int CEmitterFactory::Load( const char* szFileName, const char* szEmitterName )
 		m_vEmitters.push_back( m_pEmitter );
 
 		delete[] _fullPath;
-		delete[] _name;
-		_name = NULL;
-		delete[] _image;
-	} fin.close( );
+
+		_name      = NULL;
+		_image     = NULL;
+	} 
 
 	return 0;
 }
@@ -300,5 +297,6 @@ void CEmitterFactory::Initialize( )
 {
 	m_pTM = CSGD_TextureManager::GetInstance( );
 
-	Load( "resource/data/spell.bin", "firespell" );
+	//Load( "resource/data/fireSpell.lapipt", "firespell" );
+	Load( "resource/data/testFire.lapipt", "firespell" );
 }

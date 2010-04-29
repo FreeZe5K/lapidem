@@ -30,7 +30,7 @@ void CGameplayState::Enter( )
 	m_pPlayerTwo	= NULL;
 
 	CCamera::InitCamera(0.0f, 0.0f, (float)CGame::GetInstance()->GetScreenWidth(),
-						(float)CGame::GetInstance()->GetScreenHeight(), m_pPlayerOne );
+		(float)CGame::GetInstance()->GetScreenHeight(), m_pPlayerOne );
 
 	m_pCoM			   = Corona_ObjectManager::GetInstance();
 	m_pCeH			   = Corona_EventHandler::GetInstance();
@@ -39,7 +39,7 @@ void CGameplayState::Enter( )
 	// Change the background image.
 	// - - - - - - - - - - - - - -
 	/* Note by Pablo
-		Background image will be handled by the CLevel.
+	Background image will be handled by the CLevel.
 	*/
 	m_nImageID      = m_pTM->LoadTexture( "resource/graphics/placeholderArt.png" );
 	// - - - - - - - - - - - - - -
@@ -108,6 +108,10 @@ void CGameplayState::Enter( )
 
 bool CGameplayState::Input( )
 {
+	if( isalpha( CSGD_DirectInput::GetInstance( )->CheckBufferedKeysEx( ) ) )
+		CGame::GetInstance( )->SetCheatString( CGame::GetInstance( )->
+		GetCheatString( ) += toupper( CSGD_DirectInput::GetInstance( )->CheckBufferedKeysEx( ) ) );
+
 	if( m_pDI->KeyPressed( DIK_P ) || m_pDI->KeyPressed( DIK_ESCAPE ) || m_pDI->JoystickButtonPressed(9) )
 	{
 		CGame::GetInstance( )->PushState( CPauseMenuState::GetInstance( ) );
@@ -207,15 +211,17 @@ void CGameplayState::Exit( )
 	m_pWM->UnloadWave( m_nSoundID[0] );
 	m_pTM->UnloadTexture( m_nImageID );
 	m_pCoM->RemoveAllObjects();
+
 	if(m_pPlayerOne)
-	m_pPlayerOne->Release();
+		m_pPlayerOne->Release();
 	if(m_pPlayerTwo)
-	m_pPlayerTwo->Release();
+		m_pPlayerTwo->Release();
+
 	theCamera->ShutDownCamera();
 	theCamera = NULL;
-	
+
 	CCamera::GetCamera()->ShutDownCamera();
-	
+
 	theLevel.Clear();
 	m_pCoM->DeleteInstance();
 	CAnimationWarehouse::GetInstance()->DeleteInstance();

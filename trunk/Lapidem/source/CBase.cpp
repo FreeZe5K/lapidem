@@ -7,6 +7,7 @@
 //                  object data and functionality.
 //////////////////////////////////////////////////////////////////////////
 #include "CBase.h"
+#include "CGame.h"
 #include "CCamera.h"
 #include "Wrappers/CSGD_TextureManager.h" 
 
@@ -37,16 +38,47 @@ void CBase::Update( float fElapsedTime )
 void CBase::Render( )
 {
 	if( GetImage( ) != -1 )
-		CSGD_TextureManager::GetInstance( )->Draw( GetImage( ), ( int )(GetPosX( ) - CCamera::GetCamera()->GetXOffset()), ( int )(GetPosY( ) - CCamera::GetCamera()->GetYOffset()) );
+	{
+		CSGD_TextureManager::GetInstance( )->Draw( GetImage( ), 
+			( int )(GetPosX( ) - CCamera::GetCamera()->GetXOffset()),
+			( int )(GetPosY( ) - CCamera::GetCamera()->GetYOffset()) );
+	}
+
+	if( CGame::GetInstance( )->GetDebugMode( ) )
+	{
+		CSGD_Direct3D::GetInstance( )->DrawLine( DebugCollisionRect( ).left, 
+			DebugCollisionRect( ).top, DebugCollisionRect( ).left, 
+			DebugCollisionRect( ).bottom, 255, 0, 0 );
+
+		CSGD_Direct3D::GetInstance( )->DrawLine( DebugCollisionRect( ).left, 
+			DebugCollisionRect( ).top, DebugCollisionRect( ).right, 
+			DebugCollisionRect( ).top, 255, 0, 0 );
+
+		CSGD_Direct3D::GetInstance( )->DrawLine( DebugCollisionRect( ).right, 
+			DebugCollisionRect( ).top, DebugCollisionRect( ).right, 
+			DebugCollisionRect( ).bottom, 255, 0, 0 );
+
+		CSGD_Direct3D::GetInstance( )->DrawLine( DebugCollisionRect( ).right, 
+			DebugCollisionRect( ).bottom, DebugCollisionRect( ).left, 
+			DebugCollisionRect( ).bottom, 255, 0, 0 );
+	}
+}
+
+RECT CBase::DebugCollisionRect( )
+{
+	RECT rBuffer;
+	SetRect( &rBuffer, int( GetPosX( ) + 5 ), int( GetPosY( ) ), 
+		int( GetPosX( ) + GetWidth( ) + 5 ), int( GetPosY( ) + GetHeight( ) + 5 ) );
+	return rBuffer;
 }
 
 RECT CBase::GetCollisionRect(float fElapsedTime)
 {
 	RECT tempRect = { ( LONG )(GetPosX( ) + GetVelX( ) * fElapsedTime),
-					  ( LONG )(GetPosY( ) + GetVelY( ) * fElapsedTime), 
-					  ( LONG )(GetPosX( ) + GetVelX( ) * fElapsedTime) + GetWidth( ),
-					  ( LONG )(GetPosY( ) + GetVelY( ) * fElapsedTime) + GetHeight( )};
-	
+		( LONG )(GetPosY( ) + GetVelY( ) * fElapsedTime), 
+		( LONG )(GetPosX( ) + GetVelX( ) * fElapsedTime) + GetWidth( ),
+		( LONG )(GetPosY( ) + GetVelY( ) * fElapsedTime) + GetHeight( )};
+
 	return tempRect;
 }
 
@@ -54,46 +86,43 @@ bool CBase::CheckCollision(float fElapsedTime, CBase* pBase )
 {
 	RECT tempRect;
 
-	if( IntersectRect( &tempRect, &GetCollisionRect(fElapsedTime), &pBase->GetCollisionRect(fElapsedTime) ) )
+	if( IntersectRect( &tempRect, &GetCollisionRect(fElapsedTime), 
+		&pBase->GetCollisionRect(fElapsedTime) ) )
 		return true;
-	
+
 	return false;
 }
 
 void CBase::HandleCollision(CBase*)
 {
-
-
 }
 
 
 void CBase::MoveOutOf( CBase* pSolidObject )
 {
-		RECT r;
-		IntersectRect( &r, & this->GetCollisionRect(0), &pSolidObject->GetCollisionRect(0) );
+	RECT r;
+	IntersectRect( &r, & this->GetCollisionRect(0), 
+		&pSolidObject->GetCollisionRect(0) );
 
-		int nRectWidth = r.right -r.left;
-		int nRectHeight = r.bottom - r.top;
+	int nRectWidth = r.right -r.left;
+	int nRectHeight = r.bottom - r.top;
 
-		if( nRectHeight > nRectWidth )
+	if( nRectHeight > nRectWidth )
+	{
+		if( this->GetPosX() > pSolidObject->GetPosX() )
+			SetPosX( GetPosX() + nRectWidth );
+		if ( this->GetPosX() < pSolidObject->GetPosX() )
+			SetPosX( GetPosX() - nRectWidth );
+	}
+	else if( nRectHeight < nRectWidth ) 
+	{			
+		if( this->GetPosY() > pSolidObject->GetPosY() )
 		{
-			if( this->GetPosX() > pSolidObject->GetPosX() )
-				SetPosX( GetPosX() + nRectWidth );
-			 if ( this->GetPosX() < pSolidObject->GetPosX() )
-				SetPosX( GetPosX() - nRectWidth );
+			SetPosY( GetPosY() + nRectHeight  );				
 		}
-		else if( nRectHeight < nRectWidth ) 
+		if(this->GetPosY() < pSolidObject->GetPosY() )
 		{
-			
-			if( this->GetPosY() > pSolidObject->GetPosY() )
-			{
-				SetPosY( GetPosY() + nRectHeight  );
-				
-			}
-			 if(this->GetPosY() < pSolidObject->GetPosY() )
-			{
-				SetPosY( GetPosY() - nRectHeight );
-			}
-
+			SetPosY( GetPosY() - nRectHeight );
 		}
+	}
 }
