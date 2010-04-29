@@ -3,6 +3,7 @@
 
 #include <windows.h>
 #include <vector>
+
 using std::vector;
 
 class CAnimation;
@@ -26,14 +27,8 @@ public:
 		return AnimationWarehouse;
 	}
 	
-	void DeleteInstance(void)
-	{
-		if(AnimationWarehouse)
-		{
-			delete AnimationWarehouse;
-			AnimationWarehouse = 0;
-		}
-	}
+	void DeleteInstance(void);
+
 	void LoadAnimationSet(char* Filename, DWORD keycolor);
 
 	CAnimation* GetAnimation(int nAnimationSet, int nAnimation);

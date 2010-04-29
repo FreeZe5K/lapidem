@@ -7,6 +7,7 @@ class IAIState;
 class CEnemy : public CCharacter
 {
 	IAIState* currState;
+	float m_fShotTimer;
 
 public:
 ~CEnemy();

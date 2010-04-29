@@ -6,6 +6,26 @@
 using namespace std;
 CAnimationWarehouse* CAnimationWarehouse::AnimationWarehouse = NULL;
 
+void CAnimationWarehouse::DeleteInstance(void)
+	{
+		if(AnimationWarehouse)
+		{
+			for(unsigned int i =0; i <m_vAnimationList.size(); i++)
+			{
+				for(unsigned int j=0; j <m_vAnimationList[i].size(); j++)
+				{
+					for(unsigned int ftw =0; ftw < m_vAnimationList[i][j]->GetAllFrames().size(); ftw++)
+					{
+						delete m_vAnimationList[i][j]->GetAllFrames()[ftw];
+					}
+					delete m_vAnimationList[i][j];
+				}
+			}
+			delete AnimationWarehouse;
+			AnimationWarehouse = 0;
+		}
+	}
+
 void CAnimationWarehouse::LoadAnimationSet(char* Filename, DWORD keycolor)
 {
 	ifstream in;

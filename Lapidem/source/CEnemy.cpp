@@ -6,6 +6,7 @@
 #include "Corona_EventHandler.h"
 #include "CSpell.h"
 #include "Wrappers/CSGD_TextureManager.h"
+#include "CGameplayState.h"
 
 CEnemy::CEnemy(EleType ElementToBe, float initx, float inity)
 {
@@ -29,6 +30,7 @@ CEnemy::CEnemy(EleType ElementToBe, float initx, float inity)
 	case OBJ_WIND:
 		break;
 	}
+	m_fShotTimer = 3.0f;
 }
 
 CEnemy::~CEnemy()
@@ -42,8 +44,12 @@ void CEnemy::Update(float fElapsedTime)
 {
 
 
-	if(currState->Update(fElapsedTime, this))
-		currState->Attack(NULL);
+	m_fShotTimer -= fElapsedTime;
+	if(currState->Update(fElapsedTime, this) && m_fShotTimer <0)
+	{
+		currState->Attack(CGameplayState::GetInstance()->GetPlayerOne(), this);
+		m_fShotTimer = 2.0f;
+	}
 
 	CCharacter::Update(fElapsedTime);
 

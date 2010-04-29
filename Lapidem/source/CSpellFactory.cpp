@@ -18,6 +18,7 @@
 #include "CWind.h"
 #include "CCamera.h"
 #include "CParticleManager.h"
+#include "CGameplayState.h"
 
 CSpellFactory* CSpellFactory::m_pSF = NULL;
 
@@ -32,7 +33,7 @@ CSpellFactory::CSpellFactory()
 	m_nWindXP = 0;
 	m_nFireXP = 0;
 	m_nIceXP = 0;
-	
+
 	m_pEF = CEmitterFactory::GetInstance();
 }
 
@@ -92,86 +93,121 @@ void CSpellFactory::AddIceXP(int nXP)
 
 void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 {
-	switch(nTier)
+	if(pShooter->GetType() == OBJ_PLAYER)
 	{
-	case 1: // First Tier... Basic Boulder
+		switch(nTier)
 		{
-			CEarth* newearth = new CEarth();
-			newearth->SetPosX(pShooter->GetPosX() + pShooter->GetWidth() + 2);
-			newearth->SetPosY(pShooter->GetPosY());
-			DIRECTION wheretoshoot = pShooter->GetDirection();
-			switch(wheretoshoot)
+		case 1: // First Tier... Basic Boulder
 			{
-			case 0:
+				CEarth* newearth = new CEarth();
+				newearth->SetPosX(pShooter->GetPosX() + pShooter->GetWidth() + 2);
+				newearth->SetPosY(pShooter->GetPosY());
+				DIRECTION wheretoshoot = pShooter->GetDirection();
+				switch(wheretoshoot)
 				{
-					newearth->SetVelX(-150);
-					newearth->SetPosX(pShooter->GetPosX() - 34);
-					newearth->SetVelY(0);
-					break;
+				case 0:
+					{
+						newearth->SetVelX(-150);
+						newearth->SetPosX(pShooter->GetPosX() - 34);
+						newearth->SetVelY(0);
+						break;
+					}
+				case 1:
+					{
+						newearth->SetVelX(150);
+						newearth->SetVelY(0);
+						break;
+					}
+				case 2:
+					{
+						newearth->SetVelX(0);
+						newearth->SetVelY(-150);
+						break;
+					}
+				case 3:
+					{
+						newearth->SetVelX(0);
+						newearth->SetVelY(150);
+						break;
+					}
+				case 4:
+					{
+						newearth->SetVelX(-75);
+						newearth->SetPosX(pShooter->GetPosX() - 34);
+						newearth->SetVelY(-75);
+						break;
+					}
+				case 5:
+					{
+						newearth->SetVelX(-75);
+						newearth->SetPosX(pShooter->GetPosX() - 34);
+						newearth->SetVelY(75);
+						break;
+					}
+				case 6:
+					{
+						newearth->SetVelX(75);
+						newearth->SetVelY(-75);
+						break;
+					}
+				case 7:
+					{
+						newearth->SetVelX(75);
+						newearth->SetVelY(75);
+						break;
+					}
 				}
-			case 1:
+				newearth->SetDamage(20 + 4* m_nEarthLVL);
+				newearth->SetLifespan(10.0f + 1.5f* m_nEarthLVL);
+				newearth->SetActive(true);
+				newearth->SetTier(nTier);
+				if(pShooter->GetType() == OBJ_PLAYER)
 				{
-					newearth->SetVelX(150);
-					newearth->SetVelY(0);
-					break;
+					newearth->ShotBy(true);
 				}
-			case 2:
+				else
 				{
-					newearth->SetVelX(0);
-					newearth->SetVelY(-150);
-					break;
+					newearth->ShotBy(false);
 				}
-			case 3:
-				{
-					newearth->SetVelX(0);
-					newearth->SetVelY(150);
-					break;
-				}
-			case 4:
-				{
-					newearth->SetVelX(-75);
-					newearth->SetPosX(pShooter->GetPosX() - 34);
-					newearth->SetVelY(-75);
-					break;
-				}
-			case 5:
-				{
-					newearth->SetVelX(-75);
-					newearth->SetPosX(pShooter->GetPosX() - 34);
-					newearth->SetVelY(75);
-					break;
-				}
-			case 6:
-				{
-					newearth->SetVelX(75);
-					newearth->SetVelY(-75);
-					break;
-				}
-			case 7:
-				{
-					newearth->SetVelX(75);
-					newearth->SetVelY(75);
-					break;
-				}
+				newearth->SetElement(OBJ_EARTH);
+				newearth->SetHeight(32);
+				newearth->SetWidth(32);	
+				Corona_ObjectManager::GetInstance()->AddObject(newearth);
+				newearth->Release();
+				break;
 			}
-			newearth->SetDamage(20 + 4* m_nEarthLVL);
-			newearth->SetLifespan(10.0f + 1.5f* m_nEarthLVL);
-			newearth->SetActive(true);
-			newearth->SetTier(nTier);
-			if(pShooter->GetType() == OBJ_PLAYER)
+		}
+	}
+	else
+	{
+		switch(nTier)
+		{
+		case 1: // First Tier... Basic Boulder
 			{
-				newearth->ShotBy(true);
+				CEarth* newearth = new CEarth();
+				newearth->SetPosX(CGameplayState::GetInstance()->GetPlayerOne()->GetPosX() + (CGameplayState::GetInstance()->GetPlayerOne()->GetWidth()>>1));
+				newearth->SetPosY(CGameplayState::GetInstance()->GetPlayerOne()->GetPosY() - 100);
+				newearth->SetVelX(0);
+				newearth->SetVelY(100);
+				newearth->SetDamage(20);
+				newearth->SetLifespan(10.0);
+				newearth->SetActive(true);
+				newearth->SetTier(nTier);
+				if(pShooter->GetType() == OBJ_PLAYER)
+				{
+					newearth->ShotBy(true);
+				}
+				else
+				{
+					newearth->ShotBy(false);
+				}
+				newearth->SetElement(OBJ_EARTH);
+				newearth->SetHeight(32);
+				newearth->SetWidth(32);	
+				Corona_ObjectManager::GetInstance()->AddObject(newearth);
+				newearth->Release();
+				break;
 			}
-			else
-			{
-				newearth->ShotBy(false);
-			}
-			newearth->SetElement(OBJ_EARTH);
-			newearth->SetHeight(32);
-			newearth->SetWidth(32);	
-			Corona_ObjectManager::GetInstance()->AddObject(newearth);
-			newearth->Release();
-			break;
 		}
 	}
 }

@@ -49,6 +49,7 @@ public:
 	}
 
 	Frame* GetFrames(void) {return m_vFrames[m_nFrame];}
+	vector<Frame*> GetAllFrames(void) {return m_vFrames;}
 	int GetFrame(void) {return m_nFrame;}
 	int GetImageID(void) {return m_nImageID;}
 

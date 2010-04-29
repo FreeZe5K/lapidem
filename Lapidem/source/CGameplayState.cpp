@@ -202,10 +202,11 @@ void CGameplayState::Exit( )
 	theCamera = NULL;
 	m_pCoM->RemoveAllObjects();
 	CCamera::GetCamera()->ShutDownCamera();
-	//m_pCeH->ShutDownSystem();
 	
 	theLevel.Clear();
 	m_pCoM->DeleteInstance();
+	CAnimationWarehouse::GetInstance()->DeleteInstance();
+	//CProfiler::GetInstance()->DeleteInstance();
 
 	m_bLoadedFromFile = false;
 
