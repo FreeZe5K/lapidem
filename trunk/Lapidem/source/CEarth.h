@@ -13,6 +13,8 @@ class CEarth : public CSpell
 	
 	float m_fDisplay;		// How much the boulder should be rotated when displaying
 
+	bool collided;
+
 public:
 	CEarth();
 	~CEarth();

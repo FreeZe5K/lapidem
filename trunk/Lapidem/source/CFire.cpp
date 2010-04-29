@@ -10,6 +10,7 @@
 #include "Wrappers/CSGD_TextureManager.h"
 #include "CTerrainBase.h"
 #include "CCamera.h"
+#include "CPlayer.h"
 
 CFire::CFire() :CSpell()
 {
@@ -117,8 +118,19 @@ void CFire::HandleCollision(CBase* pObject)
 {
 	if(GetTier() ==1)
 	{
-		if(pObject->GetType() == OBJ_PLAYER)
+		if(pObject->GetType() == OBJ_PLAYER && !PlayerShot())
 		{
+			SetActive(false);
+			((CPlayer*)pObject)->TakeDamage(GetDamage());
+		}
+		//else if(
+		else if (pObject->GetType() == OBJ_ENEMY)
+		{
+			SetActive(false);
+		}
+		else if(pObject->GetType() == OBJ_SPELL)
+		{
+			SetActive(false);
 		}
 		else if(pObject->GetType() == OBJ_TERRA)
 		{
