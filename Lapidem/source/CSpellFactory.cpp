@@ -164,14 +164,7 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 				newearth->SetLifespan(10.0f + 1.5f* m_nEarthLVL);
 				newearth->SetActive(true);
 				newearth->SetTier(nTier);
-				if(pShooter->GetType() == OBJ_PLAYER)
-				{
-					newearth->ShotBy(true);
-				}
-				else
-				{
-					newearth->ShotBy(false);
-				}
+				newearth->ShotBy(true);	
 				newearth->SetElement(OBJ_EARTH);
 				newearth->SetHeight(32);
 				newearth->SetWidth(32);	
