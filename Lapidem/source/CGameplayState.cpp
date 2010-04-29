@@ -108,23 +108,29 @@ void CGameplayState::Enter( )
 
 bool CGameplayState::Input( )
 {
-	if( m_pDI->KeyPressed( DIK_P ) || m_pDI->KeyPressed( DIK_ESCAPE ) )
+	if( m_pDI->KeyPressed( DIK_P ) || m_pDI->KeyPressed( DIK_ESCAPE ) || m_pDI->JoystickButtonPressed(9) )
 	{
 		CGame::GetInstance( )->PushState( CPauseMenuState::GetInstance( ) );
 		CGame::GetInstance( )->SetPaused( true );
 	}
 
-	if( m_pDI->KeyDown( DIK_D ) )
+	if( m_pDI->JoystickCheckBufferedButtons() != -1)
+	{
+		int x = m_pDI->JoystickCheckBufferedButtons();
+		int y = 0;
+	}
+
+	if( m_pDI->KeyDown( DIK_D ) || m_pDI->JoystickDPadDown(1) )
 		m_pPlayerOne->SetVelX( 100 );
-	else if( m_pDI->KeyDown( DIK_A ) )
+	else if( m_pDI->KeyDown( DIK_A )  || m_pDI->JoystickDPadDown(0) )
 		m_pPlayerOne->SetVelX( -100 );
 	else
 		m_pPlayerOne->SetVelX( 0 );
 
-	if( m_pDI->KeyDown( DIK_W ) )
+	if( m_pDI->KeyDown( DIK_W ) || m_pDI->JoystickDPadDown(2) )
 		m_pPlayerOne->Jump();
 
-	if( m_pDI->KeyDown( DIK_F ) )
+	if( m_pDI->KeyDown( DIK_F ) || m_pDI->JoystickButtonDown(1) )
 		m_pPlayerOne->Attack(1);
 
 	if( m_pDI->KeyPressed( DIK_1 ) )
@@ -135,6 +141,11 @@ bool CGameplayState::Input( )
 		m_pPlayerOne->SetEleType( OBJ_ICE );
 	else if( m_pDI->KeyPressed( DIK_4 ) )
 		m_pPlayerOne->SetEleType( OBJ_WIND );
+
+	else if(m_pDI->JoystickButtonPressed(4))
+		m_pPlayerOne->SetEleType((EleType)(m_pPlayerOne->GetEleType() + OBJ_ICE));
+	else if(m_pDI->JoystickButtonPressed(5))
+		m_pPlayerOne->SetEleType((EleType)(m_pPlayerOne->GetEleType() - OBJ_ICE));
 
 	if( m_pPlayerTwo )
 	{

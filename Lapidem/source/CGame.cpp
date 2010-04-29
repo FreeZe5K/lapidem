@@ -48,7 +48,7 @@ void CGame::Initialize( HWND hWnd, HINSTANCE hInstance,
 	m_pTM->InitTextureManager( m_pD3D->GetDirect3DDevice( ), m_pD3D->GetSprite( ) );
 	m_pDS->InitDirectSound( hWnd );
 	m_pWM->InitWaveManager( hWnd, m_pDS->GetDSObject( ) );
-	m_pDI->InitDirectInput( hWnd, hInstance, DI_KEYBOARD );
+	m_pDI->InitDirectInput( hWnd, hInstance, DI_KEYBOARD | DI_JOYSTICKS );
 
 	m_nScreenWidth        = nScreenWidth;
 	m_nScreenHeight       = nScreenHeight;

@@ -99,7 +99,7 @@ bool CAuxiliaryState::Input( )
 {
 	if( m_nState == 0 )
 	{
-		if( m_pDI->KeyPressed( DIK_UP ) )
+		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) )
 		{
 			m_nAttractTimer = 0;
 			m_pWM->Play( m_nSoundID[1] );
@@ -108,7 +108,7 @@ bool CAuxiliaryState::Input( )
 				m_nChoice = 2;
 		}
 
-		if( m_pDI->KeyPressed( DIK_DOWN ) )
+		if( m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed(3))
 		{
 			m_nAttractTimer = 0;
 			m_pWM->Play( m_nSoundID[1] );
@@ -117,7 +117,7 @@ bool CAuxiliaryState::Input( )
 				m_nChoice = 0;
 		}
 
-		if( m_pDI->KeyDown( DIK_LEFT ) )
+		if( m_pDI->KeyDown( DIK_LEFT ) || m_pDI->JoystickDPadDown(0))
 		{
 			// Music Volume
 			if( m_nChoice == 0 )
@@ -130,7 +130,7 @@ bool CAuxiliaryState::Input( )
 				CGame::GetInstance( )->GetSoundFXVolume( ) - 1 );
 		}
 
-		if( m_pDI->KeyDown( DIK_RIGHT ) )
+		if( m_pDI->KeyDown( DIK_RIGHT ) || m_pDI->JoystickDPadDown(1))
 		{
 			// Music Volume
 			if( m_nChoice == 0 )
@@ -143,7 +143,7 @@ bool CAuxiliaryState::Input( )
 				CGame::GetInstance( )->GetSoundFXVolume( ) + 1 );
 		}
 
-		if( m_pDI->KeyPressed( DIK_RETURN ) )
+		if( m_pDI->KeyPressed( DIK_RETURN ) || m_pDI->JoystickButtonDown(1))
 			if( m_nChoice == 2 )
 				CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
 	}

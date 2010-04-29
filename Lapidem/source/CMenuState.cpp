@@ -48,7 +48,7 @@ bool CMenuState::Input( )
 {
 	if( 0 == m_nState ) // Main menu
 	{
-		if( m_pDI->KeyPressed( DIK_UP ) )
+		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) )
 		{
 			m_nAttractTimer = 0;
 			m_pWM->Play( m_nSoundID[1] );
@@ -57,7 +57,7 @@ bool CMenuState::Input( )
 				m_nChoice = 5;
 		}
 
-		if( m_pDI->KeyPressed( DIK_DOWN ) )
+		if( m_pDI->KeyPressed( DIK_DOWN )  || m_pDI->JoystickDPadPressed( 3 ) )
 		{
 			m_nAttractTimer = 0;
 			m_pWM->Play( m_nSoundID[1] );
@@ -66,7 +66,7 @@ bool CMenuState::Input( )
 				m_nChoice = 0;
 		}
 
-		if( m_pDI->KeyPressed( DIK_RETURN ) )
+		if( m_pDI->KeyPressed( DIK_RETURN )  || m_pDI->JoystickButtonPressed( 1 ) )
 		{
 			if( m_nChoice == 0 )      // Play
 				m_nState = 1;
@@ -96,19 +96,19 @@ bool CMenuState::Input( )
 	}
 	else if( 1 == m_nState ) // New / load
 	{
-		if( m_pDI->KeyPressed( DIK_UP ) )
+		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) )
 		{
 			if( --m_nChoice < 0 )
 				m_nChoice = 2;
 		}
 
-		if( m_pDI->KeyPressed( DIK_DOWN ) )
+		if( m_pDI->KeyPressed( DIK_DOWN )  || m_pDI->JoystickDPadPressed( 3 ) )
 		{
 			if( ++m_nChoice > 2 )
 				m_nChoice = 0;
 		}
 
-		if( m_pDI->KeyPressed( DIK_RETURN ) )
+		if( m_pDI->KeyPressed( DIK_RETURN )  || m_pDI->JoystickButtonPressed( 1 ) )
 		{
 			if( m_nChoice == 0 )      // New Game
 			{
@@ -129,19 +129,19 @@ bool CMenuState::Input( )
 	}
 	else if( 2 == m_nState ) // Single / mutliplayer
 	{
-		if( m_pDI->KeyPressed( DIK_UP ) )
+		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) )
 		{
 			if( --m_nChoice < 0 )
 				m_nChoice = 2;
 		}
 
-		if( m_pDI->KeyPressed( DIK_DOWN ) )
+		if( m_pDI->KeyPressed( DIK_DOWN )  || m_pDI->JoystickDPadPressed( 3 ) )
 		{
 			if( ++m_nChoice > 2 )
 				m_nChoice = 0;
 		}
 
-		if( m_pDI->KeyPressed( DIK_RETURN ) )
+		if( m_pDI->KeyPressed( DIK_RETURN )  || m_pDI->JoystickButtonPressed( 1 ) )
 		{
 			if( m_nChoice == 0 ) // Single Player
 			{
@@ -159,19 +159,19 @@ bool CMenuState::Input( )
 	}
 	else if( 3 == m_nState )
 	{
-		if( m_pDI->KeyPressed( DIK_UP ) )
+		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) )
 		{
 			if( --m_nChoice < 0 )
 				m_nChoice = 3;
 		}
 
-		if( m_pDI->KeyPressed( DIK_DOWN ) )
+		if( m_pDI->KeyPressed( DIK_DOWN )  || m_pDI->JoystickDPadPressed( 3 ) )
 		{
 			if( ++m_nChoice > 3 )
 				m_nChoice = 0;
 		}
 
-		if( m_pDI->KeyPressed( DIK_RETURN ) )
+		if( m_pDI->KeyPressed( DIK_RETURN )  || m_pDI->JoystickButtonPressed( 1 ) )
 		{
 			if( m_nChoice == 0 ) // Load Slot 1
 			{ /* TODO :: LOAD SLOT 1 */ 

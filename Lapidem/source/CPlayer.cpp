@@ -22,30 +22,30 @@ void CPlayer::Update(float fElapsedTime)
 
 	CSGD_DirectInput * DI = (CSGD_DirectInput::GetInstance());
 	
-	if( DI->KeyDown( DIK_D ) )
+	if( DI->KeyDown( DIK_D ) || DI->JoystickDPadDown(1))
 	{
 		animation = CAnimationWarehouse::GetInstance()->GetAnimation(0,1);
-		if( DI->KeyDown( DIK_W ) )
+		if( DI->KeyDown( DIK_W ) || DI->JoystickDPadDown(2))
 			currDirec = RIGHT_UP;
-		else if( DI->KeyDown( DIK_S ) )
+		else if( DI->KeyDown( DIK_S ) || DI->JoystickDPadDown(3))
 			currDirec = RIGHT_DOWN;
 		else
 			currDirec = RIGHT;
 	}
-	else if( DI->KeyDown( DIK_A ) )
+	else if( DI->KeyDown( DIK_A ) || DI->JoystickDPadDown(0))
 	{
 		animation = CAnimationWarehouse::GetInstance()->GetAnimation(0,1);
-		if(DI->KeyDown( DIK_W ) )
+		if(DI->KeyDown( DIK_W ) || DI->JoystickDPadDown(2))
 			currDirec = LEFT_UP;
-		else if( DI->KeyDown( DIK_S ) )
+		else if( DI->KeyDown( DIK_S ) || DI->JoystickDPadDown(3))
 			currDirec = LEFT_DOWN;
 		else
 			currDirec = LEFT;
 
 	}
-	else if(DI->KeyDown(DIK_S))
+	else if(DI->KeyDown(DIK_S) || DI->JoystickDPadDown(3))
 		currDirec = DOWN;
-	else if(DI->KeyDown(DIK_W))
+	else if(DI->KeyDown(DIK_W) || DI->JoystickDPadDown(2))
 		currDirec = UP;
 	else
 	{
