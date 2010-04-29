@@ -481,7 +481,7 @@ CBase* CLevel::CheckCollision( CBase* pBase  )
 		for( int j = nY; j <= nY2; j +=1)
 		{
 			int index = i + j*GetWorldCollumn();
-			if( index <0 || index > int( m_pTerrainTiles.size() ) )
+			if( index <0 || index > int( m_pTerrainTiles.size() - 1 ) )
 				continue;
 
 			pTerra= (CTerrainBase*)m_pTerrainTiles[ index ];
@@ -495,7 +495,7 @@ CBase* CLevel::CheckCollision( CBase* pBase  )
 		for( int j = nY; j <= nY2; j +=1)
 		{
 			int index = i + j*GetWorldCollumn();
-			if( index <0 || index > int( m_pTerrainTiles.size() ) )
+			if( index <0 || index > int( m_pTerrainTiles.size()  - 1) )
 				continue;
 			pTerra= (CTerrainBase*)m_pTerrainTiles[ index ];
 			pTerra->SetCollided(false);
@@ -544,7 +544,7 @@ void CLevel::Update( float fElapsedTime )
 		{
 			
 			int index = i + j*GetWorldCollumn();
-			if( index <0 || index > int( m_pTerrainTiles.size() )-1 )
+			if( index <0 || index > int( m_pTerrainTiles.size() - 1) )
 				continue;
 		if(((CTerrainBase*)m_pTerrainTiles[ index ])->GetTileID() != GetBaseTileID() )//&& IsOnScreen(m_pTerrainTiles[ index ]))
 		{
@@ -572,7 +572,7 @@ void CLevel::Render()
 		{
 			
 			int index = i + j*GetWorldCollumn();
-			if( index <0 || index > int( m_pTerrainTiles.size() ) -1 )
+			if( index <0 || index > int( m_pTerrainTiles.size() - 1) )
 				continue;
 		if(((CTerrainBase*)m_pTerrainTiles[ index ])->GetTileID() != GetBaseTileID() )//&& IsOnScreen(m_pTerrainTiles[ index ]))
 		{
