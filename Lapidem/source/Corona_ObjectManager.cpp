@@ -142,8 +142,6 @@ void Corona_ObjectManager::RemoveObject(CBase* ObjectToRemove)
 	}
 
 	
-
-	
 	iter = Terrain.begin();
 
 	while(iter != Terrain.end())
