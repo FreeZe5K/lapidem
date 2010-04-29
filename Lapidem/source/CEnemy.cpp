@@ -38,6 +38,9 @@ CEnemy::~CEnemy()
 	if( GetImage() >= 0 )
 	CSGD_TextureManager::GetInstance()->UnloadTexture( GetImage() );
 
+	if( currState )
+		delete currState;
+
 }
 
 void CEnemy::Update(float fElapsedTime)
