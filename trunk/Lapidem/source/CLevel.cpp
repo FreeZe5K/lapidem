@@ -217,7 +217,9 @@ void CLevel::LoadNewLevel( char* filename )
 		/*if( GetNextLevelFileName() != NULL )
 		delete m_szNextLevelFileName;*/
 		in.read( (char*)&size, sizeof(char));
-		char* szNextLvl = new char[size+1];
+		char* szNextLvl = NULL;
+
+			szNextLvl= new char[size+1];
 		in.read( szNextLvl, sizeof(char)*(size) );
 		szNextLvl[size] = 0;
 		SetNextLevelFileName(szNextLvl);
@@ -337,6 +339,7 @@ void CLevel::LoadNewLevel( char* filename )
 				break;
 			case ENEMY_SPW:
 				{
+					
 					CEnemySpawner* spwn = new CEnemySpawner();
 
 					spwn->SetType( OBJ_EVENT );
@@ -355,8 +358,10 @@ void CLevel::LoadNewLevel( char* filename )
 					spwn->SetVelX(0);
 					spwn->SetVelY(0);
 
-					m_pEventTiles.push_back(spwn);
+					//m_pEventTiles.push_back(spwn);
 					Corona_ObjectManager::GetInstance()->AddObject(spwn);
+					spwn->Release();
+
 				}
 				break;
 				//case ENTRY_POINT:
@@ -365,6 +370,7 @@ void CLevel::LoadNewLevel( char* filename )
 				//	break;
 			case WATER_THR:
 				{
+
 					CTerrainBase* newEvent = new CTerrainBase();
 
 
@@ -393,6 +399,7 @@ void CLevel::LoadNewLevel( char* filename )
 				break;
 			default:
 				{
+
 					CTerrainBase* newEvent = new CTerrainBase();
 
 
