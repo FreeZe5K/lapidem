@@ -41,14 +41,13 @@ void CAuxiliaryState::Enter( )
 
 	if( m_nState == 1 )
 	{		
-		char*   _NameBuffer( "" );
-		int     _tempSize( 0 );
-		string  _szNames[10] = { 0 };
-		int     _nScores[10] = { 0 };
+		//char*   _NameBuffer( "" );
+		//int     _tempSize( 0 );
+		//string  _szNames[10] = { 0 };
+		//int     _nScores[10] = { 0 };
 
-		//fstream fs( "resource/data/Lapidem_HighscoreTable.bin", ios::in | ios::binary );
-		ifstream fin( "resource/data/Lapidem_HighscoreTable.bin", 
-			std::ios_base::in | std::ios_base::binary );
+		//ifstream fin( "resource/data/Lapidem_HighscoreTable.bin", 
+		//	std::ios_base::in | std::ios_base::binary );
 
 		// - - - - - - - - - - - - - - - -
 		// This doesn't load in correctly
@@ -66,8 +65,8 @@ void CAuxiliaryState::Enter( )
 		//
 		// Have at it...
 		// - - - - - - - - - - - - - - - -
-		if( fin.is_open( ) )
-		{
+		//if( fin.is_open( ) )
+		//{
 			//for( int i = 0; i < 10; i++ )
 			//{
 			//	fin.read( ( char* )&_tempSize, sizeof( string ) );
@@ -86,7 +85,7 @@ void CAuxiliaryState::Enter( )
 			//	_NameBuffer = NULL;
 			//}
 
-		} fin.close( );
+		//} fin.close( );
 		// - - - - - - - - - - - - - - - -
 	}
 
