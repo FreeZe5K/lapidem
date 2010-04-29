@@ -1,12 +1,4 @@
-Earth Enemy
-Gamepad controls
-Wind / Ice / Earth t1 spells usage.
-Give Spells Particle effects.
 
-Art request lulz
-
-Save and Load games (Three Profiles)
-Choose Multiplayer or single player games.
 
 Jon comments Sam's Code.
 Profile Functions (Profiler done).
