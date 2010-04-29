@@ -1,3 +1,11 @@
+//////////////////////////////////////////////////////////////////////////
+//  File Name   :   "CEarth.h"
+//
+//  Author Name :   Jonathan Caro
+//
+//  Purpose     :	Handles the earth objects created by the player and
+//					enemies. Handles all 3 tiers of spells.
+//////////////////////////////////////////////////////////////////////////
 #ifndef CEARTH_H
 #define CEARTH_H
 

@@ -1,12 +1,35 @@
+//////////////////////////////////////////////////////////////////////////
+//  File Name   :   "AIStateEarth.h"
+//
+//  Author Name :   Jonathan Caro
+//
+//  Purpose     :	Control the movement and attacks of the Earth enemies
+//////////////////////////////////////////////////////////////////////////
 #pragma once
 #include "IAIState.h"
 
 class AIStateEarth : public IAIState
 {
-	int InitX;
-	int InitY;
+	int InitX;	// gives the initial position of the earth enemy to determine wander range
+	int InitY;	// give the initial position of the earth enemy
 public:
+
+	//////////////////////////////////////////////////////////////////////////
+	//  Function  :   "Update"
+	//
+	//	Input	  :	  Takes in a float for time, as well as CEnemy*
+	//
+	//  Purpose   :   Movement and deciding when to attack
+	//////////////////////////////////////////////////////////////////////////
 	bool Update(float, CEnemy*);
+	//////////////////////////////////////////////////////////////////////////
+	//  Function  :   "Attack"
+	//
+	//	Input	  :	  Takes in the character to shoot at as well as the enemy
+	//				  shooting. 
+	//
+	//  Purpose   :   Use attack by calling spell factory
+	//////////////////////////////////////////////////////////////////////////
 	void Attack(CCharacter*, CCharacter*);
 	void SetInitPos(int x, int y) {InitX = x, InitY = y;}
 };

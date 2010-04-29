@@ -216,12 +216,18 @@ void CEarth::HandleCollision(CBase* pObject)
 		if(pObject->GetPosY() + GetHeight() - 1 < GetPosY())
 			SetVelY(GetVelX() * -.4f);
 
-
+		
 		if(pObject->GetPosY() + 1 > GetPosY() + GetHeight() )
 			SetVelY(GetVelY() * -.2f);
 
 		this->MoveOutOf(pObject);
 		collided = true;
+		
+		if(pObject->GetType() == OBJ_PLAYER && !PlayerShot())
+		{
+			SetActive(false);
+			
+		}
 		
 		}
 		

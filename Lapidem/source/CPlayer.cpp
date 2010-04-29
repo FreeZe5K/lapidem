@@ -71,6 +71,10 @@ void CPlayer::Update(float fElapsedTime)
 
 	m_fFireTimer = m_fFireTimer + fElapsedTime;
 
+	if(m_nHealth <=0)
+	{
+		animation = NULL;
+	}
 }
 
 void CPlayer::Attack(int nTier)
@@ -118,6 +122,11 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 			int TerraType = ((CTerrainBase*)collidingObject)->GetTypeTerrain();
 			if( TerraType == T_LAVA || TerraType == T_WATER )
 				return;
+		}
+
+		if(collidingObject->GetType() == OBJ_SPELL)
+		{
+			TakeDamage(((CSpell*)collidingObject)->GetDamage());
 		}
 
 		RECT r;
