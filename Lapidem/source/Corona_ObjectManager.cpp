@@ -28,6 +28,7 @@ void Corona_ObjectManager::DeleteInstance()
 	{
 		RemoveAllObjects();
 		theCamera->ShutDownCamera();
+		delete CoMReference;
 		CoMReference = NULL;
 	}
 }
