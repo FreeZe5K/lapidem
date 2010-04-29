@@ -7,6 +7,6 @@ class AIStateEarth : public IAIState
 	int InitY;
 public:
 	bool Update(float, CEnemy*);
-	void Attack(CCharacter*);
+	void Attack(CCharacter*, CCharacter*);
 	void SetInitPos(int x, int y) {InitX = x, InitY = y;}
 };
