@@ -124,7 +124,7 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 				return;
 		}
 
-		if(collidingObject->GetType() == OBJ_SPELL)
+		if(collidingObject->GetType() == OBJ_SPELL && !((CSpell*)collidingObject)->PlayerShot())
 		{
 			TakeDamage(((CSpell*)collidingObject)->GetDamage());
 		}
