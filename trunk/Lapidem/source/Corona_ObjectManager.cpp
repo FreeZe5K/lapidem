@@ -41,8 +41,9 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 #endif
 
 	vector<CBase*> DeadItems;
-	vector<CBase*>::iterator iter = Objects.begin();
+	/*vector<CBase*>::iterator iter = Objects.begin();
 	
+	int what_the_fuck = 0;
 	while(iter != Objects.end())
 	{
 		if(IsOnScreen(*iter))
@@ -54,6 +55,15 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 		}
 
 		++iter;
+		++what_the_fuck;
+	}*/
+
+	for(unsigned index = 0; index < Objects.size(); ++index)
+	{
+		if(Objects[index]->IsActive())
+			Objects[index]->Update(fElapsedTime);
+		else
+			DeadItems.push_back(Objects[index]);
 	}
 
 	//vector<CBase*>::iterator iter = Terrain.begin();

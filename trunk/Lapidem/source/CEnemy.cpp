@@ -22,6 +22,9 @@ CEnemy::CEnemy(EleType ElementToBe, float initx, float inity)
 		SetHeight(64);
 		SetWidth(16);
 		m_nHealth = 80;
+		m_SpellType = OBJ_EARTH;
+		currDirec = RIGHT;
+		currAnimation = NULL;
 		break;
 	case OBJ_FIRE:
 		break;
@@ -68,6 +71,7 @@ void CEnemy::HandleCollision(CBase* collidingObject)
 {
 	if( collidingObject->GetType() == OBJ_TERRA  )
 	{
+		//this->MoveOutOf(collidingObject);
 		int TerraType = ((CTerrainBase*)collidingObject)->GetTypeTerrain();
 
 		RECT r;
