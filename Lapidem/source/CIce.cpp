@@ -9,6 +9,7 @@
 #include "CIce.h"
 #include "Wrappers/CSGD_TextureManager.h"
 #include "CCamera.h"
+#include "CPlayer.h"
 
 CIce::CIce() :CSpell()
 {
@@ -120,6 +121,19 @@ void CIce::HandleCollision(CBase* pObject)
 				//((CTerrainBase*)pObject)->SetHealth(((CTerrainBase*)pObject)->GetHealth()- GetDamage());
 				SetActive(false);
 		//	}
+		}
+		else if(pObject->GetType() == OBJ_PLAYER && !PlayerShot())
+		{
+			SetActive(false);
+			((CPlayer*)pObject)->TakeDamage(GetDamage());
+		}
+		else if (pObject->GetType() == OBJ_ENEMY)
+		{
+			SetActive(false);
+		}
+		else if(pObject->GetType() == OBJ_SPELL)
+		{
+			SetActive(false);
 		}
 	}
 	else if(GetTier() ==2)

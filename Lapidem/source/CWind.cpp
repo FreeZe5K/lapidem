@@ -9,6 +9,7 @@
 #include "CWind.h"
 #include "Wrappers/CSGD_TextureManager.h"
 #include "CCamera.h"
+#include "CPlayer.h"
 
 CWind::CWind() : CSpell()
 {
@@ -123,6 +124,19 @@ void CWind::HandleCollision(CBase* pObject)
 				//((CTerrainBase*)pObject)->SetHealth(((CTerrainBase*)pObject)->GetHealth()- GetDamage());
 				SetActive(false);
 		//	}
+		}
+		else if(pObject->GetType() == OBJ_PLAYER && !PlayerShot())
+		{
+			SetActive(false);
+			((CPlayer*)pObject)->TakeDamage(GetDamage());
+		}
+		else if (pObject->GetType() == OBJ_ENEMY)
+		{
+			SetActive(false);
+		}
+		else if(pObject->GetType() == OBJ_SPELL)
+		{
+			SetActive(false);
 		}
 
 		/* 

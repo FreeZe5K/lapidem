@@ -22,6 +22,10 @@ public:
 	DIRECTION GetDirection() {return currDirec;}
 	void Render(void);
 	EleType GetEleType() {return m_SpellType;}
-	void SetEleType(EleType newType) { if(newType > OBJ_EARTH) newType = OBJ_FIRE; else if(newType < OBJ_FIRE) newType = OBJ_EARTH; m_SpellType = newType;}
+	void SetEleType(EleType newType) {if(newType > OBJ_EARTH) newType = OBJ_FIRE; else if(newType < OBJ_FIRE) newType = OBJ_EARTH; m_SpellType = newType;}
 	void Update(float fElapsedTime);
+	void SetHealth(int nHealth) {m_nHealth = nHealth;}
+	int GetHealth(void) {return m_nHealth;}
+	void TakeDamage(int nDamage) {m_nHealth -= nDamage;}
+
 };

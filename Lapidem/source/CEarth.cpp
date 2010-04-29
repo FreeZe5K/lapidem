@@ -72,7 +72,7 @@ void CEarth::UpdateTier1(float fElapsedTime)
 	{
 		m_fTimeTillRotate -= fElapsedTime;
 	}
-	else if(GetVelX() != 0 && GetVelY() !=0)
+	else if(GetVelX() != 0 && GetVelY() !=0 && !collided)
 	{
 		m_fDisplay += fElapsedTime;
 		if(m_fDisplay > PI)
@@ -95,6 +95,11 @@ void CEarth::UpdateTier1(float fElapsedTime)
 		if(length  != 0.0f)
 		{
 			m_fRotate = acos(dot/length) + PI /4.0f;
+
+			if(GetDirection() == 0)
+			{
+				m_fRotate += PI;
+			}
 
 			Vector2d rotate;
 			rotate.fX = 0;
@@ -216,6 +221,7 @@ void CEarth::HandleCollision(CBase* pObject)
 			SetVelY(GetVelY() * -.2f);
 
 		this->MoveOutOf(pObject);
+		collided = true;
 		
 		}
 		

@@ -110,6 +110,7 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 						newearth->SetVelX(-150);
 						newearth->SetPosX(pShooter->GetPosX() - 34);
 						newearth->SetVelY(0);
+						newearth->SetDirection(LEFT);
 						break;
 					}
 				case 1:
@@ -135,12 +136,14 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 						newearth->SetVelX(-75);
 						newearth->SetPosX(pShooter->GetPosX() - 34);
 						newearth->SetVelY(-75);
+						newearth->SetDirection(LEFT);
 						break;
 					}
 				case 5:
 					{
 						newearth->SetVelX(-75);
 						newearth->SetPosX(pShooter->GetPosX() - 34);
+						newearth->SetDirection(LEFT);
 						newearth->SetVelY(75);
 						break;
 					}
@@ -180,35 +183,22 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 	}
 	else
 	{
-		switch(nTier)
-		{
-		case 1: // First Tier... Basic Boulder
-			{
-				CEarth* newearth = new CEarth();
-				newearth->SetPosX(CGameplayState::GetInstance()->GetPlayerOne()->GetPosX() + (CGameplayState::GetInstance()->GetPlayerOne()->GetWidth()>>1));
-				newearth->SetPosY(CGameplayState::GetInstance()->GetPlayerOne()->GetPosY() - 100);
-				newearth->SetVelX(0);
-				newearth->SetVelY(100);
-				newearth->SetDamage(20);
-				newearth->SetLifespan(10.0);
-				newearth->SetActive(true);
-				newearth->SetTier(nTier);
-				if(pShooter->GetType() == OBJ_PLAYER)
-				{
-					newearth->ShotBy(true);
-				}
-				else
-				{
-					newearth->ShotBy(false);
-				}
-				newearth->SetElement(OBJ_EARTH);
-				newearth->SetHeight(32);
-				newearth->SetWidth(32);	
-				Corona_ObjectManager::GetInstance()->AddObject(newearth);
-				newearth->Release();
-				break;
-			}
-		}
+
+		CEarth* newearth = new CEarth();
+		newearth->SetPosX(CGameplayState::GetInstance()->GetPlayerOne()->GetPosX() + (CGameplayState::GetInstance()->GetPlayerOne()->GetWidth()>>1));
+		newearth->SetPosY(CGameplayState::GetInstance()->GetPlayerOne()->GetPosY() - 100);
+		newearth->SetVelX(0);
+		newearth->SetVelY(100);
+		newearth->SetDamage(20);
+		newearth->SetLifespan(10.0);
+		newearth->SetActive(true);
+		newearth->SetTier(nTier);
+		newearth->ShotBy(false);
+		newearth->SetElement(OBJ_EARTH);
+		newearth->SetHeight(32);
+		newearth->SetWidth(32);	
+		Corona_ObjectManager::GetInstance()->AddObject(newearth);
+		newearth->Release();		
 	}
 }
 
