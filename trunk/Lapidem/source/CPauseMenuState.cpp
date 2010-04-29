@@ -30,25 +30,25 @@ bool CPauseMenuState::Input( )
 {
 	if( 0 == m_nState )
 	{
-		if( m_pDI->KeyPressed( DIK_UP ) )
+		if( m_pDI->KeyPressed( DIK_UP ) || m_pDI->JoystickDPadPressed(2) )
 		{
 			if( --m_nChoice < 0 ) 
 				m_nChoice = 3;
 		}
 
-		if( m_pDI->KeyPressed( DIK_DOWN ) )
+		if( m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed(3) )
 		{
 			if( ++m_nChoice > 3 )
 				m_nChoice = 0;
 		}
 
-		if( m_pDI->KeyPressed( DIK_P ) )
+		if( m_pDI->KeyPressed( DIK_P ) || m_pDI->JoystickButtonPressed(9))
 		{
 			CGame::GetInstance( )->PopState( );
 			CGame::GetInstance( )->SetPaused( false );
 		}
 
-		if( m_pDI->KeyPressed( DIK_RETURN ) )
+		if( m_pDI->KeyPressed( DIK_RETURN ) || m_pDI->JoystickButtonPressed(1))
 		{
 			if( m_nChoice == 0 ) // Resume Game
 			{
@@ -90,19 +90,19 @@ bool CPauseMenuState::Input( )
 		m_pWM->SetVolume( CGameplayState::GetInstance( )->GetSoundFX( ), 
 			CGame::GetInstance( )->GetSoundFXVolume( ) ); 
 
-		if( m_pDI->KeyPressed( DIK_UP ) )
+		if(m_pDI->KeyPressed( DIK_UP ) || m_pDI->JoystickDPadPressed( 2 ) )
 		{
 			if( --m_nChoice < 0 ) 
 				m_nChoice = 2;
 		}
 
-		if( m_pDI->KeyPressed( DIK_DOWN ) )
+		if(m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed( 3 ) )
 		{
 			if( ++m_nChoice > 2 )
 				m_nChoice = 0;
 		}
 
-		if( m_pDI->KeyDown( DIK_LEFT ) )
+		if(m_pDI->KeyDown( DIK_LEFT ) || m_pDI->JoystickDPadDown( 0 ) )
 		{
 			if( m_nChoice == 0 )
 				CGame::GetInstance( )->SetMusicVolume( 
@@ -113,7 +113,7 @@ bool CPauseMenuState::Input( )
 				CGame::GetInstance( )->GetSoundFXVolume( ) - 1 );
 		}
 
-		if( m_pDI->KeyDown( DIK_RIGHT ) )
+		if( m_pDI->KeyDown( DIK_RIGHT ) || m_pDI->JoystickDPadDown(1) )
 		{
 			if( m_nChoice == 0 )
 				CGame::GetInstance( )->SetMusicVolume( 
@@ -124,7 +124,7 @@ bool CPauseMenuState::Input( )
 				CGame::GetInstance( )->GetSoundFXVolume( ) + 1 );
 		}
 
-		if( m_pDI->KeyPressed( DIK_RETURN ) )
+		if( m_pDI->KeyPressed( DIK_RETURN ) || m_pDI->JoystickButtonPressed(1) )
 		{
 			if( m_nChoice == 2 )
 			{
@@ -135,19 +135,19 @@ bool CPauseMenuState::Input( )
 	}
 	else if( 2 == m_nState ) // Save game
 	{
-		if( m_pDI->KeyPressed( DIK_UP ) )
+		if(m_pDI->KeyPressed( DIK_UP ) || m_pDI->JoystickDPadPressed( 2 ) )
 		{
 			if( --m_nChoice < 0 ) 
 				m_nChoice = 3;
 		}
 
-		if( m_pDI->KeyPressed( DIK_DOWN ) )
+		if(m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed( 3 ) )
 		{
 			if( ++m_nChoice > 3 )
 				m_nChoice = 0;
 		}
 
-		if( m_pDI->KeyPressed( DIK_RETURN ) )
+		if( m_pDI->KeyPressed( DIK_RETURN ) || m_pDI->JoystickButtonPressed(1) )
 		{
 			if( m_nChoice == 0 ) // Save slot 1
 			{

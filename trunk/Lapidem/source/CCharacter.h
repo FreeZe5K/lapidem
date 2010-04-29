@@ -21,6 +21,7 @@ public:
 	CCharacter();
 	DIRECTION GetDirection() {return currDirec;}
 	void Render(void);
-	void SetEleType(EleType newType) {m_SpellType = newType;}
+	EleType GetEleType() {return m_SpellType;}
+	void SetEleType(EleType newType) { if(newType > OBJ_EARTH) newType = OBJ_FIRE; else if(newType < OBJ_FIRE) newType = OBJ_EARTH; m_SpellType = newType;}
 	void Update(float fElapsedTime);
 };
