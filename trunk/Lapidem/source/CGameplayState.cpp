@@ -165,10 +165,17 @@ bool CGameplayState::Input( )
 
 void CGameplayState::Update( float fET )
 {
+	CProfiler::GetInstance()->Start("Profiler Start");
+	CProfiler::GetInstance()->Start("CGameplay Update");
+	CProfiler::GetInstance()->End("Profiler Start");
 	m_pCoM->UpdateObjects(CGame::GetInstance()->GetElapsedTime());
 	theLevel.Update(fET);
 	m_pPM->Update( fET );
 	m_pCeH->ProcessEvents();
+	CProfiler::GetInstance()->Start("Profiler End");
+	CProfiler::GetInstance()->End("CGameplay Update");
+	CProfiler::GetInstance()->End("Profiler End");
+
 }
 
 void CGameplayState::Render( )

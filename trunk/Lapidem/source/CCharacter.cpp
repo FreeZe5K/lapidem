@@ -20,7 +20,7 @@ void CCharacter::Render()
 			CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), ( int )(GetPosX( ) - CCamera::GetCamera()->GetXOffset()), ( int )(GetPosY( ) - CCamera::GetCamera()->GetYOffset()),1.0f,1.0f,&animation->GetFrames()->DrawRect);
 		else if(animation->GetImageID() != -1 && IsRotated)
 		{
-			CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), ( int )(GetPosX( ) - CCamera::GetCamera()->GetXOffset() + (GetWidth() >>1)), ( int )(GetPosY( ) - CCamera::GetCamera()->GetYOffset()),-1.0f,1.0f,&animation->GetFrames()->DrawRect);
+			CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), ( int )(GetPosX( ) - CCamera::GetCamera()->GetXOffset() + GetWidth()), ( int )(GetPosY( ) - CCamera::GetCamera()->GetYOffset()),-1.0f,1.0f,&animation->GetFrames()->DrawRect);
 		}
 	}
 	else CBase::Render();

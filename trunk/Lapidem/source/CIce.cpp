@@ -131,7 +131,7 @@ void CIce::HandleCollision(CBase* pObject)
 		{
 			SetActive(false);
 		}
-		else if(pObject->GetType() == OBJ_SPELL)
+		else if(pObject->GetType() == OBJ_SPELL && ((CSpell*)pObject)->GetElement() != GetElement())
 		{
 			SetActive(false);
 		}
