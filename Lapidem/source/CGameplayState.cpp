@@ -199,6 +199,10 @@ void CGameplayState::Exit( )
 		m_pEF = NULL;
 	}
 
+
+	m_pCeH->SendEvent("EnemyDied", NULL);
+	m_pCeH->ProcessEvents();
+
 	m_pWM->UnloadWave( m_nSoundID[1] );
 	m_pWM->UnloadWave( m_nSoundID[0] );
 	m_pTM->UnloadTexture( m_nImageID );
