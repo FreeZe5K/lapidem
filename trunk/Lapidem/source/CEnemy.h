@@ -9,7 +9,7 @@ class CEnemy : public CCharacter
 	IAIState* currState;
 
 public:
-
+~CEnemy();
 	CEnemy(EleType, float, float); 
 	void Update(float fElapsedTime);
 	void HandleCollision(CBase*);
