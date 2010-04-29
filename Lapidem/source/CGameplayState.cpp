@@ -166,13 +166,14 @@ bool CGameplayState::Input( )
 void CGameplayState::Update( float fET )
 {
 	m_pCoM->UpdateObjects(CGame::GetInstance()->GetElapsedTime());
+	theLevel.Update(fET);
 	m_pPM->Update( fET );
 	m_pCeH->ProcessEvents();
 }
 
 void CGameplayState::Render( )
 {
-	theLevel.RenderBackGround();
+	theLevel.Render();
 	m_pCoM->RenderObjects();
 	m_pPM->Render( );
 }

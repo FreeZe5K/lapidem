@@ -11,6 +11,7 @@
 #include "Corona_ObjectManager.h"// CSGD_TextureManager.h"
 #include "CTerrainBase.h"
 #include "CEnemySpawner.h"
+#include "CCamera.h"
 #include <fstream>
 #include <string>
 using namespace std;
@@ -276,8 +277,8 @@ void CLevel::LoadNewLevel( char* filename )
 				newTerrain->SetVelY(0);
 
 				m_pTerrainTiles.push_back(newTerrain);
-				if( ID != GetBaseTileID() )
-					Corona_ObjectManager::GetInstance()->AddObject(newTerrain);
+				/*if( ID != GetBaseTileID() )
+					Corona_ObjectManager::GetInstance()->AddObject(newTerrain);*/
 
 
 				break;
@@ -517,6 +518,87 @@ CBase* CLevel::GetEntryPoint()
 
 }
 
+
+bool CLevel::IsOnScreen(CBase* Object)
+{
+	CCamera* theCamera = CCamera::GetCamera();
+	if(Object->GetPosX() + Object->GetWidth() >= theCamera->GetXOffset() && Object->GetPosX() <= theCamera->GetWidth())
+		if(Object->GetPosY() + Object->GetHeight() >= theCamera->GetYOffset() && Object->GetPosY() <= theCamera->GetHeight())
+			return true;
+
+	return false;
+}
+
+
+void CLevel::Update( float fElapsedTime )
+{
+		CCamera* theCamera = CCamera::GetCamera();
+	RECT r;
+	r.left = (LONG)(theCamera->GetXOffset()-GetTileWidth())/GetTileWidth();
+	r.right = (LONG)(theCamera->GetWidth())/GetTileWidth();
+	r.top  = (LONG)(theCamera->GetYOffset()- GetTileHeight())/GetTileHeight();
+	r.bottom = (LONG)(theCamera->GetHeight())/GetTileHeight();
+
+	for( int i = min(r.left, 0) ; i <= min(r.right,GetWorldCollumn()) ; i+=1)
+		for( int j = min(r.top, 0) ; j <= min(r.bottom, GetWorldRow()) ; j +=1)
+		{
+			
+			int index = i + j*GetWorldCollumn();
+			if( index <0 || index > int( m_pTerrainTiles.size() ) )
+				continue;
+		if(((CTerrainBase*)m_pTerrainTiles[ index ])->GetTileID() != GetBaseTileID() )//&& IsOnScreen(m_pTerrainTiles[ index ]))
+		{
+				m_pTerrainTiles[ index ]->Update(fElapsedTime);
+			
+		}
+
+			//m_pTerrainTiles[ index ]->Render();
+		}
+	
+
+}
+void CLevel::Render()
+{
+	RenderBackGround();
+	CCamera* theCamera = CCamera::GetCamera();
+	RECT r;
+	r.left = (LONG)(theCamera->GetXOffset()-GetTileWidth())/GetTileWidth();
+	r.right = (LONG)(theCamera->GetWidth())/GetTileWidth();
+	r.top  = (LONG)(theCamera->GetYOffset()- GetTileHeight())/GetTileHeight();
+	r.bottom = (LONG)(theCamera->GetHeight())/GetTileHeight();
+
+	for( int i = min(r.left, 0) ; i <= min(r.right,GetWorldCollumn()) ; i+=1)
+		for( int j = min(r.top, 0) ; j <= min(r.bottom, GetWorldRow()) ; j +=1)
+		{
+			
+			int index = i + j*GetWorldCollumn();
+			if( index <0 || index > int( m_pTerrainTiles.size() ) )
+				continue;
+		if(((CTerrainBase*)m_pTerrainTiles[ index ])->GetTileID() != GetBaseTileID() )//&& IsOnScreen(m_pTerrainTiles[ index ]))
+		{
+				m_pTerrainTiles[ index ]->Render();
+			
+		}
+
+			//m_pTerrainTiles[ index ]->Render();
+		}
+
+
+	/*
+	vector<CBase*>::iterator iter = m_pTerrainTiles.begin();
+	while(iter != m_pTerrainTiles.end())
+	{
+		if(((CTerrainBase*)(*iter))->GetTileID() != GetBaseTileID() && IsOnScreen(*iter))
+		{
+				(*iter)->Render();
+			
+		}
+
+		++iter;
+	}	
+*/
+
+}
 //
 //	if( /*object*/->GetType() == OBJ_EVENT )
 //	{
