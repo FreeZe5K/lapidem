@@ -21,8 +21,8 @@ CSpell::CSpell() : CBase()
 CSpell::~CSpell()
 {
 	
-	if( GetImage() >= 0 )
-	CSGD_TextureManager::GetInstance()->UnloadTexture( GetImage() );
+	//if( GetImage() >= 0 )
+	//CSGD_TextureManager::GetInstance()->UnloadTexture( GetImage() );
 
 }
 
