@@ -97,8 +97,12 @@ void CEnemy::HandleCollision(CBase* collidingObject)
 
 		}
 	}
-	else if(collidingObject->GetType() == OBJ_SPELL)
+	else if(collidingObject->GetType() == OBJ_SPELL && ((CSpell*)collidingObject)->PlayerShot())
 	{
 		m_nHealth -= ((CSpell*)collidingObject)->GetDamage();
+	}
+	else if(collidingObject->GetType() == OBJ_PLAYER)
+	{
+		SetVelX(-GetVelX());
 	}
 }

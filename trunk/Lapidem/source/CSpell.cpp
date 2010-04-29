@@ -28,7 +28,7 @@ CSpell::~CSpell()
 
 void CSpell::UpdateTier1(float fElapsedTime)
 {	
-	if( m_pEmitter )
+	if( m_pEmitter && IsActive() )
 		m_pEmitter->UpdateParticlePos( int( GetPosX( ) ), int( GetPosY( ) ) );
 
 	SetPosX(GetPosX()+GetVelX() * fElapsedTime);
