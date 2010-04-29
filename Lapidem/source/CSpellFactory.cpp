@@ -217,55 +217,55 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 			{
 			case 0:
 				{
-					newfire->SetVelX(-1500);
+					newfire->SetVelX(-150);
 					newfire->SetVelY(0);
 					break;
 				}
 			case 1:
 				{
-					newfire->SetVelX(1500);
+					newfire->SetVelX(150);
 					newfire->SetVelY(0);
 					break;
 				}
 			case 2:
 				{
 					newfire->SetVelX(0);
-					newfire->SetVelY(-1500);
+					newfire->SetVelY(-150);
 					break;
 				}
 			case 3:
 				{
 					newfire->SetVelX(0);
-					newfire->SetVelY(1500);
+					newfire->SetVelY(150);
 					break;
 				}
 			case 4:
 				{
-					newfire->SetVelX(-750);
-					newfire->SetVelY(-750);
+					newfire->SetVelX(-75);
+					newfire->SetVelY(-75);
 					break;
 				}
 			case 5:
 				{
-					newfire->SetVelX(-750);
-					newfire->SetVelY(750);
+					newfire->SetVelX(-75);
+					newfire->SetVelY(75);
 					break;
 				}
 			case 6:
 				{
-					newfire->SetVelX(750);
-					newfire->SetVelY(-750);
+					newfire->SetVelX(75);
+					newfire->SetVelY(-75);
 					break;
 				}
 			case 7:
 				{
-					newfire->SetVelX(750);
-					newfire->SetVelY(750);
+					newfire->SetVelX(75);
+					newfire->SetVelY(75);
 					break;
 				}
 			}
 
-			newfire->SetDamage(1200 + (3 * m_nFireLVL));
+			newfire->SetDamage(12 + (3 * m_nFireLVL));
 			newfire->SetDOT(3 + (1 * (m_nFireLVL>>1)));
 			newfire->SetLifespan(5.0f);
 			newfire->SetActive(true);

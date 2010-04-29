@@ -1,0 +1,13 @@
+C:\Documents and Settings\CIA CODE RED\My Documents\Class Work\SGP\Tools\Source\LapidemParticleEditor\LapidemParticleEditor\bin\Debug\LapidemParticleEditor.exe
+C:\Documents and Settings\CIA CODE RED\My Documents\Class Work\SGP\Tools\Source\LapidemParticleEditor\LapidemParticleEditor\bin\Debug\LapidemParticleEditor.pdb
+C:\Documents and Settings\CIA CODE RED\My Documents\Class Work\SGP\Tools\Source\LapidemParticleEditor\LapidemParticleEditor\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\CIA CODE RED\My Documents\Class Work\SGP\Tools\Source\LapidemParticleEditor\LapidemParticleEditor\obj\Debug\LapidemParticleEditor.AboutThis.resources
+C:\Documents and Settings\CIA CODE RED\My Documents\Class Work\SGP\Tools\Source\LapidemParticleEditor\LapidemParticleEditor\obj\Debug\LapidemParticleEditor.Form1.resources
+C:\Documents and Settings\CIA CODE RED\My Documents\Class Work\SGP\Tools\Source\LapidemParticleEditor\LapidemParticleEditor\obj\Debug\LapidemParticleEditor.HowTo.resources
+C:\Documents and Settings\CIA CODE RED\My Documents\Class Work\SGP\Tools\Source\LapidemParticleEditor\LapidemParticleEditor\obj\Debug\LapidemParticleEditor.Properties.Resources.resources
+C:\Documents and Settings\CIA CODE RED\My Documents\Class Work\SGP\Tools\Source\LapidemParticleEditor\LapidemParticleEditor\obj\Debug\LapidemParticleEditor.LapidemRand.resources
+C:\Documents and Settings\CIA CODE RED\My Documents\Class Work\SGP\Tools\Source\LapidemParticleEditor\LapidemParticleEditor\obj\Debug\GenerateResource-ResGen.read.1.tlog
+C:\Documents and Settings\CIA CODE RED\My Documents\Class Work\SGP\Tools\Source\LapidemParticleEditor\LapidemParticleEditor\obj\Debug\GenerateResource-ResGen.read.4.tlog
+C:\Documents and Settings\CIA CODE RED\My Documents\Class Work\SGP\Tools\Source\LapidemParticleEditor\LapidemParticleEditor\obj\Debug\GenerateResource-ResGen.write.1.tlog
+C:\Documents and Settings\CIA CODE RED\My Documents\Class Work\SGP\Tools\Source\LapidemParticleEditor\LapidemParticleEditor\obj\Debug\LapidemParticleEditor.exe
+C:\Documents and Settings\CIA CODE RED\My Documents\Class Work\SGP\Tools\Source\LapidemParticleEditor\LapidemParticleEditor\obj\Debug\LapidemParticleEditor.pdb
