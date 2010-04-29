@@ -45,6 +45,7 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 
 	for(unsigned index = 0; index < Objects.size(); ++index)
 	{
+		if(IsOnScreen(Objects[index]))
 		if(Objects[index]->IsActive())
 			Objects[index]->Update(fElapsedTime);
 		else
