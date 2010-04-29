@@ -15,7 +15,7 @@ CAnimation::~CAnimation()
 void CAnimation::Update(float fElapsedTime)
 {
 	m_fTimeWaited += fElapsedTime;
-	if(m_fTimeWaited > m_dTimeToWait)
+	if(m_fTimeWaited > m_vFrames[m_nFrame]->WaitTime)
 	{
 		m_nFrame++;
 		m_fTimeWaited =0.0f;

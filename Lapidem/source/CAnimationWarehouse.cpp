@@ -79,10 +79,8 @@ void CAnimationWarehouse::LoadAnimationSet(char* Filename, DWORD keycolor)
 				int framenum = 0;
 				in.read((char*) &framenum, sizeof(int));
 
-				double waittime;
-
-				in.read((char*) &waittime, sizeof(double));
-				anim->SetTimeToWait(waittime);
+			
+				in.read((char*) &newframe->WaitTime, sizeof(double));
 
 				int triggerlength = 0;
 				in.read((char*) &triggerlength, sizeof(char));

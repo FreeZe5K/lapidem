@@ -10,6 +10,7 @@ struct Frame
 	RECT CollisionRect;
 	RECT DrawRect;
 	POINT AnchorPoint;
+	double WaitTime;
 	char* Trigger;
 };
 

@@ -544,7 +544,7 @@ void CLevel::Update( float fElapsedTime )
 		{
 			
 			int index = i + j*GetWorldCollumn();
-			if( index <0 || index > int( m_pTerrainTiles.size() ) )
+			if( index <0 || index > int( m_pTerrainTiles.size() )-1 )
 				continue;
 		if(((CTerrainBase*)m_pTerrainTiles[ index ])->GetTileID() != GetBaseTileID() )//&& IsOnScreen(m_pTerrainTiles[ index ]))
 		{
@@ -572,7 +572,7 @@ void CLevel::Render()
 		{
 			
 			int index = i + j*GetWorldCollumn();
-			if( index <0 || index > int( m_pTerrainTiles.size() ) )
+			if( index <0 || index > int( m_pTerrainTiles.size() ) -1 )
 				continue;
 		if(((CTerrainBase*)m_pTerrainTiles[ index ])->GetTileID() != GetBaseTileID() )//&& IsOnScreen(m_pTerrainTiles[ index ]))
 		{
