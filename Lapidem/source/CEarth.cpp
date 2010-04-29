@@ -31,6 +31,9 @@ CEarth::CEarth() : CSpell()
 
 CEarth::~CEarth()
 {
+	if( GetImage() >= 0 )
+	CSGD_TextureManager::GetInstance()->UnloadTexture( GetImage() );
+
 
 }
 
@@ -64,7 +67,6 @@ void CEarth::Update(float fElapsedTime)
 
 void CEarth::UpdateTier1(float fElapsedTime)
 {
-	
 	SetVelY(GetVelY() + fElapsedTime * 100);
 	if(m_fTimeTillRotate > 0)
 	{
@@ -125,7 +127,9 @@ void CEarth::UpdateTier1(float fElapsedTime)
 		m_fRotate = acos(dot/length) + PI/4.0f;
 	}
 
-	CBase::Update(fElapsedTime);
+		//	SetVelX(GetVelX() * .99f);
+	CSpell::UpdateTier1( fElapsedTime);
+	//CBase::Update(fElapsedTime);
 	
 	if(GetPosX() <0)
 	{
@@ -198,27 +202,29 @@ void CEarth::HandleCollision(CBase* pObject)
 {
 	if(GetTier() ==1)
 	{
-		if(pObject->GetType() == OBJ_TERRA)
+
+		if(pObject->GetType() == OBJ_TERRA || pObject->GetType() ==  OBJ_PLAYER  )
 		{
 		if(pObject->GetPosX() + 1 > GetPosX() + GetWidth() || pObject->GetPosX() + GetWidth() - 1 < GetPosX())
-			SetVelX(GetVelX() * -.75f);
+			SetVelX(GetVelX() * -.5f);
 
 		if(pObject->GetPosY() + GetHeight() - 1 < GetPosY())
-			SetVelY(GetVelX() * -.75f);
+			SetVelY(GetVelX() * -.4f);
 
 
 		if(pObject->GetPosY() + 1 > GetPosY() + GetHeight() )
-			SetVelY(GetVelY() * -.5f);
+			SetVelY(GetVelY() * -.2f);
 
 		this->MoveOutOf(pObject);
 		
 		}
+		
 		if( pObject->GetType() == OBJ_SPELL )
 		{
 			if( ((CSpell*)pObject)->GetElement() == OBJ_EARTH )
 			{
-				SetVelX(GetVelX() * -.75f);
-				SetVelY(GetVelY() * -.5f);
+				SetVelX(GetVelX() * -.4f);
+				SetVelY(GetVelY() * -.2f);
 			}
 			pObject->MoveOutOf(this);
 

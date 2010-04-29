@@ -96,6 +96,16 @@ void CLevel::Clear()
 		m_pTerrainTiles.clear();
 
 	}
+	
+		if( GetTileSet() != -1 )
+			CSGD_TextureManager::GetInstance()->UnloadTexture( GetTileSet());
+		SetTileSetID(-1);
+
+
+		
+		if( GetBackGroundImage() != -1 )
+			CSGD_TextureManager::GetInstance()->UnloadTexture(  GetBackGroundImage());
+		SetBackGroundImage(-1);
 
 	//	if( GetTileSet() != -1 )
 	//			CSGD_TextureManager::GetInstance()->UnloadTexture( GetTileSet());
@@ -163,6 +173,7 @@ void CLevel::LoadNewLevel( char* filename )
 
 		if( GetTileSet() != -1 )
 			CSGD_TextureManager::GetInstance()->UnloadTexture( GetTileSet());
+		SetTileSetID(-1);
 		in.read( (char*)&size, sizeof(char));
 		char szTileSet[64];// = new char[size];
 		in.read( szTileSet, sizeof(char)*size );
@@ -180,6 +191,8 @@ void CLevel::LoadNewLevel( char* filename )
 
 		if( GetBackGroundImage() != -1 )
 			CSGD_TextureManager::GetInstance()->UnloadTexture( GetBackGroundImage() );
+		SetBackGroundImage(-1);
+
 		in.read( (char*)&size, sizeof(char));
 		char szBGI[64];
 		in.read( szBGI, sizeof(char)*size );

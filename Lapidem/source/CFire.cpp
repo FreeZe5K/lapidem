@@ -27,6 +27,9 @@ CFire::CFire() :CSpell()
 
 CFire::~CFire()
 {
+	if( GetImage() >= 0 )
+	CSGD_TextureManager::GetInstance()->UnloadTexture( GetImage() );
+
 }
 
 void CFire::Update(float fElapsedTime)

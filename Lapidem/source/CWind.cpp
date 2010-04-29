@@ -18,6 +18,10 @@ CWind::CWind() : CSpell()
 
 CWind::~CWind()
 {
+	
+	if( GetImage() >= 0 )
+	CSGD_TextureManager::GetInstance()->UnloadTexture( GetImage() );
+
 
 }
 

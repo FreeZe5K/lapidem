@@ -79,7 +79,7 @@ void CBase::MoveOutOf( CBase* pSolidObject )
 		{
 			if( this->GetPosX() > pSolidObject->GetPosX() )
 				SetPosX( GetPosX() + nRectWidth );
-			else if ( this->GetPosX() < pSolidObject->GetPosX() )
+			 if ( this->GetPosX() < pSolidObject->GetPosX() )
 				SetPosX( GetPosX() - nRectWidth );
 		}
 		else if( nRectHeight < nRectWidth ) 
@@ -90,7 +90,7 @@ void CBase::MoveOutOf( CBase* pSolidObject )
 				SetPosY( GetPosY() + nRectHeight  );
 				
 			}
-			else if(this->GetPosY() < pSolidObject->GetPosY() )
+			 if(this->GetPosY() < pSolidObject->GetPosY() )
 			{
 				SetPosY( GetPosY() - nRectHeight );
 			}

@@ -20,6 +20,10 @@ CSpell::CSpell() : CBase()
 
 CSpell::~CSpell()
 {
+	
+	if( GetImage() >= 0 )
+	CSGD_TextureManager::GetInstance()->UnloadTexture( GetImage() );
+
 }
 
 void CSpell::UpdateTier1(float fElapsedTime)

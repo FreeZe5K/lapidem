@@ -55,7 +55,13 @@ void CTerrainBase::HandleCollision(CBase* pBase)
 	switch( pBase->GetType() )
 	{
 	case OBJ_SPELL:
-		SetHealth( GetHealth() - ((CSpell*)pBase)->GetDamage() );
+		{
+			if(((CSpell*)pBase)->GetElement() == OBJ_EARTH)
+				SetHealth( GetHealth() - 0.0f*((CSpell*)pBase)->GetDamage() );
+			else
+				SetHealth( GetHealth() - ((CSpell*)pBase)->GetDamage() );
+
+		}
 		break;
 	
 
