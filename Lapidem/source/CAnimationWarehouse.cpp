@@ -16,6 +16,7 @@ void CAnimationWarehouse::DeleteInstance(void)
 				{
 					for(unsigned int ftw =0; ftw < m_vAnimationList[i][j]->GetAllFrames().size(); ftw++)
 					{
+						delete m_vAnimationList[i][j]->GetAllFrames()[ftw]->Trigger;
 						delete m_vAnimationList[i][j]->GetAllFrames()[ftw];
 					}
 					delete m_vAnimationList[i][j];
@@ -89,6 +90,8 @@ void CAnimationWarehouse::LoadAnimationSet(char* Filename, DWORD keycolor)
 				newframe->Trigger = new char[triggerlength +1];
 				in.read(newframe->Trigger, sizeof(char) * triggerlength);
 				newframe->Trigger[triggerlength] = 0;
+
+				
 
 		
 				int renderwidth = 0;
