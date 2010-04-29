@@ -35,8 +35,8 @@ CEnemy::CEnemy(EleType ElementToBe, float initx, float inity)
 
 CEnemy::~CEnemy()
 {
-	if( GetImage() >= 0 )
-	CSGD_TextureManager::GetInstance()->UnloadTexture( GetImage() );
+	/*if( GetImage() >= 0 )
+	CSGD_TextureManager::GetInstance()->UnloadTexture( GetImage() );*/
 
 	if( currState )
 		delete currState;
