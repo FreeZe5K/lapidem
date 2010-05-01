@@ -28,13 +28,13 @@ class Corona_ObjectManager
 	~Corona_ObjectManager() {};
 	
 	void CheckCollisions(float fElapsedTime);
-	bool IsOnScreen(CBase*);
 
 	CCamera * theCamera;
 
 
 
 public:
+	bool IsOnScreen(CBase*);
 
 	static Corona_ObjectManager * GetInstance();
 	void DeleteInstance();

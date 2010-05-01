@@ -299,4 +299,5 @@ void CEmitterFactory::Initialize( )
 
 	//Load( "resource/data/fireSpell.lapipt", "firespell" );
 	Load( "resource/data/testFire.lapipt", "firespell" );
+	Load( "resource/data/return.lapipt", "return" );
 }

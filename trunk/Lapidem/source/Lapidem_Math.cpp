@@ -131,9 +131,9 @@ float Lapidem_Math::VectorLength( TVECTOR _v )
 TVECTOR Lapidem_Math::VectorNormalize( TVECTOR _v )
 {
 	TVECTOR _norm;
-	_norm.w = _v.w / VectorLength( _v );
-	_norm.w = _v.w / VectorLength( _v );
-	_norm.w = _v.w / VectorLength( _v );
+	_norm.x = _v.x / VectorLength( _v );
+	_norm.y = _v.y / VectorLength( _v );
+	_norm.z = _v.z / VectorLength( _v );
 	_norm.w = _v.w / VectorLength( _v );
 
 	if( ( IsZero( _v.w ) ) &&
