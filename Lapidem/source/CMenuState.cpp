@@ -168,7 +168,7 @@ bool CMenuState::Input( )
 				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
 			}
 			else if( m_nChoice == 1 ) // Two Player
-			{   /* TODO :: MULTIPLAYER */ 
+			{
 				m_nPlayerCount = 2; 
 				CGameplayState::GetInstance( )->bTwoPlayerMode( true );
 				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );

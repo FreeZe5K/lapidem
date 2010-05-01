@@ -9,6 +9,7 @@
 
 #include <ctime>
 #include <cmath>
+#include <cstdlib>
 
 #define RAND_INT(min,max)        (((rand()/(int)RAND_MAX)*((max)-(min)))+(min))
 #define RAND_FLOAT(min,max)      (((rand()/(float)RAND_MAX)*((max)-(min)))+(min))
@@ -141,6 +142,7 @@ public:
 	/////////////////////////
 	// Random numbers.
 	/////////////////////////
+	bool RandomBoolean();
 	void SeedRandomNumberGenerator( long lSeed = 0 );
 	long RandomLong( long, long );
 	float RandomFloat( float, float );
