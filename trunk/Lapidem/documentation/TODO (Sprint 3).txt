@@ -1,0 +1,29 @@
+- - - - - - - - - - - - - - - - - -
+- - - - - - - Jon - - - - - - - - 
+- Comment Sams code.
+- Have the earth enemies decide which player to attack when playing with two players.
+- Tier 1 wind spells.
+
+- - - - - - - - - - - - - - - - - -
+- - - - - - - Sam - - - - - - - 
+- The user needs to be able to play in multiplayer mode.
+- Tier 1 fire spells.
+
+- - - - - - - - - - - - - - - - - -
+- - - - - - - Mike - - - - - - - 
+- Attract mode.
+- Make the particle engine better.
+- Heads Up Display.
+
+- - - - - - - - - - - - - - - - - -
+- - - - - - - Pablo  - - - - - -
+- The camera needs to work properly when playing with two players.
+- Tier 1 ice spells.
+
+- - - - - - - - - - - - - - - - - -
+- - - KNOWN BUGS - - -
+- List them here!
+
+- - - - - - - - - - - - - - - - - -
+- - MEMORY LEAKS  - -
+- List them here!

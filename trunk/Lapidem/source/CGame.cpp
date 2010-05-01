@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////////////////
 #include "CGame.h"
 #include "CSpellFactory.h"
+
 CGame *CGame::GetInstance( )
 {
 	static CGame instance;
@@ -22,11 +23,16 @@ CGame::CGame( )
 	m_pDI       = NULL;
 	m_bmFont    = NULL;
 
-	m_nImageID	             = -1;
-	m_nSoundID	             = -1;
+	m_nImageID[0]            = -1;
+	m_nImageID[1]            = -1;
+	m_nImageID[2]            = -1;
 
-	m_nMusicVolume           = 65;
-	m_nSoundEffectVolume     = 100;
+	m_nSoundID[0]            = -1;
+	m_nSoundID[1]            = -1;
+	m_nSoundID[2]            = -1;
+
+	m_nMusicVolume           = 75;
+	m_nSoundEffectVolume     = 75;
 
 	m_bIsInDebug             = false;
 	m_bIsPaused              = false;
@@ -55,7 +61,17 @@ void CGame::Initialize( HWND hWnd, HINSTANCE hInstance,
 	m_bIsNotFullscreen    = bIsWindowed;
 
 	m_bmFont              = new CBitmapFont();
-	m_bmFont->Load( "resource/graphics/Lapidem_Font.bmp", "resource/data/Lapidem_BitmapFontSizes.txt" );
+	m_bmFont->Load( "resource/graphics/Lapidem_Font.bmp", 
+		"resource/data/Lapidem_BitmapFontSizes.txt" );
+
+	m_nSoundID[0]   = m_pWM->LoadWave( "resource/audio/Lapidem_MainMenuMusic.wav" );
+	m_pWM->SetVolume( m_nSoundID[0], GetMusicVolume( ) );
+
+	m_nSoundID[1]   = m_pWM->LoadWave( "resource/audio/Lapidem_MainMenuTick.wav" );
+	m_pWM->SetVolume( m_nSoundID[1], GetSoundFXVolume( ) ); 
+
+	m_nSoundID[2]   = m_pWM->LoadWave( "resource/audio/Lapidem_LevelOneMusic.wav" );
+	m_pWM->SetVolume( m_nSoundID[2], GetMusicVolume( ) ); 
 
 	m_dwTimeStamp         = GetTickCount( );
 	m_dwPreviousTimeStamp = GetTickCount( );
@@ -64,8 +80,7 @@ void CGame::Initialize( HWND hWnd, HINSTANCE hInstance,
 }
 
 void CGame::Shutdown( )
-{
-	
+{	
 	ChangeState( NULL );
 	CSpellFactory::GetInstance()->DeleteInstance();
 
@@ -111,7 +126,6 @@ bool CGame::Main( )
 	DWORD dwStartTimeStamp = GetTickCount( );
 	m_fElapsedTime         = float( dwStartTimeStamp - m_dwPreviousTimeStamp ) / 1000.0f;
 	m_dwPreviousTimeStamp  = dwStartTimeStamp;
-
 
 #ifdef _DEBUG
 	if(m_fElapsedTime > .25f)
@@ -162,6 +176,7 @@ void CGame::Update( float _fps )
 		if( m_vGS.size( ) > 0 )
 			for( unsigned int index = 0; index < m_vGS.size( ); index++ )
 				m_vGS[index]->Update( _fps );
+
 	m_pWM->Update( );
 }
 

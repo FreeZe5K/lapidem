@@ -23,7 +23,6 @@ private:
 	int                     m_nImageID[2];
 	int                     m_nSoundID[2];
 	int                     m_nCreditScroll;
-	int                     m_nAttractTimer;
 
 	int                     m_nScrollSpeedOne;
 	int                     m_nScrollSpeedTwo;

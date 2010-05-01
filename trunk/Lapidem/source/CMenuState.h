@@ -56,10 +56,13 @@ public:
 	static CMenuState* GetInstance( );
 
 	int GetPlayerCount( )      { return m_nPlayerCount; }
+	int GetMusicID( )          { return m_nSoundID[0];  }
 
 	tSlots GetSlotOne( )       { return tSlotOne;       }
 	tSlots GetSlotTwo( )       { return tSlotTwo;       }
 	tSlots GetSlotThree( )     { return tSlotThree;     }
+
+	void ResetAttractTimer( )  { m_nAttractTimer = 0;   }
 
 	bool Load( int );
 

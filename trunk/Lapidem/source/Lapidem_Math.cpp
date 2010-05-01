@@ -94,6 +94,23 @@ u32 Lapidem_Math::Div2UInts( u32 u1, u32 u2 )
 //////////////////////////////////////////////
 // Float math.
 //////////////////////////////////////////////
+bool Lapidem_Math::IsEqual( float _a, float _b )
+{ return fabs( _a - _b ) < EPSILON; }
+
+bool Lapidem_Math::IsZero( float _a )
+{ return ( fabs( _a ) ) < EPSILON; }
+
+float Lapidem_Math::Max( float _a, float _b )
+{ return ( _a > _b ) ? _a : _b; }
+
+float Lapidem_Math::Min( float _a, float _b )
+{ return ( _a < _b ) ? _a : _b; }
+
+float Lapidem_Math::Degrees_To_Radians( float _deg )
+{ return float( _deg * PI / 180.f ); }
+
+float Lapidem_Math::Radians_To_Degrees( float _rad )
+{ return float( _rad * 180.0f / PI ); }
 
 //////////////////////////////////////////////
 // Physics.
@@ -102,6 +119,30 @@ u32 Lapidem_Math::Div2UInts( u32 u1, u32 u2 )
 //////////////////////////////////////////////
 // Vector math.
 //////////////////////////////////////////////
+float Lapidem_Math::VectorLengthSq( TVECTOR _v )
+{
+	return ( ( _v.w * _v.w ) + ( _v.x * _v.x ) + 
+		( _v.y * _v.y ) + ( _v.z * _v.z ) );
+}
+
+float Lapidem_Math::VectorLength( TVECTOR _v )
+{  return sqrtf( VectorLengthSq( _v ) ); }
+
+TVECTOR Lapidem_Math::VectorNormalize( TVECTOR _v )
+{
+	TVECTOR _norm;
+	_norm.w = _v.w / VectorLength( _v );
+	_norm.w = _v.w / VectorLength( _v );
+	_norm.w = _v.w / VectorLength( _v );
+	_norm.w = _v.w / VectorLength( _v );
+
+	if( ( IsZero( _v.w ) ) &&
+		( IsZero( _v.x ) ) &&
+		( IsZero( _v.y ) ) &&
+		( IsZero( _v.z ) ) )
+		return _v;
+	else return _norm;
+}
 
 //////////////////////////////////////////////
 // Random numbers.

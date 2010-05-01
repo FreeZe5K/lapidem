@@ -24,9 +24,10 @@ void CGameplayState::Enter( )
 	m_pEF			= CEmitterFactory::GetInstance();
 	m_pEF->Initialize();
 
-	CAnimationWarehouse::GetInstance()->LoadAnimationSet("resource/idlewalk.Anim",D3DCOLOR_XRGB(255,255,255));
+	CAnimationWarehouse::GetInstance( )->LoadAnimationSet( 
+		"resource/idlewalk.Anim", D3DCOLOR_XRGB( 255, 255, 255 ) );
 
-	m_pPlayerOne	= new CPlayer();
+	m_pPlayerOne	= new CPlayer( );
 	m_pPlayerOne->SetAnimation(0, 0);
 
 	if(m_bTwoPlayers)
@@ -39,10 +40,16 @@ void CGameplayState::Enter( )
 	m_pPlayerTwo	= NULL;
 
 	CCamera::InitCamera(0.0f, 0.0f, (float)CGame::GetInstance()->GetScreenWidth(),
-		(float)CGame::GetInstance()->GetScreenHeight(), m_pPlayerOne );
+		(float)CGame::GetInstance( )->GetScreenHeight(), m_pPlayerOne );
 
-	m_pCoM			   = Corona_ObjectManager::GetInstance();
-	m_pCeH			   = Corona_EventHandler::GetInstance();
+	m_pCoM			= Corona_ObjectManager::GetInstance();
+	m_pCeH			= Corona_EventHandler::GetInstance();
+
+	m_pWM->Stop( CGame::GetInstance( )->GetMainMenuMusic( ) );
+	m_pWM->Play( CGame::GetInstance( )->GetGameBGMusic( ), DSBPLAY_LOOPING );
+
+	m_pWM->SetVolume( CGame::GetInstance( )->GetGameBGMusic( ), 
+		CGame::GetInstance( )->GetSoundFXVolume( ) ); 
 
 	// - - - - - - - - - - - - - -
 	// Change the background image.
@@ -50,15 +57,10 @@ void CGameplayState::Enter( )
 	/* Note by Pablo
 	Background image will be handled by the CLevel.
 	*/
-	m_nImageID      = m_pTM->LoadTexture( "resource/graphics/placeholderArt.png" );
+	m_nImageID[0]   = m_pTM->LoadTexture( "resource/graphics/placeholderArt.png" );
+	m_nImageID[1]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_ISinglePlayer.png" );
+	m_nImageID[2]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_IMultiPlayer.png" );
 	// - - - - - - - - - - - - - -
-
-	m_nSoundID[0]   = m_pWM->LoadWave( "resource/audio/Lapidem_LevelOneMusic.wav" );
-	m_nSoundID[1]   = m_pWM->LoadWave( "resource/audio/Lapidem_MainMenuTick.wav" );
-
-	m_pWM->Play( m_nSoundID[0], DSBPLAY_LOOPING );
-	m_pWM->SetVolume( m_nSoundID[0], CGame::GetInstance( )->GetMusicVolume( ) ); 
-	m_pWM->SetVolume( m_nSoundID[1], CGame::GetInstance( )->GetSoundFXVolume( ) ); 
 
 	m_pCoM->AddObject(m_pPlayerOne);
 
@@ -199,24 +201,30 @@ bool CGameplayState::Input( )
 
 void CGameplayState::Update( float fET )
 {
-	CProfiler::GetInstance()->Start("Profiler Start");
-	CProfiler::GetInstance()->Start("CGameplay Update");
-	CProfiler::GetInstance()->End("Profiler Start");
-	m_pCoM->UpdateObjects(CGame::GetInstance()->GetElapsedTime());
-	theLevel.Update(fET);
-	m_pPM->Update( fET );
-	m_pCeH->ProcessEvents();
-	CProfiler::GetInstance()->Start("Profiler End");
-	CProfiler::GetInstance()->End("CGameplay Update");
-	CProfiler::GetInstance()->End("Profiler End");
+	CProfiler::GetInstance()->Start( "Profiler Start" );
+	CProfiler::GetInstance()->Start( "CGameplay Update" );
+	CProfiler::GetInstance()->End( "Profiler Start" );
 
+	m_pCoM->UpdateObjects( CGame::GetInstance( )->GetElapsedTime( ) );
+	theLevel.Update( fET );
+	m_pPM->Update( fET );
+	m_pCeH->ProcessEvents( );
+
+	CProfiler::GetInstance( )->Start( "Profiler End" );
+	CProfiler::GetInstance( )->End( "CGameplay Update" );
+	CProfiler::GetInstance( )->End( "Profiler End" );
 }
 
 void CGameplayState::Render( )
 {
-	theLevel.Render();
-	m_pCoM->RenderObjects();
+	theLevel.Render( );
+	m_pCoM->RenderObjects( );
 	m_pPM->Render( );
+
+	if( !m_bTwoPlayers )
+		m_pTM->Draw( m_nImageID[1], 0, 0 );
+	else if( m_bTwoPlayers )
+		m_pTM->Draw( m_nImageID[2], 0, 0 );
 }
 
 void CGameplayState::Exit( )
@@ -233,34 +241,40 @@ void CGameplayState::Exit( )
 		m_pEF = NULL;
 	}
 
+	m_pCeH->SendEvent( "EnemyDied", NULL );
+	m_pCeH->ProcessEvents( );
 
-	m_pCeH->SendEvent("EnemyDied", NULL);
-	m_pCeH->ProcessEvents();
+	m_pWM->Stop( CGame::GetInstance( )->GetGameBGMusic( ) );
+	m_pWM->Reset( CGame::GetInstance( )->GetGameBGMusic( ) );
+	m_pWM->Stop( CGame::GetInstance( )->GetMainMenuMusic( ) );
+	m_pWM->Reset( CGame::GetInstance( )->GetMainMenuMusic( ) );
 
-	m_pWM->UnloadWave( m_nSoundID[1] );
-	m_pWM->UnloadWave( m_nSoundID[0] );
-	m_pTM->UnloadTexture( m_nImageID );
-	m_pCoM->RemoveAllObjects();
+	m_pTM->UnloadTexture( m_nImageID[2] );
+	m_pTM->UnloadTexture( m_nImageID[1] );
+	m_pTM->UnloadTexture( m_nImageID[0] );
 
-	if(m_pPlayerOne)
-		m_pPlayerOne->Release();
-	if(m_pPlayerTwo)
-		m_pPlayerTwo->Release();
+	m_pCoM->RemoveAllObjects( );
 
-	theCamera->ShutDownCamera();
+	if( m_pPlayerOne )
+		m_pPlayerOne->Release( );
+	if(  m_pPlayerTwo )
+		m_pPlayerTwo->Release( );
+
+	theCamera->ShutDownCamera( );
 	theCamera = NULL;
 
-	CCamera::GetCamera()->ShutDownCamera();
+	CCamera::GetCamera( )->ShutDownCamera( );
 
-	theLevel.Clear();
-	m_pCoM->DeleteInstance();
-	CAnimationWarehouse::GetInstance()->DeleteInstance();
-	//CProfiler::GetInstance()->DeleteInstance();
+	theLevel.Clear( );
+	m_pCoM->DeleteInstance( );
+	CAnimationWarehouse::GetInstance()->DeleteInstance( );
+	// TODO :: Remove this comment if you don't need it!
+	//CProfiler::GetInstance( )->DeleteInstance( );
 
 	m_bLoadedFromFile = false;
 
 #if _DEBUG
-	CProfiler::GetInstance()->Save("CodeProfilerOutput.txt");
-	CProfiler::GetInstance()->DeleteInstance();
+	CProfiler::GetInstance( )->Save( "CodeProfilerOutput.txt" );
+	CProfiler::GetInstance( )->DeleteInstance( );
 #endif
 }

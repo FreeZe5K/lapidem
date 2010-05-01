@@ -11,15 +11,18 @@
 //	Purpose			:	To provide a basic window framework for student games.
 //
 //////////////////////////////////////////////////////////////////////////////////////////////
-#include <windows.h>                //  Needed for Windows Applications.
+#include <windows.h>                     //  Needed for Windows Applications.
 
-#define VLD_AGGREGATE_DUPLICATES    //  Don't report same leak.
-#define VLD_MAX_DATA_DUMP 0         //  Don't show the hex I can't read.
-#include <vld.h>                    //  For memory leak detection.
-#include "CGame.h"                  //  This is our game,
-#include "resource.h"               //  Our icon.
+#define VLD_AGGREGATE_DUPLICATES         //  Don't report same leak.
+#define VLD_MAX_DATA_DUMP   0            //  Don't show the hex I can't read.
+#define WM_GRAPHNOTIFY      WM_APP + 1
 
-const char* g_szWINDOW_CLASS_NAME   = "SGDWindowClass";         //  Window Class Name.
+#include <vld.h>                         //  For memory leak detection.
+#include "CGame.h"                       //  This is our game,
+#include "resource.h"                    //  Our icon.
+#include "CAttractState.h"
+
+const char* g_szWINDOW_CLASS_NAME   = "LAPIDEM_CLASS";          //  Window Class Name.
 const char* g_szWINDOW_TITLE        = "Lapidem";                //  Window Title.
 
 const int   g_nWINDOW_WIDTH         = 640;                      //  Window Width.
@@ -27,103 +30,103 @@ const int   g_nWINDOW_HEIGHT        = 480;                      //  Window Heigh
 
 //	Windowed or Full screen depending on project setting
 #ifdef _DEBUG
-	const BOOL  g_bIS_WINDOWED          = TRUE;						
+const BOOL  g_bIS_WINDOWED          = TRUE;						
 #else
-	const BOOL  g_bIS_WINDOWED          = FALSE;
+const BOOL  g_bIS_WINDOWED          = FALSE;
 #endif
 
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WindowProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	//	This is the main message handler of the system.
 	PAINTSTRUCT	ps;			//	Used in WM_PAINT.
 	HDC			hdc;		//	Handle to a device context.
 
 	//	What is the message 
-	switch(msg)
+	switch( msg )
 	{
 		//	To skip ALT pop up menu (system menu)
-		case WM_SYSKEYUP:
-		case WM_SYSCHAR:
-			return(0);
-		break;
-		
-		//	Handle ALT+F4
-		case WM_CLOSE:
-		{
-			// Sends us a WM_DESTROY
-			DestroyWindow(hWnd);			
-		}
+	case WM_SYSKEYUP:
+	case WM_SYSCHAR:
+		return( 0 );
 		break;
 
+		//	Handle ALT+F4
+	case WM_CLOSE:
+		{
+			// Sends us a WM_DESTROY
+			DestroyWindow( hWnd );			
+		} break;
+
+	case WM_GRAPHNOTIFY:
+		{
+			CAttractState::GetInstance( )->HandlePlayEvent( );
+		} break;
+
 		//	and lose/gain focus
-		case WM_ACTIVATE:
+	case WM_ACTIVATE:
 		{
 			//	gaining focus
-			if (LOWORD(wParam) != WA_INACTIVE)
+			if( LOWORD( wParam ) != WA_INACTIVE )
 			{
-				 // unpause game code here
+				// unpause game code here
+				CGame::GetInstance( )->SetPaused( false );
 			}
 			else // losing focus
 			{
-				 // pause game code here
+				// pause game code here
+				CGame::GetInstance( )->SetPaused( true );
 			}
-		}
-		break;
+		} break;
 
-		case WM_CREATE: 
+	case WM_CREATE: 
 		{
 			//	Do initialization here
-			return(0);
-		}
-		break;
+			return( 0 );
+		} break;
 
-		case WM_PAINT:
+	case WM_PAINT:
 		{
 			//	Start painting
-			hdc = BeginPaint(hWnd,&ps);
+			hdc = BeginPaint( hWnd, &ps );
 
 			//	End painting
-			EndPaint(hWnd,&ps);
+			EndPaint( hWnd, &ps );
 			return(0);
-		}
-		break;
+		} break;
 
-		case WM_DESTROY: 
+	case WM_DESTROY: 
 		{
 			//	Kill the application			
-			PostQuitMessage(0);
-			return(0);
-		}
-		break;
+			PostQuitMessage( 0 );
+			return( 0 );
+		} break;
 
-		default:
-		break;
+	default: break;
 	}
 
 	//	Process any messages that we didn't take care of 
-	return (DefWindowProc(hWnd, msg, wParam, lParam));
+	return ( DefWindowProc( hWnd, msg, wParam, lParam ) );
 }
 
 //	Checks to see if the game was already running in another window.
 //
 //	NOTE:	Don't call this function if your game needs to have more
 //			than one instance running on the same computer (i.e. client/server)
-BOOL CheckIfAlreadyRunning(void)
+BOOL CheckIfAlreadyRunning( )
 {
 	//	Find a window of the same window class name and window title
-	HWND hWnd = FindWindow(g_szWINDOW_CLASS_NAME, g_szWINDOW_TITLE);
+	HWND hWnd = FindWindow( g_szWINDOW_CLASS_NAME, g_szWINDOW_TITLE );
 
 	//	If one was found
-	if (hWnd)
+	if( hWnd )
 	{
 		//	If it was minimized
-		if (IsIconic(hWnd))
+		if( IsIconic( hWnd ) )
 			//	restore it
-			ShowWindow(hWnd, SW_RESTORE);
+			ShowWindow( hWnd, SW_RESTORE );
 
 		//	Bring it to the front
-		SetForegroundWindow(hWnd);
-
+		SetForegroundWindow( hWnd );
 		return TRUE;
 	}
 
@@ -131,44 +134,41 @@ BOOL CheckIfAlreadyRunning(void)
 	return FALSE;
 }
 
-
-BOOL RegisterWindowClass(HINSTANCE hInstance)
+BOOL RegisterWindowClass( HINSTANCE hInstance )
 {
 	WNDCLASSEX	winClassEx;	//	This will describe the window class we will create.
 
 	//	First fill in the window class structure
-	winClassEx.cbSize			= sizeof(winClassEx);
-	winClassEx.style			= CS_DBLCLKS | CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
-	winClassEx.lpfnWndProc		= WindowProc;
-	winClassEx.cbClsExtra		= 0;
-	winClassEx.cbWndExtra		= 0;
-	winClassEx.hInstance		= hInstance;
-	winClassEx.hIcon			= LoadIcon( hInstance, MAKEINTRESOURCE( IDI_ICON1 ) ); // LoadIcon(NULL, IDI_APPLICATION); // 
-	winClassEx.hIconSm			= NULL;
-	winClassEx.hCursor			= LoadCursor(NULL, IDC_ARROW);
-	winClassEx.hbrBackground	= (HBRUSH)GetStockObject(BLACK_BRUSH);
-	winClassEx.lpszMenuName		= NULL; 
-	winClassEx.lpszClassName	= g_szWINDOW_CLASS_NAME;
+	winClassEx.cbSize           = sizeof( winClassEx );
+	winClassEx.style            = CS_DBLCLKS | CS_OWNDC | CS_HREDRAW | CS_VREDRAW;
+	winClassEx.lpfnWndProc      = WindowProc;
+	winClassEx.cbClsExtra       = 0;
+	winClassEx.cbWndExtra       = 0;
+	winClassEx.hInstance        = hInstance;
+	winClassEx.hIcon            = LoadIcon( hInstance, MAKEINTRESOURCE( IDI_ICON1 ) );
+	winClassEx.hIconSm          = NULL;
+	winClassEx.hCursor          = LoadCursor( NULL, IDC_ARROW );
+	winClassEx.hbrBackground    = (HBRUSH)GetStockObject( BLACK_BRUSH );
+	winClassEx.lpszMenuName	    = NULL; 
+	winClassEx.lpszClassName    = g_szWINDOW_CLASS_NAME;
 
 	//	Register the window class
-	return RegisterClassEx(&winClassEx);
+	return RegisterClassEx( &winClassEx );
 }
 
 //	Creates and sizes the window appropriately depending on if 
 //	the application is windowed or full screen.
-HWND MakeWindow(HINSTANCE hInstance)
+HWND MakeWindow( HINSTANCE hInstance )
 {
 	// Setup window style flags
 	DWORD dwWindowStyleFlags = WS_VISIBLE;
 
-	if (g_bIS_WINDOWED)
-	{
+	if( g_bIS_WINDOWED )
 		dwWindowStyleFlags |= WS_OVERLAPPEDWINDOW;
-	}
 	else
 	{
 		dwWindowStyleFlags |= WS_POPUP;
-		ShowCursor(FALSE);	// Stop showing the mouse cursor
+		ShowCursor( FALSE );    // Stop showing the mouse cursor
 	}
 
 	// Setup the desired client area size
@@ -180,38 +180,38 @@ HWND MakeWindow(HINSTANCE hInstance)
 
 	// Get the dimensions of a window that will have a client rect that
 	// will really be the resolution we're looking for.
-	AdjustWindowRectEx(&rWindow, 
-						dwWindowStyleFlags,
-						FALSE, 
-						WS_EX_APPWINDOW);
-	
+	AdjustWindowRectEx( &rWindow, dwWindowStyleFlags,
+		FALSE, WS_EX_APPWINDOW );
+
 	// Calculate the width/height of that window's dimensions
 	int nWindowWidth	= rWindow.right - rWindow.left;
 	int nWindowHeight	= rWindow.bottom - rWindow.top;
 
 	//	Create the window
-	return CreateWindowEx(WS_EX_APPWINDOW,											//	Extended Style flags.
-						  g_szWINDOW_CLASS_NAME,									//	Window Class Name.
-						  g_szWINDOW_TITLE,											//	Title of the Window.
-						  dwWindowStyleFlags,										//	Window Style Flags.
-						  (GetSystemMetrics(SM_CXSCREEN)/2) - (nWindowWidth/2),		//	Window Start Point (x, y). 
-						  (GetSystemMetrics(SM_CYSCREEN)/2) - (nWindowHeight/2),	//		-Does the math to center the window over the desktop.
-						  nWindowWidth,												//	Width of Window.
-						  nWindowHeight,											//	Height of Window.
-						  NULL,														//	Handle to parent window.
-						  NULL,														//	Handle to menu.
-						  hInstance,												//	Application Instance.
-						  NULL);													//	Creation parameters.
+	return CreateWindowEx( WS_EX_APPWINDOW,                                //  Extended Style flags.
+		g_szWINDOW_CLASS_NAME,                                             //  Window Class Name.
+		g_szWINDOW_TITLE,                                                  //  Title of the Window.
+		dwWindowStyleFlags,                                                //  Window Style Flags.
+		( GetSystemMetrics( SM_CXSCREEN ) / 2 ) - ( nWindowWidth / 2 ),    //  Window Start Point (x, y). 
+		( GetSystemMetrics( SM_CYSCREEN ) / 2 ) - ( nWindowHeight / 2 ),   //  -Does the math to center the window over the desktop.
+		nWindowWidth,                                                      //  Width of Window.
+		nWindowHeight,                                                     //  Height of Window.
+		NULL,                                                              //  Handle to parent window.
+		NULL,                                                              //  Handle to menu.
+		hInstance,                                                         //  Application Instance.
+		NULL );                                                            //  Creation parameters.
 }
 
 //////////////////////////
 //		WinMain			//
 //////////////////////////
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
 	MSG		msg;	//	Generic message.
 	HWND	hWnd;	//	Main Window Handle.
+
+	CoInitialize( NULL );
 
 	////////////////////////////////////////////////////////////////////////
 	// Don't let more than one instance of the application exist
@@ -219,25 +219,27 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// NOTE:	Comment out the following section of code if your game needs to have more
 	//			than one instance running on the same computer (i.e. client/server)
 	////////////////////////////////////////////////////////////////////////
-	if (!hPrevInstance)
+	if( !hPrevInstance )
 	{
-		if (CheckIfAlreadyRunning())
+		if ( CheckIfAlreadyRunning( ) )
 			return FALSE;
 	}
 
 	////////////////////////////////////////////////////////////////////////
 	//	Register the window class
-	if (!RegisterWindowClass(hInstance))
+	if ( !RegisterWindowClass( hInstance ) )
 		return 0;
 
 	//	Create the window
-	hWnd = MakeWindow(hInstance);
+	hWnd = MakeWindow( hInstance );
 
-	if (!hWnd)
+	if ( !hWnd )
 		return 0;
 
-	ShowWindow(hWnd, nCmdShow);
-	UpdateWindow(hWnd);
+	CAttractState::GetInstance( )->SetHWND( hWnd );
+
+	ShowWindow( hWnd, nCmdShow );
+	UpdateWindow( hWnd );
 
 	//////////////////////////////////////////
 	//	Initialize Game here
@@ -247,26 +249,29 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	//////////////////////////////////////////
 	//	Enter main event loop
-	while (TRUE)
+	while( TRUE )
 	{
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		if( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
 		{ 
 			//	Test if this is a quit
-			if (msg.message == WM_QUIT)
-				break;
-		
+			if( msg.message == WM_QUIT ) break;
+
 			//	Translate any accelerator keys
-			TranslateMessage(&msg);
+			TranslateMessage( &msg );
 
 			//	Send the message to the window proc
-			DispatchMessage(&msg);
+			DispatchMessage( &msg );
 		}
-		
+
+		//hWnd = CAttractState::GetInstance( )->GetHWND( );
+
 		//////////////////////////////////
 		//	Put Game Logic Here
 		//////////////////////////////////
 		if( !pGame->Main( ) ) break;
 	}
+
+	CoUninitialize( );
 
 	/////////////////////////////////////////
 	//	Shutdown Game Here
@@ -275,9 +280,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	/////////////////////////////////////////
 	//	Unregister the window class
-	UnregisterClass(g_szWINDOW_CLASS_NAME, hInstance);
+	UnregisterClass( g_szWINDOW_CLASS_NAME, hInstance );
 
 	/////////////////////////////////////////
 	//	Return to Windows like this.
-	return (int)(msg.wParam);
+	return int( msg.wParam );
 }

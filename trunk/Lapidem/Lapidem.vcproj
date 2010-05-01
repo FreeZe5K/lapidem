@@ -361,6 +361,10 @@
 				Name="Header Files"
 				>
 				<File
+					RelativePath=".\source\CAttractState.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CAuxiliaryState.h"
 					>
 				</File>
@@ -384,6 +388,10 @@
 			<Filter
 				Name="Source Files"
 				>
+				<File
+					RelativePath=".\source\CAttractState.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\source\CAuxiliaryState.cpp"
 					>

@@ -22,6 +22,7 @@
 //////////////////////////////
 // Menus
 #include "CMenuState.h"
+#include "CAttractState.h"
 #include "CPauseMenuState.h"
 #include "CGameplayState.h"
 #include "CAuxiliaryState.h"
@@ -67,8 +68,17 @@ private:
 	
 	//////////////////////////////
 	// Asset ID's
-	int                     m_nImageID;
-	int                     m_nSoundID;
+	// Images - 
+	//     Main Menu BG
+	//     Pause Menu BG
+	//     How To Play BG
+	//      
+	// Sounds -
+	//     Main Menu Music
+	//     Menu Click
+	//     Level One Music
+	int                     m_nImageID[3];
+	int                     m_nSoundID[3];
 
 	int                     m_nSoundEffectVolume;
 	int                     m_nMusicVolume;
@@ -230,6 +240,10 @@ public:
 
 	int GetScreenWidth( )		  const		 { return m_nScreenWidth;		   }
 	int GetScreenHeight( )		  const      { return m_nScreenHeight;		   }
+
+	int GetMainMenuMusic( )       const      { return m_nSoundID[0];           }
+	int GetMenuTick( )            const      { return m_nSoundID[1];           }
+	int GetGameBGMusic( )         const      { return m_nSoundID[2];           }
 
 	DWORD GetFPSTimeStamp( )      const      { return m_dwFPSTimeStamp;        }
 
