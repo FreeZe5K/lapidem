@@ -147,6 +147,9 @@ TVECTOR Lapidem_Math::VectorNormalize( TVECTOR _v )
 //////////////////////////////////////////////
 // Random numbers.
 //////////////////////////////////////////////
+bool Lapidem_Math::RandomBoolean( )
+{ return ( ( rand( ) << 1 ) / RAND_MAX ) != 0; }
+
 void Lapidem_Math::SeedRandomNumberGenerator( long lSeed )
 {
 	if( lSeed ) idum = lSeed;

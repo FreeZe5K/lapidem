@@ -246,9 +246,9 @@ void CGameplayState::Render( )
 	m_pCoM->RenderObjects( );
 	m_pPM->Render( );
 
-	if( !m_bTwoPlayers )
+	if( 1 == CMenuState::GetInstance( )->GetPlayerCount( ) )
 		m_pTM->Draw( m_nImageID[1], 0, 0 );
-	else if( m_bTwoPlayers )
+	else if( 2 == CMenuState::GetInstance( )->GetPlayerCount( ) )
 		m_pTM->Draw( m_nImageID[2], 0, 0 );
 }
 
