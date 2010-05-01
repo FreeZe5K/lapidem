@@ -85,9 +85,9 @@ bool CPauseMenuState::Input( )
 		else if( CGame::GetInstance( )->GetSoundFXVolume( ) < 0 )
 			CGame::GetInstance( )->SetSoundFXVolume( 0 );
 
-		m_pWM->SetVolume( CGameplayState::GetInstance( )->GetMusic( ), 
+		m_pWM->SetVolume( CGame::GetInstance( )->GetGameBGMusic( ), 
 			CGame::GetInstance( )->GetMusicVolume( ) ); 
-		m_pWM->SetVolume( CGameplayState::GetInstance( )->GetSoundFX( ), 
+		m_pWM->SetVolume( CGame::GetInstance( )->GetMenuTick( ), 
 			CGame::GetInstance( )->GetSoundFXVolume( ) ); 
 
 		if(m_pDI->KeyPressed( DIK_UP ) || m_pDI->JoystickDPadPressed( 2 ) )

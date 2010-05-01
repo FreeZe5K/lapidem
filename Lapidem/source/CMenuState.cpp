@@ -13,11 +13,11 @@ CMenuState* CMenuState::GetInstance( )
 
 void CMenuState::Enter( )
 {
-	m_pD3D          = CSGD_Direct3D::GetInstance();
-	m_pTM           = CSGD_TextureManager::GetInstance();
-	m_pDS           = CSGD_DirectSound::GetInstance();
-	m_pWM           = CSGD_WaveManager::GetInstance();
-	m_pDI           = CSGD_DirectInput::GetInstance();
+	m_pD3D          = CSGD_Direct3D::GetInstance( );
+	m_pTM           = CSGD_TextureManager::GetInstance( );
+	m_pDS           = CSGD_DirectSound::GetInstance( );
+	m_pWM           = CSGD_WaveManager::GetInstance( );
+	m_pDI           = CSGD_DirectInput::GetInstance( );
 
 	m_nState        = 0;
 	m_nChoice       = 0;
@@ -26,10 +26,9 @@ void CMenuState::Enter( )
 
 	m_nImageID      = m_pTM->LoadTexture( "resource/graphics/Lapidem_MainMenuBG.png" );
 
-	m_nSoundID[0]   = m_pWM->LoadWave( "resource/audio/Lapidem_MainMenuMusic.wav" );
-	m_nSoundID[1]   = m_pWM->LoadWave( "resource/audio/Lapidem_MainMenuTick.wav" );
-
 	// - - - - - - - - - - - - - - - -
+	// TODO
+	//
 	// Don't touch these. 
 	// They'll be implemented soon.
 	// - - - - - - - - - - - - - - - -
@@ -41,7 +40,9 @@ void CMenuState::Enter( )
 
 	m_pWM->SetVolume( m_nSoundID[0], CGame::GetInstance( )->GetMusicVolume( ) ); 
 	m_pWM->SetVolume( m_nSoundID[1], CGame::GetInstance( )->GetSoundFXVolume( ) ); 
-	m_pWM->Play( m_nSoundID[0], DSBPLAY_LOOPING );
+
+	if( !m_pWM->IsWavePlaying( CGame::GetInstance( )->GetMainMenuMusic( ) ) )
+		m_pWM->Play( CGame::GetInstance( )->GetMainMenuMusic( ), DSBPLAY_LOOPING );
 }
 
 bool CMenuState::Input( )
@@ -51,7 +52,7 @@ bool CMenuState::Input( )
 		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) )
 		{
 			m_nAttractTimer = 0;
-			m_pWM->Play( m_nSoundID[1] );
+			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
 
 			if( --m_nChoice < 0 ) 
 				m_nChoice = 5;
@@ -60,7 +61,7 @@ bool CMenuState::Input( )
 		if( m_pDI->KeyPressed( DIK_DOWN )  || m_pDI->JoystickDPadPressed( 3 ) )
 		{
 			m_nAttractTimer = 0;
-			m_pWM->Play( m_nSoundID[1] );
+			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
 
 			if( ++m_nChoice > 5 )
 				m_nChoice = 0;
@@ -68,6 +69,8 @@ bool CMenuState::Input( )
 
 		if( m_pDI->KeyPressed( DIK_RETURN )  || m_pDI->JoystickButtonPressed( 1 ) )
 		{
+			m_nAttractTimer = 0;
+
 			if( m_nChoice == 0 )      // Play
 				m_nState = 1;
 			else if( m_nChoice == 1 ) // Options
@@ -98,18 +101,26 @@ bool CMenuState::Input( )
 	{
 		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) )
 		{
+			m_nAttractTimer = 0;
+			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
+
 			if( --m_nChoice < 0 )
 				m_nChoice = 2;
 		}
 
 		if( m_pDI->KeyPressed( DIK_DOWN )  || m_pDI->JoystickDPadPressed( 3 ) )
 		{
+			m_nAttractTimer = 0;
+			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
+
 			if( ++m_nChoice > 2 )
 				m_nChoice = 0;
 		}
 
 		if( m_pDI->KeyPressed( DIK_RETURN )  || m_pDI->JoystickButtonPressed( 1 ) )
 		{
+			m_nAttractTimer = 0;
+
 			if( m_nChoice == 0 )      // New Game
 			{
 				m_nChoice = 0;
@@ -131,29 +142,37 @@ bool CMenuState::Input( )
 	{
 		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) )
 		{
+			m_nAttractTimer = 0;
+			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
+
 			if( --m_nChoice < 0 )
 				m_nChoice = 2;
 		}
 
 		if( m_pDI->KeyPressed( DIK_DOWN )  || m_pDI->JoystickDPadPressed( 3 ) )
 		{
+			m_nAttractTimer = 0;
+			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
+
 			if( ++m_nChoice > 2 )
 				m_nChoice = 0;
 		}
 
 		if( m_pDI->KeyPressed( DIK_RETURN )  || m_pDI->JoystickButtonPressed( 1 ) )
 		{
+			m_nAttractTimer = 0;
+
 			if( m_nChoice == 0 ) // Single Player
 			{
 				m_nPlayerCount = 1;
 				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
 			}
 			else if( m_nChoice == 1 ) // Two Player
-			{ m_nPlayerCount = 2; 
-
-			CGameplayState::GetInstance()->bTwoPlayerMode(true);
-			CGame::GetInstance()->ChangeState(CGameplayState::GetInstance());
-				/* TODO :: MULTIPLAYER */ }
+			{   /* TODO :: MULTIPLAYER */ 
+				m_nPlayerCount = 2; 
+				CGameplayState::GetInstance( )->bTwoPlayerMode( true );
+				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
+			}
 			else if( m_nChoice == 2 ) // Cancel
 			{
 				m_nState = 1;
@@ -165,18 +184,26 @@ bool CMenuState::Input( )
 	{
 		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) )
 		{
+			m_nAttractTimer = 0;
+			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
+
 			if( --m_nChoice < 0 )
 				m_nChoice = 3;
 		}
 
 		if( m_pDI->KeyPressed( DIK_DOWN )  || m_pDI->JoystickDPadPressed( 3 ) )
 		{
+			m_nAttractTimer = 0;
+			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
+
 			if( ++m_nChoice > 3 )
 				m_nChoice = 0;
 		}
 
 		if( m_pDI->KeyPressed( DIK_RETURN )  || m_pDI->JoystickButtonPressed( 1 ) )
 		{
+			m_nAttractTimer = 0;
+
 			if( m_nChoice == 0 ) // Load Slot 1
 			{ /* TODO :: LOAD SLOT 1 */ 
 				Load( 1 );
@@ -208,11 +235,13 @@ bool CMenuState::Input( )
 
 void CMenuState::Update( float fET )
 {
-	// TODO:: If 10 seconds have passed without input . . .
-	if( ++m_nAttractTimer >= 10 )
-	{ 
-		// TODO:: Set timer to zero and switch to attract mode
-	}
+	// If 10 seconds have passed without input,
+	// attract the user to play!
+	if( m_nAttractTimer > 1000 )
+	{
+		m_nAttractTimer = 0;
+		CGame::GetInstance( )->PushState( CAttractState::GetInstance( ) );
+	} else ++m_nAttractTimer;
 }
 
 void CMenuState::Render( )
@@ -418,7 +447,6 @@ bool CMenuState::Load( int _nSlot )
 
 void CMenuState::Exit( )
 {
-	m_pWM->UnloadWave( m_nSoundID[1] );
-	m_pWM->UnloadWave( m_nSoundID[0] );
+	m_pWM->Stop( CGame::GetInstance( )->GetGameBGMusic( ) );
 	m_pTM->UnloadTexture( m_nImageID );
 }

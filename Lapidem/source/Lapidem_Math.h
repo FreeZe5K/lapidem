@@ -8,11 +8,13 @@
 #pragma once 
 
 #include <ctime>
+#include <cmath>
 
 #define RAND_INT(min,max)        (((rand()/(int)RAND_MAX)*((max)-(min)))+(min))
 #define RAND_FLOAT(min,max)      (((rand()/(float)RAND_MAX)*((max)-(min)))+(min))
 
 #define MAX_RAND_RANGE           0x7FFFFFFFUL
+#define EPSILON                  0.00001f
 #define PI                       3.141592653589732
 #define IA                       16807
 #define IM                       2147483647
@@ -62,6 +64,12 @@ struct tVector2D
 	}
 };
 
+typedef union TVECTOR
+{
+	float e[4];
+	struct { float x, y, z, w; };
+}*LPTVECTOR;
+
 class Lapidem_Math
 {
 private:
@@ -97,6 +105,13 @@ public:
 	float Mult2Floats( f32, f32 );
 	float Div2Floats( f32, f32 );
 
+	bool IsEqual( float, float );
+	bool IsZero( float );
+	float Max( float, float );
+	float Min( float, float );
+	float Degrees_To_Radians( float );
+	float Radians_To_Degrees( float );
+
 	/////////////////////////
 	// Physics.
 	/////////////////////////
@@ -111,6 +126,9 @@ public:
 	// - Vector normalize.
 	// - Dot product.
 	// - Vector length.
+	float VectorLengthSq( TVECTOR );
+	float VectorLength( TVECTOR );
+	TVECTOR VectorNormalize( TVECTOR );
 
 	/////////////////////////
 	// Bit manipulation.

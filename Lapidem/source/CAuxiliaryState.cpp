@@ -20,14 +20,10 @@ void CAuxiliaryState::Enter( )
 	m_pDI           = CSGD_DirectInput::GetInstance();
 
 	m_nChoice       = 0;
-	m_nAttractTimer = 0;
 	m_nCreditScroll = 500;
 
 	m_nImageID[0]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_MainMenuBG.png" );
 	m_nImageID[1]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_HowToPlay.png" );
-
-	m_nSoundID[0]   = m_pWM->LoadWave( "resource/audio/Lapidem_MainMenuMusic.wav" );
-	m_nSoundID[1]   = m_pWM->LoadWave( "resource/audio/Lapidem_MainMenuTick.wav" );
 
 	// - - - - - - - - - - - - - - - -
 	// Don't touch these. 
@@ -89,9 +85,9 @@ void CAuxiliaryState::Enter( )
 		// - - - - - - - - - - - - - - - -
 	}
 
-	m_pWM->Play( m_nSoundID[0], DSBPLAY_LOOPING );
-	m_pWM->SetVolume( m_nSoundID[0], CGame::GetInstance( )->GetMusicVolume( ) ); 
-	m_pWM->SetVolume( m_nSoundID[1], CGame::GetInstance( )->GetSoundFXVolume( ) ); 
+	//m_pWM->Play( m_nSoundID[0], DSBPLAY_LOOPING );
+	//m_pWM->SetVolume( m_nSoundID[0], CGame::GetInstance( )->GetMusicVolume( ) ); 
+	//m_pWM->SetVolume( m_nSoundID[1], CGame::GetInstance( )->GetSoundFXVolume( ) ); 
 }
 
 bool CAuxiliaryState::Input( )
@@ -100,8 +96,7 @@ bool CAuxiliaryState::Input( )
 	{
 		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) )
 		{
-			m_nAttractTimer = 0;
-			m_pWM->Play( m_nSoundID[1] );
+			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
 
 			if( --m_nChoice < 0 ) 
 				m_nChoice = 2;
@@ -109,8 +104,7 @@ bool CAuxiliaryState::Input( )
 
 		if( m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed(3))
 		{
-			m_nAttractTimer = 0;
-			m_pWM->Play( m_nSoundID[1] );
+			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
 
 			if( ++m_nChoice > 2 )
 				m_nChoice = 0;
@@ -142,7 +136,7 @@ bool CAuxiliaryState::Input( )
 				CGame::GetInstance( )->GetSoundFXVolume( ) + 1 );
 		}
 
-		if( m_pDI->KeyPressed( DIK_RETURN ) || m_pDI->JoystickButtonDown(1))
+		if( m_pDI->KeyPressed( DIK_RETURN ) || m_pDI->JoystickButtonDown( 1 ) )
 			if( m_nChoice == 2 )
 				CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
 	}
@@ -167,18 +161,6 @@ bool CAuxiliaryState::Input( )
 
 void CAuxiliaryState::Update( float fET )
 {
-	// - - - - - - - - - - - - - - - - - -
-	// If 10 seconds have passed 
-	// without input . . .
-	// - - - - - - - - - - - - - - - - - -
-	if( ++m_nAttractTimer >= 10 )
-	{ 
-		// - - - - - - - - - - - - - - - - - -
-		// Set timer to zero 
-		// and switch to attract mode.
-		// - - - - - - - - - - - - - - - - - -
-	}
-
 	if( m_nState == 0 ) // Options
 	{
 		if( CGame::GetInstance( )->GetMusicVolume( ) > 100 )
@@ -340,8 +322,6 @@ void CAuxiliaryState::Render( )
 
 void CAuxiliaryState::Exit( )
 {
-	m_pWM->UnloadWave( m_nSoundID[1] );
-	m_pWM->UnloadWave( m_nSoundID[0] );
 	m_pTM->UnloadTexture( m_nImageID[1] );
 	m_pTM->UnloadTexture( m_nImageID[0] );
 }

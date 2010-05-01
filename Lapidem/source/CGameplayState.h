@@ -15,12 +15,11 @@ class CEmitterFactory;
 class CGameplayState : public IGameState
 {
 private:
-	int                     m_nImageID;
+	int                     m_nImageID[3];
 	int                     m_nSlotLoadedFrom;
 	int                     m_nSinglePlayerScore;
 	int                     m_nPlayerOneScore;
 	int                     m_nPlayerTwoScore;
-	int                     m_nSoundID[2];
 
 	bool                    m_bIsPaused;
 	bool					m_bTwoPlayers;
@@ -66,18 +65,19 @@ public:
 	int     GetPlayerTwoScore( )             { return m_nPlayerTwoScore;      }
 	int     GetSlotLoaded( )                 { return m_nSlotLoadedFrom;      }
 
-	int     GetMusic( )                      { return m_nSoundID[0];          }
-	int     GetSoundFX( )                    { return m_nSoundID[1];          }
+	//int     GetMusic( )                      { return m_nSoundID[0];          }
+	//int     GetSoundFX( )                    { return m_nSoundID[1];          }
 
 	bool    GetLoadedFromFile( )             { return m_bLoadedFromFile;      }
+	bool    GetTwoPlayerMode( )              { return m_bTwoPlayers;          }
 
 	void    SetSinglePlayerScore( int _i )   { m_nSinglePlayerScore   =  _i;  }
 	void    SetPlayerOneScore( int _i )      { m_nPlayerOneScore      =  _i;  }
 	void    SetPlayerTwoScore( int _i )      { m_nPlayerTwoScore      =  _i;  }
 	void    SetSlotLoaded( int _i )          { m_nSlotLoadedFrom      =  _i;  }
 
-	void    SetMusic( int _i )               { m_nSoundID[0]          =  _i;  }
-	void    SetSoundFX( int _i )             { m_nSoundID[1]          =  _i;  }
+	//void    SetMusic( int _i )               { m_nSoundID[0]          =  _i;  }
+	//void    SetSoundFX( int _i )             { m_nSoundID[1]          =  _i;  }
 
 	void    SetLoadedFromFile( bool _b )     { m_bLoadedFromFile      =  _b;  }
 	void    bTwoPlayerMode( bool _b )        { m_bTwoPlayers          =  _b;  }
