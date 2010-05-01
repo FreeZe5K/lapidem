@@ -8,7 +8,7 @@ class IAIState
 
 
 public:
-	virtual bool Update(float, CEnemy*) = 0;
+	virtual int Update(float, CEnemy*) = 0;
 	virtual void Attack(CCharacter*, CCharacter*) = 0;
 
 

@@ -178,14 +178,22 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 	{
 
 		CEarth* newearth = new CEarth();
-		newearth->SetPosX(CGameplayState::GetInstance()->GetPlayerOne()->GetPosX() + (CGameplayState::GetInstance()->GetPlayerOne()->GetWidth()>>1));
-		newearth->SetPosY(CGameplayState::GetInstance()->GetPlayerOne()->GetPosY() - 100);
+		if(nTier ==1)
+		{
+			newearth->SetPosX(CGameplayState::GetInstance()->GetPlayerOne()->GetPosX() + (CGameplayState::GetInstance()->GetPlayerOne()->GetWidth()>>1));
+			newearth->SetPosY(CGameplayState::GetInstance()->GetPlayerOne()->GetPosY() - 100);
+		}
+		else if(nTier ==2)
+		{
+			newearth->SetPosX(CGameplayState::GetInstance()->GetPlayerTwo()->GetPosX() + (CGameplayState::GetInstance()->GetPlayerTwo()->GetWidth()>>1));
+			newearth->SetPosY(CGameplayState::GetInstance()->GetPlayerTwo()->GetPosY() - 100);
+		}
 		newearth->SetVelX(0);
 		newearth->SetVelY(100);
 		newearth->SetDamage(20);
 		newearth->SetLifespan(10.0);
 		newearth->SetActive(true);
-		newearth->SetTier(nTier);
+		newearth->SetTier(1);
 		newearth->ShotBy(false);
 		newearth->SetElement(OBJ_EARTH);
 		newearth->SetHeight(32);
