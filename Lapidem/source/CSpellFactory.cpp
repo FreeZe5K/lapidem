@@ -316,7 +316,7 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 			CIce* newice = new CIce();
 
 			newice->SetPosX(pShooter->GetPosX());
-			newice->SetPosY(pShooter->GetPosY());
+			newice->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
 			DIRECTION wheretoshoot = pShooter->GetDirection();
 			switch(wheretoshoot)
 			{
@@ -404,7 +404,7 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 		{
 			CWind* newwind = new CWind();
 			newwind->SetPosX(pShooter->GetPosX());
-			newwind->SetPosY(pShooter->GetPosY());
+			newwind->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
 			DIRECTION wheretoshoot = pShooter->GetDirection();
 			switch(wheretoshoot)
 			{
