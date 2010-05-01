@@ -16,6 +16,7 @@ class CPlayer : public CCharacter
 
 public:
 	CPlayer();
+	~CPlayer() {--PlayerCount;}
 	void Update(float fElapsedTime);
 	void Attack(int nTier);
 	void Jump();

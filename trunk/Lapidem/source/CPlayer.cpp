@@ -82,8 +82,40 @@ void CPlayer::Update(float fElapsedTime)
 	{
 		m_fJumpTimer += fElapsedTime;
 
-		if(m_fJumpTimer <= .75)
+		if(m_fJumpTimer <= .25)
+		{
+			SetVelY(-200);
+			SetAnimation(0,0);
+		}
+		else if(m_fJumpTimer <= .5)
+		{
+			SetVelY(-150);
+			SetAnimation(0,0);
+		}
+		else if(m_fJumpTimer < .75)
+		{
 			SetVelY(-100);
+			SetAnimation(0,0);
+		}
+		else if (m_fJumpTimer >= .75 && m_fJumpTimer <= .8)
+		{
+			SetVelY(0.0f);
+			SetAnimation(0,0);
+		}
+		else if (m_fJumpTimer > .8 && m_fJumpTimer <= 1)
+		{
+			SetVelY(100);
+			SetAnimation(0,0);
+		}
+		else if (m_fJumpTimer > 1 && m_fJumpTimer <= 1.5)
+		{
+			SetVelY(200);
+			SetAnimation(0,0);
+		}
+		else
+			SetAnimation(0,0);
+
+
 	}
 
 	m_fFireTimer = m_fFireTimer + fElapsedTime;
