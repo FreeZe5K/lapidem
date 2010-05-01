@@ -304,10 +304,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\source\Corona_ObjectManager.h"
-						>
-					</File>
-					<File
 						RelativePath=".\source\IBaseInterface.h"
 						>
 					</File>
@@ -321,10 +317,6 @@
 					</File>
 					<File
 						RelativePath=".\source\CCamera.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\source\Corona_ObjectManager.cpp"
 						>
 					</File>
 				</Filter>
@@ -489,6 +481,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\Corona_ObjectManager.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CParticleManager.h"
 					>
 				</File>
@@ -510,6 +506,10 @@
 				</File>
 				<File
 					RelativePath=".\source\CLevel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\Corona_ObjectManager.cpp"
 					>
 				</File>
 				<File

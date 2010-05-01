@@ -40,3 +40,10 @@ void CCharacter::Update(float fElapsedTime)
 
 
 }
+
+
+void CCharacter::SetAnimation(int object, int animation, int frame)
+{
+	this->animation = (CAnimationWarehouse::GetInstance()->GetAnimation(object,animation));
+	currAnimation = 0;
+}

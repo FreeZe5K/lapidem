@@ -6,13 +6,20 @@
 #include "Wrappers/CSGD_DirectInput.h"
 #include "CAnimationWarehouse.h"
 
+int CPlayer::PlayerCount = 0;
 
 CPlayer::CPlayer()
 {
-	animation = CAnimationWarehouse::GetInstance()->GetAnimation(0,0); 
 	m_fFireTimer = 0.0; m_nHealth = 200; m_bIsJumping = false;
-	currAnimation = 0; m_SpellType = OBJ_FIRE;
+	currAnimation = 0;
 	currDirec = RIGHT; m_nType = OBJ_PLAYER; m_fJumpTimer = 0.0f;
+
+	SetPlayerID(++PlayerCount);
+
+	if(GetPlayerID() == 1)
+		m_SpellType = OBJ_ICE;
+	else
+		m_SpellType = OBJ_WIND;
 }
 
 void CPlayer::Update(float fElapsedTime)
@@ -22,35 +29,45 @@ void CPlayer::Update(float fElapsedTime)
 
 	CSGD_DirectInput * DI = (CSGD_DirectInput::GetInstance());
 	
-	if( DI->KeyDown( DIK_D ) || DI->JoystickDPadDown(1))
-	{
-		animation = CAnimationWarehouse::GetInstance()->GetAnimation(0,1);
-		if( DI->KeyDown( DIK_W ) || DI->JoystickDPadDown(2))
-			currDirec = RIGHT_UP;
-		else if( DI->KeyDown( DIK_S ) || DI->JoystickDPadDown(3))
-			currDirec = RIGHT_DOWN;
-		else
-			currDirec = RIGHT;
-	}
-	else if( DI->KeyDown( DIK_A ) || DI->JoystickDPadDown(0))
-	{
-		animation = CAnimationWarehouse::GetInstance()->GetAnimation(0,1);
-		if(DI->KeyDown( DIK_W ) || DI->JoystickDPadDown(2))
-			currDirec = LEFT_UP;
-		else if( DI->KeyDown( DIK_S ) || DI->JoystickDPadDown(3))
-			currDirec = LEFT_DOWN;
-		else
-			currDirec = LEFT;
+		if( ( GetPlayerID() == 1 && (DI->KeyDown( DIK_D )	  || DI->JoystickDPadDown(1)))	||
+			( GetPlayerID() == 2 && (DI->KeyDown( DIK_RIGHT ) || DI->JoystickDPadDown(1, 1))) )
+		{
+			SetAnimation(0, 1);
 
-	}
-	else if(DI->KeyDown(DIK_S) || DI->JoystickDPadDown(3))
-		currDirec = DOWN;
-	else if(DI->KeyDown(DIK_W) || DI->JoystickDPadDown(2))
-		currDirec = UP;
-	else
-	{
-		animation = CAnimationWarehouse::GetInstance()->GetAnimation(0,0);
-	}
+			if( DI->KeyDown( DIK_W ) || DI->KeyDown( DIK_UP ) || DI->JoystickDPadDown(2, GetPlayerID() - 1) )
+				currDirec = RIGHT_UP;
+
+			else if( DI->KeyDown( DIK_S ) || DI->KeyDown( DIK_DOWN ) || DI->JoystickDPadDown(3, GetPlayerID() - 1))
+				currDirec = RIGHT_DOWN;
+			else
+				currDirec = RIGHT;
+		}
+
+		else if( ( GetPlayerID() == 1 && (DI->KeyDown( DIK_A )	  || DI->JoystickDPadDown(0)))	||
+				 ( GetPlayerID() == 2 && (DI->KeyDown( DIK_LEFT ) || DI->JoystickDPadDown(0, 1))) )
+		{
+			SetAnimation(0,1);
+
+
+			if( DI->KeyDown( DIK_W ) || DI->KeyDown( DIK_UP ) || DI->JoystickDPadDown(2, GetPlayerID() - 1) )
+				currDirec = LEFT_UP;
+			else if( DI->KeyDown( DIK_S ) || DI->KeyDown( DIK_DOWN ) || DI->JoystickDPadDown(3, GetPlayerID() - 1))
+				currDirec = LEFT_DOWN;
+			else
+				currDirec = LEFT;
+
+		}
+		else if( (GetPlayerID() == 1 && DI->KeyDown( DIK_S ))    || 
+				 (GetPlayerID() == 2 && DI->KeyDown( DIK_DOWN )) || DI->JoystickDPadDown(3, GetPlayerID() - 1))
+			currDirec = DOWN;
+		else if( (GetPlayerID() == 1 && DI->KeyDown( DIK_W ))	 ||
+				 (GetPlayerID() == 2 && DI->KeyDown( DIK_UP ))	 || DI->JoystickDPadDown(2, GetPlayerID() - 1) )
+			currDirec = UP;
+		else
+		SetAnimation(0, 0);
+
+
+
 	if(currDirec == RIGHT || currDirec== RIGHT_DOWN || currDirec == RIGHT_UP)
 	{
 		IsRotated = true;
@@ -59,7 +76,7 @@ void CPlayer::Update(float fElapsedTime)
 	{
 		IsRotated = false;
 	}
-
+	
 
 	if(m_bIsJumping)
 	{
@@ -119,8 +136,6 @@ void CPlayer::HandleCollision(CBase * collidingObject)
 	{
 		if(collidingObject->GetType() == OBJ_TERRA)
 		{
-
-
 
 			int TerraType = ((CTerrainBase*)collidingObject)->GetTypeTerrain();
 

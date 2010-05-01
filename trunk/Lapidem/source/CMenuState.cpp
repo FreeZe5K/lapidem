@@ -149,7 +149,11 @@ bool CMenuState::Input( )
 				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
 			}
 			else if( m_nChoice == 1 ) // Two Player
-			{ m_nPlayerCount = 2;/* TODO :: MULTIPLAYER */ }
+			{ m_nPlayerCount = 2; 
+
+			CGameplayState::GetInstance()->bTwoPlayerMode(true);
+			CGame::GetInstance()->ChangeState(CGameplayState::GetInstance());
+				/* TODO :: MULTIPLAYER */ }
 			else if( m_nChoice == 2 ) // Cancel
 			{
 				m_nState = 1;

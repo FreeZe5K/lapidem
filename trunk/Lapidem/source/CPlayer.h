@@ -8,6 +8,11 @@ class CPlayer : public CCharacter
 
 	float m_fFireTimer;
 
+	static int PlayerCount;
+	int PlayerID;
+
+
+	void SetPlayerID(int pID) {PlayerID = pID;}
 
 public:
 	CPlayer();
@@ -15,5 +20,8 @@ public:
 	void Attack(int nTier);
 	void Jump();
 	void HandleCollision(CBase *);
+
+	int GetPlayerCount() { return PlayerCount;}
+	int GetPlayerID()	 { return PlayerID;}
 
 };

@@ -27,6 +27,15 @@ void CGameplayState::Enter( )
 	CAnimationWarehouse::GetInstance()->LoadAnimationSet("resource/idlewalk.Anim",D3DCOLOR_XRGB(255,255,255));
 
 	m_pPlayerOne	= new CPlayer();
+	m_pPlayerOne->SetAnimation(0, 0);
+
+	if(m_bTwoPlayers)
+	{
+		m_pPlayerTwo = new CPlayer();
+		m_pPlayerTwo->SetPosX(190); m_pPlayerTwo->SetPosY(400);
+		m_pPlayerTwo->SetAnimation(0, 0);
+	}
+	else
 	m_pPlayerTwo	= NULL;
 
 	CCamera::InitCamera(0.0f, 0.0f, (float)CGame::GetInstance()->GetScreenWidth(),
@@ -118,11 +127,6 @@ bool CGameplayState::Input( )
 		CGame::GetInstance( )->SetPaused( true );
 	}
 
-	if( m_pDI->JoystickCheckBufferedButtons() != -1)
-	{
-		int x = m_pDI->JoystickCheckBufferedButtons();
-		int y = 0;
-	}
 
 	if( m_pDI->KeyDown( DIK_D ) || m_pDI->JoystickDPadDown(1) )
 		m_pPlayerOne->SetVelX( 100 );
@@ -137,31 +141,57 @@ bool CGameplayState::Input( )
 	if( m_pDI->KeyDown( DIK_F ) || m_pDI->JoystickButtonDown(1) )
 		m_pPlayerOne->Attack(1);
 
+
+
 	if( m_pDI->KeyPressed( DIK_1 ) )
-		m_pPlayerOne->SetEleType(OBJ_EARTH);
+		m_pPlayerOne->SetEleType( OBJ_ICE  );
 	else if( m_pDI->KeyPressed( DIK_2 ) )
 		m_pPlayerOne->SetEleType( OBJ_FIRE );
-	else if( m_pDI->KeyPressed( DIK_3 ) )
-		m_pPlayerOne->SetEleType( OBJ_ICE );
-	else if( m_pDI->KeyPressed( DIK_4 ) )
-		m_pPlayerOne->SetEleType( OBJ_WIND );
 
-	else if(m_pDI->JoystickButtonPressed(4))
-		m_pPlayerOne->SetEleType((EleType)(m_pPlayerOne->GetEleType() + OBJ_ICE));
-	else if(m_pDI->JoystickButtonPressed(5))
-		m_pPlayerOne->SetEleType((EleType)(m_pPlayerOne->GetEleType() - OBJ_ICE));
-
-	if( m_pPlayerTwo )
+	if(!m_pPlayerTwo)
 	{
-		if(m_pDI->KeyDown( DIK_LEFT) )
+
+		if( m_pDI->KeyPressed( DIK_3 ) )
+			m_pPlayerOne->SetEleType( OBJ_EARTH );
+		else if( m_pDI->KeyPressed( DIK_4 ) )
+			m_pPlayerOne->SetEleType( OBJ_WIND );
+
+		else if(m_pDI->JoystickButtonPressed(4))
+			m_pPlayerOne->SetEleType((EleType)(m_pPlayerOne->GetEleType() + OBJ_ICE));
+		else if(m_pDI->JoystickButtonPressed(5))
+			m_pPlayerOne->SetEleType((EleType)(m_pPlayerOne->GetEleType() - OBJ_ICE));
+	}
+	else
+	{
+
+		//Player One Controls if there are two players:
+		if(m_pDI->JoystickButtonPressed(4))
+			m_pPlayerOne->SetEleType( OBJ_ICE );
+		else if(m_pDI->JoystickButtonPressed(5))
+			m_pPlayerOne->SetEleType( OBJ_FIRE );
+
+
+
+
+		//Player Two Controls:
+		if(m_pDI->KeyDown( DIK_LEFT) || m_pDI->JoystickDPadDown(0, 1) )
 			m_pPlayerTwo->SetVelX( -100 );
-		else if( m_pDI->KeyDown( DIK_RIGHT ) )
+		else if( m_pDI->KeyDown( DIK_RIGHT ) || m_pDI->JoystickDPadDown(1, 1)  )
 			m_pPlayerTwo->SetVelX( 100 );
 		else
 			m_pPlayerTwo->SetVelX( 0 );
 
-		if( m_pDI->KeyDown( DIK_UP ) )
+		if( m_pDI->KeyDown( DIK_UP )  || m_pDI->JoystickDPadDown(2, 1) )
 			m_pPlayerTwo->Jump();
+		
+		if(m_pDI->KeyDown( DIK_RSHIFT ) || m_pDI->JoystickButtonDown(1, 1) )
+			m_pPlayerTwo->Attack(1);
+
+		if(m_pDI->JoystickButtonPressed(4,1))
+			m_pPlayerOne->SetEleType( OBJ_WIND );
+		else if(m_pDI->JoystickButtonPressed(5,1))
+			m_pPlayerOne->SetEleType( OBJ_EARTH );
+
 	}
 
 	return true;
