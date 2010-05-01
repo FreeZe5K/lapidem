@@ -190,9 +190,9 @@ bool CGameplayState::Input( )
 			m_pPlayerTwo->Attack(1);
 
 		if(m_pDI->JoystickButtonPressed(4,1))
-			m_pPlayerOne->SetEleType( OBJ_WIND );
+			m_pPlayerTwo->SetEleType( OBJ_WIND );
 		else if(m_pDI->JoystickButtonPressed(5,1))
-			m_pPlayerOne->SetEleType( OBJ_EARTH );
+			m_pPlayerTwo->SetEleType( OBJ_EARTH );
 
 	}
 
@@ -272,6 +272,7 @@ void CGameplayState::Exit( )
 	//CProfiler::GetInstance( )->DeleteInstance( );
 
 	m_bLoadedFromFile = false;
+	m_bTwoPlayers	  = false;
 
 #if _DEBUG
 	CProfiler::GetInstance( )->Save( "CodeProfilerOutput.txt" );
