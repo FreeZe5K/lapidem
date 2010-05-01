@@ -34,5 +34,5 @@ public:
 	void SetHealth(int nHealth) {m_nHealth = nHealth;}
 	int GetHealth(void) {return m_nHealth;}
 	void TakeDamage(int nDamage) {m_nHealth -= nDamage;}
-
+	void SetAnimation(int Object, int animation, int frame = 0);
 };
