@@ -34,6 +34,8 @@ CEnemy::CEnemy(EleType ElementToBe, float initx, float inity)
 		break;
 	}
 	m_fShotTimer = 3.0f;
+	m_fWaitTimer = 0.0f;
+	m_nAttackWho= 0;
 }
 
 CEnemy::~CEnemy()
@@ -49,15 +51,37 @@ CEnemy::~CEnemy()
 void CEnemy::Update(float fElapsedTime)
 {
 
-
 	m_fShotTimer -= fElapsedTime;
-	if(currState->Update(fElapsedTime, this) && m_fShotTimer <0)
+	if(m_fWaitTimer == 0.0f)
+	{	
+		m_nAttackWho = currState->Update(fElapsedTime, this);
+		if( m_nAttackWho && m_fShotTimer <0)
+		{
+			m_fWaitTimer += fElapsedTime;
+			m_fShotTimer = 2.0f;
+		}
+		CCharacter::Update(fElapsedTime);
+	}
+	else
 	{
-		currState->Attack(CGameplayState::GetInstance()->GetPlayerOne(), this);
-		m_fShotTimer = 2.0f;
+		m_fWaitTimer += fElapsedTime;
+		SetPosY( GetPosY( ) + 150.0f * fElapsedTime );
+		if(m_fWaitTimer > 0.5f)
+		{
+			if(m_nAttackWho ==1)
+			{
+				currState->Attack(CGameplayState::GetInstance()->GetPlayerOne(), this);
+			}
+			else if(m_nAttackWho ==2)
+			{
+				currState->Attack(CGameplayState::GetInstance()->GetPlayerTwo(), this);
+			}
+			m_fWaitTimer = 0.0f;
+		}
+		
 	}
 
-	CCharacter::Update(fElapsedTime);
+	
 
 	if(m_nHealth <= 0)
 	{

@@ -19,9 +19,9 @@ public:
 	//
 	//	Input	  :	  Takes in a float for time, as well as CEnemy*
 	//
-	//  Purpose   :   Movement and deciding when to attack
+	//  Purpose   :   Movement and deciding when and who to attack
 	//////////////////////////////////////////////////////////////////////////
-	bool Update(float, CEnemy*);
+	int Update(float, CEnemy*);
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Attack"
 	//
