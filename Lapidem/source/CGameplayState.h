@@ -12,7 +12,7 @@ class Corona_ObjectManager;
 class Corona_EventHandler;
 class CEmitterFactory;
 
-class CGameplayState : public IGameState
+class CGameplayState : public IGameState, public CLDevice 
 {
 private:
 	int                     m_nImageID[3];
@@ -20,6 +20,8 @@ private:
 	int                     m_nSinglePlayerScore;
 	int                     m_nPlayerOneScore;
 	int                     m_nPlayerTwoScore;
+
+	float					m_fP2RespawnTimer;
 
 	bool                    m_bIsPaused;
 	bool					m_bTwoPlayers;
@@ -81,4 +83,8 @@ public:
 
 	void    SetLoadedFromFile( bool _b )     { m_bLoadedFromFile      =  _b;  }
 	void    bTwoPlayerMode( bool _b )        { m_bTwoPlayers          =  _b;  }
+
+
+	void HandleEvent(CEvent* pEvent);
+
 };

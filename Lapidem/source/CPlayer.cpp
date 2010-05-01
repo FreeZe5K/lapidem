@@ -5,6 +5,8 @@
 #include "CAnimation.h"
 #include "Wrappers/CSGD_DirectInput.h"
 #include "CAnimationWarehouse.h"
+#include "Corona_ObjectManager.h"
+#include "Corona_EventHandler.h"
 
 int CPlayer::PlayerCount = 0;
 
@@ -123,6 +125,37 @@ void CPlayer::Update(float fElapsedTime)
 	if(m_nHealth <=0)
 	{
 		animation = NULL;
+	}
+
+	if(	GetPlayerID() == 2 )
+	{
+	if(!Corona_ObjectManager::GetInstance()->IsOnScreen(this) )
+	{
+		Corona_EventHandler::GetInstance()->SendEvent( "P2 OFFSCREEN");
+	}else
+	{
+		CCamera* c = CCamera::GetCamera();
+		RECT rCam;
+		rCam.left =(LONG) c->GetXOffset();
+		rCam.top = (LONG)c->GetYOffset();
+		rCam.right = (LONG)c->GetWidth();
+		rCam.bottom = (LONG)c->GetHeight();
+
+		RECT rPlayer = GetCollisionRect(fElapsedTime);
+		RECT r;
+		IntersectRect( &r, &rCam, &rPlayer);
+
+		if(  r.left !=rPlayer.left || r.right != rPlayer.right )
+		{
+			if( r.left > rPlayer.left )
+				SetPosX( GetPosX() - (rPlayer.left - r.left));
+			if( r.right < rPlayer.right )
+				SetPosX( GetPosX() + (r.right - rPlayer.right));
+
+		}
+
+
+	}
 	}
 }
 

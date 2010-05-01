@@ -115,6 +115,10 @@ void CGameplayState::Enter( )
 		m_pPlayerOne->SetPosX( pEntry->GetPosX());
 		m_pPlayerOne->SetPosY( pEntry->GetPosY());
 	}
+
+	if( m_pPlayerTwo)
+	Corona_EventHandler::GetInstance()->RegisterClient(this, "P2 OFFSCREEN");
+	m_fP2RespawnTimer = -1.0f;
 }
 
 bool CGameplayState::Input( )
@@ -205,8 +209,29 @@ void CGameplayState::Update( float fET )
 	CProfiler::GetInstance()->Start( "CGameplay Update" );
 	CProfiler::GetInstance()->End( "Profiler Start" );
 
-	m_pCoM->UpdateObjects( CGame::GetInstance( )->GetElapsedTime( ) );
-	theLevel.Update( fET );
+	if( m_pPlayerTwo)
+	{
+		// Respawn player 2 if he was off screen
+		if( m_fP2RespawnTimer >= 0.0f )
+		{
+			m_fP2RespawnTimer += fET;
+
+
+			if( m_fP2RespawnTimer > 3.0f )
+			{
+				// set the timer to a negative number so this code does not run again until the event is trigered
+				m_fP2RespawnTimer = -1.0f;
+
+				// set the pos of the p2 to almost the pos of p1, then move the player2 out of player 1 so it looks nice
+				m_pPlayerTwo->SetPosX( m_pPlayerOne->GetPosX() + 2);
+				m_pPlayerTwo->SetPosY( m_pPlayerOne->GetPosY() );
+				m_pPlayerTwo->MoveOutOf( m_pPlayerOne);
+			}
+		}
+	}
+
+	m_pCoM->UpdateObjects(CGame::GetInstance()->GetElapsedTime());
+	theLevel.Update(fET);
 	m_pPM->Update( fET );
 	m_pCeH->ProcessEvents( );
 
@@ -274,8 +299,47 @@ void CGameplayState::Exit( )
 	m_bLoadedFromFile = false;
 	m_bTwoPlayers	  = false;
 
+	
+	if( m_pPlayerTwo)
+	Corona_EventHandler::GetInstance()->UnregisterClient("P2 OFFSCREEN", this );
+
 #if _DEBUG
 	CProfiler::GetInstance( )->Save( "CodeProfilerOutput.txt" );
 	CProfiler::GetInstance( )->DeleteInstance( );
 #endif
+}
+
+
+
+void CGameplayState::HandleEvent(CEvent* pEvent)
+{
+	if(!strcmp(pEvent->GetEventID().c_str(), "P2 OFFSCREEN"))
+	{
+		if( m_fP2RespawnTimer == -1.0f)
+		{
+		m_fP2RespawnTimer = 0.0f;
+		// TODO: create some particle effet that las 3 secs from the pos the player 2 was to where player 1 is
+		CEmitter* emmiter ;//= new CEmitter();
+		emmiter = CEmitterFactory::GetInstance()->CreateEmitter( "return" );
+
+		emmiter->SetPosX(m_pPlayerTwo->GetPosX());
+		emmiter->SetPosY(m_pPlayerTwo->GetPosY());
+
+		TVECTOR direction;
+		direction.x = (m_pPlayerOne->GetPosX() - m_pPlayerTwo->GetPosX());
+		direction.y = (m_pPlayerOne->GetPosY() - m_pPlayerTwo->GetPosY());
+		direction.z = 0.0f;
+		direction.w = 0.0f;
+
+		direction = Lapidem_Math::GetInstance()->VectorNormalize( direction );
+		
+		emmiter->SetVelX(direction.x * (m_pPlayerOne->GetPosX() - m_pPlayerTwo->GetPosX())/1.5f);
+		emmiter->SetVelY(direction.y * (m_pPlayerOne->GetPosY() - m_pPlayerTwo->GetPosY())/1.5f);
+		CParticleManager::GetInstance( )->AddEmitter( emmiter );
+
+
+
+		}
+	}
+
 }
