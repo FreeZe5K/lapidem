@@ -109,11 +109,6 @@ void CPlayer::Update(float fElapsedTime)
 			SetVelY(100);
 			SetAnimation(0,0);
 		}
-		else if (m_fJumpTimer > 1 && m_fJumpTimer <= 1.5)
-		{
-			SetVelY(200);
-			SetAnimation(0,0);
-		}
 		else
 			SetAnimation(0,0);
 
