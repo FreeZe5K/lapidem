@@ -266,7 +266,7 @@ void CGameplayState::Exit( )
 		m_pEF = NULL;
 	}
 
-	m_pCeH->SendEvent( "EnemyDied", NULL );
+	m_pCeH->SendEvent( "EnemyDied", NULL ); 
 	m_pCeH->ProcessEvents( );
 
 	m_pWM->Stop( CGame::GetInstance( )->GetGameBGMusic( ) );
