@@ -63,6 +63,8 @@ void CGame::Initialize( HWND hWnd, HINSTANCE hInstance,
 	m_bmFont              = new CBitmapFont();
 	m_bmFont->Load( "resource/graphics/Lapidem_Font.bmp", 
 		"resource/data/Lapidem_BitmapFontSizes.txt" );
+	
+	CAuxiliaryState::GetInstance( )->LoadConfig( "resource/data/Lapidem_Config.dat" );
 
 	m_nSoundID[0]   = m_pWM->LoadWave( "resource/audio/Lapidem_MainMenuMusic.wav" );
 	m_pWM->SetVolume( m_nSoundID[0], GetMusicVolume( ) );

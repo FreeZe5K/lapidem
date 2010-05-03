@@ -33,7 +33,6 @@ private:
 	int                     m_nChoice;
 	int                     m_nPlayerCount;
 	int                     m_nImageID;
-	int                     m_nSoundID[2];
 	int                     m_nAttractTimer;
 
 	int                     m_nScrollSpeedOne;
@@ -56,7 +55,6 @@ public:
 	static CMenuState* GetInstance( );
 
 	int GetPlayerCount( )      { return m_nPlayerCount; }
-	int GetMusicID( )          { return m_nSoundID[0];  }
 
 	tSlots GetSlotOne( )       { return tSlotOne;       }
 	tSlots GetSlotTwo( )       { return tSlotTwo;       }
