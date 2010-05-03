@@ -35,14 +35,13 @@ HRS LEFT - 90
 
 - - - - - - - - - - - - - - - - - -
 - - - - - - - Mike - - - - - - - 
-HRS LEFT - 82
+HRS LEFT - 78
 - - - - - - - - - - - - - - - - - -
 - Attract mode. ( 4 hrs )
 - Make the particle engine better. ( 8 hrs )
 - Heads Up Display. ( 8 hrs )
 - Transition between levels. ( 12 hrs )
 - Ice enemy to be different from the other enemies. ( 4 hrs )
-- Save options via a config.dat file. ( 4 hrs )
 - Make a mini-map to help the player get around the level. ( 16 hrs )
 - Implement a win / lose condition. ( 8 hrs )
 - Tier 1 ice spells. ( 4 hrs )
