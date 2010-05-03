@@ -13,9 +13,9 @@ using std::vector;
 
 class CBase;
 
-
 class CLevel
 {
+private:
 	int m_nWorldCollumn;
 	int m_nWorldRow;
 
@@ -40,61 +40,62 @@ class CLevel
 	vector<CBase*>	m_pEventTiles;
 
 public:
-	CLevel();
-	~CLevel();
+	CLevel( );
+	~CLevel( );
 
-	
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Accessors"
 	//////////////////////////////////////////////////////////////////////////
-	int GetWorldCollumn(){return m_nWorldCollumn;}
-	int GetWorldRow(){return m_nWorldRow;}
+	int GetWorldCollumn( ) const          { return m_nWorldCollumn;          }
+	int GetWorldRow( ) const              { return m_nWorldRow;              }
 
-	int GetTileWidth(){return m_nTileWidth;}
-	int GetTileHeight(){return m_nTileHeight;}
+	int GetTileWidth( ) const             { return m_nTileWidth;             }
+	int GetTileHeight( ) const            { return m_nTileHeight;            }
 
-	int GetTileCollumn(){return m_nTileCollumn;}
-	int GetTileRow(){return m_nTileRow;}
+	int GetTileCollumn( ) const           { return m_nTileCollumn;           }
+	int GetTileRow( ) const               { return m_nTileRow;               }
 
-	int GetBaseTileID(){return m_nBaseTileID;}
+	int GetBaseTileID( ) const            { return m_nBaseTileID;            }
 
-	int GetTileSet(){return m_nTileSetImageID;}
-	int GetBackGroundImage(){return m_nBackGroundImageID;}
-	int GetBGM(){return m_nBGM;}
+	int GetTileSet( ) const               { return m_nTileSetImageID;        }
+	int GetBackGroundImage( ) const       { return m_nBackGroundImageID;     } 
+	int GetBGM( ) const                   { return m_nBGM;                   }
 
 	//	filename ----------------------   whatever#.laplvl"
-	char* GetNextLevelFileName(){return m_szNextLevelFileName;}
-	char* GetLevelFileName(){return m_szLevelFileName;}
+	char* GetNextLevelFileName( ) const   { return m_szNextLevelFileName;    }
+	char* GetLevelFileName( ) const       { return m_szLevelFileName;        }
 
 private:
-	
-
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Mutators"
 	//////////////////////////////////////////////////////////////////////////
-	void		SetWorldCollumn(int nWorldCollumn) { m_nWorldCollumn=nWorldCollumn;	}
-	void		SetWorldRow(int nWorldRow) { m_nWorldRow = nWorldRow;	}
-	void		SetTileWidth(int nTileWidth) {  m_nTileWidth=nTileWidth;	}
-	void		SetTileHeight(int nTileHeight) { m_nTileHeight=nTileHeight;	}
-	void		SetTileCollumn(int nTileCollumn) {  m_nTileCollumn=nTileCollumn;	}
-	void		SetTileRow(int nTileRow) { m_nTileRow=nTileRow;	}
-	void		SetBaseTileID(int nBaseTileID) { m_nBaseTileID=nBaseTileID;	}
+	void    SetWorldCollumn( int nWorldCollumn )            { m_nWorldCollumn         = nWorldCollumn;  }
+	void    SetWorldRow( int nWorldRow )                    { m_nWorldRow             = nWorldRow;      }
+	void    SetTileWidth( int nTileWidth )                  { m_nTileWidth            = nTileWidth;     }
+	void    SetTileHeight( int nTileHeight )                { m_nTileHeight           = nTileHeight;    }
+	void    SetTileCollumn( int nTileCollumn )              { m_nTileCollumn          = nTileCollumn;   }
+	void    SetTileRow( int nTileRow )                      { m_nTileRow              = nTileRow;       }
+	void    SetBaseTileID( int nBaseTileID )                { m_nBaseTileID           = nBaseTileID;    }
 
-	void	SetTileSetID(int nTileSetImageID)	{  m_nTileSetImageID = nTileSetImageID;	}
-	void	SetBackGroundImage( int nBackGroundImageID){m_nBackGroundImageID; m_nBackGroundImageID=nBackGroundImageID;	}
-	void	SetBGM(int nBGM)	{m_nBGM=nBGM;}
+	void    SetTileSetID( int nTileSetImageID )	            { m_nTileSetImageID = nTileSetImageID;      }
+	void    SetBGM( int nBGM )	                            { m_nBGM = nBGM;                            }
 
+	__inline void SetBackGroundImage( int nBackGroundImageID )
+	{ 
+		m_nBackGroundImageID;
+		m_nBackGroundImageID = nBackGroundImageID; 
+	}
 
-	void	SetNextLevelFileName(char* szNextLevelFileName)	
-	{	if(m_szNextLevelFileName)delete	m_szNextLevelFileName; m_szNextLevelFileName=szNextLevelFileName;	}
-	
-	
-
+	__inline void SetNextLevelFileName( char* szNextLevelFileName )	
+	{	
+		if( m_szNextLevelFileName )
+			delete m_szNextLevelFileName; 
+		m_szNextLevelFileName = szNextLevelFileName;	
+	}
 
 public:
-
-	void Update( float fElapsedTime );
-	void Render();
+	void Update( float );
+	void Render( );
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// Function: "LoadNewLevel"
@@ -102,7 +103,7 @@ public:
 	// Purpose:		Loads the data from a .lapidlvl binary file and with it creates the
 	//				terrain and events
 	/////////////////////////////////////////////////////////////////////////////////////
-	void LoadNewLevel( char* filename );
+	void LoadNewLevel( char* );
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// Function: "LoadNextLevel"
@@ -110,23 +111,21 @@ public:
 	// Purpose:		Loads the data from a next level and with it creates the
 	//				terrain and events
 	/////////////////////////////////////////////////////////////////////////////////////
-	bool LoadNextLevel(  );
-
+	bool LoadNextLevel( );
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// Function: "Clear"
 	//
 	// Purpose:		Clears all the data on the class
 	/////////////////////////////////////////////////////////////////////////////////////
-	void Clear();
+	void Clear( );
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// Function: "RenderBackGround"
 	//
 	// Purpose:		Renders the background image
 	/////////////////////////////////////////////////////////////////////////////////////
-	void RenderBackGround();
-	
+	void RenderBackGround( );
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// Function: "Check Collision"
@@ -134,10 +133,8 @@ public:
 	// Purpose:		Verifies if there is a collision beetween the terrain and the passed object
 	//				returns the terrain object if a collision occurs
 	////////////////////////////////////////////////////////////////////////////////////
-	CBase* CheckCollision( CBase* pBase);
+	CBase* CheckCollision( CBase* );
+	CBase* GetEntryPoint( );
 
-CBase* GetEntryPoint();
-
-bool IsOnScreen(CBase* Object);
-
+	bool IsOnScreen( CBase* );
 };

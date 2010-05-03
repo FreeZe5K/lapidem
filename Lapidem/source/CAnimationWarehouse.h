@@ -1,40 +1,37 @@
-#ifndef CANIMATIONWAREHOUSE_H
-#define CANIMATIONWAREHOUSE_H
+#pragma once
 
 #include <windows.h>
 #include <vector>
-
 using std::vector;
 
 class CAnimation;
 
 class CAnimationWarehouse
 {
-	static CAnimationWarehouse* AnimationWarehouse; // pointer to the instance of the class... only 1 should exist at a time
-	vector<vector<CAnimation*>> m_vAnimationList;	// vector... of a vector... of animations. Animation set storing a bunch of Animations
-	
-	CAnimationWarehouse(){}							// singletoooooooonnnnn
-	~CAnimationWarehouse() {}
-	CAnimationWarehouse(CAnimationWarehouse& copy) {}
-public:
+private:
+	// pointer to the instance of the class... 
+	// only 1 should exist at a time
+	static CAnimationWarehouse* AnimationWarehouse; 
 
-	static CAnimationWarehouse* GetInstance(void)
+	// vector... of a vector... of animations. 
+	// Animation set storing a bunch of Animations
+	vector<vector<CAnimation*>> m_vAnimationList;
+	
+	CAnimationWarehouse( )                                        { /* DO NOTHING */ }
+	~CAnimationWarehouse( )                                       { /* DO NOTHING */ }
+	CAnimationWarehouse( CAnimationWarehouse& )                   { /* DO NOTHING */ }
+	CAnimationWarehouse& operator=( const CAnimationWarehouse& )  { /* DO NOTHING */ }
+
+public:
+	static CAnimationWarehouse* GetInstance( )
 	{
 		if(AnimationWarehouse == NULL)
-		{
 			AnimationWarehouse = new CAnimationWarehouse;
-		}
 		return AnimationWarehouse;
 	}
 	
-	void DeleteInstance(void);
-
-	void LoadAnimationSet(char* Filename, DWORD keycolor);
-
-	CAnimation* GetAnimation(int nAnimationSet, int nAnimation);
-
-	void Init(void);
-
+	void DeleteInstance( );
+	void LoadAnimationSet( char*, DWORD );
+	CAnimation* GetAnimation( int, int );
+	void Init( );
 };
-
-#endif

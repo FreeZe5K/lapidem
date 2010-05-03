@@ -40,8 +40,8 @@ void CBase::Render( )
 	if( GetImage( ) != -1 )
 	{
 		CSGD_TextureManager::GetInstance( )->Draw( GetImage( ), 
-			( int )(GetPosX( ) - CCamera::GetCamera()->GetXOffset()),
-			( int )(GetPosY( ) - CCamera::GetCamera()->GetYOffset()) );
+			int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ),
+			int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ) );
 	}
 
 	if( CGame::GetInstance( )->GetDebugMode( ) )
@@ -72,57 +72,52 @@ RECT CBase::DebugCollisionRect( )
 	return rBuffer;
 }
 
-RECT CBase::GetCollisionRect(float fElapsedTime)
+RECT CBase::GetCollisionRect( float fElapsedTime )
 {
-	RECT tempRect = { ( LONG )(GetPosX( ) + GetVelX( ) * fElapsedTime),
-		( LONG )(GetPosY( ) + GetVelY( ) * fElapsedTime), 
-		( LONG )(GetPosX( ) + GetVelX( ) * fElapsedTime) + GetWidth( ),
-		( LONG )(GetPosY( ) + GetVelY( ) * fElapsedTime) + GetHeight( )};
+	RECT tempRect = { 
+		LONG( GetPosX( ) + GetVelX( ) * fElapsedTime ),
+		LONG( GetPosY( ) + GetVelY( ) * fElapsedTime ) , 
+		LONG( GetPosX( ) + GetVelX( ) * fElapsedTime ) + GetWidth( ),
+		LONG( GetPosY( ) + GetVelY( ) * fElapsedTime ) + GetHeight( ) };
 
-	return tempRect;
+		return tempRect;
 }
 
-bool CBase::CheckCollision(float fElapsedTime, CBase* pBase )
+bool CBase::CheckCollision( float fElapsedTime, CBase* pBase )
 {
 	RECT tempRect;
 
-	if( IntersectRect( &tempRect, &GetCollisionRect(fElapsedTime), 
-		&pBase->GetCollisionRect(fElapsedTime) ) )
+	if( IntersectRect( &tempRect, &GetCollisionRect( fElapsedTime ), 
+		&pBase->GetCollisionRect( fElapsedTime ) ) )
 		return true;
-
 	return false;
 }
 
-void CBase::HandleCollision(CBase*)
+void CBase::HandleCollision( CBase* _base )
 {
 }
-
 
 void CBase::MoveOutOf( CBase* pSolidObject )
 {
 	RECT r;
-	IntersectRect( &r, & this->GetCollisionRect(0), 
-		&pSolidObject->GetCollisionRect(0) );
+	IntersectRect( &r, &this->GetCollisionRect( 0 ), 
+		&pSolidObject->GetCollisionRect( 0 ) );
 
-	int nRectWidth = r.right -r.left;
-	int nRectHeight = r.bottom - r.top;
+	int nRectWidth( r.right -r.left );
+	int nRectHeight( r.bottom - r.top );
 
 	if( nRectHeight > nRectWidth )
 	{
-		if( this->GetPosX() > pSolidObject->GetPosX() )
-			SetPosX( GetPosX() + nRectWidth );
-		if ( this->GetPosX() < pSolidObject->GetPosX() )
-			SetPosX( GetPosX() - nRectWidth );
+		if( this->GetPosX( ) > pSolidObject->GetPosX( ) )
+			SetPosX( GetPosX( ) + nRectWidth );
+		if( this->GetPosX( ) < pSolidObject->GetPosX( ) )
+			SetPosX( GetPosX( ) - nRectWidth );
 	}
 	else if( nRectHeight < nRectWidth ) 
 	{			
-		if( this->GetPosY() > pSolidObject->GetPosY() )
-		{
-			SetPosY( GetPosY() + nRectHeight  );				
-		}
-		if(this->GetPosY() < pSolidObject->GetPosY() )
-		{
-			SetPosY( GetPosY() - nRectHeight );
-		}
+		if( this->GetPosY( ) > pSolidObject->GetPosY( ) )
+			SetPosY( GetPosY( ) + nRectHeight );
+		if( this->GetPosY( ) < pSolidObject->GetPosY( ) )
+			SetPosY( GetPosY( ) - nRectHeight );
 	}
 }

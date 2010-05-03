@@ -35,7 +35,7 @@ public:
 	CParticle( );
 	~CParticle( );
 
-	CParticle( CBase* pBase );
+	CParticle( CBase* );
 
 	float GetPosX( )       const    { return m_fCurrentPosX;    }
 	float GetPosY( )       const    { return m_fCurrentPosY;    }

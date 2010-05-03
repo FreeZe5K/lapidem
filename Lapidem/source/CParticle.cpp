@@ -74,5 +74,4 @@ void CParticle::Render( )
 		int( m_fCurrentPosY - CCamera::GetCamera( )->GetYOffset( ) ),
 		m_fScaleOut, m_fScaleOut, NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB
 		( 255, GetRed( ), GetGreen( ), GetBlue( ) ) );
-
 }

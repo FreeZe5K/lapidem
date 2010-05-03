@@ -35,7 +35,7 @@ public:
 		SetBlue( 0 );
 	}
 
-	virtual ~CFlyweight( ) { /* DO NOTHING */ }
+	virtual ~CFlyweight( )         { /* DO NOTHING */   }
 
 	float GetVelX( )     const     { return m_fVelX;    }
 	float GetVelY( )     const     { return m_fVelY;    }

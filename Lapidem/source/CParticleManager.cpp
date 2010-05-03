@@ -7,7 +7,6 @@ using std::ios_base;
 // - - - - - - - - - - - - - - - - - - - -
 // Particle manager.
 // - - - - - - - - - - - - - - - - - - - -
-
 CParticleManager *CParticleManager::GetInstance( )
 {
 	static CParticleManager instance;

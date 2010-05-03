@@ -75,7 +75,6 @@ void CEmitter::Update( float fET )
 			if( ( m_vDeadParticles.size( ) + m_vLiveParticles.size( ) ) 
 				!= m_nNumParticles && !m_bLooping )
 			{
-
 				if( m_vDeadParticles.size( ) == 0 )
 					m_fEmitTimer = 0;
 

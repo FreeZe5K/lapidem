@@ -14,6 +14,7 @@ class CCamera;
 
 class Corona_ObjectManager
 {
+private:
 	static Corona_ObjectManager * CoMReference;
 	float m_fTimer;
 
@@ -21,28 +22,23 @@ class Corona_ObjectManager
 	//Change from CBase to CTBase
 	//vector<CBase *> Terrain;
 
-	//Singleton Encapsulation:
-	Corona_ObjectManager() {m_fTimer = 0.0f; }
-	Corona_ObjectManager(const Corona_ObjectManager& copy);
-	Corona_ObjectManager& operator=(const Corona_ObjectManager&);
-	~Corona_ObjectManager() {};
+	Corona_ObjectManager( )   { m_fTimer = 0.0f; }
+	~Corona_ObjectManager( )  { /* DO NOTHING */ };
+	Corona_ObjectManager( const Corona_ObjectManager& );
+	Corona_ObjectManager& operator=( const Corona_ObjectManager& );
 	
-	void CheckCollisions(float fElapsedTime);
+	void CheckCollisions( float );
 
 	CCamera * theCamera;
 
-
-
 public:
-	bool IsOnScreen(CBase*);
+	static Corona_ObjectManager* GetInstance( );
 
-	static Corona_ObjectManager * GetInstance();
-	void DeleteInstance();
-	void UpdateObjects(float fElapsedTime);
-	void RenderObjects(void);
-	void AddObject(CBase* ObjectToAdd);
-	void RemoveObject(CBase* ObjectToRemove);
-	void RemoveAllObjects(void);
-
-
+	void DeleteInstance( );
+	void UpdateObjects( float );
+	void RenderObjects( );
+	bool IsOnScreen( CBase* );
+	void AddObject( CBase* );
+	void RemoveObject( CBase* );
+	void RemoveAllObjects( );
 };
