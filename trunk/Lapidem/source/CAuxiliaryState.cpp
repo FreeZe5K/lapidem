@@ -86,15 +86,15 @@ void CAuxiliaryState::Enter( )
 	}
 
 	//m_pWM->Play( m_nSoundID[0], DSBPLAY_LOOPING );
-	//m_pWM->SetVolume( m_nSoundID[0], CGame::GetInstance( )->GetMusicVolume( ) ); 
-	//m_pWM->SetVolume( m_nSoundID[1], CGame::GetInstance( )->GetSoundFXVolume( ) ); 
+	//m_pWM->SetVolume( m_nSoundID[0], CGame::GetInstance( )->GetMusicVolume( ) );
+	//m_pWM->SetVolume( m_nSoundID[1], CGame::GetInstance( )->GetSoundFXVolume( ) );
 }
 
 bool CAuxiliaryState::Input( )
 {
-	if( m_nState == 0 )
+	if( m_nState == 0 ) // Options
 	{
-		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) )
+		if( m_pDI->KeyPressed( DIK_UP ) || m_pDI->JoystickDPadPressed( 2 ) )
 		{
 			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
 
@@ -102,7 +102,7 @@ bool CAuxiliaryState::Input( )
 				m_nChoice = 2;
 		}
 
-		if( m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed(3))
+		if( m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed( 3 ) )
 		{
 			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
 
@@ -110,7 +110,7 @@ bool CAuxiliaryState::Input( )
 				m_nChoice = 0;
 		}
 
-		if( m_pDI->KeyDown( DIK_LEFT ) || m_pDI->JoystickDPadDown(0))
+		if( m_pDI->KeyDown( DIK_LEFT ) || m_pDI->JoystickDPadDown( 0 ) )
 		{
 			// Music Volume
 			if( m_nChoice == 0 )
@@ -123,7 +123,7 @@ bool CAuxiliaryState::Input( )
 				CGame::GetInstance( )->GetSoundFXVolume( ) - 1 );
 		}
 
-		if( m_pDI->KeyDown( DIK_RIGHT ) || m_pDI->JoystickDPadDown(1))
+		if( m_pDI->KeyDown( DIK_RIGHT ) || m_pDI->JoystickDPadDown( 1 ) )
 		{
 			// Music Volume
 			if( m_nChoice == 0 )
@@ -173,8 +173,10 @@ void CAuxiliaryState::Update( float fET )
 		else if( CGame::GetInstance( )->GetSoundFXVolume( ) < 0 )
 			CGame::GetInstance( )->SetSoundFXVolume( 0 );
 
-		m_pWM->SetVolume( m_nSoundID[0], CGame::GetInstance( )->GetMusicVolume( ) ); 
-		m_pWM->SetVolume( m_nSoundID[1], CGame::GetInstance( )->GetSoundFXVolume( ) ); 
+		m_pWM->SetVolume( CGame::GetInstance( )->GetMainMenuMusic( ), 
+			CGame::GetInstance( )->GetMusicVolume( ) ); 
+		m_pWM->SetVolume( CGame::GetInstance( )->GetMenuTick( ), 
+			CGame::GetInstance( )->GetSoundFXVolume( ) ); 
 	}
 	else if( m_nState == 1 ) // High Scores
 	{
@@ -320,8 +322,44 @@ void CAuxiliaryState::Render( )
 	}
 }
 
+bool CAuxiliaryState::LoadConfig( const char* _file )
+{
+	ifstream ifs( _file, ios_base::in | ios_base::binary );
+
+	if( ifs.is_open( ) )
+	{
+		int nMusicVol( 0 );
+		int nSFXVol( 0 );
+
+		ifs.read( ( char* )&nMusicVol, sizeof( int ) );
+		ifs.read( ( char* )&nSFXVol, sizeof( int ) );
+
+		CGame::GetInstance( )->SetMusicVolume( nMusicVol );
+		CGame::GetInstance( )->SetSoundFXVolume( nSFXVol );
+	} ifs.close( );
+
+	return true;
+}
+
+bool CAuxiliaryState::SaveConfig( const char* _file )
+{
+	ofstream ofs( _file, ios_base::out | ios::trunc | ios_base::binary );
+
+	if( ofs.is_open( ) )
+	{ 
+		int nMusicVol( CGame::GetInstance( )->GetMusicVolume( ) );
+		int nSFXVol( CGame::GetInstance( )->GetSoundFXVolume( ) );
+
+		ofs.write( ( char* )&nMusicVol, sizeof( int ) );
+		ofs.write( ( char* )&nSFXVol, sizeof( int ) );
+	} ofs.close( );
+
+	return true;
+}
+
 void CAuxiliaryState::Exit( )
 {
+	SaveConfig( "resource/data/Lapidem_Config.dat" );
 	m_pTM->UnloadTexture( m_nImageID[1] );
 	m_pTM->UnloadTexture( m_nImageID[0] );
 }

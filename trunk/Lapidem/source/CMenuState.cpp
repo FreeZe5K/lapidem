@@ -38,8 +38,10 @@ void CMenuState::Enter( )
 	m_nScrollSpeedFour    = -128;
 	// - - - - - - - - - - - - - - - -
 
-	m_pWM->SetVolume( m_nSoundID[0], CGame::GetInstance( )->GetMusicVolume( ) ); 
-	m_pWM->SetVolume( m_nSoundID[1], CGame::GetInstance( )->GetSoundFXVolume( ) ); 
+	m_pWM->SetVolume( CGame::GetInstance( )->GetMainMenuMusic( ), 
+			CGame::GetInstance( )->GetMusicVolume( ) ); 
+		m_pWM->SetVolume( CGame::GetInstance( )->GetMenuTick( ), 
+			CGame::GetInstance( )->GetSoundFXVolume( ) );  
 
 	if( !m_pWM->IsWavePlaying( CGame::GetInstance( )->GetMainMenuMusic( ) ) )
 		m_pWM->Play( CGame::GetInstance( )->GetMainMenuMusic( ), DSBPLAY_LOOPING );
@@ -447,6 +449,8 @@ bool CMenuState::Load( int _nSlot )
 
 void CMenuState::Exit( )
 {
+	CAuxiliaryState::GetInstance( )->SaveConfig( "resource/data/Lapidem_Config.dat" );
+
 	m_pWM->Stop( CGame::GetInstance( )->GetGameBGMusic( ) );
 	m_pTM->UnloadTexture( m_nImageID );
 }

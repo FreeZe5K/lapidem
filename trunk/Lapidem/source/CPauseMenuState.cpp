@@ -128,6 +128,8 @@ bool CPauseMenuState::Input( )
 		{
 			if( m_nChoice == 2 )
 			{
+				CAuxiliaryState::GetInstance( )->SaveConfig
+					( "resource/data/Lapidem_Config.dat" );
 				m_nState   = 0; // Done
 				m_nChoice  = 0;
 			}
@@ -147,7 +149,7 @@ bool CPauseMenuState::Input( )
 				m_nChoice = 0;
 		}
 
-		if( m_pDI->KeyPressed( DIK_RETURN ) || m_pDI->JoystickButtonPressed(1) )
+		if( m_pDI->KeyPressed( DIK_RETURN ) || m_pDI->JoystickButtonPressed( 1 ) )
 		{
 			if( m_nChoice == 0 ) // Save slot 1
 			{

@@ -15,41 +15,43 @@ CGameplayState* CGameplayState::GetInstance( )
 
 void CGameplayState::Enter( )
 {
-	m_pD3D          = CSGD_Direct3D::GetInstance();
-	m_pTM           = CSGD_TextureManager::GetInstance();
-	m_pDS           = CSGD_DirectSound::GetInstance();
-	m_pWM           = CSGD_WaveManager::GetInstance();
-	m_pDI           = CSGD_DirectInput::GetInstance();
+	m_pD3D          = CSGD_Direct3D::GetInstance( );
+	m_pTM           = CSGD_TextureManager::GetInstance( );
+	m_pDS           = CSGD_DirectSound::GetInstance( );
+	m_pWM           = CSGD_WaveManager::GetInstance( );
+	m_pDI           = CSGD_DirectInput::GetInstance( );
 
-	m_pEF			= CEmitterFactory::GetInstance();
-	m_pEF->Initialize();
+	m_pEF			= CEmitterFactory::GetInstance( );
+	m_pEF->Initialize( );
 
 	CAnimationWarehouse::GetInstance( )->LoadAnimationSet( 
 		"resource/idlewalk.Anim", D3DCOLOR_XRGB( 255, 255, 255 ) );
 
 	m_pPlayerOne	= new CPlayer( );
-	m_pPlayerOne->SetAnimation(0, 0);
+	m_pPlayerOne->SetAnimation( 0, 0 );
 
-	if(m_bTwoPlayers)
+	if( m_bTwoPlayers )
 	{
-		m_pPlayerTwo = new CPlayer();
-		m_pPlayerTwo->SetPosX(190); m_pPlayerTwo->SetPosY(400);
-		m_pPlayerTwo->SetAnimation(0, 0);
+		m_pPlayerTwo = new CPlayer( );
+		m_pPlayerTwo->SetPosX( 190 ); 
+		m_pPlayerTwo->SetPosY( 400 );
+		m_pPlayerTwo->SetAnimation( 0, 0 );
 	}
-	else
-		m_pPlayerTwo	= NULL;
+	else m_pPlayerTwo = NULL;
 
-	CCamera::InitCamera(0.0f, 0.0f, (float)CGame::GetInstance()->GetScreenWidth(),
-		(float)CGame::GetInstance( )->GetScreenHeight(), m_pPlayerOne );
+	CCamera::InitCamera( 0.0f, 0.0f, float(CGame::GetInstance( )->GetScreenWidth( ) ),
+		float( CGame::GetInstance( )->GetScreenHeight( ) ), m_pPlayerOne );
 
-	m_pCoM			= Corona_ObjectManager::GetInstance();
-	m_pCeH			= Corona_EventHandler::GetInstance();
+	m_pCoM			= Corona_ObjectManager::GetInstance( );
+	m_pCeH			= Corona_EventHandler::GetInstance( );
+
+	m_pWM->SetVolume( CGame::GetInstance( )->GetMainMenuMusic( ), 
+		CGame::GetInstance( )->GetMusicVolume( ) ); 
+	m_pWM->SetVolume( CGame::GetInstance( )->GetMenuTick( ), 
+		CGame::GetInstance( )->GetSoundFXVolume( ) ); 
 
 	m_pWM->Stop( CGame::GetInstance( )->GetMainMenuMusic( ) );
 	m_pWM->Play( CGame::GetInstance( )->GetGameBGMusic( ), DSBPLAY_LOOPING );
-
-	m_pWM->SetVolume( CGame::GetInstance( )->GetGameBGMusic( ), 
-		CGame::GetInstance( )->GetSoundFXVolume( ) ); 
 
 	// - - - - - - - - - - - - - -
 	// Change the background image.
@@ -62,18 +64,18 @@ void CGameplayState::Enter( )
 	m_nImageID[2]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_IMultiPlayer.png" );
 	// - - - - - - - - - - - - - -
 
-	m_pCoM->AddObject(m_pPlayerOne);
+	m_pCoM->AddObject( m_pPlayerOne );
 
-	if(m_pPlayerTwo)
-		m_pCoM->AddObject(m_pPlayerTwo);
+	if( m_pPlayerTwo )
+		m_pCoM->AddObject( m_pPlayerTwo );
 
 	m_pPM = CParticleManager::GetInstance( );
 	m_pEF = CEmitterFactory::GetInstance( );
 	m_pEF->Initialize( );
 
-	theLevel.LoadNewLevel("resource/data/level1.laplvl");	
+	theLevel.LoadNewLevel( "resource/data/level1.laplvl" );	
 
-	CBase* pEntry = theLevel.GetEntryPoint();
+	CBase* pEntry = theLevel.GetEntryPoint( );
 
 	if( m_bLoadedFromFile )
 	{
@@ -116,8 +118,8 @@ void CGameplayState::Enter( )
 		m_pPlayerOne->SetPosY( pEntry->GetPosY( ) );
 	}
 
-	if( m_pPlayerTwo)
-		Corona_EventHandler::GetInstance()->RegisterClient( this, "P2 OFFSCREEN" );
+	if( m_pPlayerTwo )
+		Corona_EventHandler::GetInstance( )->RegisterClient( this, "P2 OFFSCREEN" );
 	m_fP2RespawnTimer = -1.0f;
 }
 
@@ -151,7 +153,7 @@ bool CGameplayState::Input( )
 	else if( m_pDI->KeyPressed( DIK_2 ) )
 		m_pPlayerOne->SetEleType( OBJ_FIRE );
 
-	if(!m_pPlayerTwo)
+	if( !m_pPlayerTwo )
 	{
 		if( m_pDI->KeyPressed( DIK_3 ) )
 			m_pPlayerOne->SetEleType( OBJ_EARTH );
@@ -209,10 +211,12 @@ void CGameplayState::Update( float fET )
 
 			if( m_fP2RespawnTimer > 3.0f )
 			{
-				// set the timer to a negative number so this code does not run again until the event is trigered
+				// set the timer to a negative number so this 
+				// code does not run again until the event is trigered
 				m_fP2RespawnTimer = -1.0f;
 
-				// set the pos of the p2 to almost the pos of p1, then move the player2 out of player 1 so it looks nice
+				// set the pos of the p2 to almost the pos of p1, then 
+				// move the player2 out of player 1 so it looks nice
 				m_pPlayerTwo->SetPosX( m_pPlayerOne->GetPosX( ) + 2 );
 				m_pPlayerTwo->SetPosY( m_pPlayerOne->GetPosY( ) );
 				m_pPlayerTwo->MoveOutOf( m_pPlayerOne);
@@ -306,7 +310,8 @@ void CGameplayState::HandleEvent( CEvent* pEvent )
 		if( m_fP2RespawnTimer == -1.0f )
 		{
 			m_fP2RespawnTimer = 0.0f;
-			// TODO: create some particle effet that las 3 secs from the pos the player 2 was to where player 1 is
+			// TODO: create some particle effet that las 3 secs 
+			// from the pos the player 2 was to where player 1 is
 			CEmitter* emmiter; //= new CEmitter();
 			emmiter = CEmitterFactory::GetInstance( )->CreateEmitter( "return" );
 
