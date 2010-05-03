@@ -6,33 +6,34 @@
 //  Purpose     :	Handles the ice objects created by the player and
 //					enemies. Handles all 3 tiers of spells.
 //////////////////////////////////////////////////////////////////////////
-#ifndef CICE_H
-#define CICE_H
+#pragma once
 
 #include "CSpell.h"
+
 class CIce : public CSpell
 {
-	float m_fSlowRate; // After being hit by an ice spell, the units velocity is reduced by this amount.
+private:
+	// After being hit by an ice spell, 
+	// the units velocity is reduced by this amount.
+	float m_fSlowRate; 
 
 public:
-	CIce();
-	~CIce();
+	CIce( );
+	~CIce( );
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Accessors"
 	//
 	//  Purpose   :   Get Stuff
 	//////////////////////////////////////////////////////////////////////////
-	float GetSlow() {return m_fSlowRate;}
-	//////////////////////////////////////////////////////////////////////////
+	float GetSlow( )                { return m_fSlowRate;       }
 	
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Mutators"
 	//
 	//  Purpose   :   Set Stuff
 	//////////////////////////////////////////////////////////////////////////
-	void SetSlow(float fSlow) { m_fSlowRate = fSlow;}
-	//////////////////////////////////////////////////////////////////////////
+	void SetSlow( float fSlow )     { m_fSlowRate = fSlow;      }
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "HandleCollision"
@@ -40,8 +41,7 @@ public:
 	//  Purpose   :   The effect of the collision including object destruction
 	//			      and damage dealing is done here.
 	//////////////////////////////////////////////////////////////////////////
-	void HandleCollision(CBase* pObject);
-
+	void HandleCollision( CBase* );
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Update"
@@ -50,11 +50,10 @@ public:
 	//				  its position and velocity. This function calls the 
 	//				  the corresponding update for each tier.
 	//////////////////////////////////////////////////////////////////////////
-	void Update(float fElapsedTime);
-	void UpdateTier1(float fElapsedTime);
-	void UpdateTier2(float fElapsedTime);
-	void UpdateTier3(float fElapsedTime);
-
+	void Update( float );
+	void UpdateTier1( float );
+	void UpdateTier2( float );
+	void UpdateTier3( float );
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Render"
@@ -63,10 +62,10 @@ public:
 	//				  the screen. This function calls the corresponding
 	//				  Render function for each tier.
 	//////////////////////////////////////////////////////////////////////////
-	void Render(void);
-	void RenderTier1(void);
-	void RenderTier2(void);
-	void RenderTier3(void);
+	void Render( );
+	void RenderTier1( );
+	void RenderTier2( );
+	void RenderTier3( );
 	
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "CheckCollision"
@@ -74,9 +73,5 @@ public:
 	//  Purpose   :   Checks collision against passed in CBase. Handle
 	//				  Collision is called here in event of collision
 	//////////////////////////////////////////////////////////////////////////
-	bool CheckCollision(CBase* pbase);
+	bool CheckCollision( CBase* );
 };
-
-
-
-#endif

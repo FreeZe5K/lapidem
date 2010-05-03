@@ -9,9 +9,8 @@
 #include "IBaseInterface.h"
 #include <windows.h>
 
-enum Types   { OBJ_BASE, OBJ_PLAYER, OBJ_ENEMY, OBJ_TERRA, OBJ_SPELL, OBJ_EVENT }; //All Tiles need to have "at least" the OBJ_TERRA type.
-enum EleType { OBJ_FIRE, OBJ_ICE, OBJ_WIND, OBJ_EARTH};//Probably shouldn't be prefixed with OBJ_, thanks Jon.
-
+enum Types   { OBJ_BASE, OBJ_PLAYER, OBJ_ENEMY, OBJ_TERRA, OBJ_SPELL, OBJ_EVENT };  // All Tiles need to have "at least" the OBJ_TERRA type.
+enum EleType { OBJ_FIRE, OBJ_ICE, OBJ_WIND, OBJ_EARTH };                            // Probably shouldn't be prefixed with OBJ_, thanks Jon.
 
 class CBase : public IBaseInterface
 {
@@ -140,7 +139,6 @@ public:
 		if( 0 == m_nRefCount )
 			delete this;
 	}
-
 	
 	/////////////////////////////////////////////////////////////////////////
 	//Function:	"MoveOutOf"
@@ -148,7 +146,5 @@ public:
 	//Purpose:	When objects collide, use this helper function to move the 
 	//			invoking object out of the parameter object
 	/////////////////////////////////////////////////////////////////////////
-
 	void MoveOutOf( CBase* pSolidObject );
-
 };

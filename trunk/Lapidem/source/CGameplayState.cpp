@@ -37,7 +37,7 @@ void CGameplayState::Enter( )
 		m_pPlayerTwo->SetAnimation(0, 0);
 	}
 	else
-	m_pPlayerTwo	= NULL;
+		m_pPlayerTwo	= NULL;
 
 	CCamera::InitCamera(0.0f, 0.0f, (float)CGame::GetInstance()->GetScreenWidth(),
 		(float)CGame::GetInstance( )->GetScreenHeight(), m_pPlayerOne );
@@ -112,12 +112,12 @@ void CGameplayState::Enter( )
 	}
 	else
 	{
-		m_pPlayerOne->SetPosX( pEntry->GetPosX());
-		m_pPlayerOne->SetPosY( pEntry->GetPosY());
+		m_pPlayerOne->SetPosX( pEntry->GetPosX( ) );
+		m_pPlayerOne->SetPosY( pEntry->GetPosY( ) );
 	}
 
 	if( m_pPlayerTwo)
-	Corona_EventHandler::GetInstance()->RegisterClient(this, "P2 OFFSCREEN");
+		Corona_EventHandler::GetInstance()->RegisterClient( this, "P2 OFFSCREEN" );
 	m_fP2RespawnTimer = -1.0f;
 }
 
@@ -127,12 +127,11 @@ bool CGameplayState::Input( )
 		CGame::GetInstance( )->SetCheatString( CGame::GetInstance( )->
 		GetCheatString( ) += toupper( CSGD_DirectInput::GetInstance( )->CheckBufferedKeysEx( ) ) );
 
-	if( m_pDI->KeyPressed( DIK_P ) || m_pDI->KeyPressed( DIK_ESCAPE ) || m_pDI->JoystickButtonPressed(9) )
+	if( m_pDI->KeyPressed( DIK_P ) || m_pDI->KeyPressed( DIK_ESCAPE ) || m_pDI->JoystickButtonPressed( 9 ) )
 	{
 		CGame::GetInstance( )->PushState( CPauseMenuState::GetInstance( ) );
 		CGame::GetInstance( )->SetPaused( true );
 	}
-
 
 	if( m_pDI->KeyDown( DIK_D ) || m_pDI->JoystickDPadDown(1) )
 		m_pPlayerOne->SetVelX( 100 );
@@ -147,8 +146,6 @@ bool CGameplayState::Input( )
 	if( m_pDI->KeyDown( DIK_F ) || m_pDI->JoystickButtonDown(1) )
 		m_pPlayerOne->Attack(1);
 
-
-
 	if( m_pDI->KeyPressed( DIK_1 ) )
 		m_pPlayerOne->SetEleType( OBJ_ICE  );
 	else if( m_pDI->KeyPressed( DIK_2 ) )
@@ -156,7 +153,6 @@ bool CGameplayState::Input( )
 
 	if(!m_pPlayerTwo)
 	{
-
 		if( m_pDI->KeyPressed( DIK_3 ) )
 			m_pPlayerOne->SetEleType( OBJ_EARTH );
 		else if( m_pDI->KeyPressed( DIK_4 ) )
@@ -169,15 +165,11 @@ bool CGameplayState::Input( )
 	}
 	else
 	{
-
 		//Player One Controls if there are two players:
 		if(m_pDI->JoystickButtonPressed(4))
 			m_pPlayerOne->SetEleType( OBJ_ICE );
 		else if(m_pDI->JoystickButtonPressed(5))
 			m_pPlayerOne->SetEleType( OBJ_FIRE );
-
-
-
 
 		//Player Two Controls:
 		if(m_pDI->KeyDown( DIK_LEFT) || m_pDI->JoystickDPadDown(0, 1) )
@@ -189,7 +181,7 @@ bool CGameplayState::Input( )
 
 		if( m_pDI->KeyDown( DIK_UP )  || m_pDI->JoystickDPadDown(2, 1) )
 			m_pPlayerTwo->Jump();
-		
+
 		if(m_pDI->KeyDown( DIK_RSHIFT ) || m_pDI->JoystickButtonDown(1, 1) )
 			m_pPlayerTwo->Attack(1);
 
@@ -197,7 +189,6 @@ bool CGameplayState::Input( )
 			m_pPlayerTwo->SetEleType( OBJ_WIND );
 		else if(m_pDI->JoystickButtonPressed(5,1))
 			m_pPlayerTwo->SetEleType( OBJ_EARTH );
-
 	}
 
 	return true;
@@ -205,17 +196,16 @@ bool CGameplayState::Input( )
 
 void CGameplayState::Update( float fET )
 {
-	CProfiler::GetInstance()->Start( "Profiler Start" );
-	CProfiler::GetInstance()->Start( "CGameplay Update" );
-	CProfiler::GetInstance()->End( "Profiler Start" );
+	CProfiler::GetInstance( )->Start( "Profiler Start" );
+	CProfiler::GetInstance( )->Start( "CGameplay Update" );
+	CProfiler::GetInstance( )->End( "Profiler Start" );
 
-	if( m_pPlayerTwo)
+	if( m_pPlayerTwo )
 	{
 		// Respawn player 2 if he was off screen
 		if( m_fP2RespawnTimer >= 0.0f )
 		{
 			m_fP2RespawnTimer += fET;
-
 
 			if( m_fP2RespawnTimer > 3.0f )
 			{
@@ -223,15 +213,15 @@ void CGameplayState::Update( float fET )
 				m_fP2RespawnTimer = -1.0f;
 
 				// set the pos of the p2 to almost the pos of p1, then move the player2 out of player 1 so it looks nice
-				m_pPlayerTwo->SetPosX( m_pPlayerOne->GetPosX() + 2);
-				m_pPlayerTwo->SetPosY( m_pPlayerOne->GetPosY() );
+				m_pPlayerTwo->SetPosX( m_pPlayerOne->GetPosX( ) + 2 );
+				m_pPlayerTwo->SetPosY( m_pPlayerOne->GetPosY( ) );
 				m_pPlayerTwo->MoveOutOf( m_pPlayerOne);
 			}
 		}
 	}
 
-	m_pCoM->UpdateObjects(CGame::GetInstance()->GetElapsedTime());
-	theLevel.Update(fET);
+	m_pCoM->UpdateObjects( CGame::GetInstance( )->GetElapsedTime( ) );
+	theLevel.Update( fET );
 	m_pPM->Update( fET );
 	m_pCeH->ProcessEvents( );
 
@@ -293,15 +283,15 @@ void CGameplayState::Exit( )
 	theLevel.Clear( );
 	m_pCoM->DeleteInstance( );
 	CAnimationWarehouse::GetInstance()->DeleteInstance( );
-	// TODO :: Remove this comment if you don't need it!
+
+	// TODO :: Remove this if you don't need it!
 	//CProfiler::GetInstance( )->DeleteInstance( );
 
 	m_bLoadedFromFile = false;
 	m_bTwoPlayers	  = false;
 
-	
-	if( m_pPlayerTwo)
-	Corona_EventHandler::GetInstance()->UnregisterClient("P2 OFFSCREEN", this );
+	if( m_pPlayerTwo )
+		Corona_EventHandler::GetInstance( )->UnregisterClient( "P2 OFFSCREEN", this );
 
 #if _DEBUG
 	CProfiler::GetInstance( )->Save( "CodeProfilerOutput.txt" );
@@ -309,37 +299,33 @@ void CGameplayState::Exit( )
 #endif
 }
 
-
-
-void CGameplayState::HandleEvent(CEvent* pEvent)
+void CGameplayState::HandleEvent( CEvent* pEvent )
 {
-	if(!strcmp(pEvent->GetEventID().c_str(), "P2 OFFSCREEN"))
+	if( !strcmp( pEvent->GetEventID( ).c_str( ), "P2 OFFSCREEN" ) )
 	{
-		if( m_fP2RespawnTimer == -1.0f)
+		if( m_fP2RespawnTimer == -1.0f )
 		{
-		m_fP2RespawnTimer = 0.0f;
-		// TODO: create some particle effet that las 3 secs from the pos the player 2 was to where player 1 is
-		CEmitter* emmiter ;//= new CEmitter();
-		emmiter = CEmitterFactory::GetInstance()->CreateEmitter( "return" );
+			m_fP2RespawnTimer = 0.0f;
+			// TODO: create some particle effet that las 3 secs from the pos the player 2 was to where player 1 is
+			CEmitter* emmiter; //= new CEmitter();
+			emmiter = CEmitterFactory::GetInstance( )->CreateEmitter( "return" );
 
-		emmiter->SetPosX(m_pPlayerTwo->GetPosX());
-		emmiter->SetPosY(m_pPlayerTwo->GetPosY());
+			emmiter->SetPosX( m_pPlayerTwo->GetPosX( ) );
+			emmiter->SetPosY( m_pPlayerTwo->GetPosY( ) );
 
-		TVECTOR direction;
-		direction.x = (m_pPlayerOne->GetPosX() - m_pPlayerTwo->GetPosX());
-		direction.y = (m_pPlayerOne->GetPosY() - m_pPlayerTwo->GetPosY());
-		direction.z = 0.0f;
-		direction.w = 0.0f;
+			TVECTOR direction;
+			direction.x = ( m_pPlayerOne->GetPosX( ) - m_pPlayerTwo->GetPosX( ) );
+			direction.y = ( m_pPlayerOne->GetPosY( ) - m_pPlayerTwo->GetPosY( ) );
+			direction.z = 0.0f;
+			direction.w = 0.0f;
 
-		direction = Lapidem_Math::GetInstance()->VectorNormalize( direction );
-		
-		emmiter->SetVelX(direction.x * (m_pPlayerOne->GetPosX() - m_pPlayerTwo->GetPosX())/1.5f);
-		emmiter->SetVelY(direction.y * (m_pPlayerOne->GetPosY() - m_pPlayerTwo->GetPosY())/1.5f);
-		CParticleManager::GetInstance( )->AddEmitter( emmiter );
+			direction = Lapidem_Math::GetInstance()->VectorNormalize( direction );
 
-
-
+			emmiter->SetVelX( direction.x * ( m_pPlayerOne->GetPosX( ) - 
+				m_pPlayerTwo->GetPosX( ) ) / 1.5f );
+			emmiter->SetVelY( direction.y * ( m_pPlayerOne->GetPosY( ) - 
+				m_pPlayerTwo->GetPosY( ) ) / 1.5f );
+			CParticleManager::GetInstance( )->AddEmitter( emmiter );
 		}
 	}
-
 }

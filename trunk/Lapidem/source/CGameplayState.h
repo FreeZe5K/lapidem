@@ -57,6 +57,7 @@ public:
 	void Update( float );
 	void Render( );
 	void Exit( );
+	void HandleEvent( CEvent* pEvent );
 
 	CLevel*    GetLevel()                    { return &theLevel;              }
 	CPlayer*   GetPlayerOne( )               { return m_pPlayerOne;           }
@@ -67,9 +68,6 @@ public:
 	int     GetPlayerTwoScore( )             { return m_nPlayerTwoScore;      }
 	int     GetSlotLoaded( )                 { return m_nSlotLoadedFrom;      }
 
-	//int     GetMusic( )                      { return m_nSoundID[0];          }
-	//int     GetSoundFX( )                    { return m_nSoundID[1];          }
-
 	bool    GetLoadedFromFile( )             { return m_bLoadedFromFile;      }
 	bool    GetTwoPlayerMode( )              { return m_bTwoPlayers;          }
 
@@ -78,13 +76,6 @@ public:
 	void    SetPlayerTwoScore( int _i )      { m_nPlayerTwoScore      =  _i;  }
 	void    SetSlotLoaded( int _i )          { m_nSlotLoadedFrom      =  _i;  }
 
-	//void    SetMusic( int _i )               { m_nSoundID[0]          =  _i;  }
-	//void    SetSoundFX( int _i )             { m_nSoundID[1]          =  _i;  }
-
 	void    SetLoadedFromFile( bool _b )     { m_bLoadedFromFile      =  _b;  }
 	void    bTwoPlayerMode( bool _b )        { m_bTwoPlayers          =  _b;  }
-
-
-	void HandleEvent(CEvent* pEvent);
-
 };

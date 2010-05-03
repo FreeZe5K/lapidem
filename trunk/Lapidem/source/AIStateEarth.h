@@ -12,8 +12,8 @@ class AIStateEarth : public IAIState
 {
 	int InitX;	// gives the initial position of the earth enemy to determine wander range
 	int InitY;	// give the initial position of the earth enemy
-public:
 
+public:
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Update"
 	//
@@ -21,7 +21,8 @@ public:
 	//
 	//  Purpose   :   Movement and deciding when and who to attack
 	//////////////////////////////////////////////////////////////////////////
-	int Update(float, CEnemy*);
+	int Update( float, CEnemy* );
+
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Attack"
 	//
@@ -30,6 +31,6 @@ public:
 	//
 	//  Purpose   :   Use attack by calling spell factory
 	//////////////////////////////////////////////////////////////////////////
-	void Attack(CCharacter*, CCharacter*);
-	void SetInitPos(int x, int y) {InitX = x, InitY = y;}
+	void Attack( CCharacter*, CCharacter*);
+	void SetInitPos( int x, int y ) { InitX = x, InitY = y; }
 };

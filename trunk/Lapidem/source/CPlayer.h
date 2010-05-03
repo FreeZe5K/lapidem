@@ -11,18 +11,17 @@ class CPlayer : public CCharacter
 	static int PlayerCount;
 	int PlayerID;
 
-
-	void SetPlayerID(int pID) {PlayerID = pID;}
+	void SetPlayerID( int _i )  { PlayerID = _i;      }
 
 public:
-	CPlayer();
-	~CPlayer() {--PlayerCount;}
-	void Update(float fElapsedTime);
-	void Attack(int nTier);
-	void Jump();
-	void HandleCollision(CBase *);
+	CPlayer( );
+	~CPlayer( )                 { --PlayerCount;      }
 
-	int GetPlayerCount() { return PlayerCount;}
-	int GetPlayerID()	 { return PlayerID;}
+	void Jump( );
+	void Update( float );
+	void Attack( int );
+	void HandleCollision( CBase* );
 
+	int GetPlayerCount( )    { return PlayerCount;    }
+	int GetPlayerID( )       { return PlayerID;       }
 };
