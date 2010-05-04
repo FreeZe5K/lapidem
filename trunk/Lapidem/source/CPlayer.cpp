@@ -20,6 +20,8 @@ CPlayer::CPlayer( )
 	currDirec          = RIGHT; 
 	m_nType            = OBJ_PLAYER; 
 
+	m_pReticle		   = NULL;
+
 	SetPlayerID( ++PlayerCount );
 
 	if( GetPlayerID( ) == 1 )
@@ -32,6 +34,9 @@ void CPlayer::Update( float fElapsedTime )
 	CCharacter::Update( fElapsedTime );
 
 	CSGD_DirectInput * DI = ( CSGD_DirectInput::GetInstance( ) );
+
+	if( DI->JoystickButtonPressed(11, GetPlayerID() - 1) )
+		ToggleReticle();
 
 	if( ( GetPlayerID( ) == 1 && ( DI->KeyDown( DIK_D ) || 
 		DI->JoystickDPadDown( 1 ) ) ) || ( GetPlayerID( ) == 2 && 
@@ -77,6 +82,25 @@ void CPlayer::Update( float fElapsedTime )
 		IsRotated = true;
 	else IsRotated = false;
 
+
+	if(m_pReticle)
+	{
+		float SpeedX = DI->JoystickGetRStickXNormalized(GetPlayerID() - 1);
+		float SpeedY = DI->JoystickGetRStickYNormalized(GetPlayerID() - 1);
+
+		m_pReticle->SetVelX(300 * SpeedX);
+		m_pReticle->SetVelY(300 * SpeedY);
+
+		m_pReticle->Update(fElapsedTime);
+
+		m_pReticle->ClampToScreen();
+
+	}
+
+	//******************************************************************************
+	//******************************************************************************
+	//******************************************************************************
+
 	if( m_bIsJumping )
 	{
 		m_fJumpTimer = m_fJumpTimer + fElapsedTime;
@@ -113,6 +137,11 @@ void CPlayer::Update( float fElapsedTime )
 
 	if( m_nHealth <= 0 )
 		animation = NULL;
+
+	//******************************************************************************
+	//******************************************************************************
+	//******************************************************************************
+
 
 	if(	GetPlayerID( ) == 2 )
 	{
@@ -234,4 +263,25 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 	}
 	else if( collidingObject->GetType( ) == OBJ_SPELL && !( ( CSpell* )collidingObject )->PlayerShot( ) )
 		m_nHealth = m_nHealth - ( ( CSpell* )collidingObject )->GetDamage( );
+}
+void CPlayer::ToggleReticle()
+{
+	if(!m_pReticle)
+	{
+		m_pReticle = new CBase();
+		m_pReticle->SetPosX(GetPosX());
+		m_pReticle->SetPosY(GetPosY() - 32);
+		m_pReticle->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Reticle.png", D3DXCOLOR(1,0,1,1)));
+		m_pReticle->SetType(OBJ_RETICLE);
+		m_pReticle->SetWidth(32);
+		m_pReticle->SetHeight(32);
+		Corona_ObjectManager::GetInstance()->AddObject(m_pReticle);
+
+	}
+	else
+	{
+		Corona_ObjectManager::GetInstance()->RemoveObject(m_pReticle);
+		m_pReticle->Release();
+		m_pReticle = NULL;
+	}
 }

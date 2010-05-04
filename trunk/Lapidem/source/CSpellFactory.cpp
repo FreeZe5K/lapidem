@@ -102,62 +102,81 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 				CEarth* newearth = new CEarth();
 				newearth->SetPosX(pShooter->GetPosX() + pShooter->GetWidth() + 2);
 				newearth->SetPosY(pShooter->GetPosY());
-				DIRECTION wheretoshoot = pShooter->GetDirection();
-				switch(wheretoshoot)
+
+				if(pShooter->GetType() == OBJ_PLAYER && ((CPlayer*)pShooter)->GetReticle())
 				{
-				case 0:
+					CBase* tempRet = ((CPlayer*)pShooter)->GetReticle();
+
+					float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 50;
+					float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 50;
+
+					newearth->SetVelX(100 * speedx);
+					newearth->SetVelY(100 * speedy);
+
+					if(newearth->GetVelX() < 0)
+							newearth->SetPosX(pShooter->GetPosX() - 34);
+
+
+				}
+				else
+				{
+					DIRECTION wheretoshoot = pShooter->GetDirection();
+					switch(wheretoshoot)
 					{
-						newearth->SetVelX(-150);
-						newearth->SetPosX(pShooter->GetPosX() - 34);
-						newearth->SetVelY(0);
-						newearth->SetDirection(LEFT);
-						break;
-					}
-				case 1:
-					{
-						newearth->SetVelX(150);
-						newearth->SetVelY(0);
-						break;
-					}
-				case 2:
-					{
-						newearth->SetVelX(0);
-						newearth->SetVelY(-150);
-						break;
-					}
-				case 3:
-					{
-						newearth->SetVelX(0);
-						newearth->SetVelY(150);
-						break;
-					}
-				case 4:
-					{
-						newearth->SetVelX(-75);
-						newearth->SetPosX(pShooter->GetPosX() - 34);
-						newearth->SetVelY(-75);
-						newearth->SetDirection(LEFT);
-						break;
-					}
-				case 5:
-					{
-						newearth->SetVelX(-75);
-						newearth->SetPosX(pShooter->GetPosX() - 34);
-						newearth->SetDirection(LEFT);
-						newearth->SetVelY(75);
-						break;
-					}
-				case 6:
-					{
-						newearth->SetVelX(75);
-						newearth->SetVelY(-75);
-						break;
-					}
-				case 7:
-					{
-						newearth->SetVelX(75);
-						newearth->SetVelY(75);
-						break;
+					case 0:
+						{
+							newearth->SetVelX(-150);
+							newearth->SetPosX(pShooter->GetPosX() - 34);
+							newearth->SetVelY(0);
+							newearth->SetDirection(LEFT);
+							break;
+						}
+					case 1:
+						{
+							newearth->SetVelX(150);
+							newearth->SetVelY(0);
+							break;
+						}
+					case 2:
+						{
+							newearth->SetVelX(0);
+							newearth->SetVelY(-150);
+							break;
+						}
+					case 3:
+						{
+							newearth->SetVelX(0);
+							newearth->SetVelY(150);
+							break;
+						}
+					case 4:
+						{
+							newearth->SetVelX(-75);
+							newearth->SetPosX(pShooter->GetPosX() - 34);
+							newearth->SetVelY(-75);
+							newearth->SetDirection(LEFT);
+							break;
+						}
+					case 5:
+						{
+							newearth->SetVelX(-75);
+							newearth->SetPosX(pShooter->GetPosX() - 34);
+							newearth->SetDirection(LEFT);
+							newearth->SetVelY(75);
+							break;
+						}
+					case 6:
+						{
+							newearth->SetVelX(75);
+							newearth->SetVelY(-75);
+							break;
+						}
+					case 7:
+						{
+							newearth->SetVelX(75);
+							newearth->SetVelY(75);
+							break;
+						}
 					}
 				}
 				newearth->SetDamage(20 + 4* m_nEarthLVL);
@@ -212,60 +231,71 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 			CFire* newfire = new CFire();
 			newfire->SetPosX(pShooter->GetPosX());
 			newfire->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
-
-			DIRECTION wheretoshoot = pShooter->GetDirection();
-			switch(wheretoshoot)
+			if(pShooter->GetType() == OBJ_PLAYER && ((CPlayer*)pShooter)->GetReticle())
 			{
-			case 0:
+				CBase* tempRet = ((CPlayer*)pShooter)->GetReticle();
+				
+				float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
+				float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
+
+				newfire->SetVelX(250 * speedx);
+				newfire->SetVelY(250 * speedy);
+			}
+			else
+			{
+				DIRECTION wheretoshoot = pShooter->GetDirection();
+				switch(wheretoshoot)
 				{
-					newfire->SetVelX(-250);
-					newfire->SetVelY(0);
-					break;
-				}
-			case 1:
-				{
-					newfire->SetVelX(250);
-					newfire->SetVelY(0);
-					break;
-				}
-			case 2:
-				{
-					newfire->SetVelX(0);
-					newfire->SetVelY(-250);
-					break;
-				}
-			case 3:
-				{
-					newfire->SetVelX(0);
-					newfire->SetVelY(250);
-					break;
-				}
-			case 4:
-				{
-					newfire->SetVelX(-175);
-					newfire->SetVelY(-175);
-					break;
-				}
-			case 5:
-				{
-					newfire->SetVelX(-175);
-					newfire->SetVelY(175);
-					break;
-				}
-			case 6:
-				{
-					newfire->SetVelX(175);
-					newfire->SetVelY(-175);
-					break;
-				}
-			case 7:
-				{
-					newfire->SetVelX(175);
-					newfire->SetVelY(175);
-					break;
+				case 0:
+					{
+						newfire->SetVelX(-250);
+						newfire->SetVelY(0);
+						break;
+					}
+				case 1:
+					{
+						newfire->SetVelX(250);
+						newfire->SetVelY(0);
+						break;
+					}
+				case 2:
+					{
+						newfire->SetVelX(0);
+						newfire->SetVelY(-250);
+						break;
+					}
+				case 3:
+					{
+						newfire->SetVelX(0);
+						newfire->SetVelY(250);
+						break;
+					}
+				case 4:
+					{
+						newfire->SetVelX(-175);
+						newfire->SetVelY(-175);
+						break;
+					}
+				case 5:
+					{
+						newfire->SetVelX(-175);
+						newfire->SetVelY(175);
+						break;
+					}
+				case 6:
+					{
+						newfire->SetVelX(175);
+						newfire->SetVelY(-175);
+						break;
+					}
+				case 7:
+					{
+						newfire->SetVelX(175);
+						newfire->SetVelY(175);
+						break;
+					}
 				}
 			}
-
 			newfire->SetDamage(50 + (3 * m_nFireLVL));
 			newfire->SetDOT(3 + (1 * (m_nFireLVL>>1)));
 			newfire->SetLifespan(5.0f);
@@ -317,56 +347,70 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 
 			newice->SetPosX(pShooter->GetPosX());
 			newice->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
-			DIRECTION wheretoshoot = pShooter->GetDirection();
-			switch(wheretoshoot)
+			if(pShooter->GetType() == OBJ_PLAYER && ((CPlayer*)pShooter)->GetReticle())
 			{
-			case 0:
+				CBase* tempRet = ((CPlayer*)pShooter)->GetReticle();
+
+					float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
+					float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
+
+					newice->SetVelX(250 * speedx);
+					newice->SetVelY(250 * speedy);
+
+			}
+			else
+			{
+				DIRECTION wheretoshoot = pShooter->GetDirection();
+				switch(wheretoshoot)
 				{
-					newice->SetVelX(-150);
-					newice->SetVelY(0);
-					break;
-				}
-			case 1:
-				{
-					newice->SetVelX(150);
-					newice->SetVelY(0);
-					break;
-				}
-			case 2:
-				{
-					newice->SetVelX(0);
-					newice->SetVelY(-150);
-					break;
-				}
-			case 3:
-				{
-					newice->SetVelX(0);
-					newice->SetVelY(150);
-					break;
-				}
-			case 4:
-				{
-					newice->SetVelX(-75);
-					newice->SetVelY(-75);
-					break;
-				}
-			case 5:
-				{
-					newice->SetVelX(-75);
-					newice->SetVelY(75);
-					break;
-				}
-			case 6:
-				{
-					newice->SetVelX(75);
-					newice->SetVelY(-75);
-					break;
-				}
-			case 7:
-				{
-					newice->SetVelX(75);
-					newice->SetVelY(75);
-					break;
+				case 0:
+					{
+						newice->SetVelX(-150);
+						newice->SetVelY(0);
+						break;
+					}
+				case 1:
+					{
+						newice->SetVelX(150);
+						newice->SetVelY(0);
+						break;
+					}
+				case 2:
+					{
+						newice->SetVelX(0);
+						newice->SetVelY(-150);
+						break;
+					}
+				case 3:
+					{
+						newice->SetVelX(0);
+						newice->SetVelY(150);
+						break;
+					}
+				case 4:
+					{
+						newice->SetVelX(-75);
+						newice->SetVelY(-75);
+						break;
+					}
+				case 5:
+					{
+						newice->SetVelX(-75);
+						newice->SetVelY(75);
+						break;
+					}
+				case 6:
+					{
+						newice->SetVelX(75);
+						newice->SetVelY(-75);
+						break;
+					}
+				case 7:
+					{
+						newice->SetVelX(75);
+						newice->SetVelY(75);
+						break;
+					}
 				}
 			}
 			newice->SetDamage(9 + 2* m_nIceLVL);
@@ -405,56 +449,71 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 			CWind* newwind = new CWind();
 			newwind->SetPosX(pShooter->GetPosX());
 			newwind->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
-			DIRECTION wheretoshoot = pShooter->GetDirection();
-			switch(wheretoshoot)
+			if(pShooter->GetType() == OBJ_PLAYER && ((CPlayer*)pShooter)->GetReticle())
 			{
-			case 0:
+				CBase* tempRet = ((CPlayer*)pShooter)->GetReticle();
+
+					float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
+					float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
+
+					newwind->SetVelX(250 * speedx);
+					newwind->SetVelY(250 * speedy);
+
+
+			}
+			else
+			{
+				DIRECTION wheretoshoot = pShooter->GetDirection();
+				switch(wheretoshoot)
 				{
-					newwind->SetVelX(-150);
-					newwind->SetVelY(0);
-					break;
-				}
-			case 1:
-				{
-					newwind->SetVelX(150);
-					newwind->SetVelY(0);
-					break;
-				}
-			case 2:
-				{
-					newwind->SetVelX(0);
-					newwind->SetVelY(-150);
-					break;
-				}
-			case 3:
-				{
-					newwind->SetVelX(0);
-					newwind->SetVelY(150);
-					break;
-				}
-			case 4:
-				{
-					newwind->SetVelX(-75);
-					newwind->SetVelY(-75);
-					break;
-				}
-			case 5:
-				{
-					newwind->SetVelX(-75);
-					newwind->SetVelY(75);
-					break;
-				}
-			case 6:
-				{
-					newwind->SetVelX(75);
-					newwind->SetVelY(-75);
-					break;
-				}
-			case 7:
-				{
-					newwind->SetVelX(75);
-					newwind->SetVelY(75);
-					break;
+				case 0:
+					{
+						newwind->SetVelX(-150);
+						newwind->SetVelY(0);
+						break;
+					}
+				case 1:
+					{
+						newwind->SetVelX(150);
+						newwind->SetVelY(0);
+						break;
+					}
+				case 2:
+					{
+						newwind->SetVelX(0);
+						newwind->SetVelY(-150);
+						break;
+					}
+				case 3:
+					{
+						newwind->SetVelX(0);
+						newwind->SetVelY(150);
+						break;
+					}
+				case 4:
+					{
+						newwind->SetVelX(-75);
+						newwind->SetVelY(-75);
+						break;
+					}
+				case 5:
+					{
+						newwind->SetVelX(-75);
+						newwind->SetVelY(75);
+						break;
+					}
+				case 6:
+					{
+						newwind->SetVelX(75);
+						newwind->SetVelY(-75);
+						break;
+					}
+				case 7:
+					{
+						newwind->SetVelX(75);
+						newwind->SetVelY(75);
+						break;
+					}
 				}
 			}
 

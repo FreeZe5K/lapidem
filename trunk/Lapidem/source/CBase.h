@@ -9,7 +9,7 @@
 #include "IBaseInterface.h"
 #include <windows.h>
 
-enum Types   { OBJ_BASE, OBJ_PLAYER, OBJ_ENEMY, OBJ_TERRA, OBJ_SPELL, OBJ_EVENT };  // All Tiles need to have "at least" the OBJ_TERRA type.
+enum Types   { OBJ_BASE, OBJ_PLAYER, OBJ_ENEMY, OBJ_TERRA, OBJ_SPELL, OBJ_EVENT, OBJ_RETICLE };  // All Tiles need to have "at least" the OBJ_TERRA type.
 enum EleType { OBJ_FIRE, OBJ_ICE, OBJ_WIND, OBJ_EARTH };                            // Probably shouldn't be prefixed with OBJ_, thanks Jon.
 
 class CBase : public IBaseInterface
@@ -145,6 +145,19 @@ public:
 	//
 	//Purpose:	When objects collide, use this helper function to move the 
 	//			invoking object out of the parameter object
+	//			NOTE: This function is currently does NOT factor in ElapsedTime
+	//			May cause some funny collision (i.e. Player not being able to
+	//			walk left, if they fall faster than 150 pix/sec).
 	/////////////////////////////////////////////////////////////////////////
 	void MoveOutOf( CBase* pSolidObject );
+
+	/////////////////////////////////////////////////////////////////////////
+	//	Function: "ClampToScreen"
+	//
+	//	Purpose: keeps the invoking object from falling out of the Camera View
+	//
+	/////////////////////////////////////////////////////////////////////////
+	void ClampToScreen();
+
+
 };

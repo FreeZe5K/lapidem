@@ -19,9 +19,6 @@ CFire::CFire( ) : CSpell( )
 	//      Delete this and replace
 	//      with particle effects.
 	// - - - - - - - - - - - - - - -
-	SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture
-		( "resource/graphics/fire.bmp", D3DCOLOR_XRGB( 0, 0, 0 ) ) );
-	// - - - - - - - - - - - - - - -
 
 	SetType( OBJ_SPELL );
 	SetElement( OBJ_FIRE );
