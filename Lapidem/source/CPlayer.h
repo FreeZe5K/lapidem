@@ -8,10 +8,14 @@ class CPlayer : public CCharacter
 
 	float m_fFireTimer;
 
+	CBase* m_pReticle;
+
 	static int PlayerCount;
 	int PlayerID;
 
 	void SetPlayerID( int _i )  { PlayerID = _i;      }
+	void ToggleReticle();
+
 
 public:
 	CPlayer( );
@@ -24,4 +28,5 @@ public:
 
 	int GetPlayerCount( )    { return PlayerCount;    }
 	int GetPlayerID( )       { return PlayerID;       }
+	CBase* GetReticle( )	 { return m_pReticle;	  }
 };

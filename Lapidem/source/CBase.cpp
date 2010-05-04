@@ -121,3 +121,20 @@ void CBase::MoveOutOf( CBase* pSolidObject )
 			SetPosY( GetPosY( ) - nRectHeight );
 	}
 }
+
+void CBase::ClampToScreen()
+{
+	CCamera* tempCam = CCamera::GetCamera();
+
+	if(GetPosX() < tempCam->GetXOffset())
+		SetPosX(tempCam->GetXOffset());
+	else if(GetPosX() + GetWidth() > tempCam->GetWidth())
+		SetPosX(tempCam->GetWidth() - GetWidth());
+
+
+	if(GetPosY() < tempCam->GetYOffset())
+		SetPosY(tempCam->GetYOffset());
+	else if(GetPosY() + GetHeight() > tempCam->GetHeight())
+		SetPosY(tempCam->GetHeight() - GetHeight());
+
+}

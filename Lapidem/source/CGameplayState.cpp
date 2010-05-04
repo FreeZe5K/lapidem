@@ -140,12 +140,12 @@ bool CGameplayState::Input( )
 	else if( m_pDI->KeyDown( DIK_A )  || m_pDI->JoystickDPadDown(0) )
 		m_pPlayerOne->SetVelX( -100 );
 	else
-		m_pPlayerOne->SetVelX( 0 );
+		m_pPlayerOne->SetVelX(100 * m_pDI->JoystickGetLStickXNormalized());
 
-	if( m_pDI->KeyDown( DIK_W ) || m_pDI->JoystickDPadDown(2) )
+	if( m_pDI->KeyDown( DIK_W ) || m_pDI->JoystickDPadDown(2) || m_pDI->JoystickGetLStickYNormalized() < -.5f )
 		m_pPlayerOne->Jump();
 
-	if( m_pDI->KeyDown( DIK_F ) || m_pDI->JoystickButtonDown(1) )
+	if( m_pDI->KeyDown( DIK_F ) || m_pDI->JoystickButtonDown(1) || m_pDI->JoystickButtonDown(7))
 		m_pPlayerOne->Attack(1);
 
 	if( m_pDI->KeyPressed( DIK_1 ) )
@@ -155,6 +155,8 @@ bool CGameplayState::Input( )
 
 	if( !m_pPlayerTwo )
 	{
+
+		//Player One controls if there is only 1 player:
 		if( m_pDI->KeyPressed( DIK_3 ) )
 			m_pPlayerOne->SetEleType( OBJ_EARTH );
 		else if( m_pDI->KeyPressed( DIK_4 ) )
@@ -179,12 +181,12 @@ bool CGameplayState::Input( )
 		else if( m_pDI->KeyDown( DIK_RIGHT ) || m_pDI->JoystickDPadDown(1, 1)  )
 			m_pPlayerTwo->SetVelX( 100 );
 		else
-			m_pPlayerTwo->SetVelX( 0 );
+			m_pPlayerTwo->SetVelX(100 * m_pDI->JoystickGetLStickXNormalized(1));
 
-		if( m_pDI->KeyDown( DIK_UP )  || m_pDI->JoystickDPadDown(2, 1) )
+		if( m_pDI->KeyDown( DIK_UP )  || m_pDI->JoystickDPadDown(2, 1) || m_pDI->JoystickGetLStickYNormalized(1) < -.5f  )
 			m_pPlayerTwo->Jump();
 
-		if(m_pDI->KeyDown( DIK_RSHIFT ) || m_pDI->JoystickButtonDown(1, 1) )
+		if(m_pDI->KeyDown( DIK_RSHIFT ) || m_pDI->JoystickButtonDown(1, 1) || m_pDI->JoystickButtonDown(7, 1) )
 			m_pPlayerTwo->Attack(1);
 
 		if(m_pDI->JoystickButtonPressed(4,1))
