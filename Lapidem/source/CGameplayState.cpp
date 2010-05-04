@@ -45,7 +45,7 @@ void CGameplayState::Enter( )
 	m_pCoM			= Corona_ObjectManager::GetInstance( );
 	m_pCeH			= Corona_EventHandler::GetInstance( );
 
-	m_pWM->SetVolume( CGame::GetInstance( )->GetMainMenuMusic( ), 
+	m_pWM->SetVolume( CGame::GetInstance( )->GetGameBGMusic( ), 
 		CGame::GetInstance( )->GetMusicVolume( ) ); 
 	m_pWM->SetVolume( CGame::GetInstance( )->GetMenuTick( ), 
 		CGame::GetInstance( )->GetSoundFXVolume( ) ); 
@@ -121,6 +121,8 @@ void CGameplayState::Enter( )
 	if( m_pPlayerTwo )
 		Corona_EventHandler::GetInstance( )->RegisterClient( this, "P2 OFFSCREEN" );
 	m_fP2RespawnTimer = -1.0f;
+
+	CGame::GetInstance( )->SetTimeLeft( 600 );
 }
 
 bool CGameplayState::Input( )
@@ -162,23 +164,23 @@ bool CGameplayState::Input( )
 		else if( m_pDI->KeyPressed( DIK_4 ) )
 			m_pPlayerOne->SetEleType( OBJ_WIND );
 
-		else if(m_pDI->JoystickButtonPressed(4))
-			m_pPlayerOne->SetEleType((EleType)(m_pPlayerOne->GetEleType() + OBJ_ICE));
-		else if(m_pDI->JoystickButtonPressed(5))
-			m_pPlayerOne->SetEleType((EleType)(m_pPlayerOne->GetEleType() - OBJ_ICE));
+		else if( m_pDI->JoystickButtonPressed( 4 ) )
+			m_pPlayerOne->SetEleType( ( EleType )( m_pPlayerOne->GetEleType( ) + OBJ_ICE ) );
+		else if( m_pDI->JoystickButtonPressed( 5 ) )
+			m_pPlayerOne->SetEleType( ( EleType )( m_pPlayerOne->GetEleType( ) - OBJ_ICE ) );
 	}
 	else
 	{
 		//Player One Controls if there are two players:
-		if(m_pDI->JoystickButtonPressed(4))
+		if( m_pDI->JoystickButtonPressed( 4 ) )
 			m_pPlayerOne->SetEleType( OBJ_ICE );
-		else if(m_pDI->JoystickButtonPressed(5))
+		else if( m_pDI->JoystickButtonPressed( 5 ) )
 			m_pPlayerOne->SetEleType( OBJ_FIRE );
 
 		//Player Two Controls:
-		if(m_pDI->KeyDown( DIK_LEFT) || m_pDI->JoystickDPadDown(0, 1) )
+		if( m_pDI->KeyDown( DIK_LEFT ) || m_pDI->JoystickDPadDown( 0, 1 ) )
 			m_pPlayerTwo->SetVelX( -100 );
-		else if( m_pDI->KeyDown( DIK_RIGHT ) || m_pDI->JoystickDPadDown(1, 1)  )
+		else if( m_pDI->KeyDown( DIK_RIGHT ) || m_pDI->JoystickDPadDown( 1, 1 ) )
 			m_pPlayerTwo->SetVelX( 100 );
 		else
 			m_pPlayerTwo->SetVelX(100 * m_pDI->JoystickGetLStickXNormalized(1));
@@ -189,9 +191,9 @@ bool CGameplayState::Input( )
 		if(m_pDI->KeyDown( DIK_RSHIFT ) || m_pDI->JoystickButtonDown(1, 1) || m_pDI->JoystickButtonDown(7, 1) )
 			m_pPlayerTwo->Attack(1);
 
-		if(m_pDI->JoystickButtonPressed(4,1))
+		if( m_pDI->JoystickButtonPressed( 4, 1 ) )
 			m_pPlayerTwo->SetEleType( OBJ_WIND );
-		else if(m_pDI->JoystickButtonPressed(5,1))
+		else if( m_pDI->JoystickButtonPressed( 5, 1 ) )
 			m_pPlayerTwo->SetEleType( OBJ_EARTH );
 	}
 
@@ -243,7 +245,44 @@ void CGameplayState::Render( )
 	m_pPM->Render( );
 
 	if( 1 == CMenuState::GetInstance( )->GetPlayerCount( ) )
-		m_pTM->Draw( m_nImageID[1], 0, 0 );
+	{
+		m_pTM->Draw( m_nImageID[1], 0, 0, 1.0f, 1.0f, NULL, 
+			0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 160, 255, 255, 255 ) );
+
+		char cBuffer[64];
+		sprintf_s( cBuffer, "HEALTH   - %i", m_pPlayerOne->GetHealth( ) );
+		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+			5, 0, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+		if( OBJ_FIRE == m_pPlayerOne->GetEleType( ) )
+		{
+			sprintf_s( cBuffer, "ELEMENT  - %s", "FIRE" );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 150, 150 ) );
+		}
+		else if( OBJ_ICE == m_pPlayerOne->GetEleType( ) )
+		{
+			sprintf_s( cBuffer, "ELEMENT  - %s", "ICE" );			
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 150, 150, 255 ) );
+		}
+		else if( OBJ_WIND == m_pPlayerOne->GetEleType( ) )
+		{
+			sprintf_s( cBuffer, "ELEMENT  - %s", "WIND" );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		}
+		else if( OBJ_EARTH == m_pPlayerOne->GetEleType( ) )
+		{
+			sprintf_s( cBuffer, "ELEMENT  - %s", "EARTH" );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 160, 255, 40 ) );
+		}
+
+		sprintf_s( cBuffer, "TIME LEFT - %i", CGame::GetInstance( )->GetTimeLeft( ) );
+		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+			5, 35, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+	}
 	else if( 2 == CMenuState::GetInstance( )->GetPlayerCount( ) )
 		m_pTM->Draw( m_nImageID[2], 0, 0 );
 }
