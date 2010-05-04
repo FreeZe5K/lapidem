@@ -224,17 +224,28 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 
 void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 {
+	CFire* newfire = new CFire();
+	newfire->SetPosX(pShooter->GetPosX());
+	newfire->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
+	newfire->SetElement(OBJ_FIRE);
+
+	if(pShooter->GetType() == OBJ_PLAYER)
+	{
+		newfire->ShotBy(true);
+	}
+	else
+	{
+		newfire->ShotBy(false);
+	}
+
 	switch(nTier)
 	{
 	case 1: // First Tier... Basic Spell
 		{
-			CFire* newfire = new CFire();
-			newfire->SetPosX(pShooter->GetPosX());
-			newfire->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
-			if(pShooter->GetType() == OBJ_PLAYER && ((CPlayer*)pShooter)->GetReticle())
+			if(newfire->PlayerShot() && ((CPlayer*)pShooter)->GetReticle())
 			{
 				CBase* tempRet = ((CPlayer*)pShooter)->GetReticle();
-				
+
 				float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
 				float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
 
@@ -296,45 +307,57 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 					}
 				}
 			}
-			newfire->SetDamage(50 + (3 * m_nFireLVL));
+
+			newfire->SetDamage(200 + (3 * m_nFireLVL));
 			newfire->SetDOT(3 + (1 * (m_nFireLVL>>1)));
 			newfire->SetLifespan(5.0f);
 			newfire->SetActive(true);
 			newfire->SetTier(nTier);
-			if(pShooter->GetType() == OBJ_PLAYER)
-			{
-				newfire->ShotBy(true);
-			}
-			else
-			{
-				newfire->ShotBy(false);
-			}
+
 			newfire->SetWidth(32);
 			newfire->SetHeight(16);
-			newfire->SetElement(OBJ_FIRE);
+			
+			break;
+		}
+	case 2:
+		{
 
-			Corona_ObjectManager::GetInstance()->AddObject(newfire);
+			//Lavaflowz.
 
-			CEmitter *emitter;
-			emitter = m_pEF->CreateEmitter( "firespell" );
-			emitter->SetPosX( newfire->GetPosX( ) - ( newfire->GetWidth( ) / 2 ) );
-			emitter->SetPosY( newfire->GetPosY( ) - ( newfire->GetHeight( ) / 2 ) );
+			newfire->SetVelX(50);
+			newfire->SetVelY(100);
+			newfire->SetDamage(50 + (3 * m_nFireLVL));
+			newfire->SetDOT(3);
+			newfire->SetLifespan(10.0f);
+			newfire->SetTier(nTier);
+			newfire->SetWidth(32);
+			newfire->SetHeight(16);
 
-			emitter->SetVelX( newfire->GetVelX( ) );
-			emitter->SetVelY( newfire->GetVelY( ) );
-
-			emitter->GetParticle( )->SetPosX( newfire->GetPosX( ) - ( newfire->GetWidth( )  ) );
-			emitter->GetParticle( )->SetPosY( newfire->GetPosY( ) - ( newfire->GetHeight( )  ) );
-			emitter->SetLooping( true );
-
-			newfire->SetEmitter(emitter);
-			CParticleManager::GetInstance( )->AddEmitter( emitter );
-			emitter = NULL;
-
-			newfire->Release();
 			break;
 		}
 	}
+
+
+
+	Corona_ObjectManager::GetInstance()->AddObject(newfire);
+
+	CEmitter *emitter;
+	emitter = m_pEF->CreateEmitter( "firespell" );
+	emitter->SetPosX( newfire->GetPosX( ) - ( newfire->GetWidth( ) / 2 ) );
+	emitter->SetPosY( newfire->GetPosY( ) - ( newfire->GetHeight( ) / 2 ) );
+
+	emitter->SetVelX( newfire->GetVelX( ) );
+	emitter->SetVelY( newfire->GetVelY( ) );
+
+	emitter->GetParticle( )->SetPosX( newfire->GetPosX( ) - ( newfire->GetWidth( )  ) );
+	emitter->GetParticle( )->SetPosY( newfire->GetPosY( ) - ( newfire->GetHeight( )  ) );
+	emitter->SetLooping( true );
+
+	newfire->SetEmitter(emitter);
+	CParticleManager::GetInstance( )->AddEmitter( emitter );
+	emitter = NULL;
+
+	newfire->Release();
 }
 
 void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
