@@ -191,6 +191,27 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 				newearth->Release();
 				break;
 			}
+		case 2:
+			{
+				CEarth* newearth = new CEarth();
+				newearth->SetPosX(pShooter->GetPosX());
+				newearth->SetPosY(pShooter->GetPosY() + pShooter->GetHeight());
+				newearth->SetVelX(0.0f);
+				newearth->SetVelY(-75.0f);
+				newearth->SetDamage(20 + 4* m_nEarthLVL);
+				newearth->SetLifespan(15.0f + 1.5f* m_nEarthLVL);
+				newearth->SetActive(true);
+				newearth->SetTier(nTier);
+				newearth->ShotBy(true);	
+				newearth->SetElement(OBJ_EARTH);
+				newearth->SetHeight(0);
+				newearth->SetWidth(32);	
+				newearth->SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapidem_EarthPillar.png"));
+				Corona_ObjectManager::GetInstance()->AddObject(newearth);
+				newearth->Release();
+
+				break;
+			}
 		}
 	}
 	else
