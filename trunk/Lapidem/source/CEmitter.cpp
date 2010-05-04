@@ -133,14 +133,14 @@ void CEmitter::AddParticle( CParticle *_p )
 	_p->SetPosX( GetPosX( ) );
 	_p->SetPosY( GetPosY( ) );
 
-	_p->SetPosX(RAND_FLOAT( m_fPosX - m_fSpreadX, m_fPosX + m_fSpreadX ) );
-	_p->SetPosY(RAND_FLOAT( m_fPosY - m_fSpreadY, m_fPosY + m_fSpreadY ) );
+	_p->SetPosX( RAND_FLOAT( m_fPosX - m_fSpreadX, m_fPosX + m_fSpreadX ) );
+	_p->SetPosY( RAND_FLOAT( m_fPosY - m_fSpreadY, m_fPosY + m_fSpreadY ) );
 
 	_p->SetAccelX( m_pParticle->GetAccelX( ) );
 	_p->SetAccelY( m_pParticle->GetAccelY( ) );
 
-	_p->SetHeight( 16 );
-	_p->SetWidth( 16 );
+	_p->SetHeight( 8 );
+	_p->SetWidth( 8 );
 
 	_p->SetStartScale( m_pParticle->GetStartScale( ) );
 	_p->SetEndScale( m_pParticle->GetEndScale( ) );
@@ -248,7 +248,7 @@ CEmitter& CEmitter::operator=( const CEmitter& _emit )
 bool CEmitter::EmitterDone( )
 {
 	if( ( m_nParticlesMade == m_nNumParticles ) && !m_bLooping )
-		if( m_vLiveParticles.size( ) == 0 )
+		if( 0 == m_vLiveParticles.size( ) )
 			return true;
 	return false;
 }

@@ -35,11 +35,10 @@ HRS LEFT - 90
 
 - - - - - - - - - - - - - - - - - -
 - - - - - - - Mike - - - - - - - 
-HRS LEFT - 78
+HRS LEFT - 70
 - - - - - - - - - - - - - - - - - -
 - Attract mode. ( 4 hrs )
 - Make the particle engine better. ( 8 hrs )
-- Heads Up Display. ( 8 hrs )
 - Transition between levels. ( 12 hrs )
 - Ice enemy to be different from the other enemies. ( 4 hrs )
 - Make a mini-map to help the player get around the level. ( 16 hrs )
