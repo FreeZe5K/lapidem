@@ -122,7 +122,7 @@ void CGameplayState::Enter( )
 		Corona_EventHandler::GetInstance( )->RegisterClient( this, "P2 OFFSCREEN" );
 	m_fP2RespawnTimer = -1.0f;
 
-	CGame::GetInstance( )->SetTimeLeft( 600 );
+	CGame::GetInstance( )->SetTimeLeft( 300 );
 }
 
 bool CGameplayState::Input( )
@@ -131,24 +131,26 @@ bool CGameplayState::Input( )
 		CGame::GetInstance( )->SetCheatString( CGame::GetInstance( )->
 		GetCheatString( ) += toupper( CSGD_DirectInput::GetInstance( )->CheckBufferedKeysEx( ) ) );
 
-	if( m_pDI->KeyPressed( DIK_P ) || m_pDI->KeyPressed( DIK_ESCAPE ) || m_pDI->JoystickButtonPressed( 9 ) )
+	if( m_pDI->KeyPressed( DIK_P ) || m_pDI->KeyPressed( DIK_ESCAPE ) || 
+		m_pDI->JoystickButtonPressed( 9 ) )
 	{
 		CGame::GetInstance( )->PushState( CPauseMenuState::GetInstance( ) );
 		CGame::GetInstance( )->SetPaused( true );
 	}
 
-	if( m_pDI->KeyDown( DIK_D ) || m_pDI->JoystickDPadDown(1) )
+	if( m_pDI->KeyDown( DIK_D ) || m_pDI->JoystickDPadDown( 1 ) )
 		m_pPlayerOne->SetVelX( 100 );
 	else if( m_pDI->KeyDown( DIK_A )  || m_pDI->JoystickDPadDown(0) )
 		m_pPlayerOne->SetVelX( -100 );
-	else
-		m_pPlayerOne->SetVelX(100 * m_pDI->JoystickGetLStickXNormalized());
+	else m_pPlayerOne->SetVelX( 100 * m_pDI->JoystickGetLStickXNormalized( ) );
 
-	if( m_pDI->KeyDown( DIK_W ) || m_pDI->JoystickDPadDown(2) || m_pDI->JoystickGetLStickYNormalized() < -.5f )
-		m_pPlayerOne->Jump();
+	if( m_pDI->KeyDown( DIK_W ) || m_pDI->JoystickDPadDown( 2 ) || 
+		m_pDI->JoystickGetLStickYNormalized( ) < -0.5f )
+		m_pPlayerOne->Jump( );
 
-	if( m_pDI->KeyDown( DIK_F ) || m_pDI->JoystickButtonDown(1) || m_pDI->JoystickButtonDown(7))
-		m_pPlayerOne->Attack(1);
+	if( m_pDI->KeyDown( DIK_F ) || m_pDI->JoystickButtonDown( 1 ) || 
+		m_pDI->JoystickButtonDown( 7 ) )
+		m_pPlayerOne->Attack( 1 );
 
 	if( m_pDI->KeyPressed( DIK_1 ) )
 		m_pPlayerOne->SetEleType( OBJ_ICE  );
@@ -165,9 +167,9 @@ bool CGameplayState::Input( )
 			m_pPlayerOne->SetEleType( OBJ_WIND );
 
 		else if( m_pDI->JoystickButtonPressed( 4 ) )
-			m_pPlayerOne->SetEleType( ( EleType )( m_pPlayerOne->GetEleType( ) + OBJ_ICE ) );
+			m_pPlayerOne->SetEleType( EleType( m_pPlayerOne->GetEleType( ) + OBJ_ICE ) );
 		else if( m_pDI->JoystickButtonPressed( 5 ) )
-			m_pPlayerOne->SetEleType( ( EleType )( m_pPlayerOne->GetEleType( ) - OBJ_ICE ) );
+			m_pPlayerOne->SetEleType( EleType( m_pPlayerOne->GetEleType( ) - OBJ_ICE ) );
 	}
 	else
 	{
@@ -183,13 +185,15 @@ bool CGameplayState::Input( )
 		else if( m_pDI->KeyDown( DIK_RIGHT ) || m_pDI->JoystickDPadDown( 1, 1 ) )
 			m_pPlayerTwo->SetVelX( 100 );
 		else
-			m_pPlayerTwo->SetVelX(100 * m_pDI->JoystickGetLStickXNormalized(1));
+			m_pPlayerTwo->SetVelX( 100 * m_pDI->JoystickGetLStickXNormalized( 1 ) );
 
-		if( m_pDI->KeyDown( DIK_UP )  || m_pDI->JoystickDPadDown(2, 1) || m_pDI->JoystickGetLStickYNormalized(1) < -.5f  )
-			m_pPlayerTwo->Jump();
+		if( m_pDI->KeyDown( DIK_UP ) || m_pDI->JoystickDPadDown( 2, 1 ) || 
+			m_pDI->JoystickGetLStickYNormalized( 1 ) < -0.5f  )
+			m_pPlayerTwo->Jump( );
 
-		if(m_pDI->KeyDown( DIK_RSHIFT ) || m_pDI->JoystickButtonDown(1, 1) || m_pDI->JoystickButtonDown(7, 1) )
-			m_pPlayerTwo->Attack(1);
+		if(m_pDI->KeyDown( DIK_RSHIFT ) || m_pDI->JoystickButtonDown( 1, 1 ) || 
+			m_pDI->JoystickButtonDown( 7, 1 ) )
+			m_pPlayerTwo->Attack( 1 );
 
 		if( m_pDI->JoystickButtonPressed( 4, 1 ) )
 			m_pPlayerTwo->SetEleType( OBJ_WIND );
@@ -284,7 +288,78 @@ void CGameplayState::Render( )
 			5, 35, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	}
 	else if( 2 == CMenuState::GetInstance( )->GetPlayerCount( ) )
-		m_pTM->Draw( m_nImageID[2], 0, 0 );
+	{
+		m_pTM->Draw( m_nImageID[2], 0, 0, 1.0f, 1.0f, NULL, 
+			0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 160, 255, 255, 255 ) );
+
+		// Player one
+		// - - - - - -
+		char cBuffer[64];
+		sprintf_s( cBuffer, "HEALTH   - %i", m_pPlayerOne->GetHealth( ) );
+		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+			5, 0, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+		if( OBJ_FIRE == m_pPlayerOne->GetEleType( ) )
+		{
+			sprintf_s( cBuffer, "ELEMENT  - %s", "FIRE" );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 150, 150 ) );
+		}
+		else if( OBJ_ICE == m_pPlayerOne->GetEleType( ) )
+		{
+			sprintf_s( cBuffer, "ELEMENT  - %s", "ICE" );			
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 150, 150, 255 ) );
+		}
+		else if( OBJ_WIND == m_pPlayerOne->GetEleType( ) )
+		{
+			sprintf_s( cBuffer, "ELEMENT  - %s", "WIND" );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		}
+		else if( OBJ_EARTH == m_pPlayerOne->GetEleType( ) )
+		{
+			sprintf_s( cBuffer, "ELEMENT  - %s", "EARTH" );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 160, 255, 40 ) );
+		}
+
+		// Player two
+		// - - - - - -
+		sprintf_s( cBuffer, "HEALTH   - %i", m_pPlayerTwo->GetHealth( ) );
+		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+			420, 0, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+		if( OBJ_FIRE == m_pPlayerTwo->GetEleType( ) )
+		{
+			sprintf_s( cBuffer, "ELEMENT  - %s", "FIRE" );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+				420, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 150, 150 ) );
+		}
+		else if( OBJ_ICE == m_pPlayerTwo->GetEleType( ) )
+		{
+			sprintf_s( cBuffer, "ELEMENT  - %s", "ICE" );			
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+				420, 18, 0.7f, D3DCOLOR_ARGB( 255, 150, 150, 255 ) );
+		}
+		else if( OBJ_WIND == m_pPlayerTwo->GetEleType( ) )
+		{
+			sprintf_s( cBuffer, "ELEMENT  - %s", "WIND" );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+				420, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		}
+		else if( OBJ_EARTH == m_pPlayerTwo->GetEleType( ) )
+		{
+			sprintf_s( cBuffer, "ELEMENT  - %s", "EARTH" );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+				420, 18, 0.7f, D3DCOLOR_ARGB( 255, 160, 255, 40 ) );
+		}
+
+		sprintf_s( cBuffer, "TIME LEFT - %i", CGame::GetInstance( )->GetTimeLeft( ) );
+		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+			5, 35, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+	}
+
 }
 
 void CGameplayState::Exit( )
