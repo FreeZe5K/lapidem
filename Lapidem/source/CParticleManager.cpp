@@ -41,26 +41,19 @@ void CParticleManager::Render( )
 {
 	for( u32 u = 0; u < m_vEmitters.size( ); u++ )
 	{
-		//if( m_vEmitters[u]->GetPosX( ) > CCamera::GetCamera( )->GetXOffset( ) 
-		//	&& m_vEmitters[u]->GetPosY( ) > CCamera::GetCamera( )->GetYOffset( ) 
-		//	&& m_vEmitters[u]->GetPosX( ) < ( CCamera::GetCamera( )->GetXOffset( ) 
-		//	+ CGame::GetInstance( )->GetScreenWidth( ) ) && m_vEmitters[u]->GetPosY( ) 
-		//	< ( CCamera::GetCamera( )->GetYOffset( ) + CGame::GetInstance( )->GetScreenHeight( ) ) ) 
-		//{
-			ul32 _source;
-			ul32 _destination;
+		ul32 _source;
+		ul32 _destination;
 
-			m_pD3D->GetDirect3DDevice( )->GetRenderState( D3DRS_SRCBLEND, &_source );
-			m_pD3D->GetDirect3DDevice( )->GetRenderState( D3DRS_DESTBLEND, &_destination );
+		m_pD3D->GetDirect3DDevice( )->GetRenderState( D3DRS_SRCBLEND, &_source );
+		m_pD3D->GetDirect3DDevice( )->GetRenderState( D3DRS_DESTBLEND, &_destination );
 
-			m_pD3D->GetDirect3DDevice( )->SetRenderState( D3DRS_SRCBLEND, m_vEmitters[u]->GetSourceBlend( ) );
-			m_pD3D->GetDirect3DDevice( )->SetRenderState( D3DRS_DESTBLEND, m_vEmitters[u]->GetDestinationBlend( ) );
+		m_pD3D->GetDirect3DDevice( )->SetRenderState( D3DRS_SRCBLEND, m_vEmitters[u]->GetSourceBlend( ) );
+		m_pD3D->GetDirect3DDevice( )->SetRenderState( D3DRS_DESTBLEND, m_vEmitters[u]->GetDestinationBlend( ) );
 
-			m_vEmitters[u]->Render( );
+		m_vEmitters[u]->Render( );
 
-			m_pD3D->GetDirect3DDevice( )->SetRenderState( D3DRS_SRCBLEND, _source );
-			m_pD3D->GetDirect3DDevice( )->SetRenderState( D3DRS_DESTBLEND, _destination );
-		//}
+		m_pD3D->GetDirect3DDevice( )->SetRenderState( D3DRS_SRCBLEND, _source );
+		m_pD3D->GetDirect3DDevice( )->SetRenderState( D3DRS_DESTBLEND, _destination );
 	}
 }
 
@@ -104,15 +97,13 @@ CEmitter *CEmitterFactory::CreateEmitter( const char *szName )
 {
 	for( u32 u = 0; u < m_vEmitters.size( ); u++ )
 	{
-		if( _stricmp( m_vEmitters[u]->GetName( ), szName ) == 0 )
+		if( 0 == _stricmp( m_vEmitters[u]->GetName( ), szName ) )
 		{
 			CEmitter *_emit = new CEmitter( );
 			*_emit = *m_vEmitters[u];
 			return _emit;
 		}
-	}
-
-	return NULL;
+	} return NULL;
 }
 
 int CEmitterFactory::Load( const char* szFileName, const char* szEmitterName )
@@ -208,7 +199,8 @@ int CEmitterFactory::Load( const char* szFileName, const char* szEmitterName )
 		// - - - - - - - - - - - - - - - -
 		fin.read( ( char* )&_srcBlend, sizeof( int ) );
 		fin.read( ( char* )&_destBlend, sizeof( int ) );
-		
+		// - - - - - - - - - - - - - - - -
+
 		fin.close( );
 
 		m_pEmitter->SetNumParticles( _numParticles );
@@ -296,7 +288,6 @@ void CEmitterFactory::Initialize( )
 {
 	m_pTM = CSGD_TextureManager::GetInstance( );
 
-	//Load( "resource/data/fireSpell.lapipt", "firespell" );
 	Load( "resource/data/testFire.lapipt", "firespell" );
 	Load( "resource/data/return.lapipt", "return" );
 }
