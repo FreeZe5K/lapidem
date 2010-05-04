@@ -117,6 +117,8 @@ private:
 	int                     m_nFrameCount;
 	int                     m_nFPS;
 
+	int                     m_nTimeLeft;
+
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Constructor"
 	//
@@ -245,6 +247,8 @@ public:
 	int GetMenuTick( )            const      { return m_nSoundID[1];           }
 	int GetGameBGMusic( )         const      { return m_nSoundID[2];           }
 
+	int GetTimeLeft( )            const      { return m_nTimeLeft;             }
+
 	DWORD GetFPSTimeStamp( )      const      { return m_dwFPSTimeStamp;        }
 
 	//////////////////////////////////////////////////////////////////////////
@@ -257,4 +261,5 @@ public:
 	void SetCheatString( string _s )         { m_szCHEATSTRING        = _s;    }
 	void SetMusicVolume( int _i )            { m_nMusicVolume         = _i;    }
 	void SetSoundFXVolume( int _i )          { m_nSoundEffectVolume   = _i;    }
+	void SetTimeLeft( int _i )               { m_nTimeLeft            = _i;    }
 };

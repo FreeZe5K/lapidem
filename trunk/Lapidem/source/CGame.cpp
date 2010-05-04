@@ -130,8 +130,8 @@ bool CGame::Main( )
 	m_dwPreviousTimeStamp  = dwStartTimeStamp;
 
 #ifdef _DEBUG
-	if(m_fElapsedTime > .25f)
-		m_fElapsedTime = .25f;
+	if( m_fElapsedTime > .125f )
+		m_fElapsedTime = .125f;
 #endif
 
 	if( !Input( ) ) 
@@ -149,6 +149,8 @@ bool CGame::Main( )
 		m_nFPS              = m_nFrameCount;
 		m_nFrameCount       = 0;
 		m_dwFPSTimeStamp    = GetTickCount( );
+
+		if( !m_bIsPaused ) --m_nTimeLeft;
 	}
 
 	return true;
