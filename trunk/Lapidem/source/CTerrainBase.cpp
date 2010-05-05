@@ -40,6 +40,7 @@ void CTerrainBase::Update( float fDT )
 		{
 			SetTileID( GetBaseTile( ) );
 			SetActive( false );
+			SetTypeTerrain(T_EMPTY);
 		}
 	}
 }

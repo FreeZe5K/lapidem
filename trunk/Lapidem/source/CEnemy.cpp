@@ -19,6 +19,8 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity )
 			currState = new AIStateEarth( );
 			SetPosX(initx);
 			SetPosY(inity);
+			SetVelX(100.0f);
+			SetVelY(0.0f);
 			( ( AIStateEarth* )currState )->SetInitPos( int( GetPosX( ) ), int( GetPosY( ) ) );
 			SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/lapidem_lulzenemy.png" ) );
 			SetHeight( 64 );
@@ -92,6 +94,9 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 {
 	if( collidingObject->GetType() == OBJ_TERRA )
 	{
+		//if(((CTerrainBase*)collidingObject)->GetTypeTerrain() == T_EMPTY)
+		//	SetVelX(-GetVelX());
+
 		int TerraType = ( ( CTerrainBase* )collidingObject )->GetTypeTerrain( );
 
 		RECT r;
@@ -180,6 +185,6 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 		}
 
 	}
-	else if( collidingObject->GetType( ) == OBJ_PLAYER )
-		SetVelX( -GetVelX( ) );
+	//else if( collidingObject->GetType( ) == OBJ_PLAYER )
+	//	SetVelX( -GetVelX( ) );
 }

@@ -8,6 +8,9 @@
 #pragma once
 #include "IAIState.h"
 
+class CLevel;
+class CBase;
+
 class AIStateEarth : public IAIState
 {
 	int InitX;	// gives the initial position of the earth enemy to determine wander range
@@ -33,4 +36,6 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	void Attack( CCharacter*, CCharacter*);
 	void SetInitPos( int x, int y ) { InitX = x, InitY = y; }
+
+	bool CheckPassable(CLevel* pLevel, CBase* pObject, float fElapsedTime);
 };

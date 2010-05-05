@@ -100,4 +100,7 @@ public:
 	virtual void RenderTier1( );
 	virtual void RenderTier2( );
 	virtual void RenderTier3( );
+
+	void CreateCollisionEffect(int nFirst, int nSecond);
+	bool CancelSpell(CSpell* pOther);
 };

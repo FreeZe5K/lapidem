@@ -191,6 +191,8 @@ void CEarth::RenderTier3( )
 
 void CEarth::HandleCollision( CBase* pObject )
 {
+	CSpell::HandleCollision(pObject);
+
 	if( 1 == GetTier( ) )
 	{
 		if( pObject->GetType( ) == OBJ_TERRA || pObject->GetType( ) ==  OBJ_PLAYER  )

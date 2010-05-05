@@ -103,6 +103,8 @@ void CIce::RenderTier3( )
 
 void CIce::HandleCollision( CBase* pObject )
 {
+	CSpell::HandleCollision(pObject);
+
 	if( 1 == GetTier() )
 	{
 		if( pObject->GetType( ) == OBJ_TERRA )

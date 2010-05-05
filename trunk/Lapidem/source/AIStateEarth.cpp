@@ -1,14 +1,32 @@
 #include "AIStateEarth.h"
 #include "CEnemy.h"
 #include "CGameplayState.h"
+#include "CTerrainBase.h"
 
 int AIStateEarth::Update( float fElapsedTime, CEnemy* theEnemy )
 {
-	if( theEnemy->GetPosX( ) <= InitX )
-		theEnemy->SetVelX( 100.f );
-	else if( theEnemy->GetPosX( ) >= InitX + 200 )
-		theEnemy->SetVelX( -100.f );
-	
+	//if( theEnemy->GetPosX( ) <= InitX)
+	//	theEnemy->SetVelX( 100.f );
+	//else if( theEnemy->GetPosX( ) >= InitX + 400 )
+	//	theEnemy->SetVelX( -100.f );
+
+	int nBottomX, nBottomY;
+	CLevel* pLevel = CGameplayState::GetInstance()->GetLevel();
+
+	int nDistanceToNext = theEnemy->GetVelX() > 0 ? (theEnemy->GetWidth() + (pLevel->GetTileWidth()>>1)) : -(pLevel->GetTileWidth()>>1);
+
+	nBottomX = (int)(theEnemy->GetPosX() + nDistanceToNext + theEnemy->GetVelX() * fElapsedTime);
+	nBottomY = (int)(theEnemy->GetPosY()) + theEnemy->GetHeight() + (pLevel->GetTileHeight()>>1);
+
+	CTerrainBase* pTerrain = (CTerrainBase*)pLevel->GetTile(nBottomX, nBottomY);
+
+	if(pTerrain->GetTypeTerrain() == T_EMPTY)		// empty tile
+		theEnemy->SetVelX(-theEnemy->GetVelX());	// turning back
+
+	if(!CheckPassable(pLevel, theEnemy, fElapsedTime))
+		theEnemy->SetVelX(-theEnemy->GetVelX());
+
+
 	float posx, posy;
 	posx = CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosX( );
 	posy = CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosY( );
@@ -61,8 +79,11 @@ int AIStateEarth::Update( float fElapsedTime, CEnemy* theEnemy )
 				theEnemy->SetVelX( -150.0f );
 			else if( one->GetPosX( ) > theEnemy->GetPosX( ) )
 				theEnemy->SetVelX( 150.0f );
-		} return 1;
-	} return 0;
+		} 
+		return 1;
+	}
+
+	return 0;
 }
 
 void AIStateEarth::Attack( CCharacter* pTarget, CCharacter* pShooter )
@@ -73,4 +94,26 @@ void AIStateEarth::Attack( CCharacter* pTarget, CCharacter* pShooter )
 			CSpellFactory::GetInstance( )->CreateEarth( pShooter, 1 );
 		else CSpellFactory::GetInstance( )->CreateEarth( pShooter, 2 );
 	}
+}
+
+bool AIStateEarth::CheckPassable(CLevel* pLevel, CBase* pObject, float fElapsedTime)
+{
+	int nTilesToCheck = pObject->GetHeight() / pLevel->GetTileHeight();
+
+	int nDistanceToNext = pObject->GetVelX() > 0 ? (pObject->GetWidth() + (pLevel->GetTileWidth()>>1)) : -(pLevel->GetTileWidth()>>1);
+
+	int nPosX = (int)(pObject->GetPosX() + nDistanceToNext + pObject->GetVelX() * fElapsedTime);
+	int nPosY = (int)pObject->GetPosY();
+	CTerrainBase* pTerrain;
+
+	for(int i = 0; i < nTilesToCheck; ++i)
+	{
+		pTerrain = (CTerrainBase*)pLevel->GetTile(nPosX, nPosY);
+
+		if(pTerrain->GetTypeTerrain() != T_EMPTY)
+			return false;
+
+		nPosY += pLevel->GetTileHeight();
+	}
+	return true;
 }
