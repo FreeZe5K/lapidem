@@ -133,12 +133,9 @@ void CEarth::UpdateTier2( float fElapsedTime )
 	{
 		m_fRiseAmount -= GetVelY() * fElapsedTime;	
 		SetHeight((int)m_fRiseAmount);
+		CSpell::UpdateTier2(fElapsedTime);
 	}
-	else
-	{
-		SetVelY(150.0f);
-	}
-	CSpell::UpdateTier2(fElapsedTime);
+	
 
 }
 
@@ -178,10 +175,10 @@ void CEarth::RenderTier1( )
 void CEarth::RenderTier2()
 {
 	RECT display;
-	display.left = (LONG)GetPosX();
+	display.left = 0;
 	display.right =(LONG)( display.left + GetWidth());
-	display.top = (LONG)GetPosY();
-	display.bottom = (LONG)(GetPosY() + m_fRiseAmount);
+	display.top = 0;
+	display.bottom = (LONG)(display.top + m_fRiseAmount);
 
 	if( GetImage() != -1)
 		CSGD_TextureManager::GetInstance()->Draw(GetImage(), 
