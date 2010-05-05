@@ -1,7 +1,12 @@
 #include "CEarth.h"
 #include "Wrappers/CSGD_TextureManager.h"
+#include "CSpellFactory.h"
 #include "CCamera.h" 
+#include "CGame.h"
 #include <math.h>
+
+
+#define PILLAR_HEIGHT 45
 
 struct Vector2d
 { float fX, fY; };
@@ -19,7 +24,7 @@ Vector2d Rotate( Vector2d vRotateme, float fRadian )
 CEarth::CEarth() : CSpell()
 {
 	m_fRotate            = float( PI / 4.0f );
-	m_fDisplay           = m_fRotate;
+	m_fRiseAmount = 0.0f;
 	m_fTimeTillRotate    = 1.0f;
 	SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/LapidemEarth.bmp", D3DCOLOR_XRGB( 0, 0, 0 ) ) );
 }
@@ -119,10 +124,23 @@ void CEarth::UpdateTier1( float fElapsedTime )
 		SetPosX( 0 );
 		SetVelX( 0 );
 	}
+	
 }
 
 void CEarth::UpdateTier2( float fElapsedTime )
-{ /* NOTHING HERE YET */ }
+{
+	if(m_fRiseAmount < PILLAR_HEIGHT)
+	{
+		m_fRiseAmount -= GetVelY() * fElapsedTime;	
+		SetHeight((int)m_fRiseAmount);
+	}
+	else
+	{
+		SetVelY(150.0f);
+	}
+	CSpell::UpdateTier2(fElapsedTime);
+
+}
 
 void CEarth::UpdateTier3( float fElapsedTime )
 { /* NOTHING HERE YET */ }
@@ -157,8 +175,19 @@ void CEarth::RenderTier1( )
 		int( GetPosY( )- CCamera::GetCamera( )->GetYOffset( ) ) );
 }
 
-void CEarth::RenderTier2( )
-{ /* NOTHING HERE YET */ }
+void CEarth::RenderTier2()
+{
+	RECT display;
+	display.left = (LONG)GetPosX();
+	display.right =(LONG)( display.left + GetWidth());
+	display.top = (LONG)GetPosY();
+	display.bottom = (LONG)(GetPosY() + m_fRiseAmount);
+
+	if( GetImage() != -1)
+		CSGD_TextureManager::GetInstance()->Draw(GetImage(), 
+		int(GetPosX() - CCamera::GetCamera()->GetXOffset()), 
+		int(GetPosY()- CCamera::GetCamera()->GetYOffset()),1.0f,1.0f,&display);
+}
 
 void CEarth::RenderTier3( )
 { /* NOTHING HERE YET */ }
@@ -182,8 +211,14 @@ void CEarth::HandleCollision( CBase* pObject )
 			this->MoveOutOf( pObject );
 			collided = true;
 
+			if( pObject->GetType( ) == OBJ_TERRA && !collided)
+			{
+				CSpellFactory::GetInstance()->AddEarthXP(4);
+			}
+
 			if( pObject->GetType( ) == OBJ_PLAYER && !PlayerShot( ) )
 				SetActive( false );
+			
 		}
 
 		if( pObject->GetType( ) == OBJ_SPELL )
@@ -197,7 +232,7 @@ void CEarth::HandleCollision( CBase* pObject )
 		}
 	}
 	else if( 2 == GetTier( ) )
-	{ /* do stuff... like destroy... EVERYTHING */ }
+	{}
 	else if( 3 == GetTier( ) )
 	{ /* holy crap everything go splode */ }
 

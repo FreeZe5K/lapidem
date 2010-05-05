@@ -152,6 +152,10 @@ bool CGameplayState::Input( )
 		m_pDI->JoystickButtonDown( 7 ) )
 		m_pPlayerOne->Attack( 1 );
 
+	if( m_pDI->KeyDown( DIK_R ) || m_pDI->JoystickButtonDown( 2 ) || 
+		m_pDI->JoystickButtonDown( 8 ) )
+		m_pPlayerOne->Attack( 2 );
+
 	if( m_pDI->KeyPressed( DIK_1 ) )
 		m_pPlayerOne->SetEleType( OBJ_ICE  );
 	else if( m_pDI->KeyPressed( DIK_2 ) )
