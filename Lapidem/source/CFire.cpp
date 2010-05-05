@@ -9,15 +9,14 @@
 #include "CFire.h"
 #include "Wrappers/CSGD_TextureManager.h"
 #include "CTerrainBase.h"
+#include "CSpellFactory.h"
 #include "CCamera.h"
 #include "CPlayer.h"
 
 CFire::CFire( ) : CSpell( )
 {
 	// - - - - - - - - - - - - - - -
-	// TODO ::
-	//      Delete this and replace
-	//      with particle effects.
+	// TODO : Delete this and replace with particle effects.
 	// - - - - - - - - - - - - - - -
 
 	SetType( OBJ_SPELL );
@@ -112,11 +111,18 @@ void CFire::HandleCollision( CBase* pObject )
 			( ( CPlayer* )pObject )->TakeDamage( GetDamage( ) );
 		}
 		else if( pObject->GetType( ) == OBJ_ENEMY )
+		{
 			SetActive( false );
+			CSpellFactory::GetInstance()->AddFireXP(2);
+		}
 		else if( pObject->GetType( ) == OBJ_SPELL && ( ( CSpell* )pObject )->GetElement( ) != GetElement( ) )
 			SetActive( false );
 		else if( pObject->GetType( ) == OBJ_TERRA )
+		{
 			SetActive( false );
+			CSpellFactory::GetInstance()->AddFireXP(1);
+		}
+
 	}
 	else if( 2 == GetTier( ) )
 	{ /* do stuff... like destroy... EVERYTHING */ }

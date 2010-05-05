@@ -26,10 +26,10 @@ private:
 	// on a surface (unless it hits an enemy in which case it dissapears). 
 	float  m_fTimeTillRotate;
 	
-	// How much the boulder should 
-	// be rotated when displaying
-	float  m_fDisplay;
+	float m_fDisplay;
+	float  m_fRiseAmount;
 	bool   collided;
+
 
 public:
 	CEarth( );

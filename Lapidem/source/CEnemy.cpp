@@ -116,7 +116,70 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 		}
 	}
 	else if( collidingObject->GetType( ) == OBJ_SPELL && ( ( CSpell* )collidingObject )->PlayerShot( ) )
-		m_nHealth = m_nHealth - ( ( CSpell* )collidingObject )->GetDamage( );
+	{
+		int spelltype = ((CSpell*)collidingObject)->GetElement();
+		if(spelltype == OBJ_FIRE)
+		{
+			if(GetEleType() == OBJ_ICE)
+			{
+				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage( )<<1);	
+			}
+			else if(GetEleType() == OBJ_EARTH)
+			{
+				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage()>>1);	
+			}
+			else if(GetEleType() == OBJ_WIND)
+			{
+				m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage();
+			}
+		}
+		else if(GetEleType() == OBJ_ICE)
+		{
+			if(GetEleType() == OBJ_FIRE)
+			{
+				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage( )>>1);	
+			}
+			else if(GetEleType() == OBJ_EARTH)
+			{
+				m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage();	
+			}
+			else if(GetEleType() == OBJ_WIND)
+			{
+				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage() <<1);
+			}
+		}
+		else if(GetEleType() == OBJ_EARTH)
+		{
+			if(GetEleType() == OBJ_FIRE)
+			{
+				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage( )<<1);	
+			}
+			else if(GetEleType() == OBJ_ICE)
+			{
+				m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage();	
+			}
+			else if(GetEleType() == OBJ_WIND)
+			{
+				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage() >>1);
+			}
+		}
+		else if(GetEleType() == OBJ_WIND)
+		{
+			if(GetEleType() == OBJ_FIRE)
+			{
+				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage( ));	
+			}
+			else if(GetEleType() == OBJ_EARTH)
+			{
+				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage()<<1);	
+			}
+			else if(GetEleType() == OBJ_ICE)
+			{
+				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage() >>1);
+			}
+		}
+
+	}
 	else if( collidingObject->GetType( ) == OBJ_PLAYER )
 		SetVelX( -GetVelX( ) );
 }
