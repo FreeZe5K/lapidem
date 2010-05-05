@@ -88,6 +88,12 @@ void CSpell::HandleCollision( CBase* pObject )
 	////////////////////////////////////////////////////////////////
 	//TODO: Carona_ObjectManager->GetInstance()->RemoveObject(this);
 	////////////////////////////////////////////////////////////////
+	if(pObject->GetType() == OBJ_SPELL && (this->PlayerShot() != ((CSpell*)pObject)->PlayerShot()))
+	{
+		if(CancelSpell((CSpell*)pObject))
+			this->SetActive(false);
+		CreateCollisionEffect(this->GetElement(), ((CSpell*)pObject)->GetElement());
+	}
 }
 
 void CSpell::Render( )
@@ -110,4 +116,80 @@ void CSpell::Render( )
 			break;
 		}
 	}
+}
+
+void CSpell::CreateCollisionEffect(int nFirst, int nSecond)
+{
+	// Create Effect on Inpact
+	switch(nFirst)
+	{
+	case OBJ_FIRE:
+		if(nSecond == OBJ_FIRE)
+			; // Create Fire blast effect
+		else if(nSecond == OBJ_ICE)
+			; // create steam
+		else if(nSecond == OBJ_WIND)
+			; // create scatter
+		else if(nSecond == OBJ_EARTH)
+			; // fire scatters
+		break;
+	case OBJ_ICE:
+		if(nSecond == OBJ_FIRE)
+			; // see fire
+		else if(nSecond == OBJ_ICE)
+			; // create pieces of ice
+		else if(nSecond == OBJ_WIND)
+			; // create ice dust...
+		else if(nSecond == OBJ_EARTH)
+			; // creates icy rock
+		break;
+	case OBJ_WIND:
+		if(nSecond == OBJ_FIRE)
+			; // see fire
+		else if(nSecond == OBJ_ICE)
+			; // see ice
+		else if(nSecond == OBJ_WIND)
+			; // create whirlwind
+		else if(nSecond == OBJ_EARTH)
+			; // rock pieces
+		break;
+	case OBJ_EARTH:
+		if(nSecond == OBJ_FIRE)
+			; // see fire
+		else if(nSecond == OBJ_ICE)
+			; // see ice
+		else if(nSecond == OBJ_WIND)
+			; // see wind
+		else if(nSecond == OBJ_EARTH)
+			; // creates dust
+		break;
+	}
+}
+
+bool CSpell::CancelSpell(CSpell* pOther)
+{
+	int nMyType = this->GetElement();
+	int nOtherType = pOther->GetElement();
+
+	switch(nMyType)
+	{
+	case OBJ_FIRE:
+		if(nOtherType == OBJ_ICE)
+			return false;
+		break;
+	case OBJ_ICE:
+		if(nOtherType == OBJ_WIND)
+			return false;
+		break;
+	case OBJ_WIND:
+		if(nOtherType == OBJ_EARTH)
+			return false;
+		break;
+	case OBJ_EARTH:
+		if(nOtherType == OBJ_FIRE)
+			return false;
+		break;
+	}
+
+	return true;
 }

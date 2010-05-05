@@ -103,6 +103,8 @@ void CWind::RenderTier3( )
 
 void CWind::HandleCollision( CBase* pObject )
 {
+	CSpell::HandleCollision(pObject);
+
 	if( 1 == GetTier( ) )
 	{
 		if( pObject->GetType( ) == OBJ_TERRA )

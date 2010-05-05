@@ -503,3 +503,11 @@ void CLevel::Render( )
 		}
 	}
 }
+
+CBase* CLevel::GetTile(int nPosX, int nPosY)
+{
+	int nX = nPosX / GetTileWidth();
+	int nY = nPosY / GetTileHeight();
+
+	return m_pTerrainTiles[nX + nY * GetWorldRow()];
+}

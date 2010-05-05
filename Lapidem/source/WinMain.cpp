@@ -17,7 +17,7 @@
 #define VLD_MAX_DATA_DUMP   0            //  Don't show the hex I can't read.
 #define WM_GRAPHNOTIFY      WM_APP + 1
 
-#include <vld.h>                         //  For memory leak detection.
+//#include <vld.h>                         //  For memory leak detection.
 #include "CGame.h"                       //  This is our game,
 #include "resource.h"                    //  Our icon.
 #include "CAttractState.h"

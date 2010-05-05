@@ -103,6 +103,8 @@ void CFire::RenderTier3( )
 
 void CFire::HandleCollision( CBase* pObject )
 {
+	CSpell::HandleCollision(pObject);
+
 	if( 1 == GetTier( ) )
 	{
 		if( pObject->GetType( ) == OBJ_PLAYER && !PlayerShot( ) )

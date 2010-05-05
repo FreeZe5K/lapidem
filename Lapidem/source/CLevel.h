@@ -137,4 +137,6 @@ public:
 	CBase* GetEntryPoint( );
 
 	bool IsOnScreen( CBase* );
+
+	CBase* GetTile(int nPosX, int nPosY);
 };
