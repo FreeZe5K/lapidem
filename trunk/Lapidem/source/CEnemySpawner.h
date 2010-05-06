@@ -29,8 +29,6 @@ public:
 		Corona_EventHandler::GetInstance( )->UnregisterClient( "EnemyDied", this );
 	}
 
-	void Update( float fElapsedTime )  { m_bIsOnScreen = true; }
-	void Render( )					   { m_bIsOnScreen = false; }
 
 	void HandleEvent( CEvent* );
 };

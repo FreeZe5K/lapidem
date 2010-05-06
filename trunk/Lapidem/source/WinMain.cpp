@@ -69,7 +69,7 @@ LRESULT CALLBACK WindowProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 			if( LOWORD( wParam ) != WA_INACTIVE )
 			{
 				// unpause game code here
-				//CGame::GetInstance( )->SetPaused( false );
+				CGame::GetInstance( )->SetPaused( false );
 			}
 			else // losing focus
 			{

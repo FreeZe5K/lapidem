@@ -304,6 +304,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\source\CPickups.h"
+						>
+					</File>
+					<File
 						RelativePath=".\source\IBaseInterface.h"
 						>
 					</File>

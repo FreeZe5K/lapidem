@@ -1,9 +1,11 @@
 #include "CEnemy.h"
+#include "CPickups.h"
 #include "CAnimation.h"
 #include "IAIState.h"
 #include "AIStateEarth.h"
 #include "CTerrainBase.h"
 #include "Corona_EventHandler.h"
+#include "Corona_ObjectManager.h"
 #include "CSpell.h"
 #include "Wrappers/CSGD_TextureManager.h"
 #include "CGameplayState.h"
@@ -50,6 +52,55 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity )
 CEnemy::~CEnemy( )
 {
 	if( currState ) delete currState;
+
+	CPickup * newpickup = new CPickup();
+	newpickup->SetPosX(GetPosX());
+	newpickup->SetPosY(GetPosY());
+	newpickup->SetActive(true);
+
+	if(!(rand() % 1023))
+	{
+		newpickup->SetActive(false);
+	}
+	else
+	{
+		newpickup->SetType(OBJ_ENERGY);
+		if(GetEleType() == OBJ_EARTH)
+		{
+			newpickup->SetEleType(OBJ_EARTH);
+			newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_EarthEnergy.png"));
+			newpickup->SetWidth(64);
+			newpickup->SetHeight(48);
+
+		}
+		else if(GetEleType() == OBJ_FIRE)
+		{
+			newpickup->SetEleType(OBJ_FIRE);
+			newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_FireEnergy.png"));
+			newpickup->SetWidth(64);
+			newpickup->SetHeight(48);
+
+		}
+		else if(GetEleType() == OBJ_ICE)
+		{
+			newpickup->SetEleType(OBJ_ICE);
+			newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_IceEnergy.png"));
+			newpickup->SetWidth(64);
+			newpickup->SetHeight(48);
+
+		}
+		else
+		{
+			newpickup->SetEleType(OBJ_WIND);
+			newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_WindEnergy.png"));
+			newpickup->SetWidth(64);
+			newpickup->SetHeight(58);
+
+		}
+	}
+		Corona_ObjectManager::GetInstance()->AddObject(newpickup);
+		newpickup->Release();
+
 }
 
 void CEnemy::Update( float fElapsedTime )

@@ -5,13 +5,17 @@ class CPlayer : public CCharacter
 {
 	bool m_bIsJumping;
 	float m_fJumpTimer;
-
 	float m_fFireTimer;
 
 	CBase* m_pReticle;
 
 	static int PlayerCount;
 	int PlayerID;
+	int m_nFireEnergy;
+	int m_nWaterEnergy; // I know it's Ice, stfu;
+	int m_nWindEnergy;
+	int m_nEarthEnergy;
+
 
 	void SetPlayerID( int _i )  { PlayerID = _i;      }
 	void ToggleReticle();
@@ -19,7 +23,7 @@ class CPlayer : public CCharacter
 
 public:
 	CPlayer( );
-	~CPlayer( )                 { --PlayerCount;      }
+	~CPlayer( )                 { --PlayerCount; if(m_pReticle)ToggleReticle();    }
 
 	void Jump( );
 	void Update( float );

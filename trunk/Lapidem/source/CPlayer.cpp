@@ -2,6 +2,7 @@
 #include "CSpell.h"
 #include "CTerrainBase.h"
 #include "CGame.h"
+#include "CPickups.h"
 #include "CAnimation.h"
 #include "Wrappers/CSGD_DirectInput.h"
 #include "CAnimationWarehouse.h"
@@ -19,6 +20,10 @@ CPlayer::CPlayer( )
 	m_bIsJumping       = false;
 	currDirec          = RIGHT; 
 	m_nType            = OBJ_PLAYER; 
+	m_nFireEnergy	   = 0;
+	m_nEarthEnergy	   = 0;
+	m_nWindEnergy	   = 0;
+	m_nWaterEnergy	   = 0;
 
 	m_pReticle		   = NULL;
 
@@ -221,8 +226,11 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 			if( TerraType == END_POINT )
 				CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
 
-			if( TerraType == T_LAVA || TerraType == T_WATER )
+			if( TerraType == T_WATER )
 				return;
+
+			if( TerraType == T_LAVA)
+				TakeDamage(1);
 		}
 
 		if( collidingObject->GetType( ) == OBJ_SPELL && 
@@ -263,6 +271,41 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 	}
 	else if( collidingObject->GetType( ) == OBJ_SPELL && !( ( CSpell* )collidingObject )->PlayerShot( ) )
 		m_nHealth = m_nHealth - ( ( CSpell* )collidingObject )->GetDamage( );
+	else if( collidingObject->GetType( ) == OBJ_ENERGY )
+	{
+		switch(((CPickup*)collidingObject)->GetEleType())
+		{
+		case 0:
+			if(GetPlayerID() == 1)
+			{
+				collidingObject->SetActive(false);
+				m_nFireEnergy += 10;
+			}
+			break;
+		case 1:
+			if(GetPlayerID() == 1)
+			{
+				collidingObject->SetActive(false);
+				m_nWaterEnergy += 10;
+			}
+			break;
+		case 2:
+			if(GetPlayerID() == 2 || GetPlayerCount() < 2)
+			{
+				collidingObject->SetActive(false);
+				m_nWindEnergy += 10;
+			}
+			break;
+		case 3:
+			if(GetPlayerID() == 2 || GetPlayerCount() < 2)
+			{
+				collidingObject->SetActive(false);
+				m_nEarthEnergy += 10;
+			}
+		}
+
+	}
+	
 }
 void CPlayer::ToggleReticle()
 {

@@ -60,10 +60,18 @@ void CFire::UpdateTier1( float fElapsedTime )
 {  CSpell::UpdateTier1( fElapsedTime ); }
 
 void CFire::UpdateTier2( float fElapsedTime )
-{ /* NOTHING HERE YET */ }
+{  CSpell::UpdateTier1( fElapsedTime ); }
 
 void CFire::UpdateTier3( float fElapsedTime )
-{ /* NOTHING HERE YET */ }
+{
+	if(GetPosX() - 10 < CCamera::GetCamera()->GetXOffset() || GetPosX() + GetWidth() + 10 > CCamera::GetCamera()->GetWidth())
+		SetVelX(-GetVelX());
+
+	if(GetPosY() + GetHeight() > CCamera::GetCamera()->GetHeight())
+		this->SetActive(false);
+
+	CSpell::UpdateTier1(fElapsedTime);
+}
 
 void CFire::Render( )
 {
@@ -127,7 +135,13 @@ void CFire::HandleCollision( CBase* pObject )
 
 	}
 	else if( 2 == GetTier( ) )
-	{ /* do stuff... like destroy... EVERYTHING */ }
+	{ 
+	
+		if( pObject->GetType() == OBJ_ENEMY )
+			CSpellFactory::GetInstance()->AddFireXP(1);
+		else if( pObject->GetType( ) == OBJ_TERRA )
+			CBase::MoveOutOf(pObject);
+	}
 	else if( 3 == GetTier( ) )
 	{ /* holy crap everything go splode */ }
 }
