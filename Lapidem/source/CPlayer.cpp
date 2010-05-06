@@ -179,19 +179,64 @@ void CPlayer::Attack( int nTier )
 			{
 				if( m_fFireTimer < 1.5f )
 					return;
+
+				if(nTier == 2)
+				{
+					if(m_nEarthEnergy < 0)
+						return;
+					else m_nEarthEnergy -= 5;
+				}
+				else if(nTier == 3)
+				{
+
+
+				}
 				m_pSpells->CreateEarth( this, nTier );
 				break;
 			}
 
 		case OBJ_FIRE:
+
+			if(nTier == 2)
+			{
+				if(m_nFireEnergy < 0)
+					return;
+				else m_nFireEnergy -= 2;
+			}
+			else if(nTier == 3)
+			{
+
+
+			}
 			m_pSpells->CreateFire( this, nTier );
 			break;
-
 		case OBJ_ICE:
+			if(nTier == 2)
+				{
+					if(m_nWaterEnergy < 0)
+						return;
+					else m_nWaterEnergy -= 2;
+				}
+				else if(nTier == 3)
+				{
+
+
+				}
 			m_pSpells->CreateIce( this, nTier );
 			break;
 
 		case OBJ_WIND:
+			if(nTier == 2)
+				{
+					if(m_nWindEnergy < 0)
+						return;
+					else m_nWindEnergy -= 2;
+				}
+				else if(nTier == 3)
+				{
+
+
+				}
 			m_pSpells->CreateWind( this, nTier );
 			break;
 		}

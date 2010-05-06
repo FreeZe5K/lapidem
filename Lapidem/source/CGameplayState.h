@@ -78,4 +78,8 @@ public:
 
 	void    SetLoadedFromFile( bool _b )     { m_bLoadedFromFile      =  _b;  }
 	void    bTwoPlayerMode( bool _b )        { m_bTwoPlayers          =  _b;  }
+
+#ifdef _DEBUG
+	void spawnenergy();
+#endif
 };

@@ -18,6 +18,7 @@ class CPlayer : public CCharacter
 	int m_nWaterEnergy; // I know it's Ice, stfu;
 	int m_nWindEnergy;
 	int m_nEarthEnergy;
+	int m_nTierThree;
 
 	void SetPlayerID( int _i )  { PlayerID = _i;      }
 	void ToggleReticle();
