@@ -11,6 +11,7 @@
 #include "Corona_ObjectManager.h"// CSGD_TextureManager.h"
 #include "CTerrainBase.h"
 #include "CEnemySpawner.h"
+#include "CLevelSwitch.h"
 #include "CCamera.h"
 #include <fstream>
 #include <string>
@@ -286,6 +287,33 @@ void CLevel::LoadNewLevel( char* filename )
 					endPt->Release( );
 				} break;
 
+			case POWERUP:
+				{
+					CTerrainBase* CSwitch = new CLevelSwitch;
+					CSwitch->SetType(OBJ_EVENT);
+					CSwitch->SetTypeTerrain(Type);
+					CSwitch->SetBaseTileID(GetBaseTileID());
+					CSwitch->SetDamage(0);
+					CSwitch->SetHealth(100);
+					CSwitch->SetHeight(GetTileHeight());
+					CSwitch->SetWidth(GetTileWidth());
+					CSwitch->SetImage(-1);
+					CSwitch->SetPosX(float(i % GetWorldCollumn()) * GetTileWidth());
+					CSwitch->SetPosY(float(i / GetWorldCollumn()) * GetTileHeight());
+					CSwitch->SetTileCollumns(GetTileCollumn());
+					CSwitch->SetTileID(GetBaseTileID());
+					CSwitch->SetTileRows(GetTileRow());
+					CSwitch->SetVelX(0);
+					CSwitch->SetVelY(0);
+
+					m_pLevelSwtiches.push_back(CSwitch);
+					CSwitch->AddRef();
+
+					Corona_ObjectManager::GetInstance()->AddObject(CSwitch);
+					CSwitch->Release();
+				}
+				break;
+
 			case ENEMY_SPW:
 				{
 					CEnemySpawner* spwn = new CEnemySpawner( );
@@ -370,6 +398,8 @@ void CLevel::RenderBackGround()
 
 bool CLevel::LoadNextLevel(  )
 {
+	this->Clear();
+
 	if( GetNextLevelFileName( ) )
 	{
 		string szTemp = "resource\\data\\";
@@ -504,5 +534,18 @@ CBase* CLevel::GetTile(int nPosX, int nPosY)
 	int nX = nPosX / GetTileWidth();
 	int nY = nPosY / GetTileHeight();
 
+	if(nX >= GetWorldCollumn() || nY >= GetWorldRow())
+		return NULL;
+
 	return m_pTerrainTiles[nX + nY * GetWorldRow()];
+}
+
+bool CLevel::NextLevelOpen()
+{
+	for(unsigned int i = 0; i < m_pLevelSwtiches.size(); ++i)
+	{
+		if(!((CLevelSwitch*)m_pLevelSwtiches[i])->GetSwitchState())
+			return false;
+	}
+	return true;
 }

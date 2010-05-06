@@ -139,9 +139,9 @@ void CSpell::CreateCollisionEffect(int nFirst, int nSecond)
 			; // fire scatters
 		break;
 	case OBJ_ICE:
-		if(nSecond == OBJ_FIRE)
-			; // see fire
-		else if(nSecond == OBJ_ICE)
+		//if(nSecond == OBJ_FIRE)
+		//	; // see fire
+		if(nSecond == OBJ_ICE)
 			; // create pieces of ice
 		else if(nSecond == OBJ_WIND)
 			; // create ice dust...
@@ -149,23 +149,23 @@ void CSpell::CreateCollisionEffect(int nFirst, int nSecond)
 			; // creates icy rock
 		break;
 	case OBJ_WIND:
-		if(nSecond == OBJ_FIRE)
-			; // see fire
-		else if(nSecond == OBJ_ICE)
-			; // see ice
-		else if(nSecond == OBJ_WIND)
+		//if(nSecond == OBJ_FIRE)
+		//	; // see fire
+		//else if(nSecond == OBJ_ICE)
+		//	; // see ice
+		if(nSecond == OBJ_WIND)
 			; // create whirlwind
 		else if(nSecond == OBJ_EARTH)
 			; // rock pieces
 		break;
 	case OBJ_EARTH:
-		if(nSecond == OBJ_FIRE)
-			; // see fire
-		else if(nSecond == OBJ_ICE)
-			; // see ice
-		else if(nSecond == OBJ_WIND)
-			; // see wind
-		else if(nSecond == OBJ_EARTH)
+		//if(nSecond == OBJ_FIRE)
+		//	; // see fire
+		//else if(nSecond == OBJ_ICE)
+		//	; // see ice
+		//else if(nSecond == OBJ_WIND)
+		//	; // see wind
+		if(nSecond == OBJ_EARTH)
 			; // creates dust
 		break;
 	}

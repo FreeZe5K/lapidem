@@ -110,9 +110,11 @@ bool AIStateEarth::CheckPassable(CLevel* pLevel, CBase* pObject, float fElapsedT
 	{
 		pTerrain = (CTerrainBase*)pLevel->GetTile(nPosX, nPosY);
 
-		if(pTerrain->GetTypeTerrain() != T_EMPTY)
-			return false;
-
+		if(pTerrain->GetType() != OBJ_EVENT)
+		{
+			if(pTerrain->GetTypeTerrain() != T_EMPTY)
+				return false;
+		}
 		nPosY += pLevel->GetTileHeight();
 	}
 	return true;

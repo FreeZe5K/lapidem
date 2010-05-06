@@ -32,6 +32,8 @@ private:
 
 	int m_nBGM;
 
+	vector<CBase*> m_pLevelSwtiches;
+
 	char* m_szNextLevelFileName;
 	char* m_szLevelFileName;
 
@@ -137,6 +139,8 @@ public:
 	CBase* GetEntryPoint( );
 
 	bool IsOnScreen( CBase* );
+
+	bool NextLevelOpen();
 
 	CBase* GetTile(int nPosX, int nPosY);
 };
