@@ -20,11 +20,14 @@ int AIStateEarth::Update( float fElapsedTime, CEnemy* theEnemy )
 
 	CTerrainBase* pTerrain = (CTerrainBase*)pLevel->GetTile(nBottomX, nBottomY);
 
-	if(pTerrain->GetTypeTerrain() == T_EMPTY)		// empty tile
-		theEnemy->SetVelX(-theEnemy->GetVelX());	// turning back
+	if(pTerrain)
+	{
+		if(pTerrain->GetTypeTerrain() == T_EMPTY)		// empty tile
+			theEnemy->SetVelX(-theEnemy->GetVelX());	// turning back
 
-	if(!CheckPassable(pLevel, theEnemy, fElapsedTime))
-		theEnemy->SetVelX(-theEnemy->GetVelX());
+		if(!CheckPassable(pLevel, theEnemy, fElapsedTime))
+			theEnemy->SetVelX(-theEnemy->GetVelX());
+	}
 
 
 	float posx, posy;

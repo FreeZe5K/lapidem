@@ -213,10 +213,23 @@ void CEarth::RenderTier2()
 
 void CEarth::RenderTier3( )
 { 
-	if( GetImage( ) != -1 )
+	if( GetImage( ) != -1  && GetVelY() <0)
 	CSGD_TextureManager::GetInstance( )->Draw( GetImage( ), 
-	int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ), 
-	int( GetPosY( )- CCamera::GetCamera( )->GetYOffset( ) ) ); 
+		int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ), 
+		int( GetPosY( )- CCamera::GetCamera( )->GetYOffset( ) ) ); 
+	else if (GetImage( ) != -1  && GetVelY() >0)
+	{
+		RECT pleasework;
+		pleasework.left = 0;
+		pleasework.right = 455;
+		pleasework.top = 0;
+		pleasework.bottom = 500;
+		CSGD_TextureManager::GetInstance( )->Draw( GetImage( ), 
+			int(GetPosX() - CCamera::GetCamera()->GetXOffset()), 
+			int(GetPosY()- CCamera::GetCamera()->GetYOffset()) ,1.0f, 1.0f,&pleasework,(int)((455>>1)/*(GetWidth() >>1)*/),
+			int((250/*GetHeight() >>1*/)),-D3DX_PI/2); 
+	}
+
 }
 
 void CEarth::HandleCollision( CBase* pObject )
