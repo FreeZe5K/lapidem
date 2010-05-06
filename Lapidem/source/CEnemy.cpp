@@ -47,6 +47,8 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity )
 	m_fShotTimer   = 3.0f;
 	m_fWaitTimer   = 0.0f;
 	m_nAttackWho   = 0;
+	m_fKnockBack = 0.0f;
+	m_bKnockBack = false;
 }
 
 CEnemy::~CEnemy( )
@@ -105,32 +107,47 @@ CEnemy::~CEnemy( )
 
 void CEnemy::Update( float fElapsedTime )
 {
-	m_fShotTimer = m_fShotTimer - fElapsedTime;
+	if(!m_bKnockBack)
+	{
+		m_fShotTimer = m_fShotTimer - fElapsedTime;
 
-	if( 0.0f == m_fWaitTimer )
-	{	
-		m_nAttackWho = currState->Update( fElapsedTime, this );
+		if( 0.0f == m_fWaitTimer )
+		{	
+			m_nAttackWho = currState->Update( fElapsedTime, this );
 
-		if( m_nAttackWho && m_fShotTimer < 0 )
-		{
-			m_fWaitTimer += fElapsedTime;
-			m_fShotTimer = 2.0f;
+			if( m_nAttackWho && m_fShotTimer < 0 )
+			{
+				m_fWaitTimer += fElapsedTime;
+				m_fShotTimer = 2.0f;
+			}
+
+			CCharacter::Update( fElapsedTime );
 		}
+		else
+		{
+			m_fWaitTimer = m_fWaitTimer + fElapsedTime;
+			SetPosY( GetPosY( ) + 150.0f * fElapsedTime );
 
-		CCharacter::Update( fElapsedTime );
+			if( m_fWaitTimer > 0.5f )
+			{
+				if( 1 == m_nAttackWho )
+					currState->Attack( CGameplayState::GetInstance( )->GetPlayerOne( ), this );
+				else if( 2 == m_nAttackWho )
+					currState->Attack( CGameplayState::GetInstance( )->GetPlayerTwo( ), this );
+				m_fWaitTimer = 0.0f;
+			}
+		}
 	}
 	else
 	{
-		m_fWaitTimer = m_fWaitTimer + fElapsedTime;
-		SetPosY( GetPosY( ) + 150.0f * fElapsedTime );
-
-		if( m_fWaitTimer > 0.5f )
+		if(m_fKnockBack < 0)
 		{
-			if( 1 == m_nAttackWho )
-				currState->Attack( CGameplayState::GetInstance( )->GetPlayerOne( ), this );
-			else if( 2 == m_nAttackWho )
-				currState->Attack( CGameplayState::GetInstance( )->GetPlayerTwo( ), this );
-			m_fWaitTimer = 0.0f;
+			m_bKnockBack = false;
+		}
+		else
+		{
+			CCharacter::Update(fElapsedTime);
+			m_fKnockBack-=fElapsedTime * 100;
 		}
 	}
 
@@ -189,7 +206,7 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 				m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage();
 			}
 		}
-		else if(GetEleType() == OBJ_ICE)
+		else if(spelltype == OBJ_ICE)
 		{
 			if(GetEleType() == OBJ_FIRE)
 			{
@@ -204,7 +221,7 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage() <<1);
 			}
 		}
-		else if(GetEleType() == OBJ_EARTH)
+		else if(spelltype == OBJ_EARTH)
 		{
 			if(GetEleType() == OBJ_FIRE)
 			{
@@ -219,7 +236,7 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage() >>1);
 			}
 		}
-		else if(GetEleType() == OBJ_WIND)
+		else if(spelltype == OBJ_WIND)
 		{
 			if(GetEleType() == OBJ_FIRE)
 			{
@@ -227,7 +244,7 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 			}
 			else if(GetEleType() == OBJ_EARTH)
 			{
-				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage()<<1);	
+				TakeDamage((((CSpell*)collidingObject)->GetDamage()<<1));	
 			}
 			else if(GetEleType() == OBJ_ICE)
 			{

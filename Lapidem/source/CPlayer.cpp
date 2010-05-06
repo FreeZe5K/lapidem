@@ -272,9 +272,15 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 				TakeDamage(1);
 		}
 
-		if( collidingObject->GetType( ) == OBJ_SPELL && 
-			!( ( CSpell* )collidingObject )->PlayerShot( ) )
-			TakeDamage( ( ( CSpell* )collidingObject )->GetDamage( ) );
+		if( collidingObject->GetType( ) == OBJ_SPELL)
+		{
+			if(((CSpell*)collidingObject)->GetTier() ==3)
+			{
+				return;
+			}
+			if(!((CSpell*)collidingObject )->PlayerShot())
+				TakeDamage( ( ( CSpell* )collidingObject )->GetDamage( ) );
+		}
 
 		RECT r;
 		IntersectRect( &r, & this->GetCollisionRect( 0 ), 

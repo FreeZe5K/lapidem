@@ -91,6 +91,10 @@ void CSpell::HandleCollision( CBase* pObject )
 	////////////////////////////////////////////////////////////////
 	if(pObject->GetType() == OBJ_SPELL && (this->PlayerShot() != ((CSpell*)pObject)->PlayerShot()))
 	{
+		if(GetTier() ==3)
+		{
+			return;
+		}
 		if(CancelSpell((CSpell*)pObject))
 			this->SetActive(false);
 		CreateCollisionEffect(this->GetElement(), ((CSpell*)pObject)->GetElement());

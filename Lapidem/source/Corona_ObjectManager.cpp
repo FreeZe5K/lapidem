@@ -211,3 +211,36 @@ bool Corona_ObjectManager::IsOnScreen( CBase* Object )
 			return true;
 	return false;
 }
+
+//////////////
+// Function: AuxFunction
+//
+// Purpose: To allow a function to be called on all types of a certain object in the manager.
+//////////////
+
+
+void Corona_ObjectManager::AuxFunction(void (*pFunc)(CBase* object, CBase* object2), int OBJ_TYPE, bool AllInManager, CBase* pSpell)
+{
+	if(AllInManager)
+	{
+		for(unsigned index = 0; index < Objects.size(); ++index)
+		{
+			if(Objects[index]->GetType() == OBJ_TYPE)
+			{
+				(*pFunc)(Objects[index], pSpell);
+			}
+		}
+
+	}
+	else
+	{
+		for(unsigned index = 0; index < Objects.size(); ++index)
+		{
+			if(Objects[index]->GetType() == OBJ_TYPE && IsOnScreen(Objects[index]))
+			{
+				(*pFunc)(Objects[index],pSpell);
+			}
+		}
+	}
+
+}
