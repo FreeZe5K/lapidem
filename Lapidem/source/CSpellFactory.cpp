@@ -224,9 +224,9 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 				newearth->SetTier(3);
 				newearth->ShotBy(true);	
 				newearth->SetElement(OBJ_EARTH);
-				newearth->SetHeight(32);
+				newearth->SetHeight(CGame::GetInstance()->GetScreenHeight());
 				newearth->SetWidth(CGame::GetInstance()->GetScreenWidth());	
-				newearth->SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapidem_EarthPillar.png", D3DCOLOR_XRGB(255,255,255)));
+				newearth->SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapidem_EarthHand.png", D3DCOLOR_XRGB(255,255,255)));
 				Corona_ObjectManager::GetInstance()->AddObject(newearth);
 				newearth->Release();
 				break;
