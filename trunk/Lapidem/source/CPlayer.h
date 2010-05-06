@@ -1,5 +1,8 @@
 #pragma once
 #include "CCharacter.h"
+#include "CGameOver.h"
+
+class CGameOver;
 
 class CPlayer : public CCharacter
 {
@@ -16,10 +19,8 @@ class CPlayer : public CCharacter
 	int m_nWindEnergy;
 	int m_nEarthEnergy;
 
-
 	void SetPlayerID( int _i )  { PlayerID = _i;      }
 	void ToggleReticle();
-
 
 public:
 	CPlayer( );

@@ -36,7 +36,7 @@ void CAuxiliaryState::Enter( )
 	// - - - - - - - - - - - - - - - -
 
 	if( m_nState == 1 )
-	{		
+	{
 		//char*   _NameBuffer( "" );
 		//int     _tempSize( 0 );
 		//string  _szNames[10] = { 0 };
@@ -63,31 +63,27 @@ void CAuxiliaryState::Enter( )
 		// - - - - - - - - - - - - - - - -
 		//if( fin.is_open( ) )
 		//{
-			//for( int i = 0; i < 10; i++ )
-			//{
-			//	fin.read( ( char* )&_tempSize, sizeof( string ) );
-			//	_NameBuffer = new char[_tempSize + 1];
-			//	fin.read( _NameBuffer, _tempSize );
-			//	_szNames[i] = _NameBuffer;
+		//for( int i = 0; i < 10; i++ )
+		//{
+		//	fin.read( ( char* )&_tempSize, sizeof( string ) );
+		//	_NameBuffer = new char[_tempSize + 1];
+		//	fin.read( _NameBuffer, _tempSize );
+		//	_szNames[i] = _NameBuffer;
 
-			//	fin.read( ( char* )&_nScores[i], sizeof( int ) );
+		//	fin.read( ( char* )&_nScores[i], sizeof( int ) );
 
-			//	// - -
-			//	m_szPlayerNames[i] = _szNames[i];
-			//	m_nPlayerScores[i] = _nScores[i];
-			//	// - -
+		//	// - -
+		//	m_szPlayerNames[i] = _szNames[i];
+		//	m_nPlayerScores[i] = _nScores[i];
+		//	// - -
 
-			//	delete[] _NameBuffer;
-			//	_NameBuffer = NULL;
-			//}
+		//	delete[] _NameBuffer;
+		//	_NameBuffer = NULL;
+		//}
 
 		//} fin.close( );
 		// - - - - - - - - - - - - - - - -
 	}
-
-	//m_pWM->Play( m_nSoundID[0], DSBPLAY_LOOPING );
-	//m_pWM->SetVolume( m_nSoundID[0], CGame::GetInstance( )->GetMusicVolume( ) );
-	//m_pWM->SetVolume( m_nSoundID[1], CGame::GetInstance( )->GetSoundFXVolume( ) );
 }
 
 bool CAuxiliaryState::Input( )
@@ -195,10 +191,10 @@ void CAuxiliaryState::Render( )
 {
 	if( m_nState == 2 )
 		m_pTM->Draw( m_nImageID[1], 0, 0, 1.0f, 1.0f, 
-			NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 200, 255, 255, 255 ) );
+		NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 200, 255, 255, 255 ) );
 	else
 		m_pTM->Draw( m_nImageID[0], 0, 0, 1.0f, 1.0f, 
-			NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 200, 255, 255, 255 ) );
+		NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 200, 255, 255, 255 ) );
 
 	// - - - - - - - - - - - - - - - - - -
 	// Fix the bitmap fonts to be kerned.
@@ -360,6 +356,18 @@ bool CAuxiliaryState::SaveConfig( const char* _file )
 void CAuxiliaryState::Exit( )
 {
 	SaveConfig( "resource/data/Lapidem_Config.dat" );
+
+	if( m_pWM->IsWavePlaying( CGame::GetInstance( )->GetVictoryMusic( ) ) )
+	{
+		m_pWM->Stop( CGame::GetInstance( )->GetVictoryMusic( ) );
+		m_pWM->Reset( CGame::GetInstance( )->GetVictoryMusic( ) );
+	}
+	else if( m_pWM->IsWavePlaying( CGame::GetInstance( )->GetLostMusic( ) ) )
+	{
+		m_pWM->Stop( CGame::GetInstance( )->GetLostMusic( ) );
+		m_pWM->Reset( CGame::GetInstance( )->GetLostMusic( ) );
+	}
+
 	m_pTM->UnloadTexture( m_nImageID[1] );
 	m_pTM->UnloadTexture( m_nImageID[0] );
 }

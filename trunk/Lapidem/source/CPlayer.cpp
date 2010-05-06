@@ -87,7 +87,6 @@ void CPlayer::Update( float fElapsedTime )
 		IsRotated = true;
 	else IsRotated = false;
 
-
 	if(m_pReticle)
 	{
 		float SpeedX = DI->JoystickGetRStickXNormalized(GetPlayerID() - 1);
@@ -99,7 +98,6 @@ void CPlayer::Update( float fElapsedTime )
 		m_pReticle->Update(fElapsedTime);
 
 		m_pReticle->ClampToScreen();
-
 	}
 
 	//******************************************************************************
@@ -140,13 +138,9 @@ void CPlayer::Update( float fElapsedTime )
 
 	m_fFireTimer = m_fFireTimer + fElapsedTime;
 
-	if( m_nHealth <= 0 )
-		animation = NULL;
-
 	//******************************************************************************
 	//******************************************************************************
 	//******************************************************************************
-
 
 	if(	GetPlayerID( ) == 2 )
 	{
