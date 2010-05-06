@@ -137,7 +137,7 @@ void CGameplayState::Enter( )
 
 			pEntry->SetPosY( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionY ) );
 			m_pPlayerOne->SetPosY( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionY ) );
-			
+
 			if( 2 == CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerCount )
 			{
 				m_pPlayerTwo->SetPosX( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerTwoPosX ) );
@@ -306,6 +306,7 @@ void CGameplayState::Update( float fET )
 	{
 		if( m_pPlayerOne->GetHealth( ) <= 0 )
 		{
+			// Player lost
 			CGameOver::GetInstance( )->SetState( 1 );
 
 			// Player died because their health ran out
@@ -314,6 +315,18 @@ void CGameplayState::Update( float fET )
 			// Change the state to game over
 			CGame::GetInstance( )->ChangeState( CGameOver::GetInstance( ) );
 		}
+	}
+
+	if( m_bPlayerReachedEnd )
+	{
+		// Player won
+		CGameOver::GetInstance( )->SetState( 2 );
+
+		// No new high score
+		CGameOver::GetInstance( )->SetCondition( 1 );
+
+		// Change the state to game over
+		CGame::GetInstance( )->ChangeState( CGameOver::GetInstance( ) );
 	}
 
 	CProfiler::GetInstance( )->Start( "Profiler End" );

@@ -59,22 +59,22 @@ void CLevel::Clear( )
 		m_szNextLevelFileName = 0;
 	}
 
-		for( UINT i = 0; i < m_pEventTiles.size( ); ++i )
-		{
-			m_pEventTiles[i]->SetActive( false );
-			m_pEventTiles[i]->Release( );
-		}
+	for( UINT i = 0; i < m_pEventTiles.size( ); ++i )
+	{
+		m_pEventTiles[i]->SetActive( false );
+		m_pEventTiles[i]->Release( );
+	}
 
-		m_pEventTiles.clear( );
+	m_pEventTiles.clear( );
 
 
-		for( UINT i = 0; i < m_pTerrainTiles.size( ) ; ++i )
-		{
-			m_pTerrainTiles[i]->SetActive( false );
-			m_pTerrainTiles[i]->Release( );
-		}
+	for( UINT i = 0; i < m_pTerrainTiles.size( ) ; ++i )
+	{
+		m_pTerrainTiles[i]->SetActive( false );
+		m_pTerrainTiles[i]->Release( );
+	}
 
-		m_pTerrainTiles.clear( );
+	m_pTerrainTiles.clear( );
 
 	if( GetTileSet( ) != -1 )
 		CSGD_TextureManager::GetInstance( )->UnloadTexture( GetTileSet( ) );
@@ -461,6 +461,17 @@ CBase* CLevel::GetEntryPoint()
 	for( UINT i = 0; i < m_pEventTiles.size( ); ++i )
 	{
 		if( ( ( CTerrainBase* )m_pEventTiles[i] )->GetTypeTerrain( ) == ENTRY_POINT )
+			return m_pEventTiles[i];
+	}
+
+	return NULL;
+}
+
+CBase* CLevel::GetEndPoint()
+{
+	for( UINT i = 0; i < m_pEventTiles.size( ); ++i )
+	{
+		if( ( ( CTerrainBase* )m_pEventTiles[i] )->GetTypeTerrain( ) == END_POINT )
 			return m_pEventTiles[i];
 	}
 

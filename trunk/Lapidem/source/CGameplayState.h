@@ -26,6 +26,7 @@ private:
 	bool                    m_bIsPaused;
 	bool					m_bTwoPlayers;
 	bool                    m_bLoadedFromFile;
+	bool                    m_bPlayerReachedEnd;
 
 	CSGD_Direct3D           *m_pD3D;
 	CSGD_TextureManager     *m_pTM;
@@ -78,6 +79,7 @@ public:
 
 	void    SetLoadedFromFile( bool _b )     { m_bLoadedFromFile      =  _b;  }
 	void    bTwoPlayerMode( bool _b )        { m_bTwoPlayers          =  _b;  }
+	void    SetPlayerReachedEnd( bool _b )   { m_bPlayerReachedEnd    =  _b;  }
 
 #ifdef _DEBUG
 	void spawnenergy();
