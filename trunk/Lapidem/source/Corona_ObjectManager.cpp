@@ -43,7 +43,6 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 
 	for(unsigned index = 0; index < Objects.size(); ++index)
 	{
-		if(IsOnScreen(Objects[index])|| Objects[index]->GetType() == OBJ_PLAYER )
 			if(Objects[index]->IsActive() )
 				Objects[index]->Update(fElapsedTime);
 			else
@@ -135,13 +134,8 @@ void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
 
 	for(unsigned index = 0; index < Objects.size(); ++index)
 	{
-		if(!IsOnScreen(Objects[index]) )
-			continue;
-
 		for(unsigned jay = (index + 1); jay < Objects.size(); ++jay)
 		{
-			if(!IsOnScreen(Objects[jay]))
-				continue;
 
 			if(Objects[index]->CheckCollision(fElapsedTime, Objects[jay]))
 			{

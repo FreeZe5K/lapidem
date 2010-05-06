@@ -7,6 +7,10 @@
 #include "CParticleManager.h"
 #include "CAnimationWarehouse.h"
 
+#ifdef _DEBUG
+#include "CPickups.h"
+#endif
+
 CGameplayState* CGameplayState::GetInstance( )
 {
 	static CGameplayState instance;
@@ -257,6 +261,11 @@ bool CGameplayState::Input( )
 			m_pPlayerTwo->SetEleType( OBJ_EARTH );
 	}
 
+
+#ifdef _DEBUG
+	if(m_pDI->KeyPressed( DIK_K ) )
+		spawnenergy();
+#endif
 	return true;
 }
 
@@ -520,3 +529,63 @@ void CGameplayState::HandleEvent( CEvent* pEvent )
 		}
 	}
 }
+
+#ifdef _DEBUG
+void CGameplayState::spawnenergy()
+{
+	CPickup * newpickup = new CPickup();
+	newpickup->SetPosX(m_pPlayerOne->GetPosX() + 40);
+	newpickup->SetPosY(m_pPlayerOne->GetPosY());
+	newpickup->SetActive(true);
+
+	newpickup->SetType(OBJ_ENERGY);
+	newpickup->SetEleType(OBJ_EARTH);
+	newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_EarthEnergy.png"));
+	newpickup->SetWidth(64);
+	newpickup->SetHeight(48);
+	Corona_ObjectManager::GetInstance()->AddObject(newpickup);
+	newpickup->Release();
+
+	newpickup = new CPickup();
+	newpickup->SetPosX(m_pPlayerOne->GetPosX() + 60);
+	newpickup->SetPosY(m_pPlayerOne->GetPosY());
+	newpickup->SetActive(true);
+
+	newpickup->SetType(OBJ_ENERGY);
+	newpickup->SetEleType(OBJ_FIRE);
+	newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_FireEnergy.png"));
+	newpickup->SetWidth(64);
+	newpickup->SetHeight(48);
+	Corona_ObjectManager::GetInstance()->AddObject(newpickup);
+	newpickup->Release();
+
+	newpickup = new CPickup();
+	newpickup->SetPosX(m_pPlayerOne->GetPosX() + 80);
+	newpickup->SetPosY(m_pPlayerOne->GetPosY());
+	newpickup->SetActive(true);
+
+	newpickup->SetType(OBJ_ENERGY);
+	newpickup->SetEleType(OBJ_ICE);
+	newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_IceEnergy.png"));
+	newpickup->SetWidth(64);
+	newpickup->SetHeight(48);
+	Corona_ObjectManager::GetInstance()->AddObject(newpickup);
+	newpickup->Release();
+
+
+	newpickup = new CPickup();
+	newpickup->SetPosX(m_pPlayerOne->GetPosX() + 100);
+	newpickup->SetPosY(m_pPlayerOne->GetPosY());
+	newpickup->SetActive(true);
+
+	newpickup->SetType(OBJ_ENERGY);
+	newpickup->SetEleType(OBJ_WIND);
+	newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_WindEnergy.png"));
+	newpickup->SetWidth(64);
+	newpickup->SetHeight(58);
+	Corona_ObjectManager::GetInstance()->AddObject(newpickup);
+	newpickup->Release();
+
+
+}
+#endif
