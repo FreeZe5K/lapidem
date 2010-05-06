@@ -71,16 +71,16 @@ private:
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Mutators"
 	//////////////////////////////////////////////////////////////////////////
-	void    SetWorldCollumn( int nWorldCollumn )            { m_nWorldCollumn         = nWorldCollumn;  }
-	void    SetWorldRow( int nWorldRow )                    { m_nWorldRow             = nWorldRow;      }
-	void    SetTileWidth( int nTileWidth )                  { m_nTileWidth            = nTileWidth;     }
-	void    SetTileHeight( int nTileHeight )                { m_nTileHeight           = nTileHeight;    }
-	void    SetTileCollumn( int nTileCollumn )              { m_nTileCollumn          = nTileCollumn;   }
-	void    SetTileRow( int nTileRow )                      { m_nTileRow              = nTileRow;       }
-	void    SetBaseTileID( int nBaseTileID )                { m_nBaseTileID           = nBaseTileID;    }
+	void    SetWorldCollumn( int nWorldCollumn )            { m_nWorldCollumn         = nWorldCollumn;    }
+	void    SetWorldRow( int nWorldRow )                    { m_nWorldRow             = nWorldRow;        }
+	void    SetTileWidth( int nTileWidth )                  { m_nTileWidth            = nTileWidth;       }
+	void    SetTileHeight( int nTileHeight )                { m_nTileHeight           = nTileHeight;      }
+	void    SetTileCollumn( int nTileCollumn )              { m_nTileCollumn          = nTileCollumn;     }
+	void    SetTileRow( int nTileRow )                      { m_nTileRow              = nTileRow;         }
+	void    SetBaseTileID( int nBaseTileID )                { m_nBaseTileID           = nBaseTileID;      }
 
-	void    SetTileSetID( int nTileSetImageID )	            { m_nTileSetImageID = nTileSetImageID;      }
-	void    SetBGM( int nBGM )	                            { m_nBGM = nBGM;                            }
+	void    SetTileSetID( int nTileSetImageID )	            { m_nTileSetImageID       = nTileSetImageID;  }
+	void    SetBGM( int nBGM )	                            { m_nBGM = nBGM;                              }
 
 	__inline void SetBackGroundImage( int nBackGroundImageID )
 	{ 
@@ -137,6 +137,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	CBase* CheckCollision( CBase* );
 	CBase* GetEntryPoint( );
+	CBase* GetEndPoint( );
 
 	bool IsOnScreen( CBase* );
 

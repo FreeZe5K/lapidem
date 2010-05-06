@@ -262,8 +262,8 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 		{
 			int TerraType( ( ( CTerrainBase* )collidingObject )->GetTypeTerrain( ) );
 
-			if( TerraType == END_POINT )
-				CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
+			//if( TerraType == END_POINT )
+			//	CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
 
 			if( TerraType == T_WATER )
 				return;
@@ -316,6 +316,13 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 	}
 	else if( collidingObject->GetType( ) == OBJ_SPELL && !( ( CSpell* )collidingObject )->PlayerShot( ) )
 		m_nHealth = m_nHealth - ( ( CSpell* )collidingObject )->GetDamage( );
+	else if( collidingObject->GetType( ) == OBJ_EVENT )
+	{
+		int TerraType( ( ( CTerrainBase* )collidingObject )->GetTypeTerrain( ) );
+
+		if( TerraType == END_POINT )
+			CGameplayState::GetInstance( )->SetPlayerReachedEnd( true );
+	}
 	else if( collidingObject->GetType( ) == OBJ_ENERGY )
 	{
 		switch(((CPickup*)collidingObject)->GetEleType())
@@ -350,7 +357,7 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 		}
 
 	}
-	
+
 }
 void CPlayer::ToggleReticle()
 {
