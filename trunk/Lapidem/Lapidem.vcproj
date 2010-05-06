@@ -373,6 +373,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\CGameOver.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\CGameplayState.h"
 					>
 				</File>
@@ -398,6 +402,10 @@
 				</File>
 				<File
 					RelativePath=".\source\CAuxiliaryState.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CGameOver.cpp"
 					>
 				</File>
 				<File

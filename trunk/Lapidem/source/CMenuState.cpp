@@ -206,28 +206,28 @@ bool CMenuState::Input( )
 		{
 			m_nAttractTimer = 0;
 
-			if( m_nChoice == 0 ) // Load Slot 1
+			if( 0 == m_nChoice ) // Load Slot 1
 			{ /* TODO :: LOAD SLOT 1 */ 
 				Load( 1 );
 				CGameplayState::GetInstance( )->SetSlotLoaded( 1 );
 				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
 			}
-			else if( m_nChoice == 1 ) // Load Slot 2
+			else if( 1 == m_nChoice ) // Load Slot 2
 			{ /* TODO :: LOAD SLOT 1 */ 
 				Load( 2 );
 				CGameplayState::GetInstance( )->SetSlotLoaded( 2 );
 				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
 			}
-			else if( m_nChoice == 2 ) // Load Slot 3
+			else if( 2 == m_nChoice ) // Load Slot 3
 			{ /* TODO :: LOAD SLOT 1 */ 
 				Load( 3 );
 				CGameplayState::GetInstance( )->SetSlotLoaded( 3 );
 				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
 			}			
-			else if( m_nChoice == 3 ) // Cancel
+			else if( 3 == m_nChoice ) // Cancel
 			{
 				m_nChoice = 0;
-				m_nState = 2;
+				m_nState = 1;
 			}
 		}
 	}
@@ -406,23 +406,53 @@ bool CMenuState::Load( int _nSlot )
 
 	if( fin.is_open( ) )
 	{
+		// - - - - - - - - - - - - - - 
+		// Slot 1
+		// - - - - - - - - - - - - - - 
 		fin.read( ( char* )&tSlotOne.nPlayerCount, sizeof( int ) );
 		fin.read( ( char* )&tSlotOne.nPositionX, sizeof( int ) );
 		fin.read( ( char* )&tSlotOne.nPositionY, sizeof( int ) );
+
+		if( 2 == tSlotOne.nPlayerCount )
+		{
+			fin.read( ( char* )&tSlotOne.nPlayerTwoPosX, sizeof( int ) );
+			fin.read( ( char* )&tSlotOne.nPlayerTwoPosY, sizeof( int ) );
+		}
+
 		fin.read( ( char* )&tSlotOne.nSinglePlayerScore, sizeof( int ) );
 		fin.read( ( char* )&tSlotOne.nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&tSlotOne.nPlayerTwoScore, sizeof( int ) );
 
+		// - - - - - - - - - - - - - - 
+		// Slot 2
+		// - - - - - - - - - - - - - - 
 		fin.read( ( char* )&tSlotTwo.nPlayerCount, sizeof( int ) );
 		fin.read( ( char* )&tSlotTwo.nPositionX, sizeof( int ) );
 		fin.read( ( char* )&tSlotTwo.nPositionY, sizeof( int ) );
+
+		if( 2 == tSlotTwo.nPlayerCount )
+		{
+			fin.read( ( char* )&tSlotTwo.nPlayerTwoPosX, sizeof( int ) );
+			fin.read( ( char* )&tSlotTwo.nPlayerTwoPosY, sizeof( int ) );
+		}
+
 		fin.read( ( char* )&tSlotTwo.nSinglePlayerScore, sizeof( int ) );
 		fin.read( ( char* )&tSlotTwo.nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&tSlotTwo.nPlayerTwoScore, sizeof( int ) );
 
+		// - - - - - - - - - - - - - - 
+		// Slot 3
+		// - - - - - - - - - - - - - - 
 		fin.read( ( char* )&tSlotThree.nPlayerCount, sizeof( int ) );
 		fin.read( ( char* )&tSlotThree.nPositionX, sizeof( int ) );
 		fin.read( ( char* )&tSlotThree.nPositionY, sizeof( int ) );
+
+		if( 2 == tSlotThree.nPlayerCount )
+		{
+			fin.read( ( char* )&tSlotThree.nPlayerTwoPosX, sizeof( int ) );
+			fin.read( ( char* )&tSlotThree.nPlayerTwoPosY, sizeof( int ) );
+		}
+
 		fin.read( ( char* )&tSlotThree.nSinglePlayerScore, sizeof( int ) );
 		fin.read( ( char* )&tSlotThree.nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&tSlotThree.nPlayerTwoScore, sizeof( int ) );

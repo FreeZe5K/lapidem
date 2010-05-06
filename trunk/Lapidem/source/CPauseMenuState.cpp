@@ -415,25 +415,84 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 	char _saveSlot[128] = "resource/data/Lapidem_GameSaves.bin";
 	ifstream fin( _saveSlot, std::ios_base::in | std::ios_base::binary );
 
+	//if( fin.is_open( ) )
+	//{
+	//	fin.read( ( char* )&_tSlotOne._nPlayerCount, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotOne._nPositionX, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotOne._nPositionY, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotOne._nPlayerTwoPosX, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotOne._nPlayerTwoPosY, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotOne._nSinglePlayerScore, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotOne._nPlayerOneScore, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotOne._nPlayerTwoScore, sizeof( int ) );
+
+	//	fin.read( ( char* )&_tSlotTwo._nPlayerCount, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotTwo._nPositionX, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotTwo._nPositionY, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotTwo._nPlayerTwoPosX, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotTwo._nPlayerTwoPosY, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotTwo._nSinglePlayerScore, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotTwo._nPlayerOneScore, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotTwo._nPlayerTwoScore, sizeof( int ) );
+
+	//	fin.read( ( char* )&_tSlotThree._nPlayerCount, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotThree._nPositionX, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotThree._nPositionY, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotThree._nPlayerTwoPosX, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotThree._nPlayerTwoPosY, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotThree._nSinglePlayerScore, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotThree._nPlayerOneScore, sizeof( int ) );
+	//	fin.read( ( char* )&_tSlotThree._nPlayerTwoScore, sizeof( int ) );
+	//} fin.close( );
 	if( fin.is_open( ) )
 	{
+		// - - - - - - - - - - - - - - 
+		// Slot 1
+		// - - - - - - - - - - - - - - 
 		fin.read( ( char* )&_tSlotOne._nPlayerCount, sizeof( int ) );
 		fin.read( ( char* )&_tSlotOne._nPositionX, sizeof( int ) );
 		fin.read( ( char* )&_tSlotOne._nPositionY, sizeof( int ) );
+
+		if( 2 == _tSlotOne._nPlayerCount )
+		{
+			fin.read( ( char* )&_tSlotOne._nPlayerTwoPosX, sizeof( int ) );
+			fin.read( ( char* )&_tSlotOne._nPlayerTwoPosY, sizeof( int ) );
+		}
+
 		fin.read( ( char* )&_tSlotOne._nSinglePlayerScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotOne._nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotOne._nPlayerTwoScore, sizeof( int ) );
 
+		// - - - - - - - - - - - - - - 
+		// Slot 2
+		// - - - - - - - - - - - - - - 
 		fin.read( ( char* )&_tSlotTwo._nPlayerCount, sizeof( int ) );
 		fin.read( ( char* )&_tSlotTwo._nPositionX, sizeof( int ) );
 		fin.read( ( char* )&_tSlotTwo._nPositionY, sizeof( int ) );
+
+		if( 2 == _tSlotTwo._nPlayerCount )
+		{
+			fin.read( ( char* )&_tSlotTwo._nPlayerTwoPosX, sizeof( int ) );
+			fin.read( ( char* )&_tSlotTwo._nPlayerTwoPosY, sizeof( int ) );
+		}
+
 		fin.read( ( char* )&_tSlotTwo._nSinglePlayerScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotTwo._nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotTwo._nPlayerTwoScore, sizeof( int ) );
 
+		// - - - - - - - - - - - - - - 
+		// Slot 3
+		// - - - - - - - - - - - - - - 
 		fin.read( ( char* )&_tSlotThree._nPlayerCount, sizeof( int ) );
 		fin.read( ( char* )&_tSlotThree._nPositionX, sizeof( int ) );
 		fin.read( ( char* )&_tSlotThree._nPositionY, sizeof( int ) );
+
+		if( 2 == _tSlotThree._nPlayerCount )
+		{
+			fin.read( ( char* )&_tSlotThree._nPlayerTwoPosX, sizeof( int ) );
+			fin.read( ( char* )&_tSlotThree._nPlayerTwoPosY, sizeof( int ) );
+		}
+
 		fin.read( ( char* )&_tSlotThree._nSinglePlayerScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotThree._nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotThree._nPlayerTwoScore, sizeof( int ) );
@@ -444,12 +503,18 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 	// - - - - - - - - - - - - - -
 	if( 1 == _nSlot )
 	{
-		if( CMenuState::GetInstance( )->GetPlayerCount( ) == 1 )
+		if( 1 == CMenuState::GetInstance( )->GetPlayerCount( ) )
 			_tSlotOne._nPlayerCount = 1;
 		else _tSlotOne._nPlayerCount = 2;
 
-		_tSlotOne._nPositionX = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosX( ) );
-		_tSlotOne._nPositionY = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosY( ) );
+		_tSlotOne._nPositionX         = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosX( ) );
+		_tSlotOne._nPositionY         = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosY( ) );
+
+		if( 2 == _tSlotOne._nPlayerCount )
+		{
+			_tSlotOne._nPlayerTwoPosX     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosX( ) );
+			_tSlotOne._nPlayerTwoPosY     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosY( ) );
+		}
 
 		_tSlotOne._nSinglePlayerScore = CGameplayState::GetInstance( )->GetSinglePlayerScore( );
 		_tSlotOne._nPlayerOneScore    = CGameplayState::GetInstance( )->GetPlayerOneScore( );
@@ -457,12 +522,18 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 	}
 	else if( 2 == _nSlot )
 	{
-		if( CMenuState::GetInstance( )->GetPlayerCount( ) == 1 )
+		if( 1 == CMenuState::GetInstance( )->GetPlayerCount( ) )
 			_tSlotTwo._nPlayerCount = 1;
 		else _tSlotTwo._nPlayerCount = 2;
 
-		_tSlotTwo._nPositionX = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosX( ) );
-		_tSlotTwo._nPositionY = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosY( ) );
+		_tSlotTwo._nPositionX         = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosX( ) );
+		_tSlotTwo._nPositionY         = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosY( ) );
+
+		if( 2 == _tSlotTwo._nPlayerCount )
+		{
+			_tSlotTwo._nPlayerTwoPosX     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosX( ) );
+			_tSlotTwo._nPlayerTwoPosY     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosY( ) );
+		}
 
 		_tSlotTwo._nSinglePlayerScore = CGameplayState::GetInstance( )->GetSinglePlayerScore( );
 		_tSlotTwo._nPlayerOneScore    = CGameplayState::GetInstance( )->GetPlayerOneScore( );
@@ -470,12 +541,18 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 	}
 	else if( 3 == _nSlot )
 	{
-		if( CMenuState::GetInstance( )->GetPlayerCount( ) == 1 )
+		if( 1 == CMenuState::GetInstance( )->GetPlayerCount( ) )
 			_tSlotThree._nPlayerCount = 1;
 		else _tSlotThree._nPlayerCount = 2;
 
-		_tSlotThree._nPositionX = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosX( ) );
-		_tSlotThree._nPositionY = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosY( ) );
+		_tSlotThree._nPositionX         = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosX( ) );
+		_tSlotThree._nPositionY         = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosY( ) );
+
+		if( 2 == _tSlotThree._nPlayerCount )
+		{
+			_tSlotThree._nPlayerTwoPosX     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosX( ) );
+			_tSlotThree._nPlayerTwoPosY     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosY( ) );
+		}
 
 		_tSlotThree._nSinglePlayerScore = CGameplayState::GetInstance( )->GetSinglePlayerScore( );
 		_tSlotThree._nPlayerOneScore    = CGameplayState::GetInstance( )->GetPlayerOneScore( );
@@ -487,23 +564,53 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 	// - - - - - - - - - - - - - -
 	ofstream fout( _saveSlot, std::ios_base::out | std::ios::trunc | std::ios::binary );
 
+	// - - - - - - - - - - - - - - 
+	// Slot 1
+	// - - - - - - - - - - - - - - 
 	fout.write( ( char* )&_tSlotOne._nPlayerCount, sizeof( int ) );
 	fout.write( ( char* )&_tSlotOne._nPositionX, sizeof( int ) );
 	fout.write( ( char* )&_tSlotOne._nPositionY, sizeof( int ) );
+
+	if( 2 == _tSlotOne._nPlayerCount )
+	{
+		fout.write( ( char* )&_tSlotOne._nPlayerTwoPosX, sizeof( int ) );
+		fout.write( ( char* )&_tSlotOne._nPlayerTwoPosY, sizeof( int ) );
+	}
+
 	fout.write( ( char* )&_tSlotOne._nSinglePlayerScore, sizeof( int ) );
 	fout.write( ( char* )&_tSlotOne._nPlayerOneScore, sizeof( int ) );
 	fout.write( ( char* )&_tSlotOne._nPlayerTwoScore, sizeof( int ) );
 
+	// - - - - - - - - - - - - - - 
+	// Slot 2
+	// - - - - - - - - - - - - - - 
 	fout.write( ( char* )&_tSlotTwo._nPlayerCount, sizeof( int ) );
 	fout.write( ( char* )&_tSlotTwo._nPositionX, sizeof( int ) );
 	fout.write( ( char* )&_tSlotTwo._nPositionY, sizeof( int ) );
+
+	if( 2 == _tSlotTwo._nPlayerCount )
+	{
+		fout.write( ( char* )&_tSlotTwo._nPlayerTwoPosX, sizeof( int ) );
+		fout.write( ( char* )&_tSlotTwo._nPlayerTwoPosY, sizeof( int ) );
+	}
+
 	fout.write( ( char* )&_tSlotTwo._nSinglePlayerScore, sizeof( int ) );
 	fout.write( ( char* )&_tSlotTwo._nPlayerOneScore, sizeof( int ) );
 	fout.write( ( char* )&_tSlotTwo._nPlayerTwoScore, sizeof( int ) );
 
+	// - - - - - - - - - - - - - - 
+	// Slot 3 
+	// - - - - - - - - - - - - - - 
 	fout.write( ( char* )&_tSlotThree._nPlayerCount, sizeof( int ) );
 	fout.write( ( char* )&_tSlotThree._nPositionX, sizeof( int ) );
 	fout.write( ( char* )&_tSlotThree._nPositionY, sizeof( int ) );
+
+	if( 2 == _tSlotThree._nPlayerCount )
+	{
+		fout.write( ( char* )&_tSlotThree._nPlayerTwoPosX, sizeof( int ) );
+		fout.write( ( char* )&_tSlotThree._nPlayerTwoPosY, sizeof( int ) );
+	}
+
 	fout.write( ( char* )&_tSlotThree._nSinglePlayerScore, sizeof( int ) );
 	fout.write( ( char* )&_tSlotThree._nPlayerOneScore, sizeof( int ) );
 	fout.write( ( char* )&_tSlotThree._nPlayerTwoScore, sizeof( int ) );

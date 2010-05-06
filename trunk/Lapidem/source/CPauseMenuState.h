@@ -24,6 +24,8 @@ private:
 		int            _nPlayerCount;
 		int            _nPositionX;
 		int            _nPositionY;
+		int            _nPlayerTwoPosX;
+		int            _nPlayerTwoPosY;
 		int            _nSinglePlayerScore;
 		int            _nPlayerOneScore;
 		int            _nPlayerTwoScore;
