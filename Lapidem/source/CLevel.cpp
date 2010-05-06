@@ -83,6 +83,11 @@ void CLevel::Clear( )
 	if( GetBackGroundImage( ) != -1 )
 		CSGD_TextureManager::GetInstance()->UnloadTexture( GetBackGroundImage( ) );
 	SetBackGroundImage( -1 );
+
+	for(unsigned int i = 0; i < m_pLevelSwitches.size(); ++i)
+		m_pLevelSwitches[i]->Release();
+
+	m_pLevelSwitches.clear();
 }
 
 void CLevel::LoadNewLevel( char* filename )
@@ -306,7 +311,7 @@ void CLevel::LoadNewLevel( char* filename )
 					CSwitch->SetVelX(0);
 					CSwitch->SetVelY(0);
 
-					m_pLevelSwtiches.push_back(CSwitch);
+					m_pLevelSwitches.push_back(CSwitch);
 					CSwitch->AddRef();
 
 					Corona_ObjectManager::GetInstance()->AddObject(CSwitch);
@@ -553,9 +558,9 @@ CBase* CLevel::GetTile(int nPosX, int nPosY)
 
 bool CLevel::NextLevelOpen()
 {
-	for(unsigned int i = 0; i < m_pLevelSwtiches.size(); ++i)
+	for(unsigned int i = 0; i < m_pLevelSwitches.size(); ++i)
 	{
-		if(!((CLevelSwitch*)m_pLevelSwtiches[i])->GetSwitchState())
+		if(!((CLevelSwitch*)m_pLevelSwitches[i])->GetSwitchState())
 			return false;
 	}
 	return true;

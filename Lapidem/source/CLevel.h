@@ -32,7 +32,7 @@ private:
 
 	int m_nBGM;
 
-	vector<CBase*> m_pLevelSwtiches;
+	vector<CBase*> m_pLevelSwitches;
 
 	char* m_szNextLevelFileName;
 	char* m_szLevelFileName;
