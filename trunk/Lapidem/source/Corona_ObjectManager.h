@@ -42,4 +42,6 @@ public:
 	void AddObject( CBase* );
 	void RemoveObject( CBase* );
 	void RemoveAllObjects( );
+	void AuxFunction(void (*pFunc)(CBase* object, CBase* object2), int OBJ_TYPE, bool AllInManager, CBase* pSpell);
+
 };

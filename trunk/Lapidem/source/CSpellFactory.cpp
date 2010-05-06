@@ -209,7 +209,26 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 				newearth->SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapidem_EarthPillar.png"));
 				Corona_ObjectManager::GetInstance()->AddObject(newearth);
 				newearth->Release();
-
+				break;
+			}
+		case 3:
+			{
+				CEarth* newearth = new CEarth();
+				newearth->SetPosX(CCamera::GetCamera()->GetXOffset());
+				newearth->SetPosY(CCamera::GetCamera()->GetHeight());
+				newearth->SetVelX(0.0f);
+				newearth->SetVelY(-300.0f);
+				newearth->SetDamage(20 + 4* m_nEarthLVL);
+				newearth->SetLifespan(300);
+				newearth->SetActive(true);
+				newearth->SetTier(3);
+				newearth->ShotBy(true);	
+				newearth->SetElement(OBJ_EARTH);
+				newearth->SetHeight(32);
+				newearth->SetWidth(CGame::GetInstance()->GetScreenWidth());	
+				newearth->SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapidem_EarthPillar.png", D3DCOLOR_XRGB(255,255,255)));
+				Corona_ObjectManager::GetInstance()->AddObject(newearth);
+				newearth->Release();
 				break;
 			}
 		}

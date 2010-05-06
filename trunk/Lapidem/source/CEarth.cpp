@@ -1,6 +1,7 @@
 #include "CEarth.h"
 #include "Wrappers/CSGD_TextureManager.h"
 #include "CSpellFactory.h"
+#include "Corona_ObjectManager.h"
 #include "CCamera.h" 
 #include "CGame.h"
 #include <math.h>
@@ -139,8 +140,32 @@ void CEarth::UpdateTier2( float fElapsedTime )
 
 }
 
+void Tier3Effect(CBase * pBase, CBase* pSpell)
+{
+	if(pSpell->GetPosY() > pBase->GetPosX())
+	{
+		pBase->SetActive(false);
+	}
+}
+
 void CEarth::UpdateTier3( float fElapsedTime )
-{ /* NOTHING HERE YET */ }
+{ 
+	if(GetPosY() < CCamera::GetCamera()->GetYOffset())
+	{
+		SetVelY(300);
+		SetPosY(CCamera::GetCamera()->GetYOffset());
+	}
+	CSpell::UpdateTier3(fElapsedTime);
+	if(GetVelY() > 0)
+	{
+		Corona_ObjectManager::GetInstance()->AuxFunction(&Tier3Effect,OBJ_ENEMY,false,this);
+	}
+	if(GetPosY() > CCamera::GetCamera()->GetHeight())
+	{
+		SetActive(false);
+	}
+}
+
 
 void CEarth::Render( )
 {
@@ -187,7 +212,12 @@ void CEarth::RenderTier2()
 }
 
 void CEarth::RenderTier3( )
-{ /* NOTHING HERE YET */ }
+{ 
+	if( GetImage( ) != -1 )
+	CSGD_TextureManager::GetInstance( )->Draw( GetImage( ), 
+	int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ), 
+	int( GetPosY( )- CCamera::GetCamera( )->GetYOffset( ) ) ); 
+}
 
 void CEarth::HandleCollision( CBase* pObject )
 {

@@ -11,6 +11,8 @@
 #include "CCamera.h"
 #include "CSpellFactory.h"
 #include "CPlayer.h"
+#include "CEnemy.h"
+
 
 CWind::CWind( ) : CSpell( )
 {
@@ -120,6 +122,15 @@ void CWind::HandleCollision( CBase* pObject )
 		else if( pObject->GetType( ) == OBJ_ENEMY )
 		{
 			SetActive( false );
+			if(GetPosX() > pObject->GetPosX())
+			{
+				pObject->SetVelX(-150);
+			}
+			else
+			{
+				pObject->SetVelX(150);
+			}
+			((CEnemy*)pObject)->SetKnockBack(GetPushBack());
 			CSpellFactory::GetInstance()->AddWindXP(2);
 		}
 		else if( pObject->GetType( ) == OBJ_SPELL && ( ( CSpell* )pObject )->GetElement( ) != GetElement( ) )
