@@ -58,8 +58,6 @@ void CLevel::Clear( )
 		m_szNextLevelFileName = 0;
 	}
 
-	if( m_pEventTiles.size( ) > 0 )
-	{
 		for( UINT i = 0; i < m_pEventTiles.size( ); ++i )
 		{
 			m_pEventTiles[i]->SetActive( false );
@@ -67,10 +65,8 @@ void CLevel::Clear( )
 		}
 
 		m_pEventTiles.clear( );
-	}
 
-	if( m_pTerrainTiles.size( ) > 0 )
-	{
+
 		for( UINT i = 0; i < m_pTerrainTiles.size( ) ; ++i )
 		{
 			m_pTerrainTiles[i]->SetActive( false );
@@ -78,7 +74,6 @@ void CLevel::Clear( )
 		}
 
 		m_pTerrainTiles.clear( );
-	}
 
 	if( GetTileSet( ) != -1 )
 		CSGD_TextureManager::GetInstance( )->UnloadTexture( GetTileSet( ) );

@@ -4,6 +4,12 @@
 
 void CEnemySpawner::HandleEvent(CEvent* pEvent)
 {
+
+	if(Corona_ObjectManager::GetInstance()->IsOnScreen(this))
+		m_bIsOnScreen = true;
+	else
+		m_bIsOnScreen = false;
+
 	if(!strcmp(pEvent->GetEventID().c_str(), "OffScreenPulse") && !m_bIsOnScreen)
 	{
 		if(m_bIsReadyToSpawn)

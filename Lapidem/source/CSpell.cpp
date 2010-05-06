@@ -17,7 +17,8 @@ CSpell::CSpell( ) : CBase( )
 }
 
 CSpell::~CSpell()
-{ /* NOTHING HERE YET */ }
+{ 
+}
 
 void CSpell::UpdateTier1( float fElapsedTime )
 {	
