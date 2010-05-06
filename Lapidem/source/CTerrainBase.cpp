@@ -10,6 +10,7 @@
 #include "CSpell.h"
 #include "CCamera.h"
 #include "Wrappers/CSGD_TextureManager.h" 
+#include "CGamePlayState.h"
 
 CTerrainBase::CTerrainBase( )
 { SetCollided( false ); }
@@ -55,6 +56,15 @@ void CTerrainBase::HandleCollision(CBase* pBase)
 				SetHealth( GetHealth( ) - 0 * ( ( CSpell* )pBase )->GetDamage( ) );
 			else SetHealth( GetHealth( ) - ( ( CSpell* )pBase )->GetDamage( ) );
 		} break;
+	case OBJ_PLAYER:
+		{
+			if(this->GetType() == OBJ_EVENT)
+			{
+				if(this->GetTypeTerrain() == END_POINT)
+					CGameplayState::GetInstance()->GetLevel()->LoadNextLevel();
+			}
+		}
+		break;
 	};
 
 	SetCollided( true );
