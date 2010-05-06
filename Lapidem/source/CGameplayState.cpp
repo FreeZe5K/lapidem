@@ -30,6 +30,34 @@ void CGameplayState::Enter( )
 	m_pPlayerOne	= new CPlayer( );
 	m_pPlayerOne->SetAnimation( 0, 0 );
 
+	if( m_bLoadedFromFile )
+	{
+		if( 1 == m_nSlotLoadedFrom )
+		{
+			if( 2 == CMenuState::GetInstance( )->GetSlotOne( ).nPlayerCount )
+			{
+				m_bTwoPlayers = true;
+				CMenuState::GetInstance( )->SetPlayerCount( 2 );
+			}
+		}
+		else if( 2 == m_nSlotLoadedFrom )
+		{
+			if( 2 == CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerCount )
+			{
+				m_bTwoPlayers = true;
+				CMenuState::GetInstance( )->SetPlayerCount( 2 );
+			}
+		}
+		else if( 3 == m_nSlotLoadedFrom )
+		{
+			if( 2 == CMenuState::GetInstance( )->GetSlotThree( ).nPlayerCount )
+			{
+				m_bTwoPlayers = true;
+				CMenuState::GetInstance( )->SetPlayerCount( 2 );
+			}
+		}
+	}
+
 	if( m_bTwoPlayers )
 	{
 		m_pPlayerTwo = new CPlayer( );
@@ -87,6 +115,13 @@ void CGameplayState::Enter( )
 			m_pPlayerOne->SetPosX( float( CMenuState::GetInstance( )->GetSlotOne( ).nPositionX ) );
 			pEntry->SetPosY( float( CMenuState::GetInstance( )->GetSlotOne( ).nPositionY ) );
 			m_pPlayerOne->SetPosY( float( CMenuState::GetInstance( )->GetSlotOne( ).nPositionY ) );
+
+			if( 2 == CMenuState::GetInstance( )->GetSlotOne( ).nPlayerCount )
+			{
+				m_pPlayerTwo->SetPosX( float( CMenuState::GetInstance( )->GetSlotOne( ).nPlayerTwoPosX ) );
+				m_pPlayerTwo->SetPosY( float( CMenuState::GetInstance( )->GetSlotOne( ).nPlayerTwoPosY ) );
+			}
+
 			m_nPlayerOneScore     = CMenuState::GetInstance( )->GetSlotOne( ).nPlayerOneScore;
 			m_nPlayerTwoScore     = CMenuState::GetInstance( )->GetSlotOne( ).nPlayerTwoScore;
 			m_nSinglePlayerScore  = CMenuState::GetInstance( )->GetSlotOne( ).nSinglePlayerScore;
@@ -95,8 +130,16 @@ void CGameplayState::Enter( )
 		{
 			pEntry->SetPosX( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionX ) );
 			m_pPlayerOne->SetPosX( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionX ) );
+
 			pEntry->SetPosY( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionY ) );
 			m_pPlayerOne->SetPosY( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionY ) );
+			
+			if( 2 == CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerCount )
+			{
+				m_pPlayerTwo->SetPosX( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerTwoPosX ) );
+				m_pPlayerTwo->SetPosY( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerTwoPosY ) );
+			}
+
 			m_nPlayerOneScore     = CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerOneScore;
 			m_nPlayerTwoScore     = CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerTwoScore;
 			m_nSinglePlayerScore  = CMenuState::GetInstance( )->GetSlotTwo( ).nSinglePlayerScore;
@@ -107,6 +150,13 @@ void CGameplayState::Enter( )
 			m_pPlayerOne->SetPosX( float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionX ) );
 			pEntry->SetPosY( float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionY ) );
 			m_pPlayerOne->SetPosY( float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionY ) );
+
+			if( 2 == CMenuState::GetInstance( )->GetSlotThree( ).nPlayerCount )
+			{
+				m_pPlayerTwo->SetPosX( float( CMenuState::GetInstance( )->GetSlotThree( ).nPlayerTwoPosX ) );
+				m_pPlayerTwo->SetPosY( float( CMenuState::GetInstance( )->GetSlotThree( ).nPlayerTwoPosY ) );
+			}
+
 			m_nPlayerOneScore     = CMenuState::GetInstance( )->GetSlotThree( ).nPlayerOneScore;
 			m_nPlayerTwoScore     = CMenuState::GetInstance( )->GetSlotThree( ).nPlayerTwoScore;
 			m_nSinglePlayerScore  = CMenuState::GetInstance( )->GetSlotThree( ).nSinglePlayerScore;
@@ -122,7 +172,7 @@ void CGameplayState::Enter( )
 		Corona_EventHandler::GetInstance( )->RegisterClient( this, "P2 OFFSCREEN" );
 	m_fP2RespawnTimer = -1.0f;
 
-	CGame::GetInstance( )->SetTimeLeft( 300 );
+	CGame::GetInstance( )->SetTimeLeft( 600 );
 }
 
 bool CGameplayState::Input( )
@@ -166,7 +216,6 @@ bool CGameplayState::Input( )
 
 	if( !m_pPlayerTwo )
 	{
-
 		//Player One controls if there is only 1 player:
 		if( m_pDI->KeyPressed( DIK_3 ) )
 			m_pPlayerOne->SetEleType( OBJ_EARTH );
@@ -222,7 +271,7 @@ void CGameplayState::Update( float fET )
 		// Respawn player 2 if he was off screen
 		if( m_fP2RespawnTimer >= 0.0f )
 		{
-			m_fP2RespawnTimer += fET;
+			m_fP2RespawnTimer = m_fP2RespawnTimer + fET;
 
 			if( m_fP2RespawnTimer > 3.0f )
 			{
@@ -366,7 +415,6 @@ void CGameplayState::Render( )
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 			5, 35, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	}
-
 }
 
 void CGameplayState::Exit( )
@@ -399,7 +447,7 @@ void CGameplayState::Exit( )
 
 	if( m_pPlayerOne )
 		m_pPlayerOne->Release( );
-	if(  m_pPlayerTwo )
+	if( m_pPlayerTwo )
 		m_pPlayerTwo->Release( );
 
 	theCamera->ShutDownCamera( );

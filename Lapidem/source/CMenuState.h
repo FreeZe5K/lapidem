@@ -24,6 +24,8 @@ private:
 		int            nPlayerCount;
 		int            nPositionX;
 		int            nPositionY;
+		int            nPlayerTwoPosX;
+		int            nPlayerTwoPosY;
 		int            nSinglePlayerScore;
 		int            nPlayerOneScore;
 		int            nPlayerTwoScore;
@@ -54,13 +56,14 @@ private:
 public:
 	static CMenuState* GetInstance( );
 
-	int GetPlayerCount( )      { return m_nPlayerCount; }
+	int GetPlayerCount( )          { return m_nPlayerCount; }
 
-	tSlots GetSlotOne( )       { return tSlotOne;       }
-	tSlots GetSlotTwo( )       { return tSlotTwo;       }
-	tSlots GetSlotThree( )     { return tSlotThree;     }
+	tSlots GetSlotOne( )           { return tSlotOne;       }
+	tSlots GetSlotTwo( )           { return tSlotTwo;       }
+	tSlots GetSlotThree( )         { return tSlotThree;     }
 
-	void ResetAttractTimer( )  { m_nAttractTimer = 0;   }
+	void ResetAttractTimer( )      { m_nAttractTimer  = 0;   }
+	void SetPlayerCount( int _i )  { m_nPlayerCount   = _i;  }
 
 	bool Load( int );
 
