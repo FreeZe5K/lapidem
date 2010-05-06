@@ -34,6 +34,7 @@ private:
 public:
 	static Corona_ObjectManager* GetInstance( );
 
+	void NullCamera() { theCamera = NULL;}
 	void DeleteInstance( );
 	void UpdateObjects( float );
 	void RenderObjects( );

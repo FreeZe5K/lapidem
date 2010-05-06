@@ -51,10 +51,12 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 	}
 
 	for(unsigned index = 0; index < DeadItems.size(); ++index)
-		RemoveObject(DeadItems[index]);
+			RemoveObject(DeadItems[index]);
 
 	CheckCollisions(fElapsedTime);
-	theCamera->Update(fElapsedTime);
+	
+	if( theCamera )
+		theCamera->Update(fElapsedTime);
 
 	m_fTimer = m_fTimer + fElapsedTime;
 

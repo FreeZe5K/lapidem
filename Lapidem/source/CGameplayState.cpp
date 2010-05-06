@@ -293,6 +293,20 @@ void CGameplayState::Update( float fET )
 	m_pPM->Update( fET );
 	m_pCeH->ProcessEvents( );
 
+	if( !m_pPlayerTwo )
+	{
+		if( m_pPlayerOne->GetHealth( ) <= 0 )
+		{
+			CGameOver::GetInstance( )->SetState( 1 );
+
+			// Player died because their health ran out
+			CGameOver::GetInstance( )->SetCondition( 1 );
+
+			// Change the state to game over
+			CGame::GetInstance( )->ChangeState( CGameOver::GetInstance( ) );
+		}
+	}
+
 	CProfiler::GetInstance( )->Start( "Profiler End" );
 	CProfiler::GetInstance( )->End( "CGameplay Update" );
 	CProfiler::GetInstance( )->End( "Profiler End" );
@@ -450,10 +464,11 @@ void CGameplayState::Exit( )
 	if( m_pPlayerTwo )
 		m_pPlayerTwo->Release( );
 
-	theCamera->ShutDownCamera( );
-	theCamera = NULL;
+	//theCamera->ShutDownCamera( );
+	//theCamera = NULL;
+	//Corona_ObjectManager::GetInstance( )->NullCamera( );
 
-	CCamera::GetCamera( )->ShutDownCamera( );
+	//CCamera::GetCamera( )->ShutDownCamera( );
 
 	theLevel.Clear( );
 	m_pCoM->DeleteInstance( );

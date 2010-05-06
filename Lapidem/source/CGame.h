@@ -77,8 +77,10 @@ private:
 	//     Main Menu Music
 	//     Menu Click
 	//     Level One Music
+	//     Victory Music
+	//     Player Died Music
 	int                     m_nImageID[3];
-	int                     m_nSoundID[3];
+	int                     m_nSoundID[5];
 
 	int                     m_nSoundEffectVolume;
 	int                     m_nMusicVolume;
@@ -246,6 +248,8 @@ public:
 	int GetMainMenuMusic( )       const      { return m_nSoundID[0];           }
 	int GetMenuTick( )            const      { return m_nSoundID[1];           }
 	int GetGameBGMusic( )         const      { return m_nSoundID[2];           }
+	int GetVictoryMusic( )        const      { return m_nSoundID[3];           }
+	int GetLostMusic( )           const      { return m_nSoundID[4];           }
 
 	int GetTimeLeft( )            const      { return m_nTimeLeft;             }
 

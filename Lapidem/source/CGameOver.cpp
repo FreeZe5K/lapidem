@@ -14,17 +14,41 @@ void CGameOver::Enter( )
 	m_pWM         = CSGD_WaveManager::GetInstance( );
 	m_pDI         = CSGD_DirectInput::GetInstance( );
 
-	m_nSoundID[0] = m_pWM->LoadWave( "resource/audio/Lapidem_PlayerDied.wav" );
-	m_nSoundID[1] = m_pWM->LoadWave( "resource/audio/Lapidem_PlayerWon.wav" );
+	m_nImageID[0] = m_pTM->LoadTexture( "resource/graphics/Lapidem_YouDied.png" );
+	m_nImageID[1] = m_pTM->LoadTexture( "resource/graphics/Lapidem_YouWon.png" );
 
-	m_nImageID[0] = m_pTM->LoadTexture
-		( "resource/graphics/Lapidem_PlayerDied.png" );
-	m_nImageID[1] = m_pTM->LoadTexture
-		( "resource/graphics/Lapidem_PlayerWon.png" );
+	m_pWM->SetVolume( CGame::GetInstance( )->GetLostMusic( ), 
+		CGame::GetInstance( )->GetMusicVolume( ) );
+	m_pWM->SetVolume( CGame::GetInstance( )->GetVictoryMusic( ), 
+		CGame::GetInstance( )->GetSoundFXVolume( ) );
+
+	if( 1 == m_nState )
+		m_pWM->Play( CGame::GetInstance( )->GetLostMusic( ) );
+	else if( 2 == m_nState )
+		m_pWM->Play( CGame::GetInstance( )->GetVictoryMusic( ) );
 }
 
 bool CGameOver::Input( )
 {
+	if( 1 == m_nState )
+	{
+		if( m_pDI->CheckBufferedKeysEx( ) )
+		{
+			// Set the state to high scores
+			CAuxiliaryState::GetInstance( )->SetMenuState( 1 );
+			CGame::GetInstance( )->ChangeState( CAuxiliaryState::GetInstance( ) );
+		}
+	}
+	else if( 2 == m_nState )
+	{
+		if( m_pDI->CheckBufferedKeysEx( ) )
+		{
+			// Set the state to high scores
+			CAuxiliaryState::GetInstance( )->SetMenuState( 1 );
+			CGame::GetInstance( )->ChangeState( CAuxiliaryState::GetInstance( ) );
+		}
+	}
+
 	return true;
 }
 
@@ -36,6 +60,8 @@ void CGameOver::Render( )
 {
 	if( 1 == m_nState ) // Player lost
 	{
+		m_pTM->Draw( m_nImageID[0], 0, 0 );
+
 		if( 0 == m_nCondition ) // Timer ran out
 		{
 		}
@@ -45,6 +71,8 @@ void CGameOver::Render( )
 	}
 	else if( 2 == m_nState ) // Player won
 	{
+		m_pTM->Draw( m_nImageID[1], 0, 0 );
+
 		if( 0 == m_nCondition ) // New high score
 		{
 		}
@@ -56,9 +84,6 @@ void CGameOver::Render( )
 
 void CGameOver::Exit( )
 {
-	m_pWM->UnloadWave( m_nSoundID[1] );
-	m_pWM->UnloadWave( m_nSoundID[0] );
-
 	m_pTM->UnloadTexture( m_nImageID[1] );
 	m_pTM->UnloadTexture( m_nImageID[0] );
 }

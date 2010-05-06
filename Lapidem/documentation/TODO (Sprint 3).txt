@@ -35,7 +35,7 @@ HRS LEFT - 90
 
 - - - - - - - - - - - - - - - - - -
 - - - - - - - Mike - - - - - - - 
-HRS LEFT - 70
+HRS LEFT - 68
 - - - - - - - - - - - - - - - - - -
 - Attract mode. ( 4 hrs )
 - Make the particle engine better. ( 8 hrs )
@@ -45,10 +45,8 @@ HRS LEFT - 70
 - Implement a win / lose condition. ( 8 hrs )
 - Tier 1 ice spells. ( 4 hrs )
 - Multiple ice spells. ( 12 hrs )
-- Lava needs to hurt the player. ( 2 hrs )
 
 - High score table, etc.
-- Save and load the second player ( if applicable )
 
 - - - Pablo aka DOM - - -
 HRS LEFT - 74
@@ -64,8 +62,7 @@ HRS LEFT - 74
 - - - - - - - - - - - - - - - - - -
 - - - KNOWN BUGS - - -
 - Attract menu doesn't render properly.
-- Camera bug. ( http://www.screencast.com/users/TheBoneDaddy/folders/SGP/media/b99c1ab0-3b6c-4e3d-ac20-70544b45d374 )
-- Player gets stuck while walking. ( See video above )
+- Player gets stuck while walking.
 
 - - - - - - - - - - - - - - - - - -
 - - MEMORY LEAKS  - -

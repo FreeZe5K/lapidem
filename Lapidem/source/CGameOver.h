@@ -17,7 +17,6 @@ private:
 	int       m_nState;
 	int       m_nCondition;
 
-	int       m_nSoundID[2];
 	int       m_nImageID[2];
 
 	CSGD_Direct3D           *m_pD3D;

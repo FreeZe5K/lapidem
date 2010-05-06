@@ -30,6 +30,8 @@ CGame::CGame( )
 	m_nSoundID[0]            = -1;
 	m_nSoundID[1]            = -1;
 	m_nSoundID[2]            = -1;
+	m_nSoundID[3]            = -1;
+	m_nSoundID[4]            = -1;
 
 	m_nMusicVolume           = 75;
 	m_nSoundEffectVolume     = 75;
@@ -75,6 +77,12 @@ void CGame::Initialize( HWND hWnd, HINSTANCE hInstance,
 	m_nSoundID[2]   = m_pWM->LoadWave( "resource/audio/Lapidem_LevelOneMusic.wav" );
 	m_pWM->SetVolume( m_nSoundID[2], GetMusicVolume( ) ); 
 
+	m_nSoundID[3]   = m_pWM->LoadWave( "resource/audio/Lapidem_PlayerWon.wav" );
+	m_pWM->SetVolume( m_nSoundID[2], GetMusicVolume( ) );
+
+	m_nSoundID[4]   = m_pWM->LoadWave( "resource/audio/Lapidem_PlayerDied.wav" );
+	m_pWM->SetVolume( m_nSoundID[2], GetMusicVolume( ) );
+
 	m_dwTimeStamp         = GetTickCount( );
 	m_dwPreviousTimeStamp = GetTickCount( );
 
@@ -84,7 +92,7 @@ void CGame::Initialize( HWND hWnd, HINSTANCE hInstance,
 void CGame::Shutdown( )
 {	
 	ChangeState( NULL );
-	CSpellFactory::GetInstance()->DeleteInstance();
+	CSpellFactory::GetInstance( )->DeleteInstance( );
 
 	if( m_bmFont )
 	{
