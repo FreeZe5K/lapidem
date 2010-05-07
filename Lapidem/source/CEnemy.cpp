@@ -2,6 +2,7 @@
 #include "CPickups.h"
 #include "CAnimation.h"
 #include "IAIState.h"
+#include "StickyNumbers.h"
 #include "AIStateEarth.h"
 #include "CTerrainBase.h"
 #include "Corona_EventHandler.h"
@@ -191,11 +192,58 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 	else if( collidingObject->GetType( ) == OBJ_SPELL && ( ( CSpell* )collidingObject )->PlayerShot( ) )
 	{
 		int spelltype = ((CSpell*)collidingObject)->GetElement();
-		if(spelltype == OBJ_FIRE)
+		int DamageToTake = ((CSpell*)collidingObject)->GetDamage();
+		int EleType	= GetEleType();
+		if( (spelltype == OBJ_FIRE && EleType == OBJ_ICE) || (spelltype == OBJ_ICE && EleType == OBJ_WIND)		||
+			(spelltype == OBJ_EARTH && EleType == OBJ_FIRE ) || (spelltype == OBJ_WIND && EleType == OBJ_EARTH) )
+		{
+			StickyNumbers* SN = new StickyNumbers();
+			SN->SetTimer(20.0f);
+			SN->SetPosX( GetPosX());
+			SN->SetPosY( GetPosY() - 24);
+			char * buffer = new char[4];//NULL;
+			sprintf_s(buffer, 4, "%i", TakeDamage(DamageToTake<<1));
+			SN->SetText(buffer);
+			SN->SetVelY(-30);
+
+			Corona_ObjectManager::GetInstance()->AddObject(SN);
+			SN->Release();
+		}
+		else if( (spelltype == OBJ_FIRE && EleType == OBJ_EARTH) || (spelltype == OBJ_ICE && EleType == OBJ_FIRE)		||
+			(spelltype == OBJ_EARTH && EleType == OBJ_WIND ) || (spelltype == OBJ_WIND && EleType == OBJ_ICE) )
+		{
+			StickyNumbers* SN = new StickyNumbers();
+			SN->SetTimer(5.0f);
+			SN->SetPosX( GetPosX());
+			SN->SetPosY( GetPosY() - 24);
+			char * buffer = new char[4];//NULL;
+			sprintf_s(buffer, 4, "%i", TakeDamage(DamageToTake>>1));
+			SN->SetText(buffer);
+			SN->SetVelY(-20);
+
+			Corona_ObjectManager::GetInstance()->AddObject(SN);
+			SN->Release();
+		}
+		else if(spelltype != EleType)
+		{
+			StickyNumbers* SN = new StickyNumbers();
+			SN->SetTimer(10.0f);
+			SN->SetPosX( GetPosX());
+			SN->SetPosY( GetPosY() - 24);
+			char * buffer = new char[4];//NULL;
+			sprintf_s(buffer, 4, "%i", TakeDamage(DamageToTake));
+			SN->SetText(buffer);
+			SN->SetVelY(-25);
+
+			Corona_ObjectManager::GetInstance()->AddObject(SN);
+			SN->Release();
+		}
+		/*if(spelltype == OBJ_FIRE)
 		{
 			if(GetEleType() == OBJ_ICE)
 			{
-				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage( )<<1);	
+				
+				m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage( )<<1));
 			}
 			else if(GetEleType() == OBJ_EARTH)
 			{
@@ -252,7 +300,9 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 			}
 		}
 
-	}
+	}*/
 	//else if( collidingObject->GetType( ) == OBJ_PLAYER )
 	//	SetVelX( -GetVelX( ) );
-}
+		}
+		}
+		

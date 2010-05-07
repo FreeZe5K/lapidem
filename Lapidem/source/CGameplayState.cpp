@@ -1,6 +1,7 @@
 #include "CGameplayState.h"
 #include "CCamera.h"
 #include "CPlayer.h"
+#include "CGameOver.h"
 #include "Corona_ObjectManager.h"
 #include "Corona_EventHandler.h"
 #include "CProfiler.h"
@@ -378,7 +379,7 @@ void CGameplayState::Render( )
 				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 160, 255, 40 ) );
 		}
 
-		sprintf_s( cBuffer, "TIME LEFT - %i", CGame::GetInstance( )->GetTimeLeft( ) );
+		sprintf_s( cBuffer, "SCORE - %i", GetPlayerOne( )->GetScore( ));
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 			5, 35, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	}
@@ -450,7 +451,7 @@ void CGameplayState::Render( )
 				420, 18, 0.7f, D3DCOLOR_ARGB( 255, 160, 255, 40 ) );
 		}
 
-		sprintf_s( cBuffer, "TIME LEFT - %i", CGame::GetInstance( )->GetTimeLeft( ) );
+		sprintf_s( cBuffer, "SCORE - %i", GetPlayerTwo( )->GetScore( ) );
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 			5, 35, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	}

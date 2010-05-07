@@ -311,6 +311,10 @@
 						RelativePath=".\source\IBaseInterface.h"
 						>
 					</File>
+					<File
+						RelativePath=".\source\StickyNumbers.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Source Files"
@@ -321,6 +325,10 @@
 					</File>
 					<File
 						RelativePath=".\source\CCamera.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\StickyNumbers.cpp"
 						>
 					</File>
 				</Filter>

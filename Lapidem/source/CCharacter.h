@@ -36,6 +36,6 @@ public:
 	DIRECTION GetDirection( )           { return currDirec;     }
 	EleType GetEleType( )               { return m_SpellType;   }
 
-	void TakeDamage( int nDamage )      { m_nHealth -= nDamage; }
+	int TakeDamage( int nDamage );
 	void SetHealth( int nHealth )       { m_nHealth = nHealth;  }
 };

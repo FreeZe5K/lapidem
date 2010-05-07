@@ -24,6 +24,8 @@ CPlayer::CPlayer( )
 	m_nEarthEnergy	   = 0;
 	m_nWindEnergy	   = 0;
 	m_nWaterEnergy	   = 0;
+	m_nScore		   = 0;
+	m_nTierThree	   = 0;
 
 	m_pReticle		   = NULL;
 
@@ -32,6 +34,8 @@ CPlayer::CPlayer( )
 	if( GetPlayerID( ) == 1 )
 		m_SpellType = OBJ_ICE;
 	else m_SpellType = OBJ_WIND;
+
+	Corona_EventHandler::GetInstance()->RegisterClient(this, "TileDestroyed");
 }
 
 void CPlayer::Update( float fElapsedTime )
@@ -182,7 +186,7 @@ void CPlayer::Attack( int nTier )
 
 				if(nTier == 2)
 				{
-					if(m_nEarthEnergy < 0)
+					if(m_nEarthEnergy < 5)
 						return;
 					else m_nEarthEnergy -= 5;
 				}
@@ -199,7 +203,7 @@ void CPlayer::Attack( int nTier )
 
 			if(nTier == 2)
 			{
-				if(m_nFireEnergy < 0)
+				if(m_nFireEnergy < 2)
 					return;
 				else m_nFireEnergy -= 2;
 			}
@@ -213,7 +217,7 @@ void CPlayer::Attack( int nTier )
 		case OBJ_ICE:
 			if(nTier == 2)
 				{
-					if(m_nWaterEnergy < 0)
+					if(m_nWaterEnergy < 2)
 						return;
 					else m_nWaterEnergy -= 2;
 				}
@@ -228,7 +232,7 @@ void CPlayer::Attack( int nTier )
 		case OBJ_WIND:
 			if(nTier == 2)
 				{
-					if(m_nWindEnergy < 0)
+					if(m_nWindEnergy < 2)
 						return;
 					else m_nWindEnergy -= 2;
 				}
@@ -261,9 +265,6 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 		if( collidingObject->GetType( ) == OBJ_TERRA )
 		{
 			int TerraType( ( ( CTerrainBase* )collidingObject )->GetTypeTerrain( ) );
-
-			//if( TerraType == END_POINT )
-			//	CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
 
 			if( TerraType == T_WATER )
 				return;
@@ -380,3 +381,9 @@ void CPlayer::ToggleReticle()
 		m_pReticle = NULL;
 	}
 }
+void CPlayer::HandleEvent(CEvent * pEvent)
+	{
+		if(pEvent->GetEventID() == "TileDestroyed" && (CPlayer*)(pEvent->GetData1()) == this)
+			m_nScore += 1;
+
+	}

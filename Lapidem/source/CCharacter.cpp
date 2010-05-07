@@ -58,4 +58,13 @@ void CCharacter::SetEleType( EleType newType )
 	else if( newType < OBJ_FIRE ) 
 		newType = OBJ_EARTH; 
 	m_SpellType = newType;
+
+}
+int CCharacter::TakeDamage(int nDamage)
+{
+	int nHealth = m_nHealth;
+
+	m_nHealth -= nDamage;
+
+	return nHealth - m_nHealth;
 }

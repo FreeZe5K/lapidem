@@ -1,10 +1,8 @@
 #pragma once
 #include "CCharacter.h"
-#include "CGameOver.h"
+#include "CLDevice.h"
 
-class CGameOver;
-
-class CPlayer : public CCharacter
+class CPlayer : public CCharacter, public CLDevice
 {
 	bool m_bIsJumping;
 	float m_fJumpTimer;
@@ -18,6 +16,7 @@ class CPlayer : public CCharacter
 	int m_nWaterEnergy; // I know it's Ice, stfu;
 	int m_nWindEnergy;
 	int m_nEarthEnergy;
+	int m_nScore;
 	int m_nTierThree;
 
 	void SetPlayerID( int _i )  { PlayerID = _i;      }
@@ -31,8 +30,16 @@ public:
 	void Update( float );
 	void Attack( int );
 	void HandleCollision( CBase* );
+	void HandleEvent(CEvent * pEvent);
+
 
 	int GetPlayerCount( )    { return PlayerCount;    }
 	int GetPlayerID( )       { return PlayerID;       }
+	int GetScore( )			 { return m_nScore;		  }
+	int GetWindEnergy( )     { return m_nWindEnergy;  }
+	int GetFireEnergy( )     { return m_nFireEnergy;  }
+	int GetEarthEnergy( )    { return m_nEarthEnergy; }
+	int GetIceEnergy( )      { return m_nWaterEnergy; }
+	int GetT3Count( )	     { return m_nTierThree;   }
 	CBase* GetReticle( )	 { return m_pReticle;	  }
 };
