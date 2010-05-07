@@ -302,8 +302,7 @@ void CGameplayState::Update( float fET )
 	{
 		if( theLevel.NextLevelOpen( ) )
 		{
-			theLevel.Clear( );
-			theLevel.LoadNewLevel( "resource/data/LevelTwo.laplvl" );	
+			theLevel.LoadNextLevel();
 
 			CBase* pEntry = theLevel.GetEntryPoint( );
 			m_pPlayerOne->SetPosX( pEntry->GetPosX( ) );
