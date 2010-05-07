@@ -6,6 +6,9 @@
 //  Purpose     :   
 //////////////////////////////////////////////////////////////////////////
 #include "CPauseMenuState.h"
+#include "CLevel.h"
+#include "CGameplayState.h"
+#include "CTerrainBase.h"
 
 CPauseMenuState* CPauseMenuState::GetInstance( )
 {
@@ -590,3 +593,39 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 
 	return true;
 }
+
+#if 0
+void CPauseMenuState::SaveCurrLevelState(ofstream* fout)
+{
+	CLevel* pLevel = CGameplayState::GetInstance()->GetLevel();
+
+	//char cLevelName[64] = { };
+	int nLength;
+
+	fout->write((char*)&(pLevel->GetWorldCollumn()), sizeof(int));
+	fout->write((char*)&(pLevel->GetWorldRow()), sizeof(int));
+	fout->write((char*)&(pLevel->GetTileWidth()), sizeof(int));
+	fout->write((char*)&(pLevel->GetTileHeight()), sizeof(int));
+
+	////// Level File Names  ///////
+	nLength = strlen(pLevel->GetLevelFileName()) + 1;
+	fout->write((char*)&nLength, sizeof(int));
+	fout->write(pLevel->GetLevelFileName(), nLength);
+
+	nLength = strlen(pLevel->GetNextLevelFileName()) + 1;
+	fout->write((char*)&nLength, sizeof(int));
+	fout->write(pLevel->GetNextLevelFileName(), nLength);
+	///// End of Level File Names  //////
+
+	//vector<CBase*> pMap = pLevel;
+
+	//// Ready for Big Chunk of Data:
+	//for(int i = 0; i < pLevel->GetWorldCollumn(); ++i)
+	//{
+	//	for(int j = 0; j < pLevel->GetWorldRow(); ++j)
+	//	{
+	//	}
+	//}
+
+}
+#endif
