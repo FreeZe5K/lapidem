@@ -11,6 +11,7 @@
 #include "CCamera.h"
 #include "Wrappers/CSGD_TextureManager.h" 
 #include "CGamePlayState.h"
+#include "Corona_EventHandler.h"
 
 CTerrainBase::CTerrainBase( )
 { SetCollided( false ); }
@@ -34,16 +35,6 @@ void CTerrainBase::Update( float fDT )
 {
 	CBase::Update( fDT );
 	SetCollided( false );
-
-	if( GetTypeTerrain( ) == T_ROCK )
-	{
-		if( GetHealth( ) <= 0 )
-		{
-			SetTileID( GetBaseTile( ) );
-			SetActive( false );
-			SetTypeTerrain( T_EMPTY );
-		}
-	}
 }
 
 void CTerrainBase::HandleCollision( CBase* pBase )
@@ -55,7 +46,26 @@ void CTerrainBase::HandleCollision( CBase* pBase )
 			if( ( ( CSpell* )pBase )->GetElement( ) == OBJ_EARTH )
 				SetHealth( GetHealth( ) - 0 * ( ( CSpell* )pBase )->GetDamage( ) );
 			else SetHealth( GetHealth( ) - ( ( CSpell* )pBase )->GetDamage( ) );
-		} break;
+
+			if(GetHealth ( ) <= 0 && m_bIsActive)
+			{
+				if(GetTypeTerrain() == T_ROCK)
+				{
+					SetActive( false );
+					SetTileID( GetBaseTile( ) );
+					SetTypeTerrain(T_EMPTY);
+
+					if(CGameplayState::GetInstance()->GetPlayerOne()->GetPlayerCount() < 2)
+						Corona_EventHandler::GetInstance()->SendEvent("TileDestroyed", (void*)CGameplayState::GetInstance()->GetPlayerOne());
+					else if( ( (CSpell* )pBase )->GetElement( ) == OBJ_FIRE || ( (CSpell* )pBase )->GetElement( ) == OBJ_ICE)
+						Corona_EventHandler::GetInstance()->SendEvent("TileDestroyed", (void*)CGameplayState::GetInstance()->GetPlayerOne());
+					else
+						Corona_EventHandler::GetInstance()->SendEvent("TileDestroyed", (void*)CGameplayState::GetInstance()->GetPlayerTwo());
+				}
+
+			}
+		}
+		break;
 	};
 
 	SetCollided( true );

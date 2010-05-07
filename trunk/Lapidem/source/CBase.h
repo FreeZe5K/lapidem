@@ -26,10 +26,10 @@ private:
 	float  m_fVelocityX;
 	float  m_fVelocityY;
 
-	bool   m_bIsActive;
 	
 protected:
 	int m_nType;
+	bool m_bIsActive;
 
 public:
 	CBase( );
