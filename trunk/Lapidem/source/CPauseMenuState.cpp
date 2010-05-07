@@ -415,35 +415,6 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 	char _saveSlot[128] = "resource/data/Lapidem_GameSaves.bin";
 	ifstream fin( _saveSlot, std::ios_base::in | std::ios_base::binary );
 
-	//if( fin.is_open( ) )
-	//{
-	//	fin.read( ( char* )&_tSlotOne._nPlayerCount, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotOne._nPositionX, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotOne._nPositionY, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotOne._nPlayerTwoPosX, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotOne._nPlayerTwoPosY, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotOne._nSinglePlayerScore, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotOne._nPlayerOneScore, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotOne._nPlayerTwoScore, sizeof( int ) );
-
-	//	fin.read( ( char* )&_tSlotTwo._nPlayerCount, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotTwo._nPositionX, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotTwo._nPositionY, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotTwo._nPlayerTwoPosX, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotTwo._nPlayerTwoPosY, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotTwo._nSinglePlayerScore, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotTwo._nPlayerOneScore, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotTwo._nPlayerTwoScore, sizeof( int ) );
-
-	//	fin.read( ( char* )&_tSlotThree._nPlayerCount, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotThree._nPositionX, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotThree._nPositionY, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotThree._nPlayerTwoPosX, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotThree._nPlayerTwoPosY, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotThree._nSinglePlayerScore, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotThree._nPlayerOneScore, sizeof( int ) );
-	//	fin.read( ( char* )&_tSlotThree._nPlayerTwoScore, sizeof( int ) );
-	//} fin.close( );
 	if( fin.is_open( ) )
 	{
 		// - - - - - - - - - - - - - - 

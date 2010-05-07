@@ -41,14 +41,14 @@ void CTerrainBase::Update( float fDT )
 		{
 			SetTileID( GetBaseTile( ) );
 			SetActive( false );
-			SetTypeTerrain(T_EMPTY);
+			SetTypeTerrain( T_EMPTY );
 		}
 	}
 }
 
-void CTerrainBase::HandleCollision(CBase* pBase)
+void CTerrainBase::HandleCollision( CBase* pBase )
 {
-	switch( pBase->GetType() )
+	switch( pBase->GetType( ) )
 	{
 	case OBJ_SPELL:
 		{
@@ -56,15 +56,6 @@ void CTerrainBase::HandleCollision(CBase* pBase)
 				SetHealth( GetHealth( ) - 0 * ( ( CSpell* )pBase )->GetDamage( ) );
 			else SetHealth( GetHealth( ) - ( ( CSpell* )pBase )->GetDamage( ) );
 		} break;
-	case OBJ_PLAYER:
-		{
-			if(this->GetType() == OBJ_EVENT)
-			{
-				if(this->GetTypeTerrain() == END_POINT)
-					CGameplayState::GetInstance()->GetLevel()->LoadNextLevel();
-			}
-		}
-		break;
 	};
 
 	SetCollided( true );

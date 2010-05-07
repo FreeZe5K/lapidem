@@ -84,6 +84,8 @@ void CAuxiliaryState::Enter( )
 		//} fin.close( );
 		// - - - - - - - - - - - - - - - -
 	}
+
+	CGameplayState::GetInstance( )->SetPlayerReachedEnd( false );
 }
 
 bool CAuxiliaryState::Input( )
