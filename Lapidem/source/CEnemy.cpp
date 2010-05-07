@@ -8,6 +8,7 @@
 #include "Corona_EventHandler.h"
 #include "Corona_ObjectManager.h"
 #include "CSpell.h"
+#include "CFire.h"
 #include "Wrappers/CSGD_TextureManager.h"
 #include "CGameplayState.h"
 
@@ -50,6 +51,9 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity )
 	m_nAttackWho   = 0;
 	m_fKnockBack = 0.0f;
 	m_bKnockBack = false;
+	m_bBurning   = false;
+	m_nBurnDamage = 0;
+	m_fBurnTimer   = 0.0f;
 }
 
 CEnemy::~CEnemy( )
@@ -157,6 +161,35 @@ void CEnemy::Update( float fElapsedTime )
 		Corona_EventHandler::GetInstance( )->SendEvent( "EnemyDied", ( void* )this );
 		SetActive( false );
 	}
+
+	if(m_bBurning)
+	{
+		m_fBurnTimer -= fElapsedTime;
+
+		if(m_fBurnTimer <= 0)
+		{
+			m_bBurning = false;
+			m_nBurnDamage = 0;
+		}
+
+		if(!((int)m_fBurnTimer %  3))
+		{
+			m_fBurnTimer -= 1.0f;
+			StickyNumbers* SN = new StickyNumbers();
+			SN->SetTimer(5.0f);
+			SN->SetPosX( GetPosX());
+			SN->SetPosY( GetPosY() - 24);
+			char * buffer = new char[4];//NULL;
+			sprintf_s(buffer, 4, "%i", TakeDamage(m_nBurnDamage));
+			SN->SetText(buffer);
+			SN->SetVelY(-30);
+
+			Corona_ObjectManager::GetInstance()->AddObject(SN);
+			SN->Release();
+
+
+		}
+	}
 }
 
 void CEnemy::HandleCollision( CBase* collidingObject )
@@ -237,6 +270,18 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 
 			Corona_ObjectManager::GetInstance()->AddObject(SN);
 			SN->Release();
+		}
+
+		if(spelltype == OBJ_FIRE)
+		{
+			if(m_bBurning)
+				m_nBurnDamage += ((CFire*)collidingObject)->GetDOT();
+			else
+			{
+				m_bBurning = true;
+				m_nBurnDamage += ((CFire*)collidingObject)->GetDOT();
+				m_fBurnTimer = 15.0f;
+			}
 		}
 		/*if(spelltype == OBJ_FIRE)
 		{

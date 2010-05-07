@@ -225,7 +225,7 @@ void CLevel::LoadNewLevel( char* filename )
 				newTerrain->SetTypeTerrain( Type );
 				newTerrain->SetBaseTileID( GetBaseTileID( ) );
 				newTerrain->SetDamage( 0 );
-				newTerrain->SetHealth( 150 );
+				newTerrain->SetHealth( 25 );
 				newTerrain->SetHeight( GetTileHeight( ) );
 				newTerrain->SetWidth( GetTileWidth( ) );
 				newTerrain->SetImage( GetTileSet( ) );

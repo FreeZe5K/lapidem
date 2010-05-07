@@ -350,7 +350,7 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 				}
 			}
 
-			newfire->SetDamage(200 + (3 * m_nFireLVL));
+			newfire->SetDamage(15 + (3 * m_nFireLVL));
 			newfire->SetDOT(3 + (1 * (m_nFireLVL>>1)));
 			newfire->SetLifespan(5.0f);
 			newfire->SetActive(true);

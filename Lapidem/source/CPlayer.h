@@ -24,7 +24,7 @@ class CPlayer : public CCharacter, public CLDevice
 
 public:
 	CPlayer( );
-	~CPlayer( )                 { --PlayerCount; if(m_pReticle)ToggleReticle();    }
+	~CPlayer( );
 
 	void Jump( );
 	void Update( float );
