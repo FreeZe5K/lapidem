@@ -297,6 +297,21 @@ void CGameplayState::Update( float fET )
 		}
 	}
 
+	if( m_bPlayerReachedEnd )
+	{
+		if( theLevel.NextLevelOpen( ) )
+		{
+			theLevel.Clear( );
+			theLevel.LoadNewLevel( "resource/data/LevelTwo.laplvl" );	
+
+			CBase* pEntry = theLevel.GetEntryPoint( );
+			m_pPlayerOne->SetPosX( pEntry->GetPosX( ) );
+			m_pPlayerOne->SetPosY( pEntry->GetPosY( ) );
+
+			m_bPlayerReachedEnd = false;
+		}
+	}
+
 	m_pCoM->UpdateObjects( CGame::GetInstance( )->GetElapsedTime( ) );
 	theLevel.Update( fET );
 	m_pPM->Update( fET );
@@ -315,18 +330,6 @@ void CGameplayState::Update( float fET )
 			// Change the state to game over
 			CGame::GetInstance( )->ChangeState( CGameOver::GetInstance( ) );
 		}
-	}
-
-	if( m_bPlayerReachedEnd )
-	{
-		// Player won
-		CGameOver::GetInstance( )->SetState( 2 );
-
-		// No new high score
-		CGameOver::GetInstance( )->SetCondition( 1 );
-
-		// Change the state to game over
-		CGame::GetInstance( )->ChangeState( CGameOver::GetInstance( ) );
 	}
 
 	CProfiler::GetInstance( )->Start( "Profiler End" );
@@ -496,9 +499,6 @@ void CGameplayState::Exit( )
 	m_pCoM->DeleteInstance( );
 	CAnimationWarehouse::GetInstance()->DeleteInstance( );
 
-	// TODO :: Remove this if you don't need it!
-	//CProfiler::GetInstance( )->DeleteInstance( );
-
 	m_bLoadedFromFile = false;
 	m_bTwoPlayers	  = false;
 
@@ -585,7 +585,6 @@ void CGameplayState::spawnenergy()
 	Corona_ObjectManager::GetInstance()->AddObject(newpickup);
 	newpickup->Release();
 
-
 	newpickup = new CPickup();
 	newpickup->SetPosX(m_pPlayerOne->GetPosX() + 100);
 	newpickup->SetPosY(m_pPlayerOne->GetPosY());
@@ -598,7 +597,5 @@ void CGameplayState::spawnenergy()
 	newpickup->SetHeight(58);
 	Corona_ObjectManager::GetInstance()->AddObject(newpickup);
 	newpickup->Release();
-
-
 }
 #endif

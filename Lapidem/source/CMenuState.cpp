@@ -45,6 +45,8 @@ void CMenuState::Enter( )
 
 	if( !m_pWM->IsWavePlaying( CGame::GetInstance( )->GetMainMenuMusic( ) ) )
 		m_pWM->Play( CGame::GetInstance( )->GetMainMenuMusic( ), DSBPLAY_LOOPING );
+
+	CGameplayState::GetInstance( )->SetPlayerReachedEnd( false );
 }
 
 bool CMenuState::Input( )

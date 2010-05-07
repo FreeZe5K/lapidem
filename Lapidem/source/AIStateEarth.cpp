@@ -5,11 +5,6 @@
 
 int AIStateEarth::Update( float fElapsedTime, CEnemy* theEnemy )
 {
-	//if( theEnemy->GetPosX( ) <= InitX)
-	//	theEnemy->SetVelX( 100.f );
-	//else if( theEnemy->GetPosX( ) >= InitX + 400 )
-	//	theEnemy->SetVelX( -100.f );
-
 	int nBottomX, nBottomY;
 	CLevel* pLevel = CGameplayState::GetInstance()->GetLevel();
 
@@ -28,7 +23,6 @@ int AIStateEarth::Update( float fElapsedTime, CEnemy* theEnemy )
 		if(!CheckPassable(pLevel, theEnemy, fElapsedTime))
 			theEnemy->SetVelX(-theEnemy->GetVelX());
 	}
-
 
 	float posx, posy;
 	posx = CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosX( );

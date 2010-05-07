@@ -53,12 +53,6 @@ CLevel::~CLevel()
 
 void CLevel::Clear( )
 {
-	if( m_szNextLevelFileName )
-	{
-		delete m_szNextLevelFileName;
-		m_szNextLevelFileName = 0;
-	}
-
 	for( UINT i = 0; i < m_pEventTiles.size( ); ++i )
 	{
 		m_pEventTiles[i]->SetActive( false );
@@ -85,8 +79,10 @@ void CLevel::Clear( )
 	SetBackGroundImage( -1 );
 
 	for(unsigned int i = 0; i < m_pLevelSwitches.size(); ++i)
+	{
+		Corona_ObjectManager::GetInstance()->RemoveObject(m_pLevelSwitches[i]);
 		m_pLevelSwitches[i]->Release();
-
+	}
 	m_pLevelSwitches.clear();
 }
 
@@ -295,27 +291,27 @@ void CLevel::LoadNewLevel( char* filename )
 			case POWERUP:
 				{
 					CTerrainBase* CSwitch = new CLevelSwitch;
-					CSwitch->SetType(OBJ_EVENT);
-					CSwitch->SetTypeTerrain(Type);
-					CSwitch->SetBaseTileID(GetBaseTileID());
-					CSwitch->SetDamage(0);
-					CSwitch->SetHealth(100);
-					CSwitch->SetHeight(GetTileHeight());
-					CSwitch->SetWidth(GetTileWidth());
-					CSwitch->SetImage(-1);
-					CSwitch->SetPosX(float(i % GetWorldCollumn()) * GetTileWidth());
-					CSwitch->SetPosY(float(i / GetWorldCollumn()) * GetTileHeight());
+					CSwitch->SetType( OBJ_EVENT );
+					CSwitch->SetTypeTerrain( Type );
+					CSwitch->SetBaseTileID( GetBaseTileID( ) );
+					CSwitch->SetDamage( 0 );
+					CSwitch->SetHealth( 100 );
+					CSwitch->SetHeight(GetTileHeight( ) );
+					CSwitch->SetWidth(GetTileWidth( ) );
+					CSwitch->SetImage( -1 );
+					CSwitch->SetPosX( float( i % GetWorldCollumn( ) ) * GetTileWidth( ) );
+					CSwitch->SetPosY( float( i / GetWorldCollumn( ) ) * GetTileHeight( ) );
 					CSwitch->SetTileCollumns(GetTileCollumn());
-					CSwitch->SetTileID(GetBaseTileID());
-					CSwitch->SetTileRows(GetTileRow());
-					CSwitch->SetVelX(0);
-					CSwitch->SetVelY(0);
+					CSwitch->SetTileID( GetBaseTileID( ) );
+					CSwitch->SetTileRows( GetTileRow( ) );
+					CSwitch->SetVelX( 0 );
+					CSwitch->SetVelY( 0 );
 
-					m_pLevelSwitches.push_back(CSwitch);
-					CSwitch->AddRef();
+					m_pLevelSwitches.push_back( CSwitch );
+					CSwitch->AddRef( );
 
 					Corona_ObjectManager::GetInstance()->AddObject(CSwitch);
-					CSwitch->Release();
+					CSwitch->Release( );
 				}
 				break;
 
@@ -466,17 +462,6 @@ CBase* CLevel::GetEntryPoint()
 	for( UINT i = 0; i < m_pEventTiles.size( ); ++i )
 	{
 		if( ( ( CTerrainBase* )m_pEventTiles[i] )->GetTypeTerrain( ) == ENTRY_POINT )
-			return m_pEventTiles[i];
-	}
-
-	return NULL;
-}
-
-CBase* CLevel::GetEndPoint()
-{
-	for( UINT i = 0; i < m_pEventTiles.size( ); ++i )
-	{
-		if( ( ( CTerrainBase* )m_pEventTiles[i] )->GetTypeTerrain( ) == END_POINT )
 			return m_pEventTiles[i];
 	}
 

@@ -35,18 +35,29 @@ HRS LEFT - 90
 
 - - - - - - - - - - - - - - - - - -
 - - - - - - - Mike - - - - - - - 
-HRS LEFT - 68
+HRS LEFT - 44
 - - - - - - - - - - - - - - - - - -
-- Attract mode. ( 4 hrs )
 - Make the particle engine better. ( 8 hrs )
-- Transition between levels. ( 12 hrs )
 - Ice enemy to be different from the other enemies. ( 4 hrs )
 - Make a mini-map to help the player get around the level. ( 16 hrs )
-- Implement a win / lose condition. ( 8 hrs )
 - Tier 1 ice spells. ( 4 hrs )
 - Multiple ice spells. ( 12 hrs )
 
 - High score table, etc.
+- Fix attract mode.
+- Replace the timer on the HUD with the score.
+- Change the timer to count up from zero instead of down from 10 minutes.
+
+- When the final boss is beat, run this code:
+/////////////////////////////////////////////////
+CGameOver::GetInstance( )->SetState( 2 );
+CGameOver::GetInstance( )->SetCondition( 1 );
+CGame::GetInstance( )->ChangeState( CGameOver::GetInstance( ) );
+/////////////////////////////////////////////////
+
+- Save the state of the switches.
+- Add the current level to the save/load.
+
 
 - - - Pablo aka DOM - - -
 HRS LEFT - 74

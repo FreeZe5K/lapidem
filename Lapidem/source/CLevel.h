@@ -88,13 +88,6 @@ private:
 		m_nBackGroundImageID = nBackGroundImageID; 
 	}
 
-	__inline void SetNextLevelFileName( char* szNextLevelFileName )	
-	{	
-		if( m_szNextLevelFileName )
-			delete m_szNextLevelFileName; 
-		m_szNextLevelFileName = szNextLevelFileName;	
-	}
-
 public:
 	void Update( float );
 	void Render( );
@@ -137,11 +130,17 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	CBase* CheckCollision( CBase* );
 	CBase* GetEntryPoint( );
-	CBase* GetEndPoint( );
 
 	bool IsOnScreen( CBase* );
 
 	bool NextLevelOpen();
 
 	CBase* GetTile(int nPosX, int nPosY);
+
+	__inline void SetNextLevelFileName( char* szNextLevelFileName )	
+	{	
+		if( m_szNextLevelFileName )
+			delete m_szNextLevelFileName; 
+		m_szNextLevelFileName = szNextLevelFileName;	
+	}
 };
