@@ -11,6 +11,9 @@ class CEnemy : public CCharacter
 	int        m_nAttackWho;
 	bool	   m_bKnockBack;
 	float	   m_fKnockBack;
+	bool	   m_bBurning;
+	int		   m_nBurnDamage;
+	float      m_fBurnTimer;
 
 public:
 	CEnemy( EleType, float, float ); 

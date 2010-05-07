@@ -36,6 +36,17 @@ CPlayer::CPlayer( )
 	else m_SpellType = OBJ_WIND;
 
 	Corona_EventHandler::GetInstance()->RegisterClient(this, "TileDestroyed");
+	Corona_EventHandler::GetInstance()->RegisterClient(this, "EnemyDied");
+}
+
+CPlayer::~CPlayer()
+{
+	--PlayerCount; 
+	if(m_pReticle)
+		ToggleReticle();
+
+	Corona_EventHandler::GetInstance()->UnregisterClient("TileDestroyed", this);
+	Corona_EventHandler::GetInstance()->UnregisterClient("EnemyDied", this);
 }
 
 void CPlayer::Update( float fElapsedTime )
@@ -216,31 +227,31 @@ void CPlayer::Attack( int nTier )
 			break;
 		case OBJ_ICE:
 			if(nTier == 2)
-				{
-					if(m_nWaterEnergy < 2)
-						return;
-					else m_nWaterEnergy -= 2;
-				}
-				else if(nTier == 3)
-				{
+			{
+				if(m_nWaterEnergy < 2)
+					return;
+				else m_nWaterEnergy -= 2;
+			}
+			else if(nTier == 3)
+			{
 
 
-				}
+			}
 			m_pSpells->CreateIce( this, nTier );
 			break;
 
 		case OBJ_WIND:
 			if(nTier == 2)
-				{
-					if(m_nWindEnergy < 2)
-						return;
-					else m_nWindEnergy -= 2;
-				}
-				else if(nTier == 3)
-				{
+			{
+				if(m_nWindEnergy < 2)
+					return;
+				else m_nWindEnergy -= 2;
+			}
+			else if(nTier == 3)
+			{
 
 
-				}
+			}
 			m_pSpells->CreateWind( this, nTier );
 			break;
 		}
@@ -382,8 +393,10 @@ void CPlayer::ToggleReticle()
 	}
 }
 void CPlayer::HandleEvent(CEvent * pEvent)
-	{
-		if(pEvent->GetEventID() == "TileDestroyed" && (CPlayer*)(pEvent->GetData1()) == this)
-			m_nScore += 1;
+{
+	if(pEvent->GetEventID() == "TileDestroyed" && (CPlayer*)(pEvent->GetData1()) == this)
+		m_nScore += 1;
+	else if(pEvent->GetEventID() =="EnemyDied")
+		m_nScore += 5;
 
-	}
+}
