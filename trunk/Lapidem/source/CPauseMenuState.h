@@ -33,6 +33,14 @@ private:
 		int            _nPlayerOneScore;
 		int            _nPlayerTwoScore;
 	} _tSlotOne, _tSlotTwo, _tSlotThree;
+
+	struct tLevelInfo
+	{
+		char *szFileName;
+		vector<CBase*> pTerrainTiles;
+		vector<CBase*> pEventTiles;
+		vector<CBase*> pSwitches;
+	} m_tLevelInfo[3];	// only 3 slots...hard code
 	// - - - - - - - - - - -
 
 	int                     m_nState;

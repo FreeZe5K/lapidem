@@ -234,7 +234,10 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 			SN->SetTimer(20.0f);
 			SN->SetPosX( GetPosX());
 			SN->SetPosY( GetPosY() - 24);
-			char * buffer = new char[4];//NULL;
+
+			//char * buffer = new char[4];//NULL;
+			char buffer[4];
+
 			sprintf_s(buffer, 4, "%i", TakeDamage(DamageToTake<<1));
 			SN->SetText(buffer);
 			SN->SetVelY(-30);
@@ -249,7 +252,10 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 			SN->SetTimer(5.0f);
 			SN->SetPosX( GetPosX());
 			SN->SetPosY( GetPosY() - 24);
-			char * buffer = new char[4];//NULL;
+
+			//char * buffer = new char[4];//NULL;
+			char buffer[4];
+
 			sprintf_s(buffer, 4, "%i", TakeDamage(DamageToTake>>1));
 			SN->SetText(buffer);
 			SN->SetVelY(-20);
@@ -263,7 +269,10 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 			SN->SetTimer(10.0f);
 			SN->SetPosX( GetPosX());
 			SN->SetPosY( GetPosY() - 24);
-			char * buffer = new char[4];//NULL;
+
+			//char * buffer = new char[4];//NULL;
+			char buffer[4];
+
 			sprintf_s(buffer, 4, "%i", TakeDamage(DamageToTake));
 			SN->SetText(buffer);
 			SN->SetVelY(-25);
@@ -285,69 +294,68 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 		}
 		/*if(spelltype == OBJ_FIRE)
 		{
-			if(GetEleType() == OBJ_ICE)
-			{
-				
-				m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage( )<<1));
-			}
-			else if(GetEleType() == OBJ_EARTH)
-			{
-				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage()>>1);	
-			}
-			else if(GetEleType() == OBJ_WIND)
-			{
-				m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage();
-			}
+		if(GetEleType() == OBJ_ICE)
+		{
+
+		m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage( )<<1));
+		}
+		else if(GetEleType() == OBJ_EARTH)
+		{
+		m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage()>>1);	
+		}
+		else if(GetEleType() == OBJ_WIND)
+		{
+		m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage();
+		}
 		}
 		else if(spelltype == OBJ_ICE)
 		{
-			if(GetEleType() == OBJ_FIRE)
-			{
-				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage( )>>1);	
-			}
-			else if(GetEleType() == OBJ_EARTH)
-			{
-				m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage();	
-			}
-			else if(GetEleType() == OBJ_WIND)
-			{
-				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage() <<1);
-			}
+		if(GetEleType() == OBJ_FIRE)
+		{
+		m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage( )>>1);	
+		}
+		else if(GetEleType() == OBJ_EARTH)
+		{
+		m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage();	
+		}
+		else if(GetEleType() == OBJ_WIND)
+		{
+		m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage() <<1);
+		}
 		}
 		else if(spelltype == OBJ_EARTH)
 		{
-			if(GetEleType() == OBJ_FIRE)
-			{
-				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage( )<<1);	
-			}
-			else if(GetEleType() == OBJ_ICE)
-			{
-				m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage();	
-			}
-			else if(GetEleType() == OBJ_WIND)
-			{
-				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage() >>1);
-			}
+		if(GetEleType() == OBJ_FIRE)
+		{
+		m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage( )<<1);	
+		}
+		else if(GetEleType() == OBJ_ICE)
+		{
+		m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage();	
+		}
+		else if(GetEleType() == OBJ_WIND)
+		{
+		m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage() >>1);
+		}
 		}
 		else if(spelltype == OBJ_WIND)
 		{
-			if(GetEleType() == OBJ_FIRE)
-			{
-				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage( ));	
-			}
-			else if(GetEleType() == OBJ_EARTH)
-			{
-				TakeDamage((((CSpell*)collidingObject)->GetDamage()<<1));	
-			}
-			else if(GetEleType() == OBJ_ICE)
-			{
-				m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage() >>1);
-			}
+		if(GetEleType() == OBJ_FIRE)
+		{
+		m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage( ));	
+		}
+		else if(GetEleType() == OBJ_EARTH)
+		{
+		TakeDamage((((CSpell*)collidingObject)->GetDamage()<<1));	
+		}
+		else if(GetEleType() == OBJ_ICE)
+		{
+		m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage() >>1);
+		}
 		}
 
-	}*/
-	//else if( collidingObject->GetType( ) == OBJ_PLAYER )
-	//	SetVelX( -GetVelX( ) );
-		}
-		}
-		
+		}*/
+		//else if( collidingObject->GetType( ) == OBJ_PLAYER )
+		//	SetVelX( -GetVelX( ) );
+	}
+}

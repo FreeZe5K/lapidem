@@ -13,7 +13,7 @@
 #include "CEnemySpawner.h"
 #include "CLevelSwitch.h"
 #include "CCamera.h"
-#include <fstream>
+//#include <fstream>
 #include <string>
 using namespace std;
 
@@ -38,13 +38,13 @@ CLevel::~CLevel()
 {
 	if(m_szNextLevelFileName)
 	{
-		delete	m_szNextLevelFileName;
+		delete[] m_szNextLevelFileName;
 		m_szNextLevelFileName = 0;
 	}
 
 	if(m_szLevelFileName)
 	{
-		delete	m_szLevelFileName;
+		delete[] m_szLevelFileName;
 		m_szLevelFileName = 0;
 	}
 
@@ -89,6 +89,10 @@ void CLevel::Clear( )
 void CLevel::LoadNewLevel( char* filename )
 {
 	ifstream in( filename, ios::in|ios::binary);
+
+	delete[] m_szLevelFileName;
+	delete[] m_szNextLevelFileName;
+	m_szLevelFileName = m_szNextLevelFileName = 0;
 
 	if( in.is_open( ) )
 	{
@@ -548,5 +552,294 @@ bool CLevel::NextLevelOpen()
 		if(!((CLevelSwitch*)m_pLevelSwitches[i])->GetSwitchState())
 			return false;
 	}
+	return true;
+}
+
+void CLevel::SaveLevelFromMemory(ofstream* fout, char* szFileName, vector<CBase*>* pTerrainTiles, vector<CBase*>* pEventTiles, vector<CBase*>* pSwitches)
+{
+	int nLength;//, nDataChunkSize = 0;
+
+	if(!szFileName)
+		nLength = 0;
+	else
+		nLength = strlen(szFileName) + 1;
+
+	//if(!szFileName)
+	//	return;
+
+	//int data;
+	int nTotalSaveSize = // In Bytes
+		//sizeof(int) +
+		(nLength + sizeof(int))/* + (strlen(m_szNextLevelFileName) + 1 + sizeof(int))*/ + 
+		(sizeof(int) + pTerrainTiles->size() * sizeof(int) * 4) + 
+		(sizeof(int) + pEventTiles->size() * sizeof(int) * 4) + 
+		(sizeof(int) + pSwitches->size() * sizeof(bool)); 
+
+	fout->write((char*)&nTotalSaveSize, sizeof(int));
+
+	////// Level File Names  ///////
+	fout->write((char*)&nLength, sizeof(int));
+	if(nLength)
+		fout->write(szFileName, nLength);
+	///// End of Level File Names  //////
+
+
+	// Ready for Big Chunk of Data:
+
+	int nArraySize = pTerrainTiles->size();
+	fout->write((char*)&nArraySize, sizeof(int));
+
+	for(int i = 0; i < nArraySize; ++i)
+	{
+		int nData;
+		//float fData;
+		CTerrainBase* pTerrain = (CTerrainBase*)(*pTerrainTiles)[i];
+		nData = pTerrain->GetType();
+		fout->write((char*)&nData, sizeof(int));
+		nData = pTerrain->GetTypeTerrain();
+		fout->write((char*)&nData, sizeof(int));
+		nData = pTerrain->GetHealth();
+		fout->write((char*)&nData, sizeof(int));
+		nData = pTerrain->GetDamage();
+		fout->write((char*)&nData, sizeof(int));
+	}
+
+	nArraySize = pEventTiles->size();
+	fout->write((char*)&nArraySize, sizeof(int));
+
+	for(int i = 0; i < nArraySize; ++i)
+	{
+		int nData;
+		//float fData;
+		CTerrainBase* pEventTile = (CTerrainBase*)(*pEventTiles)[i];
+
+		nData = pEventTile->GetType();
+		fout->write((char*)&nData, sizeof(int));
+		nData = pEventTile->GetTypeTerrain();
+		fout->write((char*)&nData, sizeof(int));
+		nData = pEventTile->GetHealth();
+		fout->write((char*)&nData, sizeof(int));
+		nData = pEventTile->GetDamage();
+		fout->write((char*)&nData, sizeof(int));
+	}
+
+	nArraySize = pSwitches->size();
+	fout->write((char*)&nArraySize, sizeof(int));
+
+	for(int i = 0; i < nArraySize; ++i)
+	{
+		CLevelSwitch* pSwitch = (CLevelSwitch*)(*pSwitches)[i];
+
+		bool State = pSwitch->GetSwitchState();
+		fout->write((char*)&State, sizeof(bool));
+	}
+
+}
+
+void CLevel::SaveCurrLevelState(ofstream* fout)
+{
+	//char cLevelName[64] = { };
+	int nLength;//, nDataChunkSize = 0;
+
+	//int data;
+	int nTotalSaveSize = // In Bytes
+		/*4 * sizeof(int) + */
+		//sizeof(int) + 
+		(strlen(m_szLevelFileName) + 1 + sizeof(int))/* + (strlen(m_szNextLevelFileName) + 1 + sizeof(int))*/ + 
+		(sizeof(int) + m_pTerrainTiles.size() * sizeof(int) * 4) + 
+		(sizeof(int) + m_pEventTiles.size() * sizeof(int) * 4) + 
+		(sizeof(int) + m_pLevelSwitches.size() * sizeof(bool)); 
+
+	fout->write((char*)&nTotalSaveSize, sizeof(int));
+
+	////// Level File Names  ///////
+	nLength = strlen(m_szLevelFileName) + 1;
+	fout->write((char*)&nLength, sizeof(int));
+	fout->write(m_szLevelFileName, nLength);
+	///// End of Level File Names  //////
+
+
+	// Ready for Big Chunk of Data:
+
+	int nArraySize = m_pTerrainTiles.size();
+	fout->write((char*)&nArraySize, sizeof(int));
+
+	for(int i = 0; i < nArraySize; ++i)
+	{
+		int nData;
+		//float fData;
+		CTerrainBase* pTerrain = (CTerrainBase*)m_pTerrainTiles[i];
+		nData = pTerrain->GetType();
+		fout->write((char*)&nData, sizeof(int));
+		nData = pTerrain->GetTypeTerrain();
+		fout->write((char*)&nData, sizeof(int));
+		nData = pTerrain->GetHealth();
+		fout->write((char*)&nData, sizeof(int));
+		nData = pTerrain->GetDamage();
+		fout->write((char*)&nData, sizeof(int));
+	}
+
+	nArraySize = m_pEventTiles.size();
+	fout->write((char*)&nArraySize, sizeof(int));
+
+	for(int i = 0; i < nArraySize; ++i)
+	{
+		int nData;
+		//float fData;
+		CTerrainBase* pEventTile = (CTerrainBase*)m_pEventTiles[i];
+
+		nData = pEventTile->GetType();
+		fout->write((char*)&nData, sizeof(int));
+		nData = pEventTile->GetTypeTerrain();
+		fout->write((char*)&nData, sizeof(int));
+		nData = pEventTile->GetHealth();
+		fout->write((char*)&nData, sizeof(int));
+		nData = pEventTile->GetDamage();
+		fout->write((char*)&nData, sizeof(int));
+	}
+
+	nArraySize = m_pLevelSwitches.size();
+	fout->write((char*)&nArraySize, sizeof(int));
+
+	for(int i = 0; i < nArraySize; ++i)
+	{
+		CLevelSwitch* pSwitch = (CLevelSwitch*)m_pLevelSwitches[i];
+
+		bool State = pSwitch->GetSwitchState();
+		fout->write((char*)&State, sizeof(bool));
+	}
+
+}
+
+void CLevel::LoadLevelToMemory(ifstream *fin, char* &szFileName, vector<CBase*>* pTerrainTiles, vector<CBase*>* pEventTiles, vector<CBase*>* pSwitches)
+{
+	int nLength;
+	char cFileName[64];
+	fin->read((char*)&nLength, sizeof(int));
+	if(nLength)
+	{
+		szFileName = new char[nLength];
+		fin->read(cFileName, nLength);
+		strcpy_s(szFileName, nLength, cFileName);
+	}
+
+	int nArraySize, nData;
+	fin->read((char*)&nArraySize, sizeof(int));
+
+	for(int i = 0; i < nArraySize; ++i)
+	{
+		CTerrainBase* pTerrain = new CTerrainBase;
+		fin->read((char*)&nData, sizeof(int));	// Type
+		pTerrain->SetType(nData);
+		fin->read((char*)&nData, sizeof(int));	// Terrain Type
+		pTerrain->SetTypeTerrain(nData);
+		fin->read((char*)&nData, sizeof(int));
+		pTerrain->SetHealth(nData);
+		fin->read((char*)&nData, sizeof(int));
+		pTerrain->SetDamage(nData);
+
+		pTerrainTiles->push_back(pTerrain);
+	}
+
+	fin->read((char*)&nArraySize, sizeof(int));
+	for(int i = 0; i < nArraySize; ++i)
+	{
+		CTerrainBase* pEventTile = new CTerrainBase;
+		fin->read((char*)&nData, sizeof(int));
+		pEventTile->SetType(nData);
+		fin->read((char*)&nData, sizeof(int));
+		pEventTile->SetTypeTerrain(nData);
+		fin->read((char*)&nData, sizeof(int));
+		pEventTile->SetHealth(nData);
+		fin->read((char*)&nData, sizeof(int));
+		pEventTile->SetDamage(nData);
+
+		pEventTiles->push_back(pEventTile);
+	}
+
+	bool bIsOn;
+	fin->read((char*)&nArraySize, sizeof(int));
+	for(int i = 0; i < nArraySize; ++i)
+	{
+		CLevelSwitch* pSwitch = new CLevelSwitch;
+		fin->read((char*)&bIsOn, sizeof(bool));
+		pSwitch->SetSwitchState(bIsOn);
+
+		pSwitches->push_back(pSwitch);
+	}
+}
+
+bool CLevel::LoadLevelFromSave(ifstream* fin)
+{
+	int nLength;
+	char cFileName[64];
+	fin->read((char*)&nLength, sizeof(int));
+	if(nLength)
+		fin->read(cFileName, nLength);
+	else
+		return false;
+
+	LoadNewLevel(cFileName);
+
+	int nArraySize, nData;
+	fin->read((char*)&nArraySize, sizeof(int));
+
+	if(nArraySize == m_pTerrainTiles.size())
+	{
+		for(int i = 0; i < nArraySize; ++i)
+		{
+			CTerrainBase* pTerrain = (CTerrainBase*)m_pTerrainTiles[i];
+			fin->read((char*)&nData, sizeof(int));	// Type
+			pTerrain->SetType(nData);
+			fin->read((char*)&nData, sizeof(int));	// Terrain Type
+			pTerrain->SetTypeTerrain(nData);
+			fin->read((char*)&nData, sizeof(int));
+			pTerrain->SetHealth(nData);
+			fin->read((char*)&nData, sizeof(int));
+			pTerrain->SetDamage(nData);
+
+			if(pTerrain->GetTypeTerrain() == T_EMPTY)
+			{
+				pTerrain->SetActive(false);
+				pTerrain->SetTileID(GetBaseTileID());
+			}
+		}
+	}
+	else
+		return false;
+
+	fin->read((char*)&nArraySize, sizeof(int));
+	if(nArraySize == m_pEventTiles.size())
+	{
+		for(int i = 0; i < nArraySize; ++i)
+		{
+			CTerrainBase* pEventTile = (CTerrainBase*)m_pEventTiles[i];
+			fin->read((char*)&nData, sizeof(int));
+			pEventTile->SetType(nData);
+			fin->read((char*)&nData, sizeof(int));
+			pEventTile->SetTypeTerrain(nData);
+			fin->read((char*)&nData, sizeof(int));
+			pEventTile->SetHealth(nData);
+			fin->read((char*)&nData, sizeof(int));
+			pEventTile->SetDamage(nData);
+		}
+	}
+	else
+		return false;
+
+	fin->read((char*)&nArraySize, sizeof(int));
+	if(nArraySize == m_pLevelSwitches.size())
+	{
+		bool bIsOn;
+		for(int i = 0; i < nArraySize; ++i)
+		{
+			CLevelSwitch* pSwitch = (CLevelSwitch*)m_pLevelSwitches[i];
+			fin->read((char*)&bIsOn, sizeof(bool));
+			pSwitch->SetSwitchState(bIsOn);
+		}
+	}
+	else
+		return false;
+
 	return true;
 }

@@ -418,6 +418,9 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 	char _saveSlot[128] = "resource/data/Lapidem_GameSaves.bin";
 	ifstream fin( _saveSlot, std::ios_base::in | std::ios_base::binary );
 
+	CLevel* pLevel = CGameplayState::GetInstance()->GetLevel();
+	int nDataChunkSize;
+
 	if( fin.is_open( ) )
 	{
 		// - - - - - - - - - - - - - - 
@@ -437,6 +440,12 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 		fin.read( ( char* )&_tSlotOne._nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotOne._nPlayerTwoScore, sizeof( int ) );
 
+		fin.read((char*)&nDataChunkSize, sizeof(int));	// return size that can skip the whole next part
+		if(_nSlot == 1)		// if it's slot one, skip loading from file cuz it will be changed any way
+			fin.seekg(nDataChunkSize, ios_base::cur);
+		else
+			pLevel->LoadLevelToMemory(&fin, m_tLevelInfo[0].szFileName, &m_tLevelInfo[0].pTerrainTiles, &m_tLevelInfo[0].pEventTiles, &m_tLevelInfo[0].pSwitches);
+
 		// - - - - - - - - - - - - - - 
 		// Slot 2
 		// - - - - - - - - - - - - - - 
@@ -454,6 +463,12 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 		fin.read( ( char* )&_tSlotTwo._nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotTwo._nPlayerTwoScore, sizeof( int ) );
 
+		fin.read((char*)&nDataChunkSize, sizeof(int));	// return size that can skip the whole next part
+		if(_nSlot == 2)		// if it's slot two, skip loading from file cuz it will be changed any way
+			fin.seekg(nDataChunkSize, ios_base::cur);
+		else
+			pLevel->LoadLevelToMemory(&fin, m_tLevelInfo[1].szFileName, &m_tLevelInfo[1].pTerrainTiles, &m_tLevelInfo[1].pEventTiles, &m_tLevelInfo[1].pSwitches);
+
 		// - - - - - - - - - - - - - - 
 		// Slot 3
 		// - - - - - - - - - - - - - - 
@@ -470,6 +485,13 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 		fin.read( ( char* )&_tSlotThree._nSinglePlayerScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotThree._nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotThree._nPlayerTwoScore, sizeof( int ) );
+		
+		fin.read((char*)&nDataChunkSize, sizeof(int));	// return size that can skip the whole next part
+		if(_nSlot == 3)		// if it's slot three, skip loading from file cuz it will be changed any way
+			fin.seekg(nDataChunkSize, ios_base::cur);
+		else
+			pLevel->LoadLevelToMemory(&fin, m_tLevelInfo[2].szFileName, &m_tLevelInfo[2].pTerrainTiles, &m_tLevelInfo[2].pEventTiles, &m_tLevelInfo[2].pSwitches);
+
 	} fin.close( );
 
 	// - - - - - - - - - - - - - -
@@ -555,6 +577,11 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 	fout.write( ( char* )&_tSlotOne._nPlayerOneScore, sizeof( int ) );
 	fout.write( ( char* )&_tSlotOne._nPlayerTwoScore, sizeof( int ) );
 
+	if(_nSlot == 1)
+		pLevel->SaveCurrLevelState(&fout);
+	else
+		pLevel->SaveLevelFromMemory(&fout, m_tLevelInfo[0].szFileName, &m_tLevelInfo[0].pTerrainTiles, &m_tLevelInfo[0].pEventTiles, &m_tLevelInfo[0].pSwitches);
+
 	// - - - - - - - - - - - - - - 
 	// Slot 2
 	// - - - - - - - - - - - - - - 
@@ -571,6 +598,11 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 	fout.write( ( char* )&_tSlotTwo._nSinglePlayerScore, sizeof( int ) );
 	fout.write( ( char* )&_tSlotTwo._nPlayerOneScore, sizeof( int ) );
 	fout.write( ( char* )&_tSlotTwo._nPlayerTwoScore, sizeof( int ) );
+
+	if(_nSlot == 2)
+		pLevel->SaveCurrLevelState(&fout);
+	else
+		pLevel->SaveLevelFromMemory(&fout, m_tLevelInfo[1].szFileName, &m_tLevelInfo[1].pTerrainTiles, &m_tLevelInfo[1].pEventTiles, &m_tLevelInfo[1].pSwitches);
 
 	// - - - - - - - - - - - - - - 
 	// Slot 3 
@@ -589,43 +621,30 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 	fout.write( ( char* )&_tSlotThree._nPlayerOneScore, sizeof( int ) );
 	fout.write( ( char* )&_tSlotThree._nPlayerTwoScore, sizeof( int ) );
 
+	if(_nSlot == 3)
+		pLevel->SaveCurrLevelState(&fout);
+	else
+		pLevel->SaveLevelFromMemory(&fout, m_tLevelInfo[2].szFileName, &m_tLevelInfo[2].pTerrainTiles, &m_tLevelInfo[2].pEventTiles, &m_tLevelInfo[2].pSwitches);
+
 	fout.close( );
+
+	for(int i = 0; i < 3; ++i)
+	{
+		delete[] m_tLevelInfo[i].szFileName;
+		m_tLevelInfo[i].szFileName = 0;
+
+		for(unsigned int j = 0; j < m_tLevelInfo[i].pTerrainTiles.size(); ++j)
+			delete m_tLevelInfo[i].pTerrainTiles[j];
+		m_tLevelInfo[i].pTerrainTiles.clear();
+
+		for(unsigned int j = 0; j < m_tLevelInfo[i].pEventTiles.size(); ++j)
+			delete m_tLevelInfo[i].pEventTiles[j];
+		m_tLevelInfo[i].pEventTiles.clear();
+
+		for(unsigned int j = 0; j < m_tLevelInfo[i].pSwitches.size(); ++j)
+			delete m_tLevelInfo[i].pSwitches[j];
+		m_tLevelInfo[i].pSwitches.clear();
+	}
 
 	return true;
 }
-
-#if 0
-void CPauseMenuState::SaveCurrLevelState(ofstream* fout)
-{
-	CLevel* pLevel = CGameplayState::GetInstance()->GetLevel();
-
-	//char cLevelName[64] = { };
-	int nLength;
-
-	fout->write((char*)&(pLevel->GetWorldCollumn()), sizeof(int));
-	fout->write((char*)&(pLevel->GetWorldRow()), sizeof(int));
-	fout->write((char*)&(pLevel->GetTileWidth()), sizeof(int));
-	fout->write((char*)&(pLevel->GetTileHeight()), sizeof(int));
-
-	////// Level File Names  ///////
-	nLength = strlen(pLevel->GetLevelFileName()) + 1;
-	fout->write((char*)&nLength, sizeof(int));
-	fout->write(pLevel->GetLevelFileName(), nLength);
-
-	nLength = strlen(pLevel->GetNextLevelFileName()) + 1;
-	fout->write((char*)&nLength, sizeof(int));
-	fout->write(pLevel->GetNextLevelFileName(), nLength);
-	///// End of Level File Names  //////
-
-	//vector<CBase*> pMap = pLevel;
-
-	//// Ready for Big Chunk of Data:
-	//for(int i = 0; i < pLevel->GetWorldCollumn(); ++i)
-	//{
-	//	for(int j = 0; j < pLevel->GetWorldRow(); ++j)
-	//	{
-	//	}
-	//}
-
-}
-#endif

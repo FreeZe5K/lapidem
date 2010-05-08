@@ -210,19 +210,22 @@ bool CMenuState::Input( )
 
 			if( 0 == m_nChoice ) // Load Slot 1
 			{ /* TODO :: LOAD SLOT 1 */ 
-				Load( 1 );
+				if(!Load( 1 ))
+					return true;
 				CGameplayState::GetInstance( )->SetSlotLoaded( 1 );
 				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
 			}
 			else if( 1 == m_nChoice ) // Load Slot 2
 			{ /* TODO :: LOAD SLOT 1 */ 
-				Load( 2 );
+				if(!Load( 2 ))
+					return true;
 				CGameplayState::GetInstance( )->SetSlotLoaded( 2 );
 				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
 			}
 			else if( 2 == m_nChoice ) // Load Slot 3
 			{ /* TODO :: LOAD SLOT 1 */ 
-				Load( 3 );
+				if(!Load( 3 ))
+					return true;
 				CGameplayState::GetInstance( )->SetSlotLoaded( 3 );
 				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
 			}			
@@ -403,6 +406,9 @@ void CMenuState::Render( )
 
 bool CMenuState::Load( int _nSlot )
 {
+	int nDataChunkSize;
+	CLevel* pLevel = CGameplayState::GetInstance()->GetLevel();
+
 	char _saveSlot[128] = "resource/data/Lapidem_GameSaves.bin";
 	ifstream fin( _saveSlot, std::ios_base::in | std::ios_base::binary );
 
@@ -425,6 +431,18 @@ bool CMenuState::Load( int _nSlot )
 		fin.read( ( char* )&tSlotOne.nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&tSlotOne.nPlayerTwoScore, sizeof( int ) );
 
+		fin.read((char*)&nDataChunkSize, sizeof(int));
+		if(_nSlot == 1)
+		{
+			if(!pLevel->LoadLevelFromSave(&fin))
+			{
+				fin.close();
+				return false;
+			}
+		}
+		else
+			fin.seekg(nDataChunkSize, ios_base::cur);
+
 		// - - - - - - - - - - - - - - 
 		// Slot 2
 		// - - - - - - - - - - - - - - 
@@ -442,6 +460,18 @@ bool CMenuState::Load( int _nSlot )
 		fin.read( ( char* )&tSlotTwo.nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&tSlotTwo.nPlayerTwoScore, sizeof( int ) );
 
+		fin.read((char*)&nDataChunkSize, sizeof(int));
+		if(_nSlot == 2)
+		{
+			if(!pLevel->LoadLevelFromSave(&fin))
+			{
+				fin.close();
+				return false;
+			}
+		}
+		else
+			fin.seekg(nDataChunkSize, ios_base::cur);
+
 		// - - - - - - - - - - - - - - 
 		// Slot 3
 		// - - - - - - - - - - - - - - 
@@ -458,6 +488,18 @@ bool CMenuState::Load( int _nSlot )
 		fin.read( ( char* )&tSlotThree.nSinglePlayerScore, sizeof( int ) );
 		fin.read( ( char* )&tSlotThree.nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&tSlotThree.nPlayerTwoScore, sizeof( int ) );
+
+		fin.read((char*)&nDataChunkSize, sizeof(int));
+		if(_nSlot == 3)
+		{
+			if(!pLevel->LoadLevelFromSave(&fin))
+			{
+				fin.close();
+				return false;
+			}
+		}
+		else
+			fin.seekg(nDataChunkSize, ios_base::cur);
 	} fin.close( );
 
 	if( 1 == _nSlot )
