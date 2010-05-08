@@ -75,7 +75,7 @@ public:
 	void    SetSinglePlayerScore( int _i )   { m_nSinglePlayerScore   =  _i;  }
 	void    SetPlayerOneScore( int _i )      { m_nPlayerOneScore      =  _i;  }
 	void    SetPlayerTwoScore( int _i )      { m_nPlayerTwoScore      =  _i;  }
-	void    SetSlotLoaded( int _i )          { m_nSlotLoadedFrom      =  _i;  }
+	void    SetSlotLoaded( int _i )          { m_nSlotLoadedFrom      =  _i; m_bLoadedFromFile = true; }
 
 	void    SetLoadedFromFile( bool _b )     { m_bLoadedFromFile      =  _b;  }
 	void    bTwoPlayerMode( bool _b )        { m_bTwoPlayers          =  _b;  }

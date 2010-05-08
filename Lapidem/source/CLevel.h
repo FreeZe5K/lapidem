@@ -9,7 +9,10 @@
 #pragma once
 
 #include <vector>
+#include <fstream>
 using std::vector;
+using std::ofstream;
+using std::ifstream;
 
 class CBase;
 
@@ -136,6 +139,12 @@ public:
 	bool NextLevelOpen();
 
 	CBase* GetTile(int nPosX, int nPosY);
+
+	void CLevel::SaveLevelFromMemory(ofstream* fout, char* szFileName, vector<CBase*>* pTerrainTiles, vector<CBase*>* pEventTiles, vector<CBase*>* pSwitches);
+	void SaveCurrLevelState(ofstream* fout);
+
+	void LoadLevelToMemory(ifstream* fin, char* &szFileName, vector<CBase*>* pTerrainTiles, vector<CBase*>* pEventTiles, vector<CBase*>* pSwitches);
+	bool LoadLevelFromSave(ifstream* fin);
 
 	__inline void SetNextLevelFileName( char* szNextLevelFileName )	
 	{	

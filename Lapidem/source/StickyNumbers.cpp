@@ -20,3 +20,11 @@ void StickyNumbers::Render()
 													 (int)(GetPosY() - CCamera::GetCamera()->GetYOffset()),
 													 1.f, D3DCOLOR_ARGB(m_nAlpha, 255, 255, 255));
 }
+
+void StickyNumbers::SetText(const char *text)
+{
+	delete[] m_szText;
+	int nLength = strlen(text);
+	m_szText = new char[nLength + 1];
+	strcpy_s(m_szText, nLength + 1, text);
+}

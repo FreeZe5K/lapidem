@@ -62,6 +62,10 @@ void CGameplayState::Enter( )
 			}
 		}
 	}
+	else
+		theLevel.LoadNewLevel( "resource/data/level1.laplvl" );	// if not loaded from file
+
+	CBase* pEntry = theLevel.GetEntryPoint( );
 
 	if( m_bTwoPlayers )
 	{
@@ -76,6 +80,7 @@ void CGameplayState::Enter( )
 		float( CGame::GetInstance( )->GetScreenHeight( ) ), m_pPlayerOne );
 
 	m_pCoM			= Corona_ObjectManager::GetInstance( );
+	m_pCoM->SetCamera(CCamera::GetCamera());
 	m_pCeH			= Corona_EventHandler::GetInstance( );
 
 	m_pWM->SetVolume( CGame::GetInstance( )->GetGameBGMusic( ), 
@@ -106,9 +111,6 @@ void CGameplayState::Enter( )
 	m_pEF = CEmitterFactory::GetInstance( );
 	m_pEF->Initialize( );
 
-	theLevel.LoadNewLevel( "resource/data/level1.laplvl" );	
-
-	CBase* pEntry = theLevel.GetEntryPoint( );
 
 	if( m_bLoadedFromFile )
 	{
