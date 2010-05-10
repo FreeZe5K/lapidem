@@ -200,6 +200,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\source\AIStateFire.h"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CCharacter.h"
 						>
 					</File>
@@ -221,6 +225,10 @@
 					>
 					<File
 						RelativePath=".\source\AIStateEarth.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\AIStateFire.cpp"
 						>
 					</File>
 					<File

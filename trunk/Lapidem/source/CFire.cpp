@@ -118,9 +118,8 @@ void CFire::HandleCollision( CBase* pObject )
 		if( pObject->GetType( ) == OBJ_PLAYER && !PlayerShot( ) )
 		{
 			SetActive( false );
-			( ( CPlayer* )pObject )->TakeDamage( GetDamage( ) );
 		}
-		else if( pObject->GetType( ) == OBJ_ENEMY )
+		else if( pObject->GetType( ) == OBJ_ENEMY && PlayerShot( ))
 		{
 			SetActive( false );
 			CSpellFactory::GetInstance()->AddFireXP(2);
@@ -138,7 +137,7 @@ void CFire::HandleCollision( CBase* pObject )
 	{ 
 	
 		if( pObject->GetType() == OBJ_ENEMY )
-			CSpellFactory::GetInstance()->AddFireXP(1);
+			CSpellFactory::GetInstance()->AddFireXP(5);
 		else if( pObject->GetType( ) == OBJ_TERRA )
 			CBase::MoveOutOf(pObject);
 	}

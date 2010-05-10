@@ -43,26 +43,34 @@ void CTerrainBase::HandleCollision( CBase* pBase )
 	{
 	case OBJ_SPELL:
 		{
-			if( ( ( CSpell* )pBase )->GetElement( ) == OBJ_EARTH )
-				SetHealth( GetHealth( ) - 0 * ( ( CSpell* )pBase )->GetDamage( ) );
-			else SetHealth( GetHealth( ) - ( ( CSpell* )pBase )->GetDamage( ) );
 
-			if(GetHealth ( ) <= 0 && m_bIsActive)
+			if(GetType() ==  OBJ_TERRA)
 			{
-				if(GetTypeTerrain() == T_ROCK)
+				if( ( ( CSpell* )pBase )->GetElement( ) == OBJ_EARTH )
+					SetHealth( GetHealth( ) - 0 * ( ( CSpell* )pBase )->GetDamage( ) );
+				else SetHealth( GetHealth( ) - ( ( CSpell* )pBase )->GetDamage( ) );
+
+				if(GetHealth ( ) <= 0 && m_bIsActive)
 				{
-					SetActive( false );
-					SetTileID( GetBaseTile( ) );
-					SetTypeTerrain(T_EMPTY);
+					if(GetTypeTerrain() == T_ROCK)
+					{
+						SetActive( false );
+						SetTileID( GetBaseTile( ) );
+						SetTypeTerrain(T_EMPTY);
 
-					if(CGameplayState::GetInstance()->GetPlayerOne()->GetPlayerCount() < 2)
-						Corona_EventHandler::GetInstance()->SendEvent("TileDestroyed", (void*)CGameplayState::GetInstance()->GetPlayerOne());
-					else if( ( (CSpell* )pBase )->GetElement( ) == OBJ_FIRE || ( (CSpell* )pBase )->GetElement( ) == OBJ_ICE)
-						Corona_EventHandler::GetInstance()->SendEvent("TileDestroyed", (void*)CGameplayState::GetInstance()->GetPlayerOne());
-					else
-						Corona_EventHandler::GetInstance()->SendEvent("TileDestroyed", (void*)CGameplayState::GetInstance()->GetPlayerTwo());
+
+						if( ( (CSpell*)pBase )->PlayerShot() )
+						{
+							if(CGameplayState::GetInstance()->GetPlayerOne()->GetPlayerCount() < 2)
+								Corona_EventHandler::GetInstance()->SendEvent("TileDestroyed", (void*)CGameplayState::GetInstance()->GetPlayerOne());
+							else if( ( (CSpell* )pBase )->GetElement( ) == OBJ_FIRE || ( (CSpell* )pBase )->GetElement( ) == OBJ_ICE)
+								Corona_EventHandler::GetInstance()->SendEvent("TileDestroyed", (void*)CGameplayState::GetInstance()->GetPlayerOne());
+							else
+								Corona_EventHandler::GetInstance()->SendEvent("TileDestroyed", (void*)CGameplayState::GetInstance()->GetPlayerTwo());
+						}
+					}
+
 				}
-
 			}
 		}
 		break;

@@ -1,16 +1,19 @@
 #include "CEnemy.h"
-#include "CPickups.h"
-#include "CAnimation.h"
-#include "IAIState.h"
-#include "StickyNumbers.h"
-#include "AIStateEarth.h"
-#include "CTerrainBase.h"
-#include "Corona_EventHandler.h"
-#include "Corona_ObjectManager.h"
 #include "CSpell.h"
 #include "CFire.h"
-#include "Wrappers/CSGD_TextureManager.h"
+#include "IAIState.h"
+#include "AIStateEarth.h"
+#include "AIStateFire.h"
 #include "CGameplayState.h"
+
+#include "CPickups.h"
+#include "CAnimation.h"
+#include "CTerrainBase.h"
+#include "StickyNumbers.h"
+
+#include "Corona_EventHandler.h"
+#include "Corona_ObjectManager.h"
+#include "Wrappers/CSGD_TextureManager.h"
 
 CEnemy::CEnemy( EleType ElementToBe, float initx, float inity )
 {
@@ -23,20 +26,34 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity )
 			currState = new AIStateEarth( );
 			SetPosX(initx);
 			SetPosY(inity);
-			SetVelX(100.0f);
+			SetVelX(25.0f);
 			SetVelY(0.0f);
 			( ( AIStateEarth* )currState )->SetInitPos( int( GetPosX( ) ), int( GetPosY( ) ) );
 			SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/lapidem_lulzenemy.png" ) );
 			SetHeight( 64 );
 			SetWidth( 16 );
 
-			m_nHealth      = 80;
+			m_nHealth      = 80 + (CSpellFactory::GetInstance()->GetEarthLevel() * 3);
 			m_SpellType    = OBJ_EARTH;
 			currDirec      = RIGHT;
 			currAnimation  = NULL;
 		} break;
 	case OBJ_FIRE:
 		{
+			currState = new AIStateFire( );
+			SetPosX(initx);
+			SetPosY(inity);
+			SetVelX(75.0f);
+			SetVelY(0.0f);
+			SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/lapid_lulzfireenemy.png" ) );
+			SetHeight( 64 );
+			SetWidth ( 32 );
+
+			m_nHealth      = 50 + (CSpellFactory::GetInstance()->GetFireLevel() * 2);
+			m_SpellType    = OBJ_FIRE;
+			currDirec      = RIGHT;
+			currAnimation  = NULL;
+
 		} break;
 	case OBJ_ICE:
 		{
