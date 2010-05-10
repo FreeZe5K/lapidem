@@ -37,5 +37,6 @@ public:
 	EleType GetEleType( )               { return m_SpellType;   }
 
 	int TakeDamage( int nDamage );
-	void SetHealth( int nHealth )       { m_nHealth = nHealth;  }
+	void SetHealth( int nHealth )				{ m_nHealth = nHealth;  }
+	void SetDirection( DIRECTION newDirec)		{ currDirec = newDirec; }
 };

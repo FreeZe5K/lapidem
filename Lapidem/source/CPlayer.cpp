@@ -327,7 +327,7 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 		}
 	}
 	else if( collidingObject->GetType( ) == OBJ_SPELL && !( ( CSpell* )collidingObject )->PlayerShot( ) )
-		m_nHealth = m_nHealth - ( ( CSpell* )collidingObject )->GetDamage( );
+		TakeDamage(( ( CSpell* )collidingObject )->GetDamage( ) );
 	else if( collidingObject->GetType( ) == OBJ_EVENT )
 	{
 		int TerraType( ( ( CTerrainBase* )collidingObject )->GetTypeTerrain( ) );

@@ -13,6 +13,7 @@
 #include "CParticleManager.h"
 
 class CCharacter;
+class CBase;
 class CIce;
 class CFire;
 class CEarth;
@@ -60,6 +61,7 @@ public:
 	//  Purpose   :   Create and put into object manager a Fire spell based on tier provided
 	//////////////////////////////////////////////////////////////////////////
 	void CreateFire( CCharacter* pShooter, int nTier );
+	void CreateEnemyFire( CCharacter * pShooter, CBase* pTarget);
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "CreateWind"
@@ -118,4 +120,9 @@ public:
 	void AddEarthXP( int );
 	void AddFireXP( int );
 	void AddIceXP( int );
+
+	int GetFireLevel() {return m_nFireLVL;}
+	int GetIceLevel()  {return m_nIceLVL;}
+	int GetEarthLevel(){return m_nEarthLVL;}
+	int GetWindLevel() {return m_nWindLVL;}
 };

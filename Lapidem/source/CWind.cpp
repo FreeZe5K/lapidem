@@ -16,8 +16,8 @@
 
 CWind::CWind( ) : CSpell( )
 {
-	SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture
-		( "resource/graphics/wind.bmp", D3DCOLOR_XRGB( 0, 0, 0 ) ) );
+	//SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture
+		//( "resource/graphics/wind.bmp", D3DCOLOR_XRGB( 0, 0, 0 ) ) );
 }
 
 CWind::~CWind( )
