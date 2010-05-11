@@ -124,7 +124,8 @@ void CFire::HandleCollision( CBase* pObject )
 			SetActive( false );
 			CSpellFactory::GetInstance()->AddFireXP(2);
 		}
-		else if( pObject->GetType( ) == OBJ_SPELL && ( ( CSpell* )pObject )->GetElement( ) != GetElement( ) )
+		else if( pObject->GetType( ) == OBJ_SPELL && ( ( CSpell* )pObject )->GetElement( ) != GetElement( ) 
+			&& ((CSpell*)pObject)->GetTier() !=3)
 			SetActive( false );
 		else if( pObject->GetType( ) == OBJ_TERRA )
 		{

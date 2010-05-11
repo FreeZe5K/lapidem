@@ -26,6 +26,8 @@ CPlayer::CPlayer( )
 	m_nWaterEnergy	   = 0;
 	m_nScore		   = 0;
 	m_nTierThree	   = 0;
+	m_bShielded = false;
+	m_fShieldTimer = 30.0f;
 
 	m_pReticle		   = NULL;
 
@@ -51,6 +53,12 @@ CPlayer::~CPlayer()
 
 void CPlayer::Update( float fElapsedTime )
 {
+	m_fShieldTimer -= fElapsedTime;
+	if(m_fShieldTimer < 0)
+	{
+		m_bShielded = false;
+		m_fShieldTimer = 30.0f;
+	}
 	CCharacter::Update( fElapsedTime );
 
 	CSGD_DirectInput * DI = ( CSGD_DirectInput::GetInstance( ) );
@@ -291,7 +299,10 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 				return;
 			}
 			if(!((CSpell*)collidingObject )->PlayerShot())
-				TakeDamage( ( ( CSpell* )collidingObject )->GetDamage( ) );
+			{
+				if(!m_bShielded)
+					TakeDamage( ( ( CSpell* )collidingObject )->GetDamage( ) );
+			}
 		}
 
 		RECT r;

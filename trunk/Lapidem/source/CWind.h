@@ -9,6 +9,7 @@
 #pragma once
 
 #include "CSpell.h"
+class CPlayer;
 
 class CWind : public CSpell
 {
@@ -16,6 +17,8 @@ private:
 	 // How much the unit being hit 
 	// by the air spell gets pushed back
 	float m_fPushBack;
+	CPlayer* m_pCaster;
+	float m_fShotTimer;
 
 public:
 	CWind( );
@@ -27,6 +30,7 @@ public:
 	//  Purpose   :   Get Stuff
 	//////////////////////////////////////////////////////////////////////////
 	float GetPushBack( )                 { return m_fPushBack;       }
+	CPlayer* GetCaster() {return m_pCaster;}
 	
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Mutators"
@@ -34,6 +38,7 @@ public:
 	//  Purpose   :   Set Stuff
 	//////////////////////////////////////////////////////////////////////////
 	void SetPushBack( float fPushBack )  { m_fPushBack = fPushBack;  }
+	void SetCaster( CPlayer* pCaster) {m_pCaster = pCaster;}
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "HandleCollision"

@@ -122,8 +122,9 @@ void CIce::HandleCollision( CBase* pObject )
 			SetActive( false );
 			CSpellFactory::GetInstance()->AddIceXP(2);
 		}
-		else if( pObject->GetType( ) == OBJ_SPELL && ( ( CSpell* )pObject )->GetElement( ) != GetElement( ) )
-			SetActive( false );
+		else if( pObject->GetType( ) == OBJ_SPELL && ( ( CSpell* )pObject )->GetElement( ) != GetElement( ) 
+			&& ((CSpell*)pObject)->GetTier() !=3)
+				SetActive( false );
 	}
 	else if( 2 == GetTier( ) )
 	{ /* do stuff... like destroy... EVERYTHING */ }

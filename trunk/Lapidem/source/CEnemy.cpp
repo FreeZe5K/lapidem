@@ -75,18 +75,19 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity )
 
 CEnemy::~CEnemy( )
 {
-	if( currState ) delete currState;
+	if( currState ) 
+		delete currState;
 
 	CPickup * newpickup = new CPickup();
 	newpickup->SetPosX(GetPosX());
 	newpickup->SetPosY(GetPosY());
 	newpickup->SetActive(true);
 
-	if(!(rand() % 1023))
-	{
-		newpickup->SetActive(false);
-	}
-	else
+	//if(!(rand() % 1023))
+	//{
+	//	newpickup->SetActive(false);
+	//}
+	//else
 	{
 		newpickup->SetType(OBJ_ENERGY);
 		if(GetEleType() == OBJ_EARTH)
@@ -173,12 +174,6 @@ void CEnemy::Update( float fElapsedTime )
 		}
 	}
 
-	if( m_nHealth <= 0 )
-	{
-		Corona_EventHandler::GetInstance( )->SendEvent( "EnemyDied", ( void* )this );
-		SetActive( false );
-	}
-
 	if(m_bBurning)
 	{
 		m_fBurnTimer -= fElapsedTime;
@@ -204,9 +199,15 @@ void CEnemy::Update( float fElapsedTime )
 			Corona_ObjectManager::GetInstance()->AddObject(SN);
 			SN->Release();
 
-
 		}
 	}
+
+	if( m_nHealth <= 0 )
+	{
+		Corona_EventHandler::GetInstance( )->SendEvent( "EnemyDied", ( void* )this );
+		SetActive( false );
+	}
+
 }
 
 void CEnemy::HandleCollision( CBase* collidingObject )

@@ -314,10 +314,10 @@ void CGameplayState::Update( float fET )
 		}
 	}
 
+	m_pCeH->ProcessEvents( );
 	m_pCoM->UpdateObjects( CGame::GetInstance( )->GetElapsedTime( ) );
 	theLevel.Update( fET );
 	m_pPM->Update( fET );
-	m_pCeH->ProcessEvents( );
 
 	if( !m_pPlayerTwo )
 	{
@@ -460,6 +460,11 @@ void CGameplayState::Render( )
 
 void CGameplayState::Exit( )
 {
+
+	m_pCeH->SendEvent( "EnemyDied", NULL ); 
+	m_pCeH->ProcessEvents( );
+
+
 	if( m_pPM )
 	{
 		m_pPM->UnloadAll( );
@@ -472,9 +477,6 @@ void CGameplayState::Exit( )
 		m_pEF = NULL;
 	}
 
-	m_pCeH->SendEvent( "EnemyDied", NULL ); 
-	m_pCeH->ProcessEvents( );
-
 	m_pWM->Stop( CGame::GetInstance( )->GetGameBGMusic( ) );
 	m_pWM->Reset( CGame::GetInstance( )->GetGameBGMusic( ) );
 	m_pWM->Stop( CGame::GetInstance( )->GetMainMenuMusic( ) );
@@ -484,28 +486,23 @@ void CGameplayState::Exit( )
 	m_pTM->UnloadTexture( m_nImageID[1] );
 	m_pTM->UnloadTexture( m_nImageID[0] );
 
-	m_pCoM->RemoveAllObjects( );
-
+	
 	if( m_pPlayerOne )
 		m_pPlayerOne->Release( );
 	if( m_pPlayerTwo )
+	{
 		m_pPlayerTwo->Release( );
-
-	//theCamera->ShutDownCamera( );
-	//theCamera = NULL;
-	//Corona_ObjectManager::GetInstance( )->NullCamera( );
-
-	//CCamera::GetCamera( )->ShutDownCamera( );
-
-	theLevel.Clear( );
-	m_pCoM->DeleteInstance( );
+		m_pCeH->UnregisterClient( "P2 OFFSCREEN", this );
+	}
+	
 	CAnimationWarehouse::GetInstance()->DeleteInstance( );
-
+	theLevel.Clear( );
+	m_pCeH->ShutDownSystem();
+	m_pCoM->DeleteInstance( );
+	
 	m_bLoadedFromFile = false;
 	m_bTwoPlayers	  = false;
 
-	if( m_pPlayerTwo )
-		Corona_EventHandler::GetInstance( )->UnregisterClient( "P2 OFFSCREEN", this );
 
 #if _DEBUG
 	CProfiler::GetInstance( )->Save( "CodeProfilerOutput.txt" );

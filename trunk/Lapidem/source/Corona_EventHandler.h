@@ -18,7 +18,6 @@ class Corona_EventHandler
 	~Corona_EventHandler() {};
 
 	bool AlreadyRegistered(EVENTID EventID, CLDevice* Client);
-	void ClearEvents();
 public:
 	static Corona_EventHandler * GetInstance();
 	void RegisterClient(CLDevice* Client, EVENTID EventID);

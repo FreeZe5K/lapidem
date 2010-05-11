@@ -53,7 +53,7 @@ void CEnemySpawner::HandleEvent(CEvent* pEvent)
 	else if(!strcmp(pEvent->GetEventID().c_str(), "EnemyDied") && pEvent->GetData1() == NULL)
 	{
 		if(m_pEnemy)
-		m_pEnemy->Release();
+			m_pEnemy->Release();
 		m_pEnemy = NULL;
 	}
 }
