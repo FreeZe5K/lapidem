@@ -214,7 +214,6 @@ void CEnemy::Update( float fElapsedTime )
 		Corona_EventHandler::GetInstance( )->SendEvent( "EnemyDied", ( void* )this );
 		SetActive( false );
 	}
-
 }
 
 void CEnemy::HandleCollision( CBase* collidingObject )
@@ -326,7 +325,7 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 		if( OBJ_ICE == spelltype )
 		{
 			m_bIsFrozen     = true;
-			m_fFrozenSpeed  = GetVelX( ) * 0.9f;
+			m_fFrozenSpeed  = GetVelX( ) * 0.6f;
 			m_fFreezeTimer  = 15.0f;
 		}
 	}
