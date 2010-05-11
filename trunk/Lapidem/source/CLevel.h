@@ -14,6 +14,8 @@ using std::vector;
 using std::ofstream;
 using std::ifstream;
 
+#include "CTerrainBase.h"
+
 class CBase;
 
 class CLevel
@@ -34,6 +36,13 @@ private:
 	int m_nBackGroundImageID;
 
 	int m_nBGM;
+
+	// Used For TileSwitching
+	//int m_nBoundaryTileID;
+	//int m_nRockTileID;
+	//int m_nWaterTileID;
+	//int m_nLavaTileID;
+	int m_nTerrainTileIDs[MAX_TERRAIN];
 
 	vector<CBase*> m_pLevelSwitches;
 
@@ -65,6 +74,8 @@ public:
 	int GetTileSet( ) const               { return m_nTileSetImageID;        }
 	int GetBackGroundImage( ) const       { return m_nBackGroundImageID;     } 
 	int GetBGM( ) const                   { return m_nBGM;                   }
+
+	int GetTileIDFromType(int nType) { return m_nTerrainTileIDs[nType]; }
 
 	//	filename ----------------------   whatever#.laplvl"
 	char* GetNextLevelFileName( ) const   { return m_szNextLevelFileName;    }
