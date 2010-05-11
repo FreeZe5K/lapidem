@@ -100,7 +100,6 @@ void AIStateFire::Attack( CCharacter* pTarget, CCharacter* pShooter )
 	}
 }
 
-
 CBase* AIStateFire::CheckPassable(CLevel* pLevel, CBase* pObject, float fElapsedTime)
 {
 	int nTilesToCheck = pObject->GetHeight() / pLevel->GetTileHeight();

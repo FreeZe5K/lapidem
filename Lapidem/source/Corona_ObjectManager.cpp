@@ -81,12 +81,6 @@ void Corona_ObjectManager::RenderObjects(void)
 			Objects[index]->Render();
 	}
 
-	/*for(unsigned index = 0; index < Terrain.size(); ++index)
-	{
-	if(IsOnScreen(Terrain[index]))
-	Terrain[index]->Render();
-	}*/
-
 #ifdef _DEBUG
 	CProfiler::GetInstance()->End("ObjectManager Render");
 #endif
@@ -94,11 +88,7 @@ void Corona_ObjectManager::RenderObjects(void)
 
 void Corona_ObjectManager::AddObject(CBase* ObjectToAdd)
 {
-	//if(ObjectToAdd->GetType() != OBJ_TERRA)
 	Objects.push_back(ObjectToAdd);
-	//	else if(((CTerrainBase*)ObjectToAdd)->GetTileID() != ((CTerrainBase*)ObjectToAdd)->GetBaseTile())
-	//		Terrain.push_back(ObjectToAdd);
-
 	ObjectToAdd->AddRef();
 }
 
@@ -119,11 +109,7 @@ void Corona_ObjectManager::RemoveObject(CBase* ObjectToRemove)
 		}
 		++iter;
 	}
-
-
-
 }
-
 
 void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
 {
@@ -145,7 +131,6 @@ void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
 		}
 
 		ObjectsOnScreen.push_back(Objects[index]);
-
 	}
 
 #ifdef  __PABLOS_COLLISION
@@ -215,9 +200,9 @@ bool Corona_ObjectManager::IsOnScreen( CBase* Object )
 //////////////
 // Function: AuxFunction
 //
-// Purpose: To allow a function to be called on all types of a certain object in the manager.
+// Purpose: To allow a function to be called on all 
+// types of a certain object in the manager.
 //////////////
-
 
 void Corona_ObjectManager::AuxFunction(void (*pFunc)(CBase* object, CBase* object2), int OBJ_TYPE, bool AllInManager, CBase* pSpell)
 {
@@ -242,5 +227,4 @@ void Corona_ObjectManager::AuxFunction(void (*pFunc)(CBase* object, CBase* objec
 			}
 		}
 	}
-
 }

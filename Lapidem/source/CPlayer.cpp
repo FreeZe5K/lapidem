@@ -273,7 +273,6 @@ void CPlayer::Jump( )
 		return;
 
 	m_bIsJumping = true;
-	//m_fJumpTimer = 0.0f;
 }
 
 void CPlayer::HandleCollision( CBase * collidingObject )

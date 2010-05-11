@@ -121,8 +121,13 @@ public:
 	void AddFireXP( int );
 	void AddIceXP( int );
 
-	int GetFireLevel() {return m_nFireLVL;}
-	int GetIceLevel()  {return m_nIceLVL;}
-	int GetEarthLevel(){return m_nEarthLVL;}
-	int GetWindLevel() {return m_nWindLVL;}
+	//////////////////////////////////////////////////////////////////////////
+	//  Function  :   "Accessors"	
+	//
+	//  Purpose   :   Get stuff
+	//////////////////////////////////////////////////////////////////////////
+	int GetFireLevel( )     { return m_nFireLVL;      }
+	int GetIceLevel( )      { return m_nIceLVL;       }
+	int GetEarthLevel( )    { return m_nEarthLVL;     }
+	int GetWindLevel( )     { return m_nWindLVL;      }
 };

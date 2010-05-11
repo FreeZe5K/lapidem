@@ -126,7 +126,6 @@ void CEarth::UpdateTier1( float fElapsedTime )
 		SetPosX( 0 );
 		SetVelX( 0 );
 	}
-	
 }
 
 void CEarth::UpdateTier2( float fElapsedTime )
@@ -137,8 +136,6 @@ void CEarth::UpdateTier2( float fElapsedTime )
 		SetHeight((int)m_fRiseAmount);
 		CSpell::UpdateTier2(fElapsedTime);
 	}
-	
-
 }
 
 void Tier3Effect(CBase * pBase, CBase* pSpell)
@@ -192,7 +189,6 @@ void CEarth::UpdateTier3( float fElapsedTime )
 		SetActive(false);
 	}
 }
-
 
 void CEarth::Render( )
 {
@@ -256,7 +252,6 @@ void CEarth::RenderTier3( )
 			int(GetPosY()- CCamera::GetCamera()->GetYOffset()) ,1.0f, 1.0f,&pleasework,(int)((455)/*(GetWidth() >>1)*/),
 			int((250/*GetHeight() >>1*/)),m_fDisplay); 
 	}
-
 }
 
 void CEarth::HandleCollision( CBase* pObject )
@@ -286,8 +281,7 @@ void CEarth::HandleCollision( CBase* pObject )
 			}
 
 			if( pObject->GetType( ) == OBJ_PLAYER && !PlayerShot( ) )
-				SetActive( false );
-			
+				SetActive( false );			
 		}
 
 		if( pObject->GetType( ) == OBJ_SPELL )
