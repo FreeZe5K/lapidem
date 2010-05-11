@@ -27,6 +27,7 @@ CEarth::CEarth() : CSpell()
 	m_fRotate            = float( PI / 4.0f );
 	m_fRiseAmount = 0.0f;
 	m_fTimeTillRotate    = 1.0f;
+	m_fDisplay = 0.0f;
 	SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/LapidemEarth.bmp", D3DCOLOR_XRGB( 0, 0, 0 ) ) );
 }
 
@@ -142,7 +143,7 @@ void CEarth::UpdateTier2( float fElapsedTime )
 
 void Tier3Effect(CBase * pBase, CBase* pSpell)
 {
-	if(pSpell->GetPosY() > pBase->GetPosX())
+	if(pSpell->GetPosX() < pBase->GetPosX())
 	{
 		pBase->SetActive(false);
 	}
@@ -150,16 +151,42 @@ void Tier3Effect(CBase * pBase, CBase* pSpell)
 
 void CEarth::UpdateTier3( float fElapsedTime )
 { 
-	if(GetPosY() < CCamera::GetCamera()->GetYOffset())
+	CSpell::UpdateTier3(fElapsedTime);
+	if(GetPosY() < CCamera::GetCamera()->GetYOffset() && GetVelY() <0)
 	{
-		SetVelY(300);
+		SetVelY(1);
 		SetPosY(CCamera::GetCamera()->GetYOffset());
 	}
-	CSpell::UpdateTier3(fElapsedTime);
+
+	if(GetPosY() <= CCamera::GetCamera()->GetYOffset())
+	{
+		m_fTimeTillRotate -= fElapsedTime/2.0f;
+		if(m_fTimeTillRotate > 0)
+		{
+			if(m_fDisplay > -(D3DX_PI /2))
+			{
+				m_fDisplay -= fElapsedTime;
+			}
+			SetPosY(CCamera::GetCamera()->GetYOffset() + m_fDisplay * 75);
+		}
+		else
+		{
+			SetVelY(300);
+		}
+	}
+	
+	
 	if(GetVelY() > 0)
 	{
+		SetVelX(-500);
 		Corona_ObjectManager::GetInstance()->AuxFunction(&Tier3Effect,OBJ_ENEMY,false,this);
+		
+		if(m_fDisplay > -(D3DX_PI /2))
+		{
+			m_fDisplay -= fElapsedTime *2;
+		}
 	}
+
 	if(GetPosY() > CCamera::GetCamera()->GetHeight())
 	{
 		SetActive(false);
@@ -213,11 +240,11 @@ void CEarth::RenderTier2()
 
 void CEarth::RenderTier3( )
 { 
-	if( GetImage( ) != -1  && GetVelY() <0)
-	CSGD_TextureManager::GetInstance( )->Draw( GetImage( ), 
-		int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ), 
-		int( GetPosY( )- CCamera::GetCamera( )->GetYOffset( ) ) ); 
-	else if (GetImage( ) != -1  && GetVelY() >0)
+	//if( GetImage( ) != -1  && GetVelY() <0)
+	//CSGD_TextureManager::GetInstance( )->Draw( GetImage( ), 
+	//	int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ), 
+	//	int( GetPosY( )- CCamera::GetCamera( )->GetYOffset( ) ) ); 
+	/*else*/ if (GetImage( ) != -1 /* && GetVelY() >0*/)
 	{
 		RECT pleasework;
 		pleasework.left = 0;
@@ -226,8 +253,8 @@ void CEarth::RenderTier3( )
 		pleasework.bottom = 500;
 		CSGD_TextureManager::GetInstance( )->Draw( GetImage( ), 
 			int(GetPosX() - CCamera::GetCamera()->GetXOffset()), 
-			int(GetPosY()- CCamera::GetCamera()->GetYOffset()) ,1.0f, 1.0f,&pleasework,(int)((455>>1)/*(GetWidth() >>1)*/),
-			int((250/*GetHeight() >>1*/)),-D3DX_PI/2); 
+			int(GetPosY()- CCamera::GetCamera()->GetYOffset()) ,1.0f, 1.0f,&pleasework,(int)((455)/*(GetWidth() >>1)*/),
+			int((250/*GetHeight() >>1*/)),m_fDisplay); 
 	}
 
 }
@@ -265,12 +292,15 @@ void CEarth::HandleCollision( CBase* pObject )
 
 		if( pObject->GetType( ) == OBJ_SPELL )
 		{
-			if( ( ( CSpell* )pObject )->GetElement( ) == OBJ_EARTH )
+			if(( ( CSpell* )pObject )->GetTier() !=3)
 			{
-				SetVelX( GetVelX( ) * -0.4f );
-				SetVelY( GetVelY( ) * -0.2f );
+				if( ( ( CSpell* )pObject )->GetElement( ) == OBJ_EARTH )
+				{
+					SetVelX( GetVelX( ) * -0.4f );
+					SetVelY( GetVelY( ) * -0.2f );
+				}
+				pObject->MoveOutOf( this );
 			}
-			pObject->MoveOutOf( this );
 		}
 	}
 	else if( 2 == GetTier( ) )

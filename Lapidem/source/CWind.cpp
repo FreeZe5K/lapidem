@@ -12,18 +12,20 @@
 #include "CSpellFactory.h"
 #include "CPlayer.h"
 #include "CEnemy.h"
+#include "Corona_ObjectManager.h"
+#include "Lapidem_Math.h"
 
 
 CWind::CWind( ) : CSpell( )
 {
 	//SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture
 		//( "resource/graphics/wind.bmp", D3DCOLOR_XRGB( 0, 0, 0 ) ) );
+	m_fShotTimer = 0.5f;
 }
 
 CWind::~CWind( )
 {	
-	if( GetImage( ) >= 0 )
-		CSGD_TextureManager::GetInstance( )->UnloadTexture( GetImage( ) );
+
 }
 
 void CWind::Update( float fElapsedTime )
@@ -60,10 +62,90 @@ void CWind::UpdateTier1( float fElapsedTime )
 }
 
 void CWind::UpdateTier2( float fElapsedTime )
-{ /* NOTHING HERE YET */ }
+{
+	
+
+	if(m_pCaster->GetReticle() != NULL)
+	{
+		tVector2D newpos, currpos;
+		currpos._x = GetPosX( );
+		currpos._y = GetPosY( );
+		newpos._x = m_pCaster->GetPosX();
+		newpos._y = m_pCaster->GetPosY();
+
+		float dot = (newpos._x * currpos._x)+(currpos._y * newpos._y);
+		float length = sqrt((newpos._x * newpos._x) + (newpos._y * newpos._y))* sqrt( ( currpos._x * currpos._x ) + ( currpos._y * currpos._y ) );
+		float angle = float( acos( dot / length ) + PI / 4.0f );
+		angle = angle * 180.0f / PI;
+		if(angle > 45.0f && angle < 135.0f);
+		{
+			m_pCaster->SetVelY(-100);
+		}
+	}
+	else if(m_pCaster->GetDirection() == DOWN || m_pCaster->GetDirection() == RIGHT_DOWN ||m_pCaster->GetDirection() == LEFT_DOWN)
+	{
+		m_pCaster->SetVelY(-100);
+	}
+	CSpell::UpdateTier2(fElapsedTime);
+}
+
+void WindTier3(CBase* pEnemy, CBase* pSpell)
+{
+	
+	float posx, posy;
+	posx = pSpell->GetPosX( );
+	posy = pSpell->GetPosY( );
+
+	posx = posx - pEnemy->GetPosX( );
+	posy = posy - pEnemy->GetPosY( );
+
+	posx = posx * posx;
+	posy = posy * posy;
+
+	posx = posx + posy;
+
+	//posx = sqrt(posx);
+
+	if(posx < (150 *150) )
+	{
+		CWind* newwind = new CWind;
+		if(pEnemy->GetPosX() < pSpell->GetPosX())
+		{
+			newwind->SetPosX(pEnemy->GetPosX()+1);
+		}
+		else
+		{
+			newwind->SetPosX(pEnemy->GetPosX());
+		}
+		newwind->SetVelX(pEnemy->GetVelX());
+		newwind->SetPosY(pEnemy->GetPosY());
+		newwind->SetActive(true);
+		newwind->SetElement(OBJ_WIND);
+		newwind->SetDamage(2);
+		newwind->SetPushBack(10.0f);
+		newwind->SetLifespan(0.2f);
+		newwind->SetTier(1);
+		newwind->SetWidth(32);
+		newwind->ShotBy(true);
+		newwind->SetHeight(16);
+		Corona_ObjectManager::GetInstance()->AddObject(newwind);
+		newwind->Release();
+	}
+
+
+}
 
 void CWind::UpdateTier3( float fElapsedTime )
-{ /* NOTHING HERE YET */ }
+{
+	SetPosX(m_pCaster->GetPosX());
+	SetPosY(m_pCaster->GetPosY());
+	m_fShotTimer -= fElapsedTime;
+	if(m_fShotTimer < 0.0f)
+	{
+		Corona_ObjectManager::GetInstance()->AuxFunction(&WindTier3,OBJ_ENEMY, false,this);	
+		m_fShotTimer = 0.5f;
+	}
+}
 
 void CWind::Render( )
 {
@@ -133,8 +215,9 @@ void CWind::HandleCollision( CBase* pObject )
 			((CEnemy*)pObject)->SetKnockBack(GetPushBack());
 			CSpellFactory::GetInstance()->AddWindXP(2);
 		}
-		else if( pObject->GetType( ) == OBJ_SPELL && ( ( CSpell* )pObject )->GetElement( ) != GetElement( ) )
-			SetActive( false );
+		else if( pObject->GetType( ) == OBJ_SPELL && ( ( CSpell* )pObject )->GetElement( ) != GetElement( ) 
+			&& ( ( CSpell* )pObject )->GetTier( ) != 3)
+				SetActive( false );
 	}
 	else if( 2 == GetTier( ) )
 	{ /* do stuff... like destroy... EVERYTHING */ }

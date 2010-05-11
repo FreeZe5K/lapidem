@@ -61,7 +61,11 @@ void Corona_EventHandler::SendEvent(EVENTID EventID, void* Data1, void* Data2)
 	CEvent newEvent(EventID, Data1, Data2);
 	m_pEvents.push_back(newEvent);
 }
-
+void Corona_EventHandler::ShutDownSystem()
+{
+	m_pClients.clear();
+	m_pEvents.clear();
+}
 void Corona_EventHandler::ProcessEvents()
 {
 	while(m_pEvents.size())
@@ -77,6 +81,7 @@ void Corona_EventHandler::ProcessEvents()
 			(*hunter).second->HandleEvent(&(m_pEvents.front()));
 			++hunter;
 		}
+
 		m_pEvents.pop_front();
 	}
 }

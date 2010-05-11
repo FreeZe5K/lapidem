@@ -18,6 +18,8 @@ class CPlayer : public CCharacter, public CLDevice
 	int m_nEarthEnergy;
 	int m_nScore;
 	int m_nTierThree;
+	bool m_bShielded;
+	float m_fShieldTimer;
 
 	void SetPlayerID( int _i )  { PlayerID = _i;      }
 	void ToggleReticle();
@@ -31,6 +33,15 @@ public:
 	void Attack( int );
 	void HandleCollision( CBase* );
 	void HandleEvent(CEvent * pEvent);
+	void SetShielded(bool bShielded) {m_bShielded = bShielded;}
+	int TakeDamage( int nDamage )
+	{
+		if(!m_bShielded)
+		{
+			m_nHealth -= nDamage;
+		}
+		return 0;
+	}
 
 
 	int GetPlayerCount( )    { return PlayerCount;    }

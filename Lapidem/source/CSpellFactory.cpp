@@ -623,19 +623,21 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 	}	
 }
 
-
 void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 {
-	switch(nTier)
+	CWind* newwind = new CWind();
+	if(pShooter->GetType() == OBJ_PLAYER)
 	{
-	case 1: // First Tier... Basic wind Spell
+		switch(nTier)
 		{
-			CWind* newwind = new CWind();
-			newwind->SetPosX(pShooter->GetPosX());
-			newwind->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
-			if(pShooter->GetType() == OBJ_PLAYER && ((CPlayer*)pShooter)->GetReticle())
+		case 1: // First Tier... Basic wind Spell
 			{
-				CBase* tempRet = ((CPlayer*)pShooter)->GetReticle();
+				
+				newwind->SetPosX(pShooter->GetPosX());
+				newwind->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
+				if(pShooter->GetType() == OBJ_PLAYER && ((CPlayer*)pShooter)->GetReticle())
+				{
+					CBase* tempRet = ((CPlayer*)pShooter)->GetReticle();
 
 					float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
 					float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
@@ -644,100 +646,206 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 					newwind->SetVelY(250 * speedy);
 
 
-			}
-			else
-			{
-				DIRECTION wheretoshoot = pShooter->GetDirection();
-				switch(wheretoshoot)
+				}
+				else
 				{
-				case 0:
+					DIRECTION wheretoshoot = pShooter->GetDirection();
+					switch(wheretoshoot)
 					{
-						newwind->SetVelX(-150);
-						newwind->SetVelY(0);
-						break;
-					}
-				case 1:
-					{
-						newwind->SetVelX(150);
-						newwind->SetVelY(0);
-						break;
-					}
-				case 2:
-					{
-						newwind->SetVelX(0);
-						newwind->SetVelY(-150);
-						break;
-					}
-				case 3:
-					{
-						newwind->SetVelX(0);
-						newwind->SetVelY(150);
-						break;
-					}
-				case 4:
-					{
-						newwind->SetVelX(-75);
-						newwind->SetVelY(-75);
-						break;
-					}
-				case 5:
-					{
-						newwind->SetVelX(-75);
-						newwind->SetVelY(75);
-						break;
-					}
-				case 6:
-					{
-						newwind->SetVelX(75);
-						newwind->SetVelY(-75);
-						break;
-					}
-				case 7:
-					{
-						newwind->SetVelX(75);
-						newwind->SetVelY(75);
-						break;
+					case 0:
+						{
+							newwind->SetVelX(-150);
+							newwind->SetVelY(0);
+							break;
+						}
+					case 1:
+						{
+							newwind->SetVelX(150);
+							newwind->SetVelY(0);
+							break;
+						}
+					case 2:
+						{
+							newwind->SetVelX(0);
+							newwind->SetVelY(-150);
+							break;
+						}
+					case 3:
+						{
+							newwind->SetVelX(0);
+							newwind->SetVelY(150);
+							break;
+						}
+					case 4:
+						{
+							newwind->SetVelX(-75);
+							newwind->SetVelY(-75);
+							break;
+						}
+					case 5:
+						{
+							newwind->SetVelX(-75);
+							newwind->SetVelY(75);
+							break;
+						}
+					case 6:
+						{
+							newwind->SetVelX(75);
+							newwind->SetVelY(-75);
+							break;
+						}
+					case 7:
+						{
+							newwind->SetVelX(75);
+							newwind->SetVelY(75);
+							break;
+						}
 					}
 				}
+
+				newwind->SetActive(true);
+				newwind->SetElement(OBJ_WIND);
+				newwind->SetDamage(9 + m_nWindLVL);
+				newwind->SetPushBack(10.0f + 5 *m_nWindLVL);
+				newwind->SetLifespan(5.0f);
+				newwind->SetTier(nTier);
+				newwind->SetWidth(32);
+				newwind->SetHeight(16);
+
+				if(pShooter->GetType() == OBJ_PLAYER)
+				{
+					newwind->ShotBy(true);
+				}
+				else
+				{
+					newwind->ShotBy(false);
+				}
+				Corona_ObjectManager::GetInstance()->AddObject(newwind);
+				newwind->Release();
+
+				break;
 			}
-
-			newwind->SetActive(true);
-			newwind->SetElement(OBJ_WIND);
-			newwind->SetDamage(9 + m_nWindLVL);
-			newwind->SetPushBack(10.0f + 5 *m_nWindLVL);
-			newwind->SetLifespan(5.0f);
-			newwind->SetTier(nTier);
-			newwind->SetWidth(32);
-			newwind->SetHeight(16);
-
-			if(pShooter->GetType() == OBJ_PLAYER)
+		case 2:
 			{
+				newwind->SetPosX(pShooter->GetPosX());
+				newwind->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
+				newwind->SetCaster((CPlayer*)pShooter);
+				if(pShooter->GetType() == OBJ_PLAYER && ((CPlayer*)pShooter)->GetReticle())
+				{
+					CBase* tempRet = ((CPlayer*)pShooter)->GetReticle();
+
+					float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
+					float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
+
+					newwind->SetVelX(250 * speedx);
+					newwind->SetVelY(250 * speedy);
+
+
+				}
+				else
+				{
+					DIRECTION wheretoshoot = pShooter->GetDirection();
+					switch(wheretoshoot)
+					{
+					case 0:
+						{
+							newwind->SetVelX(-150);
+							newwind->SetVelY(0);
+							break;
+						}
+					case 1:
+						{
+							newwind->SetVelX(150);
+							newwind->SetVelY(0);
+							break;
+						}
+					case 2:
+						{
+							newwind->SetVelX(0);
+							newwind->SetVelY(-150);
+							break;
+						}
+					case 3:
+						{
+							newwind->SetVelX(0);
+							newwind->SetVelY(150);
+							break;
+						}
+					case 4:
+						{
+							newwind->SetVelX(-75);
+							newwind->SetVelY(-75);
+							break;
+						}
+					case 5:
+						{
+							newwind->SetVelX(-75);
+							newwind->SetVelY(75);
+							break;
+						}
+					case 6:
+						{
+							newwind->SetVelX(75);
+							newwind->SetVelY(-75);
+							break;
+						}
+					case 7:
+						{
+							newwind->SetVelX(75);
+							newwind->SetVelY(75);
+							break;
+						}
+					}
+				}
+
+				newwind->SetActive(true);
+				newwind->SetElement(OBJ_WIND);
+				newwind->SetDamage(9 + m_nWindLVL);
+				newwind->SetPushBack(10.0f + 5 *m_nWindLVL);
+				newwind->SetLifespan(.25f);
+				newwind->SetTier(nTier);
+				newwind->SetWidth(16);
+				newwind->SetHeight(16);
 				newwind->ShotBy(true);
+				Corona_ObjectManager::GetInstance()->AddObject(newwind);
+				newwind->Release();
+
+				break;
 			}
-			else
+		case 3:
 			{
-				newwind->ShotBy(false);
+				newwind->SetPosX(pShooter->GetPosX());
+				newwind->SetPosY(pShooter->GetPosY());
+				newwind->SetCaster((CPlayer*)pShooter);
+				((CPlayer*)pShooter)->SetShielded(true);
+				newwind->SetActive(true);
+				newwind->SetElement(OBJ_WIND);
+				newwind->SetDamage(0);
+				newwind->SetPushBack(10.0f + 5 *m_nWindLVL);
+				newwind->SetLifespan(30.0f);
+				newwind->SetTier(nTier);
+				newwind->SetWidth(pShooter->GetWidth());
+				newwind->SetHeight(pShooter->GetHeight());
+				newwind->ShotBy(true);
+				Corona_ObjectManager::GetInstance()->AddObject(newwind);
+				newwind->Release();
+				break;
 			}
-			Corona_ObjectManager::GetInstance()->AddObject(newwind);
-			CEmitter *emitter;
-			emitter = m_pEF->CreateEmitter( "windSpell" );
-			emitter->SetPosX( newwind->GetPosX( ) - ( newwind->GetWidth( ) / 2 ) );
-			emitter->SetPosY( newwind->GetPosY( ) - ( newwind->GetHeight( ) / 2 ) );
-
-			emitter->SetVelX( newwind->GetVelX( ) );
-			emitter->SetVelY( newwind->GetVelY( ) );
-
-			emitter->GetParticle( )->SetPosX( newwind->GetPosX( ) - ( newwind->GetWidth( )  ) );
-			emitter->GetParticle( )->SetPosY( newwind->GetPosY( ) - ( newwind->GetHeight( )  ) );
-			emitter->SetLooping( true );
-
-			newwind->SetEmitter(emitter);
-			CParticleManager::GetInstance( )->AddEmitter( emitter );
-			emitter = NULL;
-
-			newwind->Release();
-
-			break;
 		}
-	}	
+	}
+	CEmitter *emitter;
+	emitter = m_pEF->CreateEmitter( "windSpell" );
+	emitter->SetPosX( newwind->GetPosX( ) - ( newwind->GetWidth( ) / 2 ) );
+	emitter->SetPosY( newwind->GetPosY( ) - ( newwind->GetHeight( ) / 2 ) );
+
+	emitter->SetVelX( newwind->GetVelX( ) );
+	emitter->SetVelY( newwind->GetVelY( ) );
+
+	emitter->GetParticle( )->SetPosX( newwind->GetPosX( ) - ( newwind->GetWidth( )  ) );
+	emitter->GetParticle( )->SetPosY( newwind->GetPosY( ) - ( newwind->GetHeight( )  ) );
+	emitter->SetLooping( true );
+
+	newwind->SetEmitter(emitter);
+	CParticleManager::GetInstance( )->AddEmitter( emitter );
+	emitter = NULL;
 }
