@@ -115,8 +115,6 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 
 					if(newearth->GetVelX() < 0)
 						newearth->SetPosX(pShooter->GetPosX() - 34);
-
-
 				}
 				else
 				{
@@ -509,79 +507,85 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 	newfire->Release();
 }
 
+void IceTierTwo( CBase* _enemy, CBase* _spell )
+{ /* TODO :: Tier Two. */ }
+
+void IceTierThree( CBase* _enemy, CBase* _spell )
+{ _enemy->SetVelX( 0.0f ); _enemy->SetVelY( 0.0f ); }
+
 void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 {
-	CIce* newice = new CIce();
+	CIce* newice = new CIce( );
 	newice->SetElement( OBJ_ICE );
 
-	switch(nTier)
+	switch( nTier )
 	{
 	case 1: // First Tier... Basic Spell
 		{
-			newice->SetPosX(pShooter->GetPosX());
-			newice->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
+			newice->SetPosX( pShooter->GetPosX( ) );
+			newice->SetPosY( pShooter->GetPosY( ) + pShooter->GetHeight( ) * .25f );
 
-			if(pShooter->GetType() == OBJ_PLAYER && ((CPlayer*)pShooter)->GetReticle())
+			if( pShooter->GetType( ) == OBJ_PLAYER && ( ( CPlayer* )pShooter )->GetReticle( ) )
 			{
-				CBase* tempRet = ((CPlayer*)pShooter)->GetReticle();
+				CBase* tempRet = ( ( CPlayer* )pShooter )->GetReticle( );
 
-				float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
-				float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
+				float speedx = ( tempRet->GetPosX( ) - pShooter->GetPosX( ) ) / 100;
+				float speedy = ( tempRet->GetPosY( ) - pShooter->GetPosY( ) ) / 100;
 
-				newice->SetVelX(250 * speedx);
-				newice->SetVelY(250 * speedy);
+				newice->SetVelX( 250 * speedx );
+				newice->SetVelY( 250 * speedy );
 			}
 			else
 			{
-				DIRECTION wheretoshoot = pShooter->GetDirection();
-				switch(wheretoshoot)
+				DIRECTION wheretoshoot = pShooter->GetDirection( );
+				switch( wheretoshoot )
 				{
 				case 0:
 					{
-						newice->SetVelX(-150);
-						newice->SetVelY(0);
+						newice->SetVelX( -150 );
+						newice->SetVelY( 0 );
 						break;
 					}
 				case 1:
 					{
-						newice->SetVelX(150);
-						newice->SetVelY(0);
+						newice->SetVelX( 150 );
+						newice->SetVelY( 0 );
 						break;
 					}
 				case 2:
 					{
-						newice->SetVelX(0);
-						newice->SetVelY(-150);
+						newice->SetVelX( 0 );
+						newice->SetVelY( -150 );
 						break;
 					}
 				case 3:
 					{
-						newice->SetVelX(0);
-						newice->SetVelY(150);
+						newice->SetVelX( 0 );
+						newice->SetVelY( 150 );
 						break;
 					}
 				case 4:
 					{
-						newice->SetVelX(-75);
-						newice->SetVelY(-75);
+						newice->SetVelX( -75 );
+						newice->SetVelY( -75 );
 						break;
 					}
 				case 5:
 					{
-						newice->SetVelX(-75);
-						newice->SetVelY(75);
+						newice->SetVelX( -75 );
+						newice->SetVelY( 75 );
 						break;
 					}
 				case 6:
 					{
-						newice->SetVelX(75);
-						newice->SetVelY(-75);
+						newice->SetVelX( 75 );
+						newice->SetVelY( -75 );
 						break;
 					}
 				case 7:
 					{
-						newice->SetVelX(75);
-						newice->SetVelY(75);
+						newice->SetVelX( 75 );
+						newice->SetVelY( 75 );
 						break;
 					}
 				}
@@ -598,7 +602,7 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 				newice->ShotBy( true );
 			else newice->ShotBy( false ); 
 
-			newice->SetTier(nTier);
+			newice->SetTier( nTier );
 			break;
 		}
 	case 2:
@@ -607,11 +611,13 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 		}
 	case 3:
 		{
+			Corona_ObjectManager::GetInstance( )->AuxFunction
+				( &IceTierThree, OBJ_ENEMY, true, NULL );
 			break;
 		}
 	}	
 
-	Corona_ObjectManager::GetInstance()->AddObject(newice);
+	Corona_ObjectManager::GetInstance( )->AddObject( newice );
 	
 	CEmitter *emitter;
 	emitter = m_pEF->CreateEmitter( "icespell" );
@@ -629,7 +635,7 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 	CParticleManager::GetInstance( )->AddEmitter( emitter );
 	emitter = NULL;
 
-	newice->Release();
+	newice->Release( );
 }
 
 void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
