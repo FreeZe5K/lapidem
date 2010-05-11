@@ -17,7 +17,10 @@
 
 CEnemy::CEnemy( EleType ElementToBe, float initx, float inity )
 {
-	m_nType = OBJ_ENEMY;
+	m_nType         = OBJ_ENEMY;
+	m_bIsFrozen     = false;
+	m_fFrozenSpeed  = 0.5f;
+	m_fFreezeTimer  = 0.0f;
 
 	switch( ElementToBe )
 	{
@@ -66,10 +69,10 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity )
 	m_fShotTimer   = 3.0f;
 	m_fWaitTimer   = 0.0f;
 	m_nAttackWho   = 0;
-	m_fKnockBack = 0.0f;
-	m_bKnockBack = false;
-	m_bBurning   = false;
-	m_nBurnDamage = 0;
+	m_fKnockBack   = 0.0f;
+	m_bKnockBack   = false;
+	m_bBurning     = false;
+	m_nBurnDamage  = 0;
 	m_fBurnTimer   = 0.0f;
 }
 
@@ -96,7 +99,6 @@ CEnemy::~CEnemy( )
 			newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_EarthEnergy.png"));
 			newpickup->SetWidth(64);
 			newpickup->SetHeight(48);
-
 		}
 		else if(GetEleType() == OBJ_FIRE)
 		{
@@ -104,7 +106,6 @@ CEnemy::~CEnemy( )
 			newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_FireEnergy.png"));
 			newpickup->SetWidth(64);
 			newpickup->SetHeight(48);
-
 		}
 		else if(GetEleType() == OBJ_ICE)
 		{
@@ -112,7 +113,6 @@ CEnemy::~CEnemy( )
 			newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_IceEnergy.png"));
 			newpickup->SetWidth(64);
 			newpickup->SetHeight(48);
-
 		}
 		else
 		{
@@ -120,12 +120,10 @@ CEnemy::~CEnemy( )
 			newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_WindEnergy.png"));
 			newpickup->SetWidth(64);
 			newpickup->SetHeight(58);
-
 		}
 	}
-		Corona_ObjectManager::GetInstance()->AddObject(newpickup);
-		newpickup->Release();
-
+	Corona_ObjectManager::GetInstance()->AddObject(newpickup);
+	newpickup->Release();
 }
 
 void CEnemy::Update( float fElapsedTime )
@@ -198,8 +196,17 @@ void CEnemy::Update( float fElapsedTime )
 
 			Corona_ObjectManager::GetInstance()->AddObject(SN);
 			SN->Release();
-
 		}
+	}
+
+	if( m_bIsFrozen )
+	{
+		m_fFreezeTimer = m_fFreezeTimer - fElapsedTime;
+
+		if( m_fFreezeTimer <= 0 )
+			m_bIsFrozen = false;
+
+		SetVelX( m_fFrozenSpeed );
 	}
 
 	if( m_nHealth <= 0 )
@@ -245,8 +252,11 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 		int spelltype = ((CSpell*)collidingObject)->GetElement();
 		int DamageToTake = ((CSpell*)collidingObject)->GetDamage();
 		int EleType	= GetEleType();
-		if( (spelltype == OBJ_FIRE && EleType == OBJ_ICE) || (spelltype == OBJ_ICE && EleType == OBJ_WIND)		||
-			(spelltype == OBJ_EARTH && EleType == OBJ_FIRE ) || (spelltype == OBJ_WIND && EleType == OBJ_EARTH) )
+
+		if( ( spelltype == OBJ_FIRE && EleType == OBJ_ICE ) || 
+			( spelltype == OBJ_ICE && EleType == OBJ_WIND ) ||
+			( spelltype == OBJ_EARTH && EleType == OBJ_FIRE ) || 
+			( spelltype == OBJ_WIND && EleType == OBJ_EARTH ) )
 		{
 			StickyNumbers* SN = new StickyNumbers();
 			SN->SetTimer(20.0f);
@@ -263,8 +273,10 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 			Corona_ObjectManager::GetInstance()->AddObject(SN);
 			SN->Release();
 		}
-		else if( (spelltype == OBJ_FIRE && EleType == OBJ_EARTH) || (spelltype == OBJ_ICE && EleType == OBJ_FIRE)		||
-			(spelltype == OBJ_EARTH && EleType == OBJ_WIND ) || (spelltype == OBJ_WIND && EleType == OBJ_ICE) )
+		else if( (spelltype == OBJ_FIRE && EleType == OBJ_EARTH) || 
+			(spelltype == OBJ_ICE && EleType == OBJ_FIRE) ||
+			(spelltype == OBJ_EARTH && EleType == OBJ_WIND ) || 
+			(spelltype == OBJ_WIND && EleType == OBJ_ICE) )
 		{
 			StickyNumbers* SN = new StickyNumbers();
 			SN->SetTimer(5.0f);
@@ -299,7 +311,7 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 			SN->Release();
 		}
 
-		if(spelltype == OBJ_FIRE)
+		if( OBJ_FIRE == spelltype )
 		{
 			if(m_bBurning)
 				m_nBurnDamage += ((CFire*)collidingObject)->GetDOT();
@@ -310,70 +322,12 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 				m_fBurnTimer = 15.0f;
 			}
 		}
-		/*if(spelltype == OBJ_FIRE)
-		{
-		if(GetEleType() == OBJ_ICE)
-		{
 
-		m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage( )<<1));
-		}
-		else if(GetEleType() == OBJ_EARTH)
+		if( OBJ_ICE == spelltype )
 		{
-		m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage()>>1);	
+			m_bIsFrozen     = true;
+			m_fFrozenSpeed  = GetVelX( ) * 0.9f;
+			m_fFreezeTimer  = 15.0f;
 		}
-		else if(GetEleType() == OBJ_WIND)
-		{
-		m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage();
-		}
-		}
-		else if(spelltype == OBJ_ICE)
-		{
-		if(GetEleType() == OBJ_FIRE)
-		{
-		m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage( )>>1);	
-		}
-		else if(GetEleType() == OBJ_EARTH)
-		{
-		m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage();	
-		}
-		else if(GetEleType() == OBJ_WIND)
-		{
-		m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage() <<1);
-		}
-		}
-		else if(spelltype == OBJ_EARTH)
-		{
-		if(GetEleType() == OBJ_FIRE)
-		{
-		m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage( )<<1);	
-		}
-		else if(GetEleType() == OBJ_ICE)
-		{
-		m_nHealth = m_nHealth - ((CSpell*)collidingObject)->GetDamage();	
-		}
-		else if(GetEleType() == OBJ_WIND)
-		{
-		m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage() >>1);
-		}
-		}
-		else if(spelltype == OBJ_WIND)
-		{
-		if(GetEleType() == OBJ_FIRE)
-		{
-		m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage( ));	
-		}
-		else if(GetEleType() == OBJ_EARTH)
-		{
-		TakeDamage((((CSpell*)collidingObject)->GetDamage()<<1));	
-		}
-		else if(GetEleType() == OBJ_ICE)
-		{
-		m_nHealth = m_nHealth - (((CSpell*)collidingObject)->GetDamage() >>1);
-		}
-		}
-
-		}*/
-		//else if( collidingObject->GetType( ) == OBJ_PLAYER )
-		//	SetVelX( -GetVelX( ) );
 	}
 }

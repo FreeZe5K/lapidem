@@ -5,15 +5,19 @@ class IAIState;
 
 class CEnemy : public CCharacter
 {
+private:
 	IAIState*  currState;
 	float      m_fShotTimer;
 	float      m_fWaitTimer;
-	int        m_nAttackWho;
-	bool	   m_bKnockBack;
 	float	   m_fKnockBack;
-	bool	   m_bBurning;
-	int		   m_nBurnDamage;
 	float      m_fBurnTimer;
+	float      m_fFreezeTimer;
+	float      m_fFrozenSpeed;
+	int        m_nAttackWho;
+	int		   m_nBurnDamage;
+	bool	   m_bKnockBack;
+	bool	   m_bBurning;
+	bool       m_bIsFrozen;
 
 public:
 	CEnemy( EleType, float, float ); 

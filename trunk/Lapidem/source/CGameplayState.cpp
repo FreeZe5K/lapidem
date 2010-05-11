@@ -62,8 +62,7 @@ void CGameplayState::Enter( )
 			}
 		}
 	}
-	else
-		theLevel.LoadNewLevel( "resource/data/level1.laplvl" );	// if not loaded from file
+	else theLevel.LoadNewLevel( "resource/data/level1.laplvl" );	// if not loaded from file
 
 	CBase* pEntry = theLevel.GetEntryPoint( );
 
@@ -95,8 +94,7 @@ void CGameplayState::Enter( )
 	// Change the background image.
 	// - - - - - - - - - - - - - -
 	/* Note by Pablo
-	Background image will be handled by the CLevel.
-	*/
+	Background image will be handled by the CLevel.	*/
 	m_nImageID[0]   = m_pTM->LoadTexture( "resource/graphics/placeholderArt.png" );
 	m_nImageID[1]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_ISinglePlayer.png" );
 	m_nImageID[2]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_IMultiPlayer.png" );
@@ -110,7 +108,6 @@ void CGameplayState::Enter( )
 	m_pPM = CParticleManager::GetInstance( );
 	m_pEF = CEmitterFactory::GetInstance( );
 	m_pEF->Initialize( );
-
 
 	if( m_bLoadedFromFile )
 	{
@@ -351,36 +348,36 @@ void CGameplayState::Render( )
 			0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 160, 255, 255, 255 ) );
 
 		char cBuffer[64];
-		sprintf_s( cBuffer, "HEALTH   - %i", m_pPlayerOne->GetHealth( ) );
+		sprintf_s( cBuffer, "HEALTH  - %i", m_pPlayerOne->GetHealth( ) );
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 			5, 0, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
 		if( OBJ_FIRE == m_pPlayerOne->GetEleType( ) )
 		{
-			sprintf_s( cBuffer, "ELEMENT  - %s", "FIRE" );
+			sprintf_s( cBuffer, "ELEMENT - %s", "FIRE" );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 150, 150 ) );
 		}
 		else if( OBJ_ICE == m_pPlayerOne->GetEleType( ) )
 		{
-			sprintf_s( cBuffer, "ELEMENT  - %s", "ICE" );			
+			sprintf_s( cBuffer, "ELEMENT - %s", "ICE" );			
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 150, 150, 255 ) );
 		}
 		else if( OBJ_WIND == m_pPlayerOne->GetEleType( ) )
 		{
-			sprintf_s( cBuffer, "ELEMENT  - %s", "WIND" );
+			sprintf_s( cBuffer, "ELEMENT - %s", "WIND" );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( OBJ_EARTH == m_pPlayerOne->GetEleType( ) )
 		{
-			sprintf_s( cBuffer, "ELEMENT  - %s", "EARTH" );
+			sprintf_s( cBuffer, "ELEMENT - %s", "EARTH" );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 160, 255, 40 ) );
 		}
 
-		sprintf_s( cBuffer, "SCORE - %i", GetPlayerOne( )->GetScore( ));
+		sprintf_s( cBuffer, "SCORE  - %i", GetPlayerOne( )->GetScore( ));
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 			5, 35, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	}

@@ -204,10 +204,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\source\AIStateWind.h"
-						>
-					</File>
-					<File
 						RelativePath=".\source\CCharacter.h"
 						>
 					</File>
@@ -237,10 +233,6 @@
 					</File>
 					<File
 						RelativePath=".\source\AIStateFire.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\source\AIStateWind.cpp"
 						>
 					</File>
 					<File
