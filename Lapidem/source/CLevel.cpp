@@ -9,9 +9,10 @@
 #include "CLevel.h"
 #include "Wrappers/CSGD_TextureManager.h"
 #include "Corona_ObjectManager.h"// CSGD_TextureManager.h"
-#include "CTerrainBase.h"
+//#include "CTerrainBase.h"
 #include "CEnemySpawner.h"
 #include "CLevelSwitch.h"
+#include "CWaterTerrain.h"
 #include "CCamera.h"
 //#include <fstream>
 #include <string>
@@ -56,6 +57,7 @@ void CLevel::Clear( )
 	for( UINT i = 0; i < m_pEventTiles.size( ); ++i )
 	{
 		m_pEventTiles[i]->SetActive( false );
+		Corona_ObjectManager::GetInstance()->RemoveObject(m_pEventTiles[i]);
 		m_pEventTiles[i]->Release( );
 	}
 
@@ -142,6 +144,11 @@ void CLevel::LoadNewLevel( char* filename )
 		//in.read( (char*)&size, sizeof(char));
 		in.read( ( char* )&data, sizeof( int ) );
 		SetTileRow( data );
+		//for(int i = 0; i < MAX_TERRAIN; ++i)
+		//{
+		//	in.read((char*)&data, sizeof(int));
+		//	m_nTerrainTileIDs[i] = data;
+		//}
 
 		if( GetTileSet() != -1 )
 			CSGD_TextureManager::GetInstance( )->UnloadTexture( GetTileSet( ) );
@@ -217,7 +224,7 @@ void CLevel::LoadNewLevel( char* filename )
 			in.read( ( char* )&ID, sizeof( int ) );
 			//in.read( (char*)&size, sizeof(char));
 			in.read( ( char* )&Type, sizeof( int ) );
-
+			
 			switch ( Type )
 			{
 			case 'a': break;
@@ -242,6 +249,8 @@ void CLevel::LoadNewLevel( char* filename )
 				newTerrain->SetVelY( 0 );
 
 				m_pTerrainTiles.push_back( newTerrain );
+
+				m_nTerrainTileIDs[Type] = ID;
 				break;
 			};
 		}
@@ -347,7 +356,8 @@ void CLevel::LoadNewLevel( char* filename )
 
 			case WATER_THR:
 				{
-					CTerrainBase* newEvent( new CTerrainBase( ) );
+					//CTerrainBase* newEvent( new CTerrainBase( ) );
+					CWaterTerrain* newEvent = new CWaterTerrain;
 
 					newEvent->SetType( OBJ_EVENT );
 					newEvent->SetTypeTerrain( Type );
@@ -364,8 +374,15 @@ void CLevel::LoadNewLevel( char* filename )
 					newEvent->SetTileRows( GetTileRow( ) );
 					newEvent->SetVelX( 0 );
 					newEvent->SetVelY( 0 );
+					newEvent->SetControlTile((CTerrainBase*)GetTile((int)newEvent->GetPosX(), (int)newEvent->GetPosY()));
+
+					newEvent->SetDistance(data);
+					newEvent->SetWaterID(GetTileIDFromType(T_WATER));
 
 					m_pEventTiles.push_back( newEvent );
+					//newEvent->Release();
+
+					Corona_ObjectManager::GetInstance()->AddObject(newEvent);
 				} break;
 
 			default:

@@ -179,12 +179,20 @@
 						RelativePath=".\source\CTerrainBase.h"
 						>
 					</File>
+					<File
+						RelativePath=".\source\CWaterTerrain.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="Source Files"
 					>
 					<File
 						RelativePath=".\source\CTerrainBase.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CWaterTerrain.cpp"
 						>
 					</File>
 				</Filter>
