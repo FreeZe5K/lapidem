@@ -10,8 +10,9 @@
 
 #include "CSpell.h"
 #include "Lapidem_Math.h"
+#include "CLDevice.h"
 
-class CEarth : public CSpell
+class CEarth : public CSpell, public CLDevice
 {
 private:
 	//Used for the basic earth bolt. 
@@ -29,6 +30,9 @@ private:
 	float m_fDisplay;
 	float  m_fRiseAmount;
 	bool   collided;
+	bool  m_bSunk;
+	bool  m_bIsIce;
+	float m_fCrumbleTimer;
 
 
 public:
@@ -49,6 +53,7 @@ public:
 	//			      and damage dealing is done here.
 	//////////////////////////////////////////////////////////////////////////
 	void HandleCollision( CBase* );
+	void HandleEvent(CEvent *pEvent);
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Update"

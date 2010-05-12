@@ -2,6 +2,8 @@
 #include "Wrappers/CSGD_TextureManager.h"
 #include "CSpellFactory.h"
 #include "Corona_ObjectManager.h"
+#include "Corona_EventHandler.h"
+#include "CTerrainBase.h"
 #include "CCamera.h" 
 #include "CGame.h"
 #include <math.h>
@@ -29,10 +31,17 @@ CEarth::CEarth() : CSpell()
 	m_fTimeTillRotate    = 1.0f;
 	m_fDisplay = 0.0f;
 	SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/LapidemEarth.bmp", D3DCOLOR_XRGB( 0, 0, 0 ) ) );
+	Corona_EventHandler::GetInstance()->RegisterClient(this, "SinkRock");
+	Corona_EventHandler::GetInstance()->RegisterClient(this, "CreateIce");
+	m_bSunk = false;
+	m_bIsIce = false;
+	m_fCrumbleTimer = 0.0f;
 }
 
 CEarth::~CEarth()
 {
+	Corona_EventHandler::GetInstance()->UnregisterClient("SinkRock", this);
+	Corona_EventHandler::GetInstance()->UnregisterClient("CreateIce", this);
 	if( GetImage( ) >= 0 )
 		CSGD_TextureManager::GetInstance( )->UnloadTexture( GetImage( ) );
 }
@@ -65,6 +74,9 @@ void CEarth::Update( float fElapsedTime )
 
 void CEarth::UpdateTier1( float fElapsedTime )
 {
+
+	if(m_bIsIce)
+		return;
 	SetVelY( GetVelY( ) + fElapsedTime * 100 );
 
 	if( m_fTimeTillRotate > 0 )
@@ -125,6 +137,19 @@ void CEarth::UpdateTier1( float fElapsedTime )
 	{
 		SetPosX( 0 );
 		SetVelX( 0 );
+	}
+
+	if(m_bSunk)
+	{
+		m_fCrumbleTimer = m_fCrumbleTimer + fElapsedTime;
+
+		if(m_fCrumbleTimer > .2f && m_fCrumbleTimer < .25)
+			SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/LapidemEarth2.bmp", D3DCOLOR_XRGB( 0, 0, 0 ) ) );
+		else if(m_fCrumbleTimer > .4f && m_fCrumbleTimer < .45f)
+			SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/LapidemEarth3.bmp", D3DCOLOR_XRGB( 0, 0, 0 ) ) );
+		else if(m_fCrumbleTimer > .6f && m_fCrumbleTimer < .65f)
+			SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/LapidemEarth4.bmp", D3DCOLOR_XRGB( 0, 0, 0 ) ) );
+
 	}
 }
 
@@ -272,7 +297,14 @@ void CEarth::HandleCollision( CBase* pObject )
 			if( pObject->GetPosY( ) + 1 > GetPosY( ) + GetHeight( ) )
 				SetVelY( GetVelY( ) * -0.2f );
 
-			this->MoveOutOf( pObject );
+			if(!m_bIsIce)
+				this->MoveOutOf( pObject );
+
+			if(pObject->GetType( ) == OBJ_PLAYER )
+			{
+				pObject->MoveOutOf(this);
+				((CPlayer*)pObject)->ResetJump();
+			}
 			collided = true;
 
 			if( pObject->GetType( ) == OBJ_TERRA && !collided)
@@ -301,5 +333,35 @@ void CEarth::HandleCollision( CBase* pObject )
 	{}
 	else if( 3 == GetTier( ) )
 	{ /* holy crap everything go splode */ }
+
+}
+
+void CEarth::HandleEvent(CEvent * pEvent)
+{
+
+	if(!strcmp(pEvent->GetEventID().c_str(), "SinkRock") && pEvent->GetData1() == this && !m_bSunk)
+	{
+		m_bSunk = true;
+		SetHeight(GetHeight() >> 1);
+	}
+	if(!strcmp(pEvent->GetEventID().c_str(), "CreateIce") && pEvent->GetData1() == this)
+	{
+		Corona_ObjectManager::GetInstance()->AddObject(this);
+
+		this->SetActive(true);
+		this->SetHeight(16);
+		this->SetWidth(32);
+		this->SetVelX(0.f);
+		this->SetVelY(0.f);
+		this->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture( "resource/graphics/LapidemIce.bmp", D3DCOLOR_XRGB( 0, 0, 0)));
+		this->SetPosX(((CTerrainBase*)pEvent->GetData2())->GetPosX());		
+		this->SetPosY(((CTerrainBase*)pEvent->GetData2())->GetPosY() - GetHeight() - 2);
+		this->SetLifespan(10.f);
+		this->SetTier(1);
+		this->SetDamage(0);
+		m_bIsIce = true;
+		this->Release();
+		
+	}
 
 }

@@ -19,10 +19,14 @@ class CPlayer : public CCharacter, public CLDevice
 	int m_nScore;
 	int m_nTierThree;
 	bool m_bShielded;
+	bool m_bIsDrowning;
+	bool m_bIsTouching;
 	float m_fShieldTimer;
 
 	void SetPlayerID( int _i )  { PlayerID = _i;      }
 	void ToggleReticle();
+
+	bool Tossed;
 
 public:
 	CPlayer( );
@@ -43,6 +47,12 @@ public:
 		return 0;
 	}
 
+	void ResetJump()
+	{
+		m_bIsJumping = false;
+		m_fJumpTimer = 0.0f;
+	}
+
 
 	int GetPlayerCount( )    { return PlayerCount;    }
 	int GetPlayerID( )       { return PlayerID;       }
@@ -52,5 +62,6 @@ public:
 	int GetEarthEnergy( )    { return m_nEarthEnergy; }
 	int GetIceEnergy( )      { return m_nWaterEnergy; }
 	int GetT3Count( )	     { return m_nTierThree;   }
+	bool GetTossed( )		 { return Tossed;		  }
 	CBase* GetReticle( )	 { return m_pReticle;	  }
 };

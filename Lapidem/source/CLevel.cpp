@@ -10,6 +10,7 @@
 #include "Wrappers/CSGD_TextureManager.h"
 #include "Corona_ObjectManager.h"// CSGD_TextureManager.h"
 //#include "CTerrainBase.h"
+#include "CTAirCurrent.h"
 #include "CEnemySpawner.h"
 #include "CLevelSwitch.h"
 #include "CWaterTerrain.h"
@@ -384,7 +385,33 @@ void CLevel::LoadNewLevel( char* filename )
 
 					Corona_ObjectManager::GetInstance()->AddObject(newEvent);
 				} break;
+			case AIR_CURRENT:
+				{
+					CTAirCurrent *  newCurrent(new CTAirCurrent () );
 
+					newCurrent->SetType( OBJ_EVENT );
+					newCurrent->SetTypeTerrain( Type );
+					newCurrent->SetBaseTileID( GetBaseTileID() );
+					newCurrent->SetDamage( 0 );
+					newCurrent->SetHealth( 1 );
+					newCurrent->SetHeight( GetTileHeight() );
+					newCurrent->SetWidth( GetTileWidth() );
+					newCurrent->SetPosX( float(i % GetWorldCollumn( ) ) * GetTileWidth( ) );
+					newCurrent->SetPosY( float(i / GetWorldCollumn( ) ) * GetTileHeight( ) );
+					newCurrent->SetTileCollumns( GetTileCollumn( ) );
+					newCurrent->SetTileID( GetBaseTileID( ) );
+					newCurrent->SetTileRows( GetTileRow( ) );
+					newCurrent->SetVelX( 0 );
+					newCurrent->SetVelY( 0 );
+
+					newCurrent->SetDirection(data);
+
+					Corona_ObjectManager::GetInstance( )->AddObject( newCurrent );
+					newCurrent->Release();
+
+
+				}
+				break;
 			default:
 				{
 					CTerrainBase* newEvent( new CTerrainBase( ) );

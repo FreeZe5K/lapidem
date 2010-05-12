@@ -176,6 +176,10 @@
 					Name="Header Files"
 					>
 					<File
+						RelativePath=".\source\CTAirCurrent.h"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CTerrainBase.h"
 						>
 					</File>
@@ -187,6 +191,10 @@
 				<Filter
 					Name="Source Files"
 					>
+					<File
+						RelativePath=".\source\CTAirCurrent.cpp"
+						>
+					</File>
 					<File
 						RelativePath=".\source\CTerrainBase.cpp"
 						>

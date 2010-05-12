@@ -1,8 +1,9 @@
 #include "CWaterTerrain.h"
-
+#include "Corona_ObjectManager.h"
 #include "CGameplayState.h"
 #include "Corona_EventHandler.h"
 #include "CEnemy.h"
+#include "CEarth.h"
 #include "CGameplayState.h"
 #include "Wrappers/CSGD_TextureManager.h"
 #include "CCamera.h"
@@ -101,9 +102,9 @@ void CWaterTerrain::Update(float fElapsedTime)
 			m_bIsFlooding = false;
 
 
-	}	//m_bIsFlooding
+	}
 
-	if(m_pControlTile->GetHealth() <= 0 && !m_bIsFlooding)
+	if(Corona_ObjectManager::GetInstance()->IsOnScreen(m_pControlTile) && !m_bIsFlooding)
 		m_bIsFlooding = true;
 
 	if(m_nCurrDistance >= m_nDistanceToFlood && !m_bIsFlooding)
@@ -114,9 +115,9 @@ void CWaterTerrain::HandleCollision(CBase* pBase)
 {	
 	if(m_bIsFlooding)
 	{
-		if(pBase->GetType() == OBJ_PLAYER || (pBase->GetType() == OBJ_ENEMY && ((CEnemy*)pBase)->GetEleType() != OBJ_ICE))
+		if((pBase->GetType() == OBJ_ENEMY && ((CEnemy*)pBase)->GetEleType() != OBJ_ICE))
 		{
-			if(this->GetPosY() >= pBase->GetPosY())
+			if(this->GetPosY() <= pBase->GetPosY())
 			{
 				((CCharacter*)pBase)->TakeDamage(this->GetDamage());
 			}
@@ -126,7 +127,11 @@ void CWaterTerrain::HandleCollision(CBase* pBase)
 	if(pBase->GetType() == OBJ_SPELL)
 	{
 		if(((CSpell*)pBase)->GetElement() == OBJ_EARTH)
-			SetHealth(GetHealth() - 0 * ((CSpell*)pBase)->GetDamage());
+			return;
+		else if( ( (CSpell*)pBase)->GetElement() == OBJ_ICE)
+		{
+			Corona_EventHandler::GetInstance()->SendEvent("CreateIce", (void*)(new CEarth()), (void*)this);
+		}
 		else SetHealth(GetHealth() - ((CSpell* )pBase)->GetDamage());
 	}
 }

@@ -31,20 +31,16 @@ public:
 
 	static CProfiler* GetInstance()
 	{
-		if(profiler == NULL)
+		/*if(profiler == NULL)
 		{
 			profiler = new CProfiler;
-		}
-		return profiler;
+		}*/
+		static CProfiler new_CP;
+		return &new_CP;//profiler;
 	}
 	void DeleteInstance()
 	{
-		if(profiler)
-		{
-			delete profiler;
-			profiler = NULL;
-		}
-
+		
 	}
 	
 	void Start(string FuncName);

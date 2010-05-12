@@ -14,7 +14,7 @@
 #include "Corona_EventHandler.h"
 
 CTerrainBase::CTerrainBase( )
-{ SetCollided( false ); }
+{ SetCollided( false ); m_fTransformTimer = -2.f; }
 
 CTerrainBase::~CTerrainBase( )
 { /* NOTHING HERE YET */ }
@@ -35,6 +35,7 @@ void CTerrainBase::Update( float fDT )
 {
 	CBase::Update( fDT );
 	SetCollided( false );
+	m_fTransformTimer -= fDT;
 }
 
 void CTerrainBase::HandleCollision( CBase* pBase )
@@ -47,7 +48,13 @@ void CTerrainBase::HandleCollision( CBase* pBase )
 			if(GetType() ==  OBJ_TERRA)
 			{
 				if( ( ( CSpell* )pBase )->GetElement( ) == OBJ_EARTH )
-					SetHealth( GetHealth( ) - 0 * ( ( CSpell* )pBase )->GetDamage( ) );
+				{
+					if(GetTypeTerrain() == T_LAVA)
+					{
+						Corona_EventHandler::GetInstance()->SendEvent("SinkRock", (void*)pBase);
+					}
+
+				}
 				else SetHealth( GetHealth( ) - ( ( CSpell* )pBase )->GetDamage( ) );
 
 				if(GetHealth ( ) <= 0 && m_bIsActive)
