@@ -33,6 +33,8 @@ void CGameplayState::Enter( )
 	CAnimationWarehouse::GetInstance( )->LoadAnimationSet( 
 		"resource/idlewalk.Anim", D3DCOLOR_XRGB( 255, 255, 255 ) );
 
+	m_bMapActive    = true;
+
 	m_pPlayerOne	= new CPlayer( );
 	m_pPlayerOne->SetAnimation( 0, 0 );
 
@@ -99,6 +101,8 @@ void CGameplayState::Enter( )
 	m_nImageID[0]   = m_pTM->LoadTexture( "resource/graphics/placeholderArt.png");
 	m_nImageID[1]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_ISinglePlayer.png" );
 	m_nImageID[2]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_IMultiPlayer.png" );
+	m_nImageID[3]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_Minimap.png" );
+	m_nImageID[4]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_MMArrow.png" );
 	// - - - - - - - - - - - - - -
 
 	m_pCoM->AddObject( m_pPlayerOne );
@@ -175,6 +179,9 @@ void CGameplayState::Enter( )
 		Corona_EventHandler::GetInstance( )->RegisterClient( this, "P2 OFFSCREEN" );
 	m_fP2RespawnTimer = -1.0f;
 
+	m_tDir._x = 0.0f;
+	m_tDir._y = -100.0f;
+
 	CGame::GetInstance( )->SetTimeLeft( 600 );
 }
 
@@ -194,16 +201,16 @@ bool CGameplayState::Input( )
 	if(!m_pPlayerOne->GetTossed())
 	{
 
-	
-	if( m_pDI->KeyDown( DIK_D ) || m_pDI->JoystickDPadDown( 1 ) )
-		m_pPlayerOne->SetVelX( PLAYER_SPEED );
-	else if( m_pDI->KeyDown( DIK_A )  || m_pDI->JoystickDPadDown(0) )
-		m_pPlayerOne->SetVelX( -PLAYER_SPEED );
-	else m_pPlayerOne->SetVelX( PLAYER_SPEED * m_pDI->JoystickGetLStickXNormalized( ) );
 
-	if( m_pDI->KeyDown( DIK_W ) || m_pDI->JoystickDPadDown( 2 ) || 
-		m_pDI->JoystickGetLStickYNormalized( ) < -0.5f )
-		m_pPlayerOne->Jump( );
+		if( m_pDI->KeyDown( DIK_D ) || m_pDI->JoystickDPadDown( 1 ) )
+			m_pPlayerOne->SetVelX( PLAYER_SPEED );
+		else if( m_pDI->KeyDown( DIK_A )  || m_pDI->JoystickDPadDown(0) )
+			m_pPlayerOne->SetVelX( -PLAYER_SPEED );
+		else m_pPlayerOne->SetVelX( PLAYER_SPEED * m_pDI->JoystickGetLStickXNormalized( ) );
+
+		if( m_pDI->KeyDown( DIK_W ) || m_pDI->JoystickDPadDown( 2 ) || 
+			m_pDI->JoystickGetLStickYNormalized( ) < -0.5f )
+			m_pPlayerOne->Jump( );
 	}
 	if( m_pDI->KeyDown( DIK_F ) || m_pDI->JoystickButtonDown( 1 ) || 
 		m_pDI->JoystickButtonDown( 7 ) )
@@ -246,16 +253,16 @@ bool CGameplayState::Input( )
 
 		if(!m_pPlayerTwo->GetTossed())
 		{
-		if( m_pDI->KeyDown( DIK_LEFT ) || m_pDI->JoystickDPadDown( 0, 1 ) )
-			m_pPlayerTwo->SetVelX( -PLAYER_SPEED );
-		else if( m_pDI->KeyDown( DIK_RIGHT ) || m_pDI->JoystickDPadDown( 1, 1 ) )
-			m_pPlayerTwo->SetVelX( PLAYER_SPEED );
-		else
-			m_pPlayerTwo->SetVelX( PLAYER_SPEED * m_pDI->JoystickGetLStickXNormalized( 1 ) );
+			if( m_pDI->KeyDown( DIK_LEFT ) || m_pDI->JoystickDPadDown( 0, 1 ) )
+				m_pPlayerTwo->SetVelX( -PLAYER_SPEED );
+			else if( m_pDI->KeyDown( DIK_RIGHT ) || m_pDI->JoystickDPadDown( 1, 1 ) )
+				m_pPlayerTwo->SetVelX( PLAYER_SPEED );
+			else
+				m_pPlayerTwo->SetVelX( PLAYER_SPEED * m_pDI->JoystickGetLStickXNormalized( 1 ) );
 
-		if( m_pDI->KeyDown( DIK_UP ) || m_pDI->JoystickDPadDown( 2, 1 ) || 
-			m_pDI->JoystickGetLStickYNormalized( 1 ) < -0.5f  )
-			m_pPlayerTwo->Jump( );
+			if( m_pDI->KeyDown( DIK_UP ) || m_pDI->JoystickDPadDown( 2, 1 ) || 
+				m_pDI->JoystickGetLStickYNormalized( 1 ) < -0.5f  )
+				m_pPlayerTwo->Jump( );
 		}
 
 		if(m_pDI->KeyDown( DIK_RSHIFT ) || m_pDI->JoystickButtonDown( 1, 1 ) || 
@@ -268,7 +275,7 @@ bool CGameplayState::Input( )
 
 		if(m_pDI->KeyDown( DIK_NUMPADENTER ) || m_pDI->JoystickButtonDown( 3, 1 ) )
 			m_pPlayerTwo->Attack( 3 );
-		
+
 		if(m_pDI->KeyDown( DIK_NUMPAD1 ))
 		{
 			if(m_pPlayerTwo->GetEleType() == OBJ_WIND )
@@ -284,6 +291,7 @@ bool CGameplayState::Input( )
 			m_pPlayerTwo->SetEleType( OBJ_EARTH );
 	}
 
+	if( m_pDI->KeyPressed( DIK_M ) ) m_bMapActive = !m_bMapActive;
 
 #ifdef _DEBUG
 	if(m_pDI->KeyPressed( DIK_K ) )
@@ -336,22 +344,77 @@ void CGameplayState::Update( float fET )
 		}
 	}
 
+	if( m_bMapActive )
+	{
+		// - - - - - - - - - - -
+		// Switch One
+		// - - - - - - - - - - -
+		tVector2D _s1;
+		_s1._x = theLevel.GetSwitchOnePosX( ) - m_pPlayerOne->GetPosX( );
+		_s1._y = theLevel.GetSwitchOnePosY( ) - m_pPlayerOne->GetPosY( );
+
+		m_fMMCurrentRotation[0] = Lapidem_Math::GetInstance( )->
+			AngleBetweenVectors( m_tDir, _s1 );
+
+		if( theLevel.GetSwitchOnePosX( ) < m_pPlayerOne->GetPosX( ) )
+			m_fMMCurrentRotation[0] *= -1;
+
+		// - - - - - - - - - - -
+		// Switch Two
+		// - - - - - - - - - - -
+		tVector2D _s2;
+		_s2._x = theLevel.GetSwitchTwoPosX( ) - m_pPlayerOne->GetPosX( );
+		_s2._y = theLevel.GetSwitchTwoPosY( ) - m_pPlayerOne->GetPosY( );
+
+		m_fMMCurrentRotation[1] = Lapidem_Math::GetInstance( )->
+			AngleBetweenVectors( m_tDir, _s2 );
+
+		if( theLevel.GetSwitchTwoPosX( ) < m_pPlayerOne->GetPosX( ) )
+			m_fMMCurrentRotation[1] *= -1;
+
+		// - - - - - - - - - - -
+		// Switch Three
+		// - - - - - - - - - - -
+		tVector2D _s3;
+		_s3._x = theLevel.GetSwitchThreePosX( ) - m_pPlayerOne->GetPosX( );
+		_s3._y = theLevel.GetSwitchThreePosY( ) - m_pPlayerOne->GetPosY( );
+
+		m_fMMCurrentRotation[2] = Lapidem_Math::GetInstance( )->
+			AngleBetweenVectors( m_tDir, _s3 );
+
+		if( theLevel.GetSwitchThreePosX( ) < m_pPlayerOne->GetPosX( ) )
+			m_fMMCurrentRotation[2] *= -1;
+
+		// - - - - - - - - - - -
+		// Switch Four
+		// - - - - - - - - - - -
+		tVector2D _s4;
+		_s4._x = theLevel.GetSwitchFourPosX( ) - m_pPlayerOne->GetPosX( );
+		_s4._y = theLevel.GetSwitchFourPosY( ) - m_pPlayerOne->GetPosY( );
+
+		m_fMMCurrentRotation[3] = Lapidem_Math::GetInstance( )->
+			AngleBetweenVectors( m_tDir, _s4 );
+
+		if( theLevel.GetSwitchFourPosX( ) < m_pPlayerOne->GetPosX( ) )
+			m_fMMCurrentRotation[3] *= -1;
+	}
+
 	m_pCoM->UpdateObjects( CGame::GetInstance( )->GetElapsedTime( ) );
 	theLevel.Update( fET );
 	m_pPM->Update( fET );
 	m_pCeH->ProcessEvents( );
 
-	//if( m_pPlayerOne->GetHealth( ) <= 0 )
-	//{
-	//		// Player lost
-	//		CGameOver::GetInstance( )->SetState( 1 );
+	if( m_pPlayerOne->GetHealth( ) <= 0 )
+	{
+		// Player lost
+		CGameOver::GetInstance( )->SetState( 1 );
 
-	//		// Player died because their health ran out
-	//		CGameOver::GetInstance( )->SetCondition( 1 );
+		// Player died because their health ran out
+		CGameOver::GetInstance( )->SetCondition( 1 );
 
-	//		// Change the state to game over
-	//		CGame::GetInstance( )->ChangeState( CGameOver::GetInstance( ) );
-	//}
+		// Change the state to game over
+		CGame::GetInstance( )->ChangeState( CGameOver::GetInstance( ) );
+	}
 
 #ifdef _DEBUG
 	CProfiler::GetInstance( )->Start( "Profiler End" );
@@ -477,6 +540,25 @@ void CGameplayState::Render( )
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 			5, 35, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	}
+
+	if( m_bMapActive )
+	{
+		m_pTM->Draw( m_nImageID[3], 0, 0 );
+
+		// check if the switch is on or not. 
+		// if the switch has been hit, remove it from the mini-map.
+		m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
+			16.0f, 110.0f, m_fMMCurrentRotation[0] );
+
+		m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
+			16.0f, 110.0f, m_fMMCurrentRotation[1] );
+
+		m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
+			16.0f, 110.0f, m_fMMCurrentRotation[2] );
+
+		m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
+			16.0f, 110.0f, m_fMMCurrentRotation[3] );
+	}
 }
 
 void CGameplayState::Exit( )
@@ -501,10 +583,11 @@ void CGameplayState::Exit( )
 	m_pWM->Stop( CGame::GetInstance( )->GetMainMenuMusic( ) );
 	m_pWM->Reset( CGame::GetInstance( )->GetMainMenuMusic( ) );
 
+	m_pTM->UnloadTexture( m_nImageID[4] );
+	m_pTM->UnloadTexture( m_nImageID[3] );
 	m_pTM->UnloadTexture( m_nImageID[2] );
 	m_pTM->UnloadTexture( m_nImageID[1] );
 	m_pTM->UnloadTexture( m_nImageID[0] );
-
 	m_pCoM->RemoveAllObjects( );
 
 	if( m_pPlayerOne )
@@ -541,17 +624,15 @@ void CGameplayState::HandleEvent( CEvent* pEvent )
 			emmiter->SetPosX( m_pPlayerTwo->GetPosX( ) );
 			emmiter->SetPosY( m_pPlayerTwo->GetPosY( ) );
 
-			TVECTOR direction;
-			direction.x = ( m_pPlayerOne->GetPosX( ) - m_pPlayerTwo->GetPosX( ) );
-			direction.y = ( m_pPlayerOne->GetPosY( ) - m_pPlayerTwo->GetPosY( ) );
-			direction.z = 0.0f;
-			direction.w = 0.0f;
+			tVector2D direction;
+			direction._x = ( m_pPlayerOne->GetPosX( ) - m_pPlayerTwo->GetPosX( ) );
+			direction._y = ( m_pPlayerOne->GetPosY( ) - m_pPlayerTwo->GetPosY( ) );
 
-			direction = Lapidem_Math::GetInstance()->VectorNormalize( direction );
+			direction = Lapidem_Math::GetInstance( )->Vector2DNormalize( direction );
 
-			emmiter->SetVelX( direction.x * ( m_pPlayerOne->GetPosX( ) - 
+			emmiter->SetVelX( direction._x * ( m_pPlayerOne->GetPosX( ) - 
 				m_pPlayerTwo->GetPosX( ) ) / 1.5f );
-			emmiter->SetVelY( direction.y * ( m_pPlayerOne->GetPosY( ) - 
+			emmiter->SetVelY( direction._y * ( m_pPlayerOne->GetPosY( ) - 
 				m_pPlayerTwo->GetPosY( ) ) / 1.5f );
 			CParticleManager::GetInstance( )->AddEmitter( emmiter );
 		}

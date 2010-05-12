@@ -128,20 +128,45 @@ float Lapidem_Math::VectorLengthSq( TVECTOR _v )
 float Lapidem_Math::VectorLength( TVECTOR _v )
 {  return sqrtf( VectorLengthSq( _v ) ); }
 
-TVECTOR Lapidem_Math::VectorNormalize( TVECTOR _v )
-{
-	TVECTOR _norm;
-	_norm.x = _v.x / VectorLength( _v );
-	_norm.y = _v.y / VectorLength( _v );
-	_norm.z = _v.z / VectorLength( _v );
-	_norm.w = _v.w / VectorLength( _v );
+float Vector2DLength( tVector2D _v )
+{ return sqrt( ( _v._x * _v._x ) + ( _v._y * _v._y ) ); }
 
-	if( ( IsZero( _v.w ) ) &&
-		( IsZero( _v.x ) ) &&
-		( IsZero( _v.y ) ) &&
-		( IsZero( _v.z ) ) )
-		return _v;
-	else return _norm;
+float Lapidem_Math::DotProduct( tVector2D _v1, tVector2D _v2 )
+{ return ( _v1._x * _v2._x ) + ( _v1._y * _v2._y ); }
+
+float Lapidem_Math::AngleBetweenVectors( tVector2D _v1, tVector2D _v2 )
+{
+	float fDot( DotProduct( _v1, _v2 ) );
+	float fLength( Vector2DLength( _v1 ) * Vector2DLength( _v2 ) );
+
+	if( 0.0f == fLength )
+		return 0.0f;
+
+	float fAngle( acos( fDot / fLength ) );
+
+	if( _isnan( fAngle ) )
+		return 0.0f;
+
+	return fAngle;
+}
+
+tVector2D Lapidem_Math::Vector2DRotate( tVector2D _v, float _rad )
+{
+	_v._x *= -1.0f;
+
+	tVector2D vRotated;
+	vRotated._x = ( cos( _rad) * _v._x ) + ( sin( _rad ) * _v._y );
+	vRotated._y = ( -sin( _rad) * _v._x ) + ( cos( _rad ) * _v._y );
+	vRotated._y *= -1.0f;
+
+	return vRotated;
+}
+
+tVector2D Lapidem_Math::Vector2DNormalize( tVector2D _v )
+{
+	float fLength( Vector2DLength( _v ) );
+	tVector2D vNormalized( _v / fLength );
+	return vNormalized;
 }
 
 //////////////////////////////////////////////

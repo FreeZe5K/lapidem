@@ -9,6 +9,7 @@
 
 #include <ctime>
 #include <cmath>
+#include <cfloat>
 #include <cstdlib>
 
 #define RAND_INT(min,max)        (((rand()/(int)RAND_MAX)*((max)-(min)))+(min))
@@ -121,15 +122,12 @@ public:
 	/////////////////////////
 	// Vector math.
 	/////////////////////////
-	// - Angle between.
-	// - Lerp.
-	// - Equal floats.
-	// - Vector normalize.
-	// - Dot product.
-	// - Vector length.
 	float VectorLengthSq( TVECTOR );
 	float VectorLength( TVECTOR );
-	TVECTOR VectorNormalize( TVECTOR );
+	float DotProduct( tVector2D, tVector2D );
+	float AngleBetweenVectors( tVector2D, tVector2D );
+	tVector2D Vector2DRotate( tVector2D, float );
+	tVector2D Vector2DNormalize( tVector2D );
 
 	/////////////////////////
 	// Bit manipulation.
