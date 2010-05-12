@@ -100,8 +100,8 @@ void CBase::HandleCollision( CBase* _base )
 void CBase::MoveOutOf( CBase* pSolidObject )
 {
 	RECT r;
-	IntersectRect( &r, &this->GetCollisionRect( 0 ), 
-		&pSolidObject->GetCollisionRect( 0 ) );
+	IntersectRect( &r, &this->GetCollisionRect( 0.0167f ), 
+		&pSolidObject->GetCollisionRect( 0.0167f ) );
 
 	int nRectWidth( r.right -r.left );
 	int nRectHeight( r.bottom - r.top );

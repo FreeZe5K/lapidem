@@ -12,6 +12,7 @@
 #include "CPickups.h"
 #endif
 
+#define PLAYER_SPEED 110
 CGameplayState* CGameplayState::GetInstance( )
 {
 	static CGameplayState instance;
@@ -95,7 +96,7 @@ void CGameplayState::Enter( )
 	// - - - - - - - - - - - - - -
 	/* Note by Pablo
 	Background image will be handled by the CLevel.	*/
-	m_nImageID[0]   = m_pTM->LoadTexture( "resource/graphics/placeholderArt.png" );
+	m_nImageID[0]   = m_pTM->LoadTexture( "resource/graphics/placeholderArt.png");
 	m_nImageID[1]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_ISinglePlayer.png" );
 	m_nImageID[2]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_IMultiPlayer.png" );
 	// - - - - - - - - - - - - - -
@@ -111,8 +112,6 @@ void CGameplayState::Enter( )
 
 	if( m_bLoadedFromFile )
 	{
-		// todo - handle what to do if
-		// more then one player is active.
 		if( 1 == m_nSlotLoadedFrom )
 		{
 			pEntry->SetPosX( float( CMenuState::GetInstance( )->GetSlotOne( ).nPositionX ) );
@@ -192,25 +191,29 @@ bool CGameplayState::Input( )
 		CGame::GetInstance( )->SetPaused( true );
 	}
 
+	if(!m_pPlayerOne->GetTossed())
+	{
+
+	
 	if( m_pDI->KeyDown( DIK_D ) || m_pDI->JoystickDPadDown( 1 ) )
-		m_pPlayerOne->SetVelX( 100 );
+		m_pPlayerOne->SetVelX( PLAYER_SPEED );
 	else if( m_pDI->KeyDown( DIK_A )  || m_pDI->JoystickDPadDown(0) )
-		m_pPlayerOne->SetVelX( -100 );
-	else m_pPlayerOne->SetVelX( 100 * m_pDI->JoystickGetLStickXNormalized( ) );
+		m_pPlayerOne->SetVelX( -PLAYER_SPEED );
+	else m_pPlayerOne->SetVelX( PLAYER_SPEED * m_pDI->JoystickGetLStickXNormalized( ) );
 
 	if( m_pDI->KeyDown( DIK_W ) || m_pDI->JoystickDPadDown( 2 ) || 
 		m_pDI->JoystickGetLStickYNormalized( ) < -0.5f )
 		m_pPlayerOne->Jump( );
-
+	}
 	if( m_pDI->KeyDown( DIK_F ) || m_pDI->JoystickButtonDown( 1 ) || 
 		m_pDI->JoystickButtonDown( 7 ) )
 		m_pPlayerOne->Attack( 1 );
 
 	if( m_pDI->KeyDown( DIK_R ) || m_pDI->JoystickButtonDown( 2 ) || 
-		m_pDI->JoystickButtonDown( 8 ) )
+		m_pDI->JoystickButtonDown( 6 ) )
 		m_pPlayerOne->Attack( 2 );
 
-	if( m_pDI->KeyPressed( DIK_T ))
+	if( m_pDI->KeyPressed( DIK_T ) || m_pDI->JoystickButtonDown( 3 ))
 		m_pPlayerOne->Attack( 3 );
 
 	if( m_pDI->KeyPressed( DIK_1 ) )
@@ -240,20 +243,40 @@ bool CGameplayState::Input( )
 			m_pPlayerOne->SetEleType( OBJ_FIRE );
 
 		//Player Two Controls:
+
+		if(!m_pPlayerTwo->GetTossed())
+		{
 		if( m_pDI->KeyDown( DIK_LEFT ) || m_pDI->JoystickDPadDown( 0, 1 ) )
-			m_pPlayerTwo->SetVelX( -100 );
+			m_pPlayerTwo->SetVelX( -PLAYER_SPEED );
 		else if( m_pDI->KeyDown( DIK_RIGHT ) || m_pDI->JoystickDPadDown( 1, 1 ) )
-			m_pPlayerTwo->SetVelX( 100 );
+			m_pPlayerTwo->SetVelX( PLAYER_SPEED );
 		else
-			m_pPlayerTwo->SetVelX( 100 * m_pDI->JoystickGetLStickXNormalized( 1 ) );
+			m_pPlayerTwo->SetVelX( PLAYER_SPEED * m_pDI->JoystickGetLStickXNormalized( 1 ) );
 
 		if( m_pDI->KeyDown( DIK_UP ) || m_pDI->JoystickDPadDown( 2, 1 ) || 
 			m_pDI->JoystickGetLStickYNormalized( 1 ) < -0.5f  )
 			m_pPlayerTwo->Jump( );
+		}
 
 		if(m_pDI->KeyDown( DIK_RSHIFT ) || m_pDI->JoystickButtonDown( 1, 1 ) || 
 			m_pDI->JoystickButtonDown( 7, 1 ) )
 			m_pPlayerTwo->Attack( 1 );
+
+		if(m_pDI->KeyDown( DIK_NUMPAD0 ) || m_pDI->JoystickButtonDown( 2, 1 ) ||
+			m_pDI->JoystickButtonDown( 6, 1 ) )
+			m_pPlayerTwo->Attack( 2 );
+
+		if(m_pDI->KeyDown( DIK_NUMPADENTER ) || m_pDI->JoystickButtonDown( 3, 1 ) )
+			m_pPlayerTwo->Attack( 3 );
+		
+		if(m_pDI->KeyDown( DIK_NUMPAD1 ))
+		{
+			if(m_pPlayerTwo->GetEleType() == OBJ_WIND )
+				m_pPlayerTwo->SetEleType( OBJ_EARTH );
+			else
+				m_pPlayerTwo->SetEleType( OBJ_WIND );
+		}
+
 
 		if( m_pDI->JoystickButtonPressed( 4, 1 ) )
 			m_pPlayerTwo->SetEleType( OBJ_WIND );
@@ -271,9 +294,11 @@ bool CGameplayState::Input( )
 
 void CGameplayState::Update( float fET )
 {
+#ifdef _DEBUG
 	CProfiler::GetInstance( )->Start( "Profiler Start" );
 	CProfiler::GetInstance( )->Start( "CGameplay Update" );
 	CProfiler::GetInstance( )->End( "Profiler Start" );
+#endif
 
 	if( m_pPlayerTwo )
 	{
@@ -311,29 +336,28 @@ void CGameplayState::Update( float fET )
 		}
 	}
 
-	m_pCeH->ProcessEvents( );
 	m_pCoM->UpdateObjects( CGame::GetInstance( )->GetElapsedTime( ) );
 	theLevel.Update( fET );
 	m_pPM->Update( fET );
+	m_pCeH->ProcessEvents( );
 
-	if( !m_pPlayerTwo )
-	{
-		if( m_pPlayerOne->GetHealth( ) <= 0 )
-		{
-			// Player lost
-			CGameOver::GetInstance( )->SetState( 1 );
+	//if( m_pPlayerOne->GetHealth( ) <= 0 )
+	//{
+	//		// Player lost
+	//		CGameOver::GetInstance( )->SetState( 1 );
 
-			// Player died because their health ran out
-			CGameOver::GetInstance( )->SetCondition( 1 );
+	//		// Player died because their health ran out
+	//		CGameOver::GetInstance( )->SetCondition( 1 );
 
-			// Change the state to game over
-			CGame::GetInstance( )->ChangeState( CGameOver::GetInstance( ) );
-		}
-	}
+	//		// Change the state to game over
+	//		CGame::GetInstance( )->ChangeState( CGameOver::GetInstance( ) );
+	//}
 
+#ifdef _DEBUG
 	CProfiler::GetInstance( )->Start( "Profiler End" );
 	CProfiler::GetInstance( )->End( "CGameplay Update" );
 	CProfiler::GetInstance( )->End( "Profiler End" );
+#endif
 }
 
 void CGameplayState::Render( )
@@ -457,11 +481,6 @@ void CGameplayState::Render( )
 
 void CGameplayState::Exit( )
 {
-
-	m_pCeH->SendEvent( "EnemyDied", NULL ); 
-	m_pCeH->ProcessEvents( );
-
-
 	if( m_pPM )
 	{
 		m_pPM->UnloadAll( );
@@ -474,6 +493,9 @@ void CGameplayState::Exit( )
 		m_pEF = NULL;
 	}
 
+	m_pCeH->SendEvent( "EnemyDied", NULL ); 
+	m_pCeH->ProcessEvents( );
+
 	m_pWM->Stop( CGame::GetInstance( )->GetGameBGMusic( ) );
 	m_pWM->Reset( CGame::GetInstance( )->GetGameBGMusic( ) );
 	m_pWM->Stop( CGame::GetInstance( )->GetMainMenuMusic( ) );
@@ -483,23 +505,22 @@ void CGameplayState::Exit( )
 	m_pTM->UnloadTexture( m_nImageID[1] );
 	m_pTM->UnloadTexture( m_nImageID[0] );
 
-	
+	m_pCoM->RemoveAllObjects( );
+
 	if( m_pPlayerOne )
 		m_pPlayerOne->Release( );
 	if( m_pPlayerTwo )
-	{
 		m_pPlayerTwo->Release( );
-		m_pCeH->UnregisterClient( "P2 OFFSCREEN", this );
-	}
-	
-	CAnimationWarehouse::GetInstance()->DeleteInstance( );
+
 	theLevel.Clear( );
-	m_pCeH->ShutDownSystem();
 	m_pCoM->DeleteInstance( );
-	
+	CAnimationWarehouse::GetInstance()->DeleteInstance( );
+
 	m_bLoadedFromFile = false;
 	m_bTwoPlayers	  = false;
 
+	if( m_pPlayerTwo )
+		Corona_EventHandler::GetInstance( )->UnregisterClient( "P2 OFFSCREEN", this );
 
 #if _DEBUG
 	CProfiler::GetInstance( )->Save( "CodeProfilerOutput.txt" );
@@ -514,8 +535,6 @@ void CGameplayState::HandleEvent( CEvent* pEvent )
 		if( m_fP2RespawnTimer == -1.0f )
 		{
 			m_fP2RespawnTimer = 0.0f;
-			// TODO: create some particle effet that las 3 secs 
-			// from the pos the player 2 was to where player 1 is
 			CEmitter* emmiter; //= new CEmitter();
 			emmiter = CEmitterFactory::GetInstance( )->CreateEmitter( "return" );
 

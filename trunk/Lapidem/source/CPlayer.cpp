@@ -1,6 +1,7 @@
 #include "CPlayer.h"
 #include "CSpell.h"
 #include "CTerrainBase.h"
+#include "CTAirCurrent.h"
 #include "CGame.h"
 #include "CPickups.h"
 #include "CAnimation.h"
@@ -17,7 +18,6 @@ CPlayer::CPlayer( )
 	m_nHealth          = 200; 
 	m_fJumpTimer       = 0.0f;
 	currAnimation      = 0;
-	m_bIsJumping       = false;
 	currDirec          = RIGHT; 
 	m_nType            = OBJ_PLAYER; 
 	m_nFireEnergy	   = 0;
@@ -26,7 +26,11 @@ CPlayer::CPlayer( )
 	m_nWaterEnergy	   = 0;
 	m_nScore		   = 0;
 	m_nTierThree	   = 0;
-	m_bShielded = false;
+	m_bIsJumping       = false;
+	Tossed			   = false;
+	m_bIsDrowning	   = false;
+	m_bShielded		   = false;
+	m_bIsTouching	   = false;
 	m_fShieldTimer = 30.0f;
 
 	m_pReticle		   = NULL;
@@ -59,7 +63,45 @@ void CPlayer::Update( float fElapsedTime )
 		m_bShielded = false;
 		m_fShieldTimer = 30.0f;
 	}
-	CCharacter::Update( fElapsedTime );
+
+	if(Tossed)
+	{
+
+		if(GetDirection() == RIGHT_UP || GetDirection() == RIGHT || GetDirection() == RIGHT_DOWN)
+		{
+			SetVelX(GetVelX() - fElapsedTime * 40);
+
+			if(GetVelX() < 100)
+				Tossed = false;
+		}
+		else if (GetDirection() == LEFT_UP || GetDirection() == LEFT || GetDirection() == LEFT_DOWN)
+		{
+			SetVelX(GetVelX() + fElapsedTime  * 40);
+			if(GetVelX() > -100)
+				Tossed = false;
+		}
+
+		if(GetDirection() == LEFT_UP || GetDirection() == UP || GetDirection() == RIGHT_UP)
+		{
+			SetVelY(GetVelY() + fElapsedTime * 50 );
+
+			if(GetDirection() == UP && GetVelY() >= 0)
+				Tossed = false;
+		}
+		else if(GetDirection() == LEFT_DOWN || GetDirection() == DOWN || GetDirection() == RIGHT_DOWN)
+		{
+			SetVelY(GetVelY() - fElapsedTime * 50);
+
+			if(GetDirection() == DOWN && GetVelY() <= 0)
+				Tossed = false;
+		}
+
+		CBase::Update( fElapsedTime);
+		return;
+	}
+	else
+		CCharacter::Update( fElapsedTime );
+
 
 	CSGD_DirectInput * DI = ( CSGD_DirectInput::GetInstance( ) );
 
@@ -106,6 +148,17 @@ void CPlayer::Update( float fElapsedTime )
 		currDirec = UP;
 	else SetAnimation( 0, 0 );
 
+	if(DI->JoystickGetLStickXNormalized( GetPlayerID() - 1) < 0)
+	{
+		SetAnimation(0, 1);
+		currDirec = LEFT;
+	}
+	else if (DI->JoystickGetLStickXNormalized( GetPlayerID() - 1 ) > 0 )
+	{
+		SetAnimation(0 , 1);
+		currDirec = RIGHT;
+	}
+
 	if( currDirec == RIGHT || currDirec == RIGHT_DOWN || currDirec == RIGHT_UP )
 		IsRotated = true;
 	else IsRotated = false;
@@ -123,6 +176,8 @@ void CPlayer::Update( float fElapsedTime )
 		m_pReticle->ClampToScreen();
 	}
 
+	
+
 	//******************************************************************************
 	//******************************************************************************
 	//******************************************************************************
@@ -136,7 +191,7 @@ void CPlayer::Update( float fElapsedTime )
 			SetVelY( -200 );
 			SetAnimation( 0, 0 );
 		}
-		else if( m_fJumpTimer <= 0.5f )
+		else if( m_fJumpTimer <= 0.55f )
 		{
 			SetVelY( -150 );
 			SetAnimation( 0, 0 );
@@ -158,6 +213,24 @@ void CPlayer::Update( float fElapsedTime )
 		}
 		else SetAnimation( 0, 0 );
 	}
+
+	if(!m_bIsTouching)
+		m_bIsDrowning = false;
+
+
+		m_bIsTouching = false;
+
+	if(m_bIsDrowning)
+	{
+		if(!m_bIsJumping)
+			SetVelY(25);
+		else SetVelY(-50);
+
+		m_fJumpTimer = 0.0f;
+	}
+		
+	
+
 
 	m_fFireTimer = m_fFireTimer + fElapsedTime;
 
@@ -277,6 +350,9 @@ void CPlayer::Jump( )
 
 void CPlayer::HandleCollision( CBase * collidingObject )
 {
+
+	m_bIsTouching = true;
+
 	if( collidingObject->GetType( ) == OBJ_TERRA || ( collidingObject->GetType( ) == 
 		OBJ_SPELL && ( ( CSpell* )collidingObject )->GetElement( ) == OBJ_EARTH ) )
 	{
@@ -284,11 +360,18 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 		{
 			int TerraType( ( ( CTerrainBase* )collidingObject )->GetTypeTerrain( ) );
 
-			if( TerraType == T_WATER )
-				return;
 
-			if( TerraType == T_LAVA)
+			if( TerraType == T_LAVA || TerraType == T_WATER)
+			{
+				m_bIsDrowning = true;
+				
 				TakeDamage(1);
+
+				return;
+			}
+			else
+				m_bIsDrowning = false;
+
 		}
 
 		if( collidingObject->GetType( ) == OBJ_SPELL)
@@ -299,14 +382,13 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 			}
 			if(!((CSpell*)collidingObject )->PlayerShot())
 			{
-				if(!m_bShielded)
-					TakeDamage( ( ( CSpell* )collidingObject )->GetDamage( ) );
+				TakeDamage( ( ( CSpell* )collidingObject )->GetDamage( ) );
 			}
 		}
 
 		RECT r;
-		IntersectRect( &r, & this->GetCollisionRect( 0 ), 
-			&collidingObject->GetCollisionRect( 0 ) );
+		IntersectRect( &r, & this->GetCollisionRect( 0.0167f ), 
+			&collidingObject->GetCollisionRect( 0.0167f ) );
 
 		int nRectWidth( r.right -r.left );
 		int nRectHeight( r.bottom - r.top );
@@ -331,7 +413,6 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 			{
 				m_bIsJumping = false;
 				m_fJumpTimer = 0.0f;
-
 				SetPosY( GetPosY( ) - nRectHeight );
 			}
 		}
@@ -344,6 +425,55 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 
 		if( TerraType == END_POINT )
 			CGameplayState::GetInstance( )->SetPlayerReachedEnd( true );
+		else if( TerraType == AIR_CURRENT )
+		{
+			Tossed = true;
+			switch(((CTAirCurrent*)collidingObject)->GetDirection())
+			{
+			case RIGHT_UP:
+				SetVelX(200);
+				SetVelY(-200);
+				SetDirection(RIGHT_UP);
+				break;
+			case LEFT_UP:
+				SetVelX(-200);
+				SetVelY(-200);
+				SetDirection(LEFT_UP);
+				break;
+			case RIGHT:
+				SetVelX(200);
+				SetDirection(RIGHT);
+				break;
+			case LEFT:
+				SetVelX(-200);
+				SetDirection(LEFT);
+				break;
+			case UP:
+				SetVelY(-200);
+				SetVelX(0.0f);
+				SetDirection(UP);
+				break;
+			case DOWN:
+				SetVelY(200);
+				SetVelX(0.0f);
+				SetDirection(DOWN);
+				break;
+			case LEFT_DOWN:
+				SetVelX(-200);
+				SetVelY(250);
+				SetDirection(LEFT_DOWN);
+				break;
+			case RIGHT_DOWN:
+				SetVelX(200);
+				SetVelY(250);
+				SetDirection(RIGHT_DOWN);
+				break;
+			default:
+				SetVelX(GetVelX());
+				SetVelY(GetVelY());
+			}
+			SetAnimation(0,0);
+		}
 	}
 	else if( collidingObject->GetType( ) == OBJ_ENERGY )
 	{
@@ -379,7 +509,6 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 		}
 
 	}
-
 }
 void CPlayer::ToggleReticle()
 {

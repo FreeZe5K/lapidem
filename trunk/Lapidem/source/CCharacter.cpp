@@ -41,7 +41,7 @@ void CCharacter::Update( float fElapsedTime )
 		SetWidth( animation->GetFrames( )->DrawRect.right - animation->GetFrames( )->DrawRect.left );
 		SetHeight( animation->GetFrames( )->DrawRect.bottom - animation->GetFrames( )->DrawRect.top );
 	}
-	SetVelY( 150 );
+	SetVelY( 200 );
 }
 
 void CCharacter::SetAnimation( int object, int animation, int frame )

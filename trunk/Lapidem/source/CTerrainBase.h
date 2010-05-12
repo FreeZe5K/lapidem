@@ -28,6 +28,9 @@ private:
 
 	bool m_bCollided;
 
+protected:
+	float m_fTransformTimer;
+
 public:
 	CTerrainBase( );
 	~CTerrainBase( );
