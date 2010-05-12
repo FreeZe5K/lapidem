@@ -15,15 +15,17 @@ class CEmitterFactory;
 class CGameplayState : public IGameState, public CLDevice 
 {
 private:
-	int                     m_nImageID[3];
+	int                     m_nImageID[5];
 	int                     m_nSlotLoadedFrom;
 	int                     m_nSinglePlayerScore;
 	int                     m_nPlayerOneScore;
 	int                     m_nPlayerTwoScore;
 
 	float					m_fP2RespawnTimer;
+	float                   m_fMMCurrentRotation[4];
 
 	bool                    m_bIsPaused;
+	bool                    m_bMapActive;
 	bool					m_bTwoPlayers;
 	bool                    m_bLoadedFromFile;
 	bool                    m_bPlayerReachedEnd;
@@ -36,6 +38,8 @@ private:
 	Corona_ObjectManager	*m_pCoM;
 	Corona_EventHandler		*m_pCeH;
 	CCamera					*theCamera;
+
+	tVector2D               m_tDir;
 
 	CEmitterFactory         *m_pEF;
 	CParticleManager        *m_pPM;

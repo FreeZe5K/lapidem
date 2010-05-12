@@ -63,8 +63,6 @@ void CWind::UpdateTier1( float fElapsedTime )
 
 void CWind::UpdateTier2( float fElapsedTime )
 {
-	
-
 	if(m_pCaster->GetReticle() != NULL)
 	{
 		tVector2D newpos, currpos;
@@ -76,7 +74,7 @@ void CWind::UpdateTier2( float fElapsedTime )
 		float dot = (newpos._x * currpos._x)+(currpos._y * newpos._y);
 		float length = sqrt((newpos._x * newpos._x) + (newpos._y * newpos._y))* sqrt( ( currpos._x * currpos._x ) + ( currpos._y * currpos._y ) );
 		float angle = float( acos( dot / length ) + PI / 4.0f );
-		angle = angle * 180.0f / PI;
+		angle = float( angle * 180.0f / PI );
 		if(angle > 45.0f && angle < 135.0f)
 		{
 			m_pCaster->SetVelY(-100);
@@ -90,8 +88,7 @@ void CWind::UpdateTier2( float fElapsedTime )
 }
 
 void WindTier3(CBase* pEnemy, CBase* pSpell)
-{
-	
+{	
 	float posx, posy;
 	posx = pSpell->GetPosX( );
 	posy = pSpell->GetPosY( );
@@ -131,8 +128,6 @@ void WindTier3(CBase* pEnemy, CBase* pSpell)
 		Corona_ObjectManager::GetInstance()->AddObject(newwind);
 		newwind->Release();
 	}
-
-
 }
 
 void CWind::UpdateTier3( float fElapsedTime )

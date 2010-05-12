@@ -146,15 +146,16 @@ public:
 	CBase* GetEntryPoint( );
 
 	bool IsOnScreen( CBase* );
-
 	bool NextLevelOpen();
 
 	CBase* GetTile(int nPosX, int nPosY);
 
-	void CLevel::SaveLevelFromMemory(ofstream* fout, char* szFileName, vector<CBase*>* pTerrainTiles, vector<CBase*>* pEventTiles, vector<CBase*>* pSwitches);
+	void CLevel::SaveLevelFromMemory(ofstream* fout, char* szFileName, 
+		vector<CBase*>* pTerrainTiles, vector<CBase*>* pEventTiles, vector<CBase*>* pSwitches);
 	void SaveCurrLevelState(ofstream* fout);
 
-	void LoadLevelToMemory(ifstream* fin, char* &szFileName, vector<CBase*>* pTerrainTiles, vector<CBase*>* pEventTiles, vector<CBase*>* pSwitches);
+	void LoadLevelToMemory(ifstream* fin, char* &szFileName, vector<CBase*>* pTerrainTiles, 
+		vector<CBase*>* pEventTiles, vector<CBase*>* pSwitches);
 	bool LoadLevelFromSave(ifstream* fin);
 
 	__inline void SetNextLevelFileName( char* szNextLevelFileName )	
@@ -163,4 +164,21 @@ public:
 			delete m_szNextLevelFileName; 
 		m_szNextLevelFileName = szNextLevelFileName;	
 	}
+
+	/////////////////////////////////////////////////////////////////////////////////////
+	// Function:    "Accessors"
+	//
+	// Purpose:     Get stuff.
+	/////////////////////////////////////////////////////////////////////////////////////
+	float GetSwitchOnePosX( )        { return m_pLevelSwitches[0]->GetPosX( ); }
+	float GetSwitchOnePosY( )        { return m_pLevelSwitches[0]->GetPosY( ); }
+	
+	float GetSwitchTwoPosX( )        { return m_pLevelSwitches[1]->GetPosX( ); }
+	float GetSwitchTwoPosY( )        { return m_pLevelSwitches[1]->GetPosY( ); }
+	
+	float GetSwitchThreePosX( )      { return m_pLevelSwitches[2]->GetPosX( ); }
+	float GetSwitchThreePosY( )      { return m_pLevelSwitches[2]->GetPosY( ); }
+	
+	float GetSwitchFourPosX( )       { return m_pLevelSwitches[3]->GetPosX( ); }
+	float GetSwitchFourPosY( )       { return m_pLevelSwitches[3]->GetPosY( ); }
 };

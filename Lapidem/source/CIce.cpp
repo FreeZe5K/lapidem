@@ -29,7 +29,7 @@ void CIce::Update( float fElapsedTime )
 	SetLifespan( GetLifespan( ) - fElapsedTime );
 
 	if( GetLifespan( ) < 0)
-	{ /* SetActive(false); */ }
+		SetActive( false );
 
 	switch( GetTier( ) )
 	{
@@ -58,10 +58,10 @@ void CIce::UpdateTier1( float fElapsedTime )
 }
 
 void CIce::UpdateTier2( float fElapsedTime )
-{ /* NOTHING HERE YET */ }
+{ CSpell::UpdateTier2( fElapsedTime ); }
 
 void CIce::UpdateTier3( float fElapsedTime)
-{ /* NOTHING HERE YET */ }
+{ CSpell::UpdateTier3( fElapsedTime ); }
 
 void CIce::Render( )
 {
