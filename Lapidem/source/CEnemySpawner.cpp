@@ -29,7 +29,8 @@ void CEnemySpawner::Update(float fElapsedTime)
 			m_bIsReadyToSpawn = false;
 	}
 
-	if(m_pEnemy && !m_pEnemy->IsActive()) //Backup.
+	if(m_pEnemy && !m_pEnemy->IsActive()) //Backup: Coded when Enemy spawners were being destroyed
+										  // Should never be true.
 	{
 		m_pEnemy->Release();
 		m_pEnemy = NULL;

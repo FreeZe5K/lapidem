@@ -79,30 +79,9 @@ int AIStateIce::Update( float fElapsedTime, CEnemy* theEnemy )
 	float dist = sqrt( posx );
 
 	if( dist2 < dist && dist2 < 300 )
-	{
-		if( dist2 < 100 )
-		{
-			if( two->GetPosX( ) > theEnemy->GetPosX( ) )
-				theEnemy->SetVelX( -50.0f );
-			else if( two->GetPosX( ) > theEnemy->GetPosX( ) )
-				theEnemy->SetVelX( 50.0f );
-		}
-
-		theEnemy->SetVelX( 0 );
 		return 2;
-	}
 	else if( dist < 300 )
-	{
-		CPlayer* one = CGameplayState::GetInstance( )->GetPlayerOne( );
-		if( dist < 100 )
-		{
-			if( one->GetPosX( ) > theEnemy->GetPosX( ) )
-				theEnemy->SetVelX( -50.0f );
-			else if( one->GetPosX( ) > theEnemy->GetPosX( ) )
-				theEnemy->SetVelX( 50.0f );
-		} 
 		return 1;
-	}
 
 	return 0;
 }
