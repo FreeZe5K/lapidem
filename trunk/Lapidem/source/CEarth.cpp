@@ -42,8 +42,6 @@ CEarth::~CEarth()
 {
 	Corona_EventHandler::GetInstance()->UnregisterClient("SinkRock", this);
 	Corona_EventHandler::GetInstance()->UnregisterClient("CreateIce", this);
-	if( GetImage( ) >= 0 )
-		CSGD_TextureManager::GetInstance( )->UnloadTexture( GetImage( ) );
 }
 
 void CEarth::Update( float fElapsedTime )

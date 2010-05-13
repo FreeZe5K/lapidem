@@ -12,13 +12,22 @@
 
 #include "Corona_ObjectManager.h"
 #include "CCharacter.h"
+
 #include "CFire.h"
 #include "CIce.h"
 #include "CEarth.h"
 #include "CWind.h"
+
+#include "CGrenade.h"
+#include "CIceSpear.h"
+#include "CGiantFireBall.h"
+#include "CIceCube.h"
+
 #include "CCamera.h"
 #include "CParticleManager.h"
 #include "CGameplayState.h"
+
+#include "Lapidem_Math.h"
 
 CSpellFactory* CSpellFactory::m_pSF = NULL;
 
@@ -864,3 +873,178 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 	CParticleManager::GetInstance( )->AddEmitter( emitter );
 	emitter = NULL;
 }
+
+void CSpellFactory::CreateGrenade(CSpell* pFire, CSpell* pEarth)
+{
+	float VelX = (pFire->GetVelX() + pEarth->GetVelX()) * 0.5f;
+	float VelY = (pFire->GetVelY() + pEarth->GetVelY()) * 0.5f;
+
+	CGrenade* pSpell = new CGrenade;
+	pSpell->SetPosX(pEarth->GetPosX());
+	pSpell->SetPosY(pEarth->GetPosY());
+	pSpell->SetVelX(VelX);
+	pSpell->SetVelY(VelY);
+
+	pSpell->SetTier(1);
+	pSpell->SetDamage(20);
+	pSpell->SetLifespan(3.0f);
+	pSpell->SetHeight(32);
+	pSpell->SetWidth(32);
+	pSpell->SetImage(pEarth->GetImage());
+	pSpell->ShotBy(true);
+	pSpell->SetEmitter(CEmitterFactory::GetInstance()->CreateEmitter("firespell"));
+	pSpell->SetSound(pFire->GetSound());
+
+	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
+
+	//Corona_ObjectManager::GetInstance()->RemoveObject(pFire);
+	Corona_ObjectManager::GetInstance()->RemoveObject(pEarth);
+	pFire->SetActive(false);
+
+	Corona_ObjectManager::GetInstance()->AddObject(pSpell);
+	pSpell->Release();
+}
+
+void CSpellFactory::CreateGiantFireBall(CSpell* pFire, CSpell* pWind)
+{
+	float VelX = (pFire->GetVelX() + pWind->GetVelX()) * 0.5f;
+	float VelY = (pFire->GetVelY() + pWind->GetVelY()) * 0.5f;
+
+	CGiantFireBall* pSpell = new CGiantFireBall;
+	pSpell->SetPosX(pFire->GetPosX());
+	pSpell->SetPosY(pFire->GetPosY());
+	pSpell->SetVelX(VelX);
+	pSpell->SetVelY(VelY);
+
+	pSpell->SetTier(1);
+	pSpell->SetDamage(80);
+	pSpell->SetLifespan(5.0f);
+	pSpell->SetHeight(32);
+	pSpell->SetWidth(32);
+	pSpell->SetImage(pFire->GetImage());
+	pSpell->ShotBy(true);
+	pSpell->SetEmitter(CEmitterFactory::GetInstance()->CreateEmitter("firespell"));
+	pSpell->SetSound(pFire->GetSound());
+	
+	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
+	
+	Corona_ObjectManager::GetInstance()->RemoveObject(pWind);
+	pFire->SetActive(false);
+
+	Corona_ObjectManager::GetInstance()->AddObject(pSpell);
+	pSpell->Release();
+
+}
+
+void CSpellFactory::CreateSpear(CSpell* pIce, CSpell* pWind)
+{
+	float VelX = pIce->GetVelX() + pWind->GetVelX() * 0.2f;
+	float VelY = pIce->GetVelY() + pWind->GetVelY() * 0.2f;
+
+	CIceSpear* pSpell = new CIceSpear;
+	pSpell->SetPosX(pIce->GetPosX());
+	pSpell->SetPosY(pIce->GetPosY());
+	pSpell->SetVelX(VelX);
+	pSpell->SetVelY(VelY);
+
+	pSpell->SetTier(1);
+	pSpell->SetDamage(5);
+	pSpell->SetLifespan(5.0f);
+	pSpell->SetHeight(32);
+	pSpell->SetWidth(64);
+	pSpell->SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource\\graphics\\Lapidem_IceSpear.png", D3DCOLOR_XRGB(255, 255, 255)));
+	pSpell->ShotBy(true);
+	pSpell->SetEmitter(CEmitterFactory::GetInstance()->CreateEmitter("icespell"));
+	pSpell->SetSound(pIce->GetSound());
+	
+	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
+
+	//Corona_ObjectManager::GetInstance()->RemoveObject(pFire);
+	Corona_ObjectManager::GetInstance()->RemoveObject(pWind);
+	pIce->SetActive(false);
+
+	Corona_ObjectManager::GetInstance()->AddObject(pSpell);
+	pSpell->Release();
+}
+
+void CSpellFactory::CreateIceCube(CSpell* pIce, CSpell* pEarth)
+{
+	float VelX = (pIce->GetVelX() + pEarth->GetVelX()) * 0.5f;
+	float VelY = (pIce->GetVelY() + pEarth->GetVelY()) * 0.5f;
+
+	CIceCube* pSpell = new CIceCube;
+	pSpell->SetPosX(pEarth->GetPosX());
+	pSpell->SetPosY(pEarth->GetPosY());
+	pSpell->SetVelX(VelX);
+	pSpell->SetVelY(VelY);
+
+	pSpell->SetTier(1);
+	pSpell->SetDamage(10);
+	pSpell->SetLifespan(3.0f);
+	pSpell->SetHeight(32);
+	pSpell->SetWidth(32);
+	pSpell->SetImage(pEarth->GetImage());
+	pSpell->ShotBy(true);
+	pSpell->SetEmitter(CEmitterFactory::GetInstance()->CreateEmitter("icespell"));
+	pSpell->SetSound(pIce->GetSound());
+	
+	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
+
+	//Corona_ObjectManager::GetInstance()->RemoveObject(pFire);
+	Corona_ObjectManager::GetInstance()->RemoveObject(pEarth);
+	pIce->SetActive(false);
+
+	Corona_ObjectManager::GetInstance()->AddObject(pSpell);
+	pSpell->Release();
+}
+/*
+void SpellFactory::CreateSparks(int Type, float fDirRotation, float fSparkLifeTime)
+{
+	tVector2D velocity;
+	velocity._x = 0.0f; velocity._y = -1.0f;
+	velocity = Lapidem_Math::GetInstance()->Vector2DRotate(velocity, fDirRotation);
+	CEmitter* pEmitter = 0;
+	CSpell* pNewSpell = 0;
+	
+	switch(Type)
+	{
+	case OBJ_FIRE:
+		m_pEF->CreateEmitter("firespell");
+		pNewSpell = new CFire;
+		break;
+	case OBJ_ICE:
+		break;
+	case OBJ_WIND:
+		break;
+	case OBJ_EARTH:
+		break;
+	}
+
+	CEmitter* pEmitter = m_pEF->CreateEmitter("firespell");
+	pEmitter->SetPosX(this->GetPosX());
+	pEmitter->SetPosY(this->GetPosY());
+	pEmitter->SetVelX(250.0f * velocity._x);
+	pEmitter->SetVelY(250.0f * velocity._y);
+
+	CFire* newfire = new CFire;
+	newfire->SetDamage(this->GetDamage());
+	newfire->SetDOT(3);
+	newfire->SetLifespan(fSparkLifeTime);
+	newfire->SetActive(true);
+	newfire->SetTier(1);
+	newfire->ShotBy(true);
+	newfire->SetEmitter(pEmitter);
+
+	newfire->SetWidth(32);
+	newfire->SetHeight(16);
+
+	newfire->SetPosX(this->GetPosX());
+	newfire->SetPosY(this->GetPosY());
+	newfire->SetVelX(250.0f * velocity._x);
+	newfire->SetVelY(250.0f * velocity._y);
+
+	CParticleManager::GetInstance()->AddEmitter(pEmitter);
+	Corona_ObjectManager::GetInstance()->AddObject(newfire);
+	newfire->Release();
+}
+*/

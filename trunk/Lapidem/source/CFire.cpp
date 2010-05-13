@@ -27,6 +27,8 @@ CFire::~CFire()
 {
 	if( GetImage( ) >= 0 )
 		CSGD_TextureManager::GetInstance( )->UnloadTexture( GetImage( ) );
+	//CParticleManager::r
+	//m_pEmitter->SetEmitTimer(0.0f);
 }
 
 void CFire::Update( float fElapsedTime )

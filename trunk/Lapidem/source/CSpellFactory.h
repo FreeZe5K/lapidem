@@ -14,6 +14,7 @@
 
 class CCharacter;
 class CBase;
+class CSpell;
 class CIce;
 class CFire;
 class CEarth;
@@ -34,7 +35,7 @@ private:
 	int     m_nFireLVL;              // Current level of fire abilities. Used to determine damage increase as well as DOT.
 			
 	int     m_nEarthXP;              // How much XP the earth abilities have accumulated. Used to level up the earth abilities
-	int    m_nEarthLVL;              // Current level of earth abilities. Used to determine damage increase as well as lifespan.
+	int     m_nEarthLVL;             // Current level of earth abilities. Used to determine damage increase as well as lifespan.
 
 	CEmitterFactory* m_pEF;
 
@@ -82,6 +83,13 @@ public:
 	//  Purpose   :   Create and put into object manager an Earth spell based on tier provided
 	//////////////////////////////////////////////////////////////////////////
 	void CreateEarth( CCharacter* pShooter, int nTier );
+
+	void CreateGrenade(CSpell* pFire, CSpell* pEarth);
+	void CreateGiantFireBall(CSpell* pFire, CSpell* pWind);
+	void CreateSpear(CSpell* pIce, CSpell* pWind);
+	void CreateIceCube(CSpell* pIce, CSpell* pEarth);
+
+	//void CreateSparks(int Type, float fDirRotation, float fSparkLifeTime);
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "GetInstance"	
