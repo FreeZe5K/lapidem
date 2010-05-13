@@ -9,6 +9,9 @@ public:
 	CGiantFireBall();
 	~CGiantFireBall();
 
+	void SetRadiusIncrease(float fIncreaseAmt) { m_fRadiusIncrease = fIncreaseAmt; }
+	float GetRadiusIncrease() { return m_fRadiusIncrease; }
+
 	void Update(float);
 	void Render();
 };
