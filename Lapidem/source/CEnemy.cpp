@@ -121,7 +121,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 		SetHeight(64);
 		SetWidth(40);
 		SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Doctorboss.png"));
-		m_nHealth = 1000;
+		m_nHealth = 1500;
 		m_SpellType = OBJ_SHIELD;
 		currDirec = RIGHT;
 		currAnimation = NULL;

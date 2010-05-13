@@ -23,6 +23,7 @@ CGameplayState* CGameplayState::GetInstance( )
 void CGameplayState::Enter( )
 {
 	m_bBossSpawned = false;
+	thaBoss        = NULL;
 	m_pD3D          = CSGD_Direct3D::GetInstance( );
 	m_pTM           = CSGD_TextureManager::GetInstance( );
 	m_pDS           = CSGD_DirectSound::GetInstance( );
@@ -321,7 +322,6 @@ void CGameplayState::Update( float fET )
 		CGameOver::GetInstance( )->SetState( 2 );
 		CGameOver::GetInstance( )->SetCondition( 1 );
 		CGame::GetInstance( )->ChangeState( CGameOver::GetInstance( ) );
-		thaBoss->Release();
 		return;
 	}
 
@@ -634,6 +634,8 @@ void CGameplayState::Exit( )
 		m_pPlayerOne->Release( );
 	if( m_pPlayerTwo )
 		m_pPlayerTwo->Release( );
+	if( thaBoss )
+		thaBoss->Release();
 
 	theLevel.Clear( );
 	m_pCoM->DeleteInstance( );
