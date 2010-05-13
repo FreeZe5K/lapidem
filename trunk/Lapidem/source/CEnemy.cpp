@@ -5,6 +5,7 @@
 #include "AIStateEarth.h"
 #include "AIStateFire.h"
 #include "AIStateIce.h"
+#include "AIDocBoss.h"
 #include "CGameplayState.h"
 
 #include "CPickups.h"
@@ -16,13 +17,18 @@
 #include "Corona_ObjectManager.h"
 #include "Wrappers/CSGD_TextureManager.h"
 
-CEnemy::CEnemy( EleType ElementToBe, float initx, float inity )
+CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, bool boss )
 {
 	m_nType         = OBJ_ENEMY;
 	m_bIsFrozen     = false;
 	m_fFrozenSpeed  = 0.5f;
 	m_fFreezeTimer  = 0.0f;
 
+	if(ElementToBe = OBJ_WIND)
+		ElementToBe = OBJ_EARTH;
+
+	if(!boss)
+	{
 	switch( ElementToBe )
 	{
 	case OBJ_EARTH:
@@ -77,9 +83,29 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity )
 		} break;
 	case OBJ_WIND:
 		{
+			m_SpellType = OBJ_WIND;
 		} break;
 	}
+	}
 
+
+	else
+	{
+		currState = new AIDocBoss();
+
+		SetPosX(initx);
+		SetPosY(inity);
+		SetVelX(0.0f);
+		SetVelY(0.0f);
+		SetHeight(54);
+		SetWidth(40);
+		SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Doctorboss.png"));
+		m_nHealth = 500;
+		m_SpellType = OBJ_SHIELD;
+		currDirec = RIGHT;
+		currAnimation = NULL;
+
+	}
 	m_fShotTimer   = 3.0f;
 	m_fWaitTimer   = 0.0f;
 	m_nAttackWho   = 0;
@@ -265,6 +291,28 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 		int spelltype = ((CSpell*)collidingObject)->GetElement();
 		int DamageToTake = ((CSpell*)collidingObject)->GetDamage();
 		int EleType	= GetEleType();
+		
+		if( EleType == OBJ_SHIELD)
+			return;
+		else if(EleType == OBJ_NONE)
+			if(spelltype != OBJ_EARTH)
+			{
+				StickyNumbers* SN = new StickyNumbers();
+				SN->SetTimer(20.0f);
+				SN->SetPosX( GetPosX());
+				SN->SetPosY( GetPosY() - 24);
+
+				char buffer[4];
+
+				sprintf_s(buffer, 4, "%i", TakeDamage(DamageToTake));
+				SN->SetText(buffer);
+				SN->SetVelY(-30);
+
+				Corona_ObjectManager::GetInstance()->AddObject(SN);
+				SN->Release();
+			}
+			else
+				return;
 
 		if( ( spelltype == OBJ_FIRE && EleType == OBJ_ICE ) || 
 			( spelltype == OBJ_ICE && EleType == OBJ_WIND ) ||

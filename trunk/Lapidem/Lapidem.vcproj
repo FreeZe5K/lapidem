@@ -212,6 +212,10 @@
 					Name="Header Files"
 					>
 					<File
+						RelativePath=".\source\AIDocBoss.h"
+						>
+					</File>
+					<File
 						RelativePath=".\source\AISisBoss.h"
 						>
 					</File>
@@ -251,6 +255,10 @@
 				<Filter
 					Name="Source Files"
 					>
+					<File
+						RelativePath=".\source\AIDocBoss.cpp"
+						>
+					</File>
 					<File
 						RelativePath=".\source\AISisBoss.cpp"
 						>
