@@ -4,6 +4,7 @@
 #include "IAIState.h"
 #include "AIStateEarth.h"
 #include "AIStateFire.h"
+#include "AIStateIce.h"
 #include "CGameplayState.h"
 
 #include "CPickups.h"
@@ -36,7 +37,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity )
 			SetHeight( 64 );
 			SetWidth( 16 );
 
-			m_nHealth      = 80 + (CSpellFactory::GetInstance()->GetEarthLevel() * 3);
+			m_nHealth      = 80 + (CSpellFactory::GetInstance()->GetWindLevel() * 3);
 			m_SpellType    = OBJ_EARTH;
 			currDirec      = RIGHT;
 			currAnimation  = NULL;
@@ -49,10 +50,10 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity )
 			SetVelX(75.0f);
 			SetVelY(0.0f);
 			SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/lapid_lulzfireenemy.png" ) );
-			SetHeight( 64 );
-			SetWidth ( 32 );
+			SetHeight( 54 );
+			SetWidth ( 16 );
 
-			m_nHealth      = 50 + (CSpellFactory::GetInstance()->GetFireLevel() * 2);
+			m_nHealth      = 50 + (CSpellFactory::GetInstance()->GetEarthLevel() * 2);
 			m_SpellType    = OBJ_FIRE;
 			currDirec      = RIGHT;
 			currAnimation  = NULL;
@@ -60,6 +61,19 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity )
 		} break;
 	case OBJ_ICE:
 		{
+			currState = new AIStateIce( );
+			SetPosX(initx);
+			SetPosY(inity);
+			SetVelX(50.0f);
+			SetVelY(0.0f);
+			SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/lapid_lulziceenemy.png" ) );
+			SetHeight( 64 );
+			SetWidth ( 16 );
+
+			m_nHealth      = 50 + (CSpellFactory::GetInstance()->GetFireLevel() * 2);
+			m_SpellType    = OBJ_ICE;
+			currDirec      = RIGHT;
+			currAnimation  = NULL;
 		} break;
 	case OBJ_WIND:
 		{
