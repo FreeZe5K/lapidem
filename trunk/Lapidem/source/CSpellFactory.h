@@ -27,13 +27,13 @@ private:
 	static  CSpellFactory* m_pSF;    // Instance to itself
 	int     m_nIceXP;                // How much XP the ice abilities have accumulated. Used to level up the ice abilities.
 	int     m_nIceLVL;               // Current level of ice abilities. Used to determine damage increase as well as slow bonus.
-	
+
 	int     m_nWindXP;               // How much XP the wind abilities have accumulated. Used to level up the wind abilities
 	int     m_nWindLVL;              // Current level of wind abilities. Used to determine damage increase as well as pushback bonus.
-	
+
 	int     m_nFireXP;               // How much XP the fire abilities have accumulated. Used to level up the fire abilities.
 	int     m_nFireLVL;              // Current level of fire abilities. Used to determine damage increase as well as DOT.
-			
+
 	int     m_nEarthXP;              // How much XP the earth abilities have accumulated. Used to level up the earth abilities
 	int     m_nEarthLVL;             // Current level of earth abilities. Used to determine damage increase as well as lifespan.
 
