@@ -74,7 +74,7 @@ void CWind::UpdateTier2( float fElapsedTime )
 		float dot = (newpos._x * currpos._x)+(currpos._y * newpos._y);
 		float length = sqrt((newpos._x * newpos._x) + (newpos._y * newpos._y))* sqrt( ( currpos._x * currpos._x ) + ( currpos._y * currpos._y ) );
 		float angle = float( acos( dot / length ) + PI / 4.0f );
-		angle = float( angle * 180.0f / PI );
+		angle = angle * 180.0f / D3DX_PI;
 		if(angle > 45.0f && angle < 135.0f)
 		{
 			m_pCaster->SetVelY(-100);

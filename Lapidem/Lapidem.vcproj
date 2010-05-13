@@ -288,7 +288,23 @@
 						>
 					</File>
 					<File
+						RelativePath=".\source\CGiantFireBall.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CGrenade.h"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CIce.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CIceCube.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CIceSpear.h"
 						>
 					</File>
 					<File
@@ -312,7 +328,23 @@
 						>
 					</File>
 					<File
+						RelativePath=".\source\CGianFireBall.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CGrenade.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CIce.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CIceCube.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CIceSpear.cpp"
 						>
 					</File>
 					<File

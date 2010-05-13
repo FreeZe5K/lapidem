@@ -45,6 +45,7 @@ public:
 	int GetDamage( )           { return m_nDamage;          }
 	int GetDirection( )        { return m_nDirection;       }
 	int GetElement( )          { return m_nElement;         }
+	CEmitter* GetEmitter() { return m_pEmitter; }
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Mutators"
@@ -101,6 +102,7 @@ public:
 	virtual void RenderTier2( );
 	virtual void RenderTier3( );
 
+	void CreateCombinedSpell(CSpell* pFirst, CSpell* pSecond);
 	void CreateCollisionEffect(int nFirst, int nSecond);
 	bool CancelSpell(CSpell* pOther);
 };

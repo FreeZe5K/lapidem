@@ -9,6 +9,7 @@
 #include "Corona_ObjectManager.h" 
 #include "CEmitter.h"
 #include "CSpell.h"
+#include "CSpellFactory.h"
 
 CSpell::CSpell( ) : CBase( )
 {
@@ -89,15 +90,25 @@ void CSpell::HandleCollision( CBase* pObject )
 	////////////////////////////////////////////////////////////////
 	//TODO: Carona_ObjectManager->GetInstance()->RemoveObject(this);
 	////////////////////////////////////////////////////////////////
-	if(pObject->GetType() == OBJ_SPELL && (this->PlayerShot() != ((CSpell*)pObject)->PlayerShot()))
+	if(pObject->GetType() == OBJ_SPELL)
 	{
-		if(GetTier() ==3)
+		if(this->PlayerShot() == ((CSpell*)pObject)->PlayerShot())
 		{
-			return;
+			if(this->GetTier() == 1 && ((CSpell*)pObject)->GetTier() == 1)
+			{
+				CreateCombinedSpell(this, (CSpell*)pObject);
+			}	// if is tier one
 		}
-		if(CancelSpell((CSpell*)pObject))
-			this->SetActive(false);
-		CreateCollisionEffect(this->GetElement(), ((CSpell*)pObject)->GetElement());
+		else
+		{
+			if(GetTier() ==3)
+			{
+				return;
+			}
+			if(CancelSpell((CSpell*)pObject))
+				this->SetActive(false);
+			CreateCollisionEffect(this->GetElement(), ((CSpell*)pObject)->GetElement());
+		}	// if player shot
 	}
 }
 
@@ -139,8 +150,6 @@ void CSpell::CreateCollisionEffect(int nFirst, int nSecond)
 			; // fire scatters
 		break;
 	case OBJ_ICE:
-		//if(nSecond == OBJ_FIRE)
-		//	; // see fire
 		if(nSecond == OBJ_ICE)
 			; // create pieces of ice
 		else if(nSecond == OBJ_WIND)
@@ -149,22 +158,12 @@ void CSpell::CreateCollisionEffect(int nFirst, int nSecond)
 			; // creates icy rock
 		break;
 	case OBJ_WIND:
-		//if(nSecond == OBJ_FIRE)
-		//	; // see fire
-		//else if(nSecond == OBJ_ICE)
-		//	; // see ice
 		if(nSecond == OBJ_WIND)
 			; // create whirlwind
 		else if(nSecond == OBJ_EARTH)
 			; // rock pieces
 		break;
 	case OBJ_EARTH:
-		//if(nSecond == OBJ_FIRE)
-		//	; // see fire
-		//else if(nSecond == OBJ_ICE)
-		//	; // see ice
-		//else if(nSecond == OBJ_WIND)
-		//	; // see wind
 		if(nSecond == OBJ_EARTH)
 			; // creates dust
 		break;
@@ -197,4 +196,25 @@ bool CSpell::CancelSpell(CSpell* pOther)
 	}
 
 	return true;
+}
+
+void CSpell::CreateCombinedSpell(CSpell* pFirst, CSpell* pSecond)
+{
+	int nFirst = pFirst->GetElement();
+	int nSecond = pSecond->GetElement();
+	switch(nFirst)
+	{
+	case OBJ_FIRE:
+		if(nSecond == OBJ_WIND)
+			CSpellFactory::GetInstance()->CreateGiantFireBall(pFirst, pSecond); // create scatter
+		else if(nSecond == OBJ_EARTH)
+			CSpellFactory::GetInstance()->CreateGrenade(pFirst, pSecond); // fire scatters
+		break;
+	case OBJ_ICE:
+		if(nSecond == OBJ_WIND)
+			CSpellFactory::GetInstance()->CreateSpear(pFirst, pSecond); // create ice dust...
+		else if(nSecond == OBJ_EARTH)
+			CSpellFactory::GetInstance()->CreateIceCube(pFirst, pSecond); // creates icy rock
+		break;
+	}
 }
