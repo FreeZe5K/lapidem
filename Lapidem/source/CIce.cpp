@@ -14,8 +14,7 @@
 
 CIce::CIce( ) : CSpell( )
 {
-	SetImage(CSGD_TextureManager::GetInstance()->LoadTexture
-		( "resource/graphics/ice.bmp", D3DCOLOR_XRGB( 0, 0, 0 ) ) );
+	
 }
 
 CIce::~CIce( )

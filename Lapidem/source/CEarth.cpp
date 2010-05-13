@@ -9,7 +9,7 @@
 #include <math.h>
 
 
-#define PILLAR_HEIGHT 45
+#define PILLAR_HEIGHT 80
 
 struct Vector2d
 { float fX, fY; };
