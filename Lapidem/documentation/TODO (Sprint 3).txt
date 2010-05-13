@@ -35,17 +35,16 @@ HRS LEFT - 90
 
 - - - - - - - - - - - - - - - - - -
 - - - - - - - Mike - - - - - - - 
-HRS LEFT - 40
+HRS LEFT - 20
 - - - - - - - - - - - - - - - - - -
 - Make the particle engine better. ( 8 hrs )
-- Make a mini-map to help the player get around the level. ( 16 hrs )
-- Ice enemy to be different from the other enemies. ( 4 hrs )
 - Multiple ice spells. ( 12 hrs )
 
 - High score table, etc.
 - Fix attract mode.
 - Change the timer to count up from zero instead of down from 10 minutes.
 - Put time on win/lose screen.
+- The minimap needs to remove switches that are no longer active and then show where the exit is once complete.
 
 - When the final boss is beat, run this code:
 /////////////////////////////////////////////////

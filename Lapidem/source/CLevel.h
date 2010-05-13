@@ -15,6 +15,7 @@ using std::ofstream;
 using std::ifstream;
 
 #include "CTerrainBase.h"
+#include "CLevelSwitch.h"
 
 class CBase;
 
@@ -43,6 +44,9 @@ private:
 	//int m_nWaterTileID;
 	//int m_nLavaTileID;
 	int m_nTerrainTileIDs[MAX_TERRAIN];
+
+	float m_nEndPosX;
+	float m_nEndPosY;
 
 	vector<CBase*> m_pLevelSwitches;
 
@@ -75,7 +79,7 @@ public:
 	int GetBackGroundImage( ) const       { return m_nBackGroundImageID;     } 
 	int GetBGM( ) const                   { return m_nBGM;                   }
 
-	int GetTileIDFromType(int nType) { return m_nTerrainTileIDs[nType]; }
+	int GetTileIDFromType(int nType)      { return m_nTerrainTileIDs[nType]; }
 
 	//	filename ----------------------   whatever#.laplvl"
 	char* GetNextLevelFileName( ) const   { return m_szNextLevelFileName;    }
@@ -144,6 +148,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////
 	CBase* CheckCollision( CBase* );
 	CBase* GetEntryPoint( );
+	CBase* GetEndPoint( );
 
 	bool IsOnScreen( CBase* );
 	bool NextLevelOpen();
@@ -170,15 +175,22 @@ public:
 	//
 	// Purpose:     Get stuff.
 	/////////////////////////////////////////////////////////////////////////////////////
-	float GetSwitchOnePosX( )        { return m_pLevelSwitches[0]->GetPosX( ); }
-	float GetSwitchOnePosY( )        { return m_pLevelSwitches[0]->GetPosY( ); }
+	float GetLevelEndX( )            { return m_nEndPosX;                              }
+	float GetLevelEndY( )            { return m_nEndPosY;                              }
+
+	float GetSwitchOnePosX( )        { return m_pLevelSwitches[0]->GetPosX( );         }
+	float GetSwitchOnePosY( )        { return m_pLevelSwitches[0]->GetPosY( );         }
+	bool  GetSwitchOneON( )          { return ((CLevelSwitch*)m_pLevelSwitches[0])->GetSwitchState( );  }
 	
-	float GetSwitchTwoPosX( )        { return m_pLevelSwitches[1]->GetPosX( ); }
-	float GetSwitchTwoPosY( )        { return m_pLevelSwitches[1]->GetPosY( ); }
+	float GetSwitchTwoPosX( )        { return m_pLevelSwitches[1]->GetPosX( );         }
+	float GetSwitchTwoPosY( )        { return m_pLevelSwitches[1]->GetPosY( );         }
+	bool  GetSwitchTwoON( )          { return ((CLevelSwitch*)m_pLevelSwitches[1])->GetSwitchState( );  }
 	
-	float GetSwitchThreePosX( )      { return m_pLevelSwitches[2]->GetPosX( ); }
-	float GetSwitchThreePosY( )      { return m_pLevelSwitches[2]->GetPosY( ); }
+	float GetSwitchThreePosX( )      { return m_pLevelSwitches[2]->GetPosX( );         }
+	float GetSwitchThreePosY( )      { return m_pLevelSwitches[2]->GetPosY( );         }
+	bool  GetSwitchThreeON( )        { return ((CLevelSwitch*)m_pLevelSwitches[2])->GetSwitchState( );  }
 	
-	float GetSwitchFourPosX( )       { return m_pLevelSwitches[3]->GetPosX( ); }
-	float GetSwitchFourPosY( )       { return m_pLevelSwitches[3]->GetPosY( ); }
+	float GetSwitchFourPosX( )       { return m_pLevelSwitches[3]->GetPosX( );         }
+	float GetSwitchFourPosY( )       { return m_pLevelSwitches[3]->GetPosY( );         }
+	bool  GetSwitchFourON( )         { return ((CLevelSwitch*)m_pLevelSwitches[3])->GetSwitchState( );  }
 };

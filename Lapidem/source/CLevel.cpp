@@ -12,7 +12,6 @@
 //#include "CTerrainBase.h"
 #include "CTAirCurrent.h"
 #include "CEnemySpawner.h"
-#include "CLevelSwitch.h"
 #include "CWaterTerrain.h"
 #include "CCamera.h"
 //#include <fstream>
@@ -296,6 +295,9 @@ void CLevel::LoadNewLevel( char* filename )
 					endPt->SetTileRows( GetTileRow( ) );
 					endPt->SetVelX( 0 );
 					endPt->SetVelY( 0 );
+					
+					m_nEndPosX = endPt->GetPosX( );
+					m_nEndPosY = endPt->GetPosY( );
 
 					//m_pEventTiles.push_back(endPt);
 					Corona_ObjectManager::GetInstance( )->AddObject( endPt );
@@ -505,11 +507,22 @@ CBase* CLevel::CheckCollision( CBase* pBase  )
 	return NULL;
 }
 
-CBase* CLevel::GetEntryPoint()
+CBase* CLevel::GetEntryPoint( )
 {
 	for( UINT i = 0; i < m_pEventTiles.size( ); ++i )
 	{
 		if( ( ( CTerrainBase* )m_pEventTiles[i] )->GetTypeTerrain( ) == ENTRY_POINT )
+			return m_pEventTiles[i];
+	}
+
+	return NULL;
+}
+
+CBase* CLevel::GetEndPoint( )
+{
+	for( UINT i = 0; i < m_pEventTiles.size( ); ++i )
+	{
+		if( ( ( CTerrainBase* )m_pEventTiles[i] )->GetTypeTerrain( ) == END_POINT )
 			return m_pEventTiles[i];
 	}
 

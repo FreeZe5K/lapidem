@@ -15,14 +15,14 @@ class CEmitterFactory;
 class CGameplayState : public IGameState, public CLDevice 
 {
 private:
-	int                     m_nImageID[5];
+	int                     m_nImageID[6];
 	int                     m_nSlotLoadedFrom;
 	int                     m_nSinglePlayerScore;
 	int                     m_nPlayerOneScore;
 	int                     m_nPlayerTwoScore;
 
 	float					m_fP2RespawnTimer;
-	float                   m_fMMCurrentRotation[4];
+	float                   m_fMMCurrentRotation[5];
 
 	bool                    m_bIsPaused;
 	bool                    m_bMapActive;
