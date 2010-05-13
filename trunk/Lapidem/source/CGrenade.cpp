@@ -61,24 +61,24 @@ void CGrenade::Render()
 
 void CGrenade::CreateExplosion()
 {
-	CLevel* pLevel = CGameplayState::GetInstance()->GetLevel();
+	//CLevel* pLevel = CGameplayState::GetInstance()->GetLevel();
 
 
-	CTerrainBase* pTerrain;
+	//CTerrainBase* pTerrain;
 
-	for(int i = -m_nRadius; i < m_nRadius; ++i)
-	{
-		for(int j = -m_nRadius; j < m_nRadius; ++j)
-		{
-			pTerrain = (CTerrainBase*)pLevel->GetTile((int)this->GetPosX() + i * pLevel->GetTileWidth(), (int)this->GetPosY() + j * pLevel->GetTileHeight());
-			if(pTerrain->GetTypeTerrain() == T_ROCK)
-			{
-				pTerrain->SetTileID(pTerrain->GetBaseTile());
-				pTerrain->SetTypeTerrain(T_EMPTY);
-				pTerrain->SetActive(false);
-			}
-		}
-	}
+	//for(int i = -m_nRadius; i < m_nRadius; ++i)
+	//{
+	//	for(int j = -m_nRadius; j < m_nRadius; ++j)
+	//	{
+	//		pTerrain = (CTerrainBase*)pLevel->GetTile((int)this->GetPosX() + i * pLevel->GetTileWidth(), (int)this->GetPosY() + j * pLevel->GetTileHeight());
+	//		if(pTerrain->GetTypeTerrain() == T_ROCK)
+	//		{
+	//			pTerrain->SetTileID(pTerrain->GetBaseTile());
+	//			pTerrain->SetTypeTerrain(T_EMPTY);
+	//			pTerrain->SetActive(false);
+	//		}
+	//	}
+	//}
 
 	for(int i = 0; i < 10; ++i)
 	{

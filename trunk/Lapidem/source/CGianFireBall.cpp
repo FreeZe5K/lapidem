@@ -5,7 +5,7 @@
 
 CGiantFireBall::CGiantFireBall()
 {
-	m_fRadiusIncrease = 16.0f;
+	m_fRadiusIncrease = 0.0f;
 	this->SetType(OBJ_SPELL);
 	this->SetElement(OBJ_FIRE);
 }
@@ -18,6 +18,11 @@ void CGiantFireBall::Update(float fElapsedTime)
 {
 	CSpell::Update(fElapsedTime);
 
+	m_fRadiusIncrease += fElapsedTime;
+
+	this->SetWidth((int)(m_fRadiusIncrease * fElapsedTime));
+	this->SetHeight((int)(m_fRadiusIncrease * fElapsedTime));
+
 	CEmitter* pEmitter = this->GetEmitter();
 	pEmitter->SetSpreadX(pEmitter->GetSpreadX() + m_fRadiusIncrease * fElapsedTime);
 	pEmitter->SetSpreadY(pEmitter->GetSpreadY() + m_fRadiusIncrease * fElapsedTime);
@@ -29,5 +34,6 @@ void CGiantFireBall::Update(float fElapsedTime)
 void CGiantFireBall::Render()
 {
 	CCamera* pCamera = CCamera::GetCamera();
-	CSGD_TextureManager::GetInstance()->Draw(this->GetImage(), (int)(this->GetPosX() - pCamera->GetXOffset()), (int)(this->GetPosY() - pCamera->GetYOffset()));
+	if(this->GetImage() != -1)
+		CSGD_TextureManager::GetInstance()->Draw(this->GetImage(), (int)(this->GetPosX() - pCamera->GetXOffset()), (int)(this->GetPosY() - pCamera->GetYOffset()));
 }

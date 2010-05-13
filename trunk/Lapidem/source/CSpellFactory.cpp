@@ -921,7 +921,10 @@ void CSpellFactory::CreateGiantFireBall(CSpell* pFire, CSpell* pWind)
 	pSpell->SetLifespan(5.0f);
 	pSpell->SetHeight(32);
 	pSpell->SetWidth(32);
-	pSpell->SetImage(pFire->GetImage());
+
+	pSpell->SetRadiusIncrease((float)(16 + pSpell->GetWidth()));
+
+	pSpell->SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource\\graphics\\Lapidem_GiantFireBall.png", D3DCOLOR_XRGB(255, 255, 255)));
 	pSpell->ShotBy(true);
 	pSpell->SetEmitter(CEmitterFactory::GetInstance()->CreateEmitter("firespell"));
 	pSpell->SetSound(pFire->GetSound());
