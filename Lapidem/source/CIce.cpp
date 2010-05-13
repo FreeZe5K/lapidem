@@ -14,7 +14,6 @@
 
 CIce::CIce( ) : CSpell( )
 {
-	
 }
 
 CIce::~CIce( )
@@ -95,7 +94,14 @@ void CIce::RenderTier1( )
 }
 
 void CIce::RenderTier2( )
-{ /* NOTHING HERE YET */ }
+{ 
+	if( GetImage( ) != -1 )
+	{
+		CSGD_TextureManager::GetInstance( )->Draw( GetImage( ), 
+			int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ), 
+			int( GetPosY( )- CCamera::GetCamera( )->GetYOffset( ) ), 0.3f, 0.3f );
+	}
+}
 
 void CIce::RenderTier3( )
 { /* NOTHING HERE YET */ }
@@ -119,14 +125,17 @@ void CIce::HandleCollision( CBase* pObject )
 		else if( pObject->GetType( ) == OBJ_ENEMY )
 		{
 			SetActive( false );
-			CSpellFactory::GetInstance()->AddIceXP(2);
+			CSpellFactory::GetInstance( )->AddIceXP( 2 );
 		}
 		else if( pObject->GetType( ) == OBJ_SPELL && ( ( CSpell* )pObject )->GetElement( ) != GetElement( ) 
-			&& ((CSpell*)pObject)->GetTier() !=3)
-				SetActive( false );
+			&& ( ( CSpell* )pObject )->GetTier( ) != 3 )
+			SetActive( false );
 	}
 	else if( 2 == GetTier( ) )
-	{ /* do stuff... like destroy... EVERYTHING */ }
+	{
+		if( pObject->GetType( ) == OBJ_PLAYER ) 
+			pObject->MoveOutOf( this ); 
+	}
 	else if( 3 == GetTier( ) )
 	{ /* holy crap everything go splode */ }
 }

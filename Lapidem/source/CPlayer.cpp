@@ -284,15 +284,12 @@ void CPlayer::Attack( int nTier )
 				}
 				else if(nTier == 3)
 				{
-
-
 				}
 				m_pSpells->CreateEarth( this, nTier );
 				break;
 			}
 
 		case OBJ_FIRE:
-
 			if(nTier == 2)
 			{
 				if(m_nFireEnergy < 2)
@@ -301,8 +298,6 @@ void CPlayer::Attack( int nTier )
 			}
 			else if(nTier == 3)
 			{
-
-
 			}
 			m_pSpells->CreateFire( this, nTier );
 			break;
@@ -315,8 +310,6 @@ void CPlayer::Attack( int nTier )
 			}
 			else if(nTier == 3)
 			{
-
-
 			}
 			m_pSpells->CreateIce( this, nTier );
 			break;
@@ -330,8 +323,6 @@ void CPlayer::Attack( int nTier )
 			}
 			else if(nTier == 3)
 			{
-
-
 			}
 			m_pSpells->CreateWind( this, nTier );
 			break;

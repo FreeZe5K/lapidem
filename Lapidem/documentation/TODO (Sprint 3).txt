@@ -35,10 +35,9 @@ HRS LEFT - 90
 
 - - - - - - - - - - - - - - - - - -
 - - - - - - - Mike - - - - - - - 
-HRS LEFT - 20
+HRS LEFT - 8
 - - - - - - - - - - - - - - - - - -
 - Make the particle engine better. ( 8 hrs )
-- Multiple ice spells. ( 12 hrs )
 
 - High score table, etc.
 - Fix attract mode.
