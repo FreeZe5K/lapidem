@@ -1,7 +1,9 @@
 #include "CEnemySpawner.h"
 #include "Corona_ObjectManager.h"
 #include "CEnemy.h"
+#include "CFlock.h"
 
+#define WIND_SPAWN 8
 CEnemySpawner::CEnemySpawner()
 { 
 		m_pEnemy            = NULL; 
@@ -20,12 +22,29 @@ void CEnemySpawner::Update(float fElapsedTime)
 
 	if(m_bIsReadyToSpawn && !m_bIsOnScreen)
 	{
-		int typetospawn = (rand() % 3);
-		if(typetospawn == OBJ_WIND)
-			typetospawn = OBJ_EARTH;
+		int typetospawn = (rand() % 4);
 
-			m_pEnemy = new CEnemy((EleType)typetospawn, GetPosX(), GetPosY());
-			Corona_ObjectManager::GetInstance()->AddObject(m_pEnemy);
+			if(typetospawn != OBJ_WIND)
+			{
+				m_pEnemy = new CEnemy((EleType)typetospawn, GetPosX(), GetPosY(),false, NULL);
+				Corona_ObjectManager::GetInstance()->AddObject(m_pEnemy);
+			}
+			else 
+			{
+				CFlock* pleasework = new CFlock();
+				for(int i =0; i < WIND_SPAWN; i++)
+				{
+					if(m_pEnemy != NULL)
+					{
+						m_pEnemy->Release();
+					}
+					m_pEnemy = new CEnemy((EleType)typetospawn, GetPosX() + i*20, GetPosY() + (20 * i%4)  ,false, pleasework);
+					pleasework->AddMember(m_pEnemy);
+					Corona_ObjectManager::GetInstance()->AddObject(m_pEnemy);
+				}
+				Corona_ObjectManager::GetInstance()->AddObject(pleasework);
+				pleasework->Release();
+			}
 			m_bIsReadyToSpawn = false;
 	}
 

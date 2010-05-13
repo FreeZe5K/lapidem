@@ -2,7 +2,7 @@
 #include "CCharacter.h"
 
 class IAIState;
-
+class CFlock;
 class CEnemy : public CCharacter
 {
 private:
@@ -20,10 +20,11 @@ private:
 	bool       m_bIsFrozen;
 
 public:
-	CEnemy( EleType, float, float, bool boss = false ); 
+	CEnemy( EleType, float, float, bool boss = false ,CFlock* Flock= NULL); 
 	~CEnemy();
 	void Update( float );
 	void HandleCollision( CBase* );
 	void SetWait( float _f )          { m_fWaitTimer = _f;}
+	IAIState* GetState(void) {return currState;}
 	void SetKnockBack(float fSpeed) { m_fKnockBack = fSpeed; m_bKnockBack = true;} 
 };

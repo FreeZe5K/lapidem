@@ -516,6 +516,9 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 	newfire->Release();
 }
 
+void IceTierTwo( CBase* _enemy, CBase* _spell )
+{ /* TODO :: Tier Two. */ }
+
 void IceTierThree( CBase* _enemy, CBase* _spell )
 { _enemy->SetVelX( 0.0f ); _enemy->SetVelY( 0.0f ); }
 
@@ -613,27 +616,6 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 		}
 	case 2:
 		{
-			CIce* _ice = new CIce( );
-			if( pShooter->GetDirection( ) == RIGHT )
-				_ice->SetPosX( pShooter->GetPosX( ) + pShooter->GetWidth( ) * 2 );
-			else _ice->SetPosX( pShooter->GetPosX( ) - pShooter->GetWidth( ) * 2 );
-
-			_ice->SetPosY( pShooter->GetPosY( ) + pShooter->GetHeight( ) / 2 );
-
-			_ice->SetVelX( 0.0f );
-			_ice->SetVelY( 0.0f );
-			_ice->SetDamage( 20 + 4 * m_nIceLVL );
-			_ice->SetLifespan( 15.0f + 1.5f * m_nIceLVL );
-			_ice->SetActive( true );
-			_ice->SetTier( nTier );
-			_ice->ShotBy( true );	
-			_ice->SetElement( OBJ_ICE );
-			_ice->SetHeight( 33 );
-			_ice->SetWidth( 22 );
-			_ice->SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture
-				( "resource/graphics/Lapidem_IceShard.png" ) );
-			Corona_ObjectManager::GetInstance( )->AddObject( _ice );
-			_ice->Release( );
 			break;
 		}
 	case 3:
@@ -645,7 +627,7 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 	}	
 
 	Corona_ObjectManager::GetInstance( )->AddObject( newice );
-
+	
 	CEmitter *emitter;
 	emitter = m_pEF->CreateEmitter( "icespell" );
 	emitter->SetPosX( newice->GetPosX( ) - ( newice->GetWidth( ) / 2 ) );
@@ -668,25 +650,24 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 {
 	CWind* newwind = new CWind();
-
 	if(pShooter->GetType() == OBJ_PLAYER)
 	{
 		switch(nTier)
 		{
 		case 1: // First Tier... Basic wind Spell
 			{
-
+				
 				newwind->SetPosX(pShooter->GetPosX());
 				newwind->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
 				if(pShooter->GetType() == OBJ_PLAYER && ((CPlayer*)pShooter)->GetReticle())
 				{
 					CBase* tempRet = ((CPlayer*)pShooter)->GetReticle();
 
-					float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
-					float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
+				float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
+				float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
 
-					newwind->SetVelX(250 * speedx);
-					newwind->SetVelY(250 * speedy);
+				newwind->SetVelX(250 * speedx);
+				newwind->SetVelY(250 * speedy);
 
 
 				}
@@ -947,9 +928,9 @@ void CSpellFactory::CreateGiantFireBall(CSpell* pFire, CSpell* pWind)
 	pSpell->ShotBy(true);
 	pSpell->SetEmitter(CEmitterFactory::GetInstance()->CreateEmitter("firespell"));
 	pSpell->SetSound(pFire->GetSound());
-
+	
 	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
-
+	
 	Corona_ObjectManager::GetInstance()->RemoveObject(pWind);
 	pFire->SetActive(false);
 
@@ -978,7 +959,7 @@ void CSpellFactory::CreateSpear(CSpell* pIce, CSpell* pWind)
 	pSpell->ShotBy(true);
 	pSpell->SetEmitter(CEmitterFactory::GetInstance()->CreateEmitter("icespell"));
 	pSpell->SetSound(pIce->GetSound());
-
+	
 	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
 
 	//Corona_ObjectManager::GetInstance()->RemoveObject(pFire);
@@ -1009,7 +990,7 @@ void CSpellFactory::CreateIceCube(CSpell* pIce, CSpell* pEarth)
 	pSpell->ShotBy(true);
 	pSpell->SetEmitter(CEmitterFactory::GetInstance()->CreateEmitter("icespell"));
 	pSpell->SetSound(pIce->GetSound());
-
+	
 	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
 
 	//Corona_ObjectManager::GetInstance()->RemoveObject(pFire);
@@ -1018,4 +999,99 @@ void CSpellFactory::CreateIceCube(CSpell* pIce, CSpell* pEarth)
 
 	Corona_ObjectManager::GetInstance()->AddObject(pSpell);
 	pSpell->Release();
+}
+/*
+void SpellFactory::CreateSparks(int Type, float fDirRotation, float fSparkLifeTime)
+{
+	tVector2D velocity;
+	velocity._x = 0.0f; velocity._y = -1.0f;
+	velocity = Lapidem_Math::GetInstance()->Vector2DRotate(velocity, fDirRotation);
+	CEmitter* pEmitter = 0;
+	CSpell* pNewSpell = 0;
+	
+	switch(Type)
+	{
+	case OBJ_FIRE:
+		m_pEF->CreateEmitter("firespell");
+		pNewSpell = new CFire;
+		break;
+	case OBJ_ICE:
+		break;
+	case OBJ_WIND:
+		break;
+	case OBJ_EARTH:
+		break;
+	}
+
+	CEmitter* pEmitter = m_pEF->CreateEmitter("firespell");
+	pEmitter->SetPosX(this->GetPosX());
+	pEmitter->SetPosY(this->GetPosY());
+	pEmitter->SetVelX(250.0f * velocity._x);
+	pEmitter->SetVelY(250.0f * velocity._y);
+
+	CFire* newfire = new CFire;
+	newfire->SetDamage(this->GetDamage());
+	newfire->SetDOT(3);
+	newfire->SetLifespan(fSparkLifeTime);
+	newfire->SetActive(true);
+	newfire->SetTier(1);
+	newfire->ShotBy(true);
+	newfire->SetEmitter(pEmitter);
+
+	newfire->SetWidth(32);
+	newfire->SetHeight(16);
+
+	newfire->SetPosX(this->GetPosX());
+	newfire->SetPosY(this->GetPosY());
+	newfire->SetVelX(250.0f * velocity._x);
+	newfire->SetVelY(250.0f * velocity._y);
+
+	CParticleManager::GetInstance()->AddEmitter(pEmitter);
+	Corona_ObjectManager::GetInstance()->AddObject(newfire);
+	newfire->Release();
+}
+*/
+void CSpellFactory::CreateEnemyWind(CCharacter * pShooter, CBase * pTarget)
+{
+	CWind* newWind = new CWind();
+
+	newWind->SetElement(OBJ_WIND);
+
+	newWind->ShotBy(false);
+
+	newWind->SetPosX(pShooter->GetPosX() + pShooter->GetWidth()  * .5f);
+	newWind->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
+	float SpeedX =  ( (pTarget->GetPosX() + pTarget->GetWidth()  * .5f) - newWind->GetPosX() ) / 100;
+	float SpeedY =  ( (pTarget->GetPosY() + pTarget->GetHeight() * .5f) - newWind->GetPosY() ) / 100;
+	newWind->SetVelX( SpeedX * 250 );
+	newWind->SetVelY( SpeedY * 250 );
+
+	newWind->SetDamage(2);
+	newWind->SetLifespan(5.0f);
+	newWind->SetActive(true);
+	newWind->SetTier(1);
+
+	newWind->SetWidth(32);
+	newWind->SetHeight(16);
+
+	Corona_ObjectManager::GetInstance()->AddObject(newWind);
+
+	CEmitter *emitter;
+	emitter = m_pEF->CreateEmitter( "windspell" );
+	emitter->SetPosX( newWind->GetPosX( ) - ( newWind->GetWidth( ) / 2 ) );
+	emitter->SetPosY( newWind->GetPosY( ) - ( newWind->GetHeight( ) / 2 ) );
+
+	emitter->SetVelX( newWind->GetVelX( ) );
+	emitter->SetVelY( newWind->GetVelY( ) );
+
+	emitter->GetParticle( )->SetPosX( newWind->GetPosX( ) - ( newWind->GetWidth( )  ) );
+	emitter->GetParticle( )->SetPosY( newWind->GetPosY( ) - ( newWind->GetHeight( )  ) );
+	emitter->SetLooping( true );
+
+	newWind->SetEmitter(emitter);
+	CParticleManager::GetInstance( )->AddEmitter( emitter );
+	emitter = NULL;
+
+	newWind->Release();
+
 }
