@@ -29,6 +29,7 @@ private:
 	bool					m_bTwoPlayers;
 	bool                    m_bLoadedFromFile;
 	bool                    m_bPlayerReachedEnd;
+	bool					m_bBossSpawned;
 
 	CSGD_Direct3D           *m_pD3D;
 	CSGD_TextureManager     *m_pTM;

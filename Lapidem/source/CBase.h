@@ -10,7 +10,7 @@
 #include <windows.h>
 
 enum Types   { OBJ_BASE, OBJ_PLAYER, OBJ_ENEMY, OBJ_TERRA, OBJ_SPELL, OBJ_EVENT, OBJ_RETICLE, OBJ_ENERGY, OBJ_T3SPELL };  // All Tiles need to have "at least" the OBJ_TERRA type.
-enum EleType { OBJ_FIRE, OBJ_ICE, OBJ_WIND, OBJ_EARTH };                            // Probably shouldn't be prefixed with OBJ_, thanks Jon.
+enum EleType { OBJ_FIRE, OBJ_ICE, OBJ_WIND, OBJ_EARTH, OBJ_SHIELD, OBJ_NONE};                            // Probably shouldn't be prefixed with OBJ_, thanks Jon.
 
 class CBase : public IBaseInterface
 {

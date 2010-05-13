@@ -612,6 +612,13 @@ bool CLevel::NextLevelOpen()
 	return true;
 }
 
+void CLevel::ResetSwitches()
+{
+	for(unsigned index = 0; index < m_pLevelSwitches.size(); ++index)
+	{
+		((CLevelSwitch*)m_pLevelSwitches[index])->Reset();
+	}
+}
 void CLevel::SaveLevelFromMemory(ofstream* fout, char* szFileName, vector<CBase*>* pTerrainTiles, vector<CBase*>* pEventTiles, vector<CBase*>* pSwitches)
 {
 	int nLength;//, nDataChunkSize = 0;

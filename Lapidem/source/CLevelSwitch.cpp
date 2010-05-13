@@ -28,3 +28,9 @@ void CLevelSwitch::Render()
 	CCamera* theCamera = CCamera::GetCamera();
 	CSGD_TextureManager::GetInstance()->Draw(m_nSwitchModeID[m_bIsOn], (int)(GetPosX() - theCamera->GetXOffset()), (int)(GetPosY() - theCamera->GetYOffset()));
 }
+
+void CLevelSwitch::Reset()
+{
+	m_bIsOn = false;
+}
+

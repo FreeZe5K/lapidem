@@ -7,6 +7,7 @@
 #include "CProfiler.h"
 #include "CParticleManager.h"
 #include "CAnimationWarehouse.h"
+#include "CEnemy.h"
 
 #ifdef _DEBUG
 #include "CPickups.h"
@@ -21,6 +22,7 @@ CGameplayState* CGameplayState::GetInstance( )
 
 void CGameplayState::Enter( )
 {
+	m_bBossSpawned = false;
 	m_pD3D          = CSGD_Direct3D::GetInstance( );
 	m_pTM           = CSGD_TextureManager::GetInstance( );
 	m_pDS           = CSGD_DirectSound::GetInstance( );
@@ -306,6 +308,14 @@ void CGameplayState::Update( float fET )
 	CProfiler::GetInstance( )->Start( "CGameplay Update" );
 	CProfiler::GetInstance( )->End( "Profiler Start" );
 #endif
+
+	if(!m_bBossSpawned && !strcmp(theLevel.GetNextLevelFileName(), " "))
+	{
+		CEnemy * theBoss = new CEnemy(OBJ_SHIELD, 100, 500, true);
+		Corona_ObjectManager::GetInstance()->AddObject(theBoss);
+		theBoss->Release();
+		m_bBossSpawned = true;
+	}
 
 	if( m_pPlayerTwo )
 	{

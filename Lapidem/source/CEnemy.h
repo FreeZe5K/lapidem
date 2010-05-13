@@ -20,7 +20,7 @@ private:
 	bool       m_bIsFrozen;
 
 public:
-	CEnemy( EleType, float, float ); 
+	CEnemy( EleType, float, float, bool boss = false ); 
 	~CEnemy();
 	void Update( float );
 	void HandleCollision( CBase* );

@@ -85,6 +85,8 @@ public:
 	char* GetNextLevelFileName( ) const   { return m_szNextLevelFileName;    }
 	char* GetLevelFileName( ) const       { return m_szLevelFileName;        }
 
+	void ResetSwitches();
+
 private:
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Mutators"

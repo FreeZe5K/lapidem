@@ -15,6 +15,7 @@ public:
 	void HandleCollision(CBase*);
 
 	void SetSwitchState(bool bIsOn) { m_bIsOn = bIsOn; }
+	void Reset();
 	bool GetSwitchState() { return m_bIsOn; }
 
 	void Render();
