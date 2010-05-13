@@ -20,11 +20,9 @@ void CEnemySpawner::Update(float fElapsedTime)
 
 	if(m_bIsReadyToSpawn && !m_bIsOnScreen)
 	{
-		int typetospawn = 0;
-		if(rand() % 2)
+		int typetospawn = (rand() % 3);
+		if(typetospawn == OBJ_WIND)
 			typetospawn = OBJ_EARTH;
-		else
-			typetospawn = OBJ_FIRE;
 
 			m_pEnemy = new CEnemy((EleType)typetospawn, GetPosX(), GetPosY());
 			Corona_ObjectManager::GetInstance()->AddObject(m_pEnemy);

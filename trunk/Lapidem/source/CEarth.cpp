@@ -300,7 +300,7 @@ void CEarth::HandleCollision( CBase* pObject )
 			if(!m_bIsIce)
 				this->MoveOutOf( pObject );
 
-			if(pObject->GetType( ) == OBJ_PLAYER )
+			else if(pObject->GetType( ) == OBJ_PLAYER )
 			{
 				pObject->MoveOutOf(this);
 				((CPlayer*)pObject)->ResetJump();

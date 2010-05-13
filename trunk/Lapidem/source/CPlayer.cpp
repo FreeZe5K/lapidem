@@ -186,27 +186,27 @@ void CPlayer::Update( float fElapsedTime )
 	{
 		m_fJumpTimer = m_fJumpTimer + fElapsedTime;
 
-		if( m_fJumpTimer <= 0.25f )
+		if( m_fJumpTimer <= 0.20f )
 		{
 			SetVelY( -200 );
 			SetAnimation( 0, 0 );
 		}
-		else if( m_fJumpTimer <= 0.55f )
+		else if( m_fJumpTimer <= 0.4f )
 		{
 			SetVelY( -150 );
 			SetAnimation( 0, 0 );
 		}
-		else if( m_fJumpTimer < 0.75f )
+		else if( m_fJumpTimer < 0.6f )
 		{
 			SetVelY( -100 );
 			SetAnimation( 0, 0 );
 		}
-		else if( m_fJumpTimer >= .75 && m_fJumpTimer <= 0.8f )
+		else if( m_fJumpTimer >= .6 && m_fJumpTimer <= 0.62f )
 		{
 			SetVelY( 0.0f );
 			SetAnimation( 0, 0 );
 		}
-		else if(m_fJumpTimer > 0.8f && m_fJumpTimer <= 1 )
+		else if(m_fJumpTimer > 0.62f && m_fJumpTimer <= .8)
 		{
 			SetVelY( 100 );
 			SetAnimation( 0, 0 );
@@ -351,19 +351,20 @@ void CPlayer::Jump( )
 void CPlayer::HandleCollision( CBase * collidingObject )
 {
 
-	m_bIsTouching = true;
 
 	if( collidingObject->GetType( ) == OBJ_TERRA || ( collidingObject->GetType( ) == 
 		OBJ_SPELL && ( ( CSpell* )collidingObject )->GetElement( ) == OBJ_EARTH ) )
 	{
 		if( collidingObject->GetType( ) == OBJ_TERRA )
 		{
+
 			int TerraType( ( ( CTerrainBase* )collidingObject )->GetTypeTerrain( ) );
 
 
 			if( TerraType == T_LAVA || TerraType == T_WATER)
 			{
 				m_bIsDrowning = true;
+				m_bIsTouching = true;
 				
 				TakeDamage(1);
 
