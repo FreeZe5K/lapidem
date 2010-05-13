@@ -4,6 +4,7 @@
 #include "IAIState.h"
 #include "AIStateEarth.h"
 #include "AIStateFire.h"
+#include "AIStateWind.h"
 #include "AIStateIce.h"
 #include "AIDocBoss.h"
 #include "CGameplayState.h"
@@ -17,15 +18,12 @@
 #include "Corona_ObjectManager.h"
 #include "Wrappers/CSGD_TextureManager.h"
 
-CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, bool boss )
+CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, bool boss, CFlock* Flock )
 {
 	m_nType         = OBJ_ENEMY;
 	m_bIsFrozen     = false;
 	m_fFrozenSpeed  = 0.5f;
 	m_fFreezeTimer  = 0.0f;
-
-	if(ElementToBe = OBJ_WIND)
-		ElementToBe = OBJ_EARTH;
 
 	if(!boss)
 	{
@@ -83,8 +81,31 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, bool boss )
 		} break;
 	case OBJ_WIND:
 		{
+			currState = new AIStateWind();
+			SetPosX(initx);
+			SetPosY(inity);
+			((AIStateWind*)currState)->SetFlock((CFlock*)Flock);
+			SetVelX(rand()%150);
+			SetVelY(rand()%150);
+			if(rand()%2)
+			{
+				SetVelX(rand()%150);
+				SetVelY(rand()%150);
+			}
+			else
+			{
+				SetVelX(rand()%150 * -1.0f);
+				SetVelY(rand()%150 * -1.0f);
+			}
+			SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/lapid_lulzwindenemy.png"));
+			SetHeight(16);
+			SetWidth(16);
+			m_nHealth = 25 + CSpellFactory::GetInstance()->GetWindLevel();
 			m_SpellType = OBJ_WIND;
-		} break;
+			currDirec = RIGHT;
+			currAnimation = NULL;
+			break;
+		} 
 	}
 	}
 
@@ -118,6 +139,10 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, bool boss )
 
 CEnemy::~CEnemy( )
 {
+	if(m_SpellType == OBJ_WIND)
+	{
+		((AIStateWind*)currState)->GetFlock()->RemoveMember(this);
+	}
 	if( currState ) 
 		delete currState;
 
@@ -174,6 +199,17 @@ void CEnemy::Update( float fElapsedTime )
 
 		if( 0.0f == m_fWaitTimer )
 		{	
+			if(m_SpellType == OBJ_WIND)
+			{
+				CBase::Update( fElapsedTime );
+
+				if( animation )
+				{
+					animation->Update( fElapsedTime );
+					SetWidth( animation->GetFrames( )->DrawRect.right - animation->GetFrames( )->DrawRect.left );
+					SetHeight( animation->GetFrames( )->DrawRect.bottom - animation->GetFrames( )->DrawRect.top );
+				}
+			}
 			m_nAttackWho = currState->Update( fElapsedTime, this );
 
 			if( m_nAttackWho && m_fShotTimer < 0 )
@@ -181,8 +217,10 @@ void CEnemy::Update( float fElapsedTime )
 				m_fWaitTimer += fElapsedTime;
 				m_fShotTimer = 2.0f;
 			}
-
-			CCharacter::Update( fElapsedTime );
+			if(m_SpellType != OBJ_WIND)
+			{
+				CCharacter::Update( fElapsedTime );
+			}
 		}
 		else
 		{
@@ -258,32 +296,88 @@ void CEnemy::Update( float fElapsedTime )
 
 void CEnemy::HandleCollision( CBase* collidingObject )
 {
-	if( collidingObject->GetType() == OBJ_TERRA )
+	if(collidingObject->GetType() == OBJ_ENEMY)
+	{
+		if(((CEnemy*)collidingObject)->GetEleType() == OBJ_WIND)
+		{
+			RECT r;
+			IntersectRect( &r, & this->GetCollisionRect( 0 ), &collidingObject->GetCollisionRect( 0 ) );
+
+			int nRectWidth    = r.right - r.left;
+			int nRectHeight   = r.bottom - r.top;
+
+			if( nRectHeight > nRectWidth )
+			{
+				if( this->GetPosX( ) > collidingObject->GetPosX( ) )
+					SetPosX( GetPosX( ) + nRectWidth );
+				else if ( this->GetPosX() < collidingObject->GetPosX( ) )
+					SetPosX( GetPosX( ) - nRectWidth );
+				SetVelY(-GetVelY());
+			}
+			else
+			{
+				if( this->GetPosY( ) > collidingObject->GetPosY( ) )
+					SetPosY( GetPosY( ) + nRectHeight );
+				else if(this->GetPosY( ) < collidingObject->GetPosY( ) )
+					SetPosY( GetPosY( ) - nRectHeight );
+				SetVelX(-GetVelX());
+			}
+		}
+	}
+	else if( collidingObject->GetType() == OBJ_TERRA )
 	{
 		//if(((CTerrainBase*)collidingObject)->GetTypeTerrain() == T_EMPTY)
 		//	SetVelX(-GetVelX());
-
-		int TerraType = ( ( CTerrainBase* )collidingObject )->GetTypeTerrain( );
-
-		RECT r;
-		IntersectRect( &r, & this->GetCollisionRect( 0 ), &collidingObject->GetCollisionRect( 0 ) );
-
-		int nRectWidth    = r.right - r.left;
-		int nRectHeight   = r.bottom - r.top;
-
-		if( nRectHeight > nRectWidth )
+		if(m_SpellType == OBJ_WIND)
 		{
-			if( this->GetPosX( ) > collidingObject->GetPosX( ) )
-				SetPosX( GetPosX( ) + nRectWidth );
-			else if ( this->GetPosX() < collidingObject->GetPosX( ) )
-				SetPosX( GetPosX( ) - nRectWidth );
+			RECT r;
+			IntersectRect( &r, & this->GetCollisionRect( 0 ), &collidingObject->GetCollisionRect( 0 ) );
+
+			int nRectWidth    = r.right - r.left;
+			int nRectHeight   = r.bottom - r.top;
+
+			if( nRectHeight > nRectWidth )
+			{
+				if( this->GetPosX( ) > collidingObject->GetPosX( ) )
+					SetPosX( GetPosX( ) + nRectWidth );
+				else if ( this->GetPosX() < collidingObject->GetPosX( ) )
+					SetPosX( GetPosX( ) - nRectWidth );
+				SetVelY(-GetVelY());
+			}
+			else
+			{
+				if( this->GetPosY( ) > collidingObject->GetPosY( ) )
+					SetPosY( GetPosY( ) + nRectHeight );
+				else if(this->GetPosY( ) < collidingObject->GetPosY( ) )
+					SetPosY( GetPosY( ) - nRectHeight );
+				SetVelX(-GetVelX());
+			}
 		}
-		else if( nRectHeight < nRectWidth ) 
+		else
 		{
-			if( this->GetPosY( ) > collidingObject->GetPosY( ) )
-				SetPosY( GetPosY( ) + nRectHeight );
-			else if(this->GetPosY( ) < collidingObject->GetPosY( ) )
-				SetPosY( GetPosY( ) - nRectHeight );
+
+			int TerraType = ( ( CTerrainBase* )collidingObject )->GetTypeTerrain( );
+
+			RECT r;
+			IntersectRect( &r, & this->GetCollisionRect( 0 ), &collidingObject->GetCollisionRect( 0 ) );
+
+			int nRectWidth    = r.right - r.left;
+			int nRectHeight   = r.bottom - r.top;
+
+			if( nRectHeight > nRectWidth )
+			{
+				if( this->GetPosX( ) > collidingObject->GetPosX( ) )
+					SetPosX( GetPosX( ) + nRectWidth );
+				else if ( this->GetPosX() < collidingObject->GetPosX( ) )
+					SetPosX( GetPosX( ) - nRectWidth );
+			}
+			else if( nRectHeight < nRectWidth ) 
+			{
+				if( this->GetPosY( ) > collidingObject->GetPosY( ) )
+					SetPosY( GetPosY( ) + nRectHeight );
+				else if(this->GetPosY( ) < collidingObject->GetPosY( ) )
+					SetPosY( GetPosY( ) - nRectHeight );
+			}
 		}
 	}
 	else if( collidingObject->GetType( ) == OBJ_SPELL && ( ( CSpell* )collidingObject )->PlayerShot( ) )

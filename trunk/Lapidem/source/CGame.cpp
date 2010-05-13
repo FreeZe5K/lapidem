@@ -7,6 +7,8 @@
 //////////////////////////////////////////////////////////////////////////
 #include "CGame.h"
 #include "CSpellFactory.h"
+#include <ctime>
+
 
 CGame *CGame::GetInstance( )
 {
@@ -39,6 +41,8 @@ CGame::CGame( )
 	m_bIsInDebug             = false;
 	m_bIsPaused              = false;
 	m_bIsNotFullscreen       = true;
+
+	srand((unsigned int)time(0));
 }
 
 void CGame::Initialize( HWND hWnd, HINSTANCE hInstance, 

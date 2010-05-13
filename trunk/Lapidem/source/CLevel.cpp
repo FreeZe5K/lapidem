@@ -598,6 +598,8 @@ CBase* CLevel::GetTile(int nPosX, int nPosY)
 
 	if(nX >= GetWorldCollumn() || nY >= GetWorldRow())
 		return NULL;
+	else if(nX < 0 || nY < 0)
+		return NULL;
 
 	return m_pTerrainTiles[nX + nY * GetWorldCollumn()];
 }

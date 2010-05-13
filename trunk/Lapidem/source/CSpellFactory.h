@@ -73,6 +73,7 @@ public:
 	//  Purpose   :   Create and put into object manager a Wind spell based on tier provided
 	//////////////////////////////////////////////////////////////////////////
 	void CreateWind( CCharacter* pShooter, int nTier );
+	void CreateEnemyWind(CCharacter * pShooter, CBase * pTarget);
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "CreateEarth"

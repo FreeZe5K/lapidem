@@ -232,11 +232,19 @@
 						>
 					</File>
 					<File
+						RelativePath=".\source\AIStateWind.h"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CCharacter.h"
 						>
 					</File>
 					<File
 						RelativePath=".\source\CEnemy.h"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CFlock.cpp"
 						>
 					</File>
 					<File
@@ -273,6 +281,10 @@
 					</File>
 					<File
 						RelativePath=".\source\AIStateIce.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\AIStateWind.cpp"
 						>
 					</File>
 					<File
