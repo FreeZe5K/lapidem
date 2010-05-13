@@ -53,10 +53,10 @@ void CCharacter::SetAnimation( int object, int animation, int frame )
 
 void CCharacter::SetEleType( EleType newType )
 {
-	if( newType > OBJ_EARTH ) 
+	if( newType > OBJ_NONE ) 
 		newType = OBJ_FIRE; 
 	else if( newType < OBJ_FIRE ) 
-		newType = OBJ_EARTH; 
+		newType = OBJ_NONE; 
 	m_SpellType = newType;
 
 }

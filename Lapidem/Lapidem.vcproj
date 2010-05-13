@@ -244,10 +244,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\source\CFlock.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\source\CFlock.h"
 						>
 					</File>
@@ -293,6 +289,10 @@
 					</File>
 					<File
 						RelativePath=".\source\CEnemy.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CFlock.cpp"
 						>
 					</File>
 					<File
