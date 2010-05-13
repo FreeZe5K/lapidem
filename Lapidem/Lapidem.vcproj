@@ -212,6 +212,10 @@
 					Name="Header Files"
 					>
 					<File
+						RelativePath=".\source\AISisBoss.h"
+						>
+					</File>
+					<File
 						RelativePath=".\source\AIStateEarth.h"
 						>
 					</File>
@@ -247,6 +251,10 @@
 				<Filter
 					Name="Source Files"
 					>
+					<File
+						RelativePath=".\source\AISisBoss.cpp"
+						>
+					</File>
 					<File
 						RelativePath=".\source\AIStateEarth.cpp"
 						>
