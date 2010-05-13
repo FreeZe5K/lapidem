@@ -11,7 +11,7 @@ AIDocBoss::AIDocBoss()
 	m_bIsShielded = true;
 	m_fShieldTimer = 0.0f;
 	m_fSpawnEnemyTimer = 0.0f;
-	m_nMaxHealth = 1000;
+	m_nMaxHealth = 1500;
 
 }
 
