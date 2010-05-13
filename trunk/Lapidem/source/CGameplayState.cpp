@@ -311,10 +311,18 @@ void CGameplayState::Update( float fET )
 
 	if(!m_bBossSpawned && !strcmp(theLevel.GetNextLevelFileName(), " "))
 	{
-		CEnemy * theBoss = new CEnemy(OBJ_SHIELD, 100, 500, true);
-		Corona_ObjectManager::GetInstance()->AddObject(theBoss);
-		theBoss->Release();
+		thaBoss = new CEnemy(OBJ_SHIELD, 750, 500, 1);
+		Corona_ObjectManager::GetInstance()->AddObject(thaBoss);
 		m_bBossSpawned = true;
+	}
+
+	if(m_bBossSpawned && thaBoss->GetHealth() <= 0)
+	{
+		CGameOver::GetInstance( )->SetState( 2 );
+		CGameOver::GetInstance( )->SetCondition( 1 );
+		CGame::GetInstance( )->ChangeState( CGameOver::GetInstance( ) );
+		thaBoss->Release();
+		return;
 	}
 
 	if( m_pPlayerTwo )

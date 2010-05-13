@@ -11,7 +11,7 @@ AIDocBoss::AIDocBoss()
 	m_bIsShielded = true;
 	m_fShieldTimer = 0.0f;
 	m_fSpawnEnemyTimer = 0.0f;
-	m_nMaxHealth = 500;
+	m_nMaxHealth = 1000;
 
 }
 
@@ -23,17 +23,21 @@ int AIDocBoss::Update(float fElapsedTime, CEnemy *thaBoss)
 
 	if(pLevel->NextLevelOpen())
 	{
-		m_bIsShielded = false;
-		m_fShieldTimer = 10.0f;
+		if(m_bIsShielded)
+		{
+			m_bIsShielded = false;
+			m_fShieldTimer = 5.f;
+		}
 	}
 
 
 	if(m_bIsShielded)
-		thaBoss->SetType(OBJ_SHIELD);
+		thaBoss->SetEleType(OBJ_SHIELD);
 	else
 	{
-		thaBoss->SetType(OBJ_NONE);
+		thaBoss->SetEleType(OBJ_NONE);
 		m_fShieldTimer -= fElapsedTime;
+		m_fSpawnEnemyTimer += fElapsedTime;
 		
 		if(m_fShieldTimer <= 0.0f)
 		{
@@ -77,9 +81,9 @@ int AIDocBoss::Update(float fElapsedTime, CEnemy *thaBoss)
 
 	float dist = sqrt( posx );
 
-	if( dist2 < dist && dist2 < 300 )
+	if( dist2 < dist && dist2 < 500 )
 		return 2;
-	else if( dist < 300 )
+	else if( dist < 500 )
 		return 1;
 
 	return 0;
@@ -91,7 +95,7 @@ void AIDocBoss::Attack(CCharacter* pTarget, CCharacter* pShooter)
 
 	if(m_fSpawnEnemyTimer <= 0)
 	{
-		m_fSpawnEnemyTimer = 10.0f * pShooter->GetHealth() / m_nMaxHealth;
+		m_fSpawnEnemyTimer = 20.0f * pShooter->GetHealth() / m_nMaxHealth;
 
 		CEnemy* spawnd = new CEnemy(EleType(rand() % 4), pTarget->GetPosX() + pTarget->GetVelX() * 5, pTarget->GetPosY());
 

@@ -18,7 +18,7 @@
 #include "Corona_ObjectManager.h"
 #include "Wrappers/CSGD_TextureManager.h"
 
-CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, bool boss, CFlock* Flock )
+CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock* Flock )
 {
 	m_nType         = OBJ_ENEMY;
 	m_bIsFrozen     = false;
@@ -110,7 +110,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, bool boss, CFlock
 	}
 
 
-	else
+	else if(boss  == 1)
 	{
 		currState = new AIDocBoss();
 
@@ -118,10 +118,10 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, bool boss, CFlock
 		SetPosY(inity);
 		SetVelX(0.0f);
 		SetVelY(0.0f);
-		SetHeight(54);
+		SetHeight(64);
 		SetWidth(40);
 		SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Doctorboss.png"));
-		m_nHealth = 500;
+		m_nHealth = 1000;
 		m_SpellType = OBJ_SHIELD;
 		currDirec = RIGHT;
 		currAnimation = NULL;

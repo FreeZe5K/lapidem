@@ -7,6 +7,7 @@
 
 class CCamera;
 class CPlayer;
+class CEnemy;
 class IGameState;
 class Corona_ObjectManager;
 class Corona_EventHandler;
@@ -49,6 +50,7 @@ private:
 
 	CPlayer					*m_pPlayerOne;
 	CPlayer					*m_pPlayerTwo;
+	CEnemy					*thaBoss;
 
 	CGameplayState( )  { /* DO NOTHING */ }
 	~CGameplayState( ) { /* DO NOTHING */ }

@@ -2,6 +2,7 @@
 #include "CCharacter.h"
 
 class IAIState;
+
 class CFlock;
 class CEnemy : public CCharacter
 {
@@ -20,7 +21,7 @@ private:
 	bool       m_bIsFrozen;
 
 public:
-	CEnemy( EleType, float, float, bool boss = false ,CFlock* Flock= NULL); 
+	CEnemy( EleType, float, float, int boss = 0, CFlock* Flock = NULL ); 
 	~CEnemy();
 	void Update( float );
 	void HandleCollision( CBase* );
