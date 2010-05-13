@@ -27,7 +27,7 @@ void CIce::Update( float fElapsedTime )
 {
 	SetLifespan( GetLifespan( ) - fElapsedTime );
 
-	if( GetLifespan( ) < 0)
+	if( GetLifespan( ) < 0 )
 		SetActive( false );
 
 	switch( GetTier( ) )

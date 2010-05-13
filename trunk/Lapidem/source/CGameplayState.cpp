@@ -103,6 +103,7 @@ void CGameplayState::Enter( )
 	m_nImageID[2]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_IMultiPlayer.png" );
 	m_nImageID[3]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_Minimap.png" );
 	m_nImageID[4]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_MMArrow.png" );
+	m_nImageID[5]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_MMComplete.png" );
 	// - - - - - - - - - - - - - -
 
 	m_pCoM->AddObject( m_pPlayerOne );
@@ -180,7 +181,7 @@ void CGameplayState::Enter( )
 	m_fP2RespawnTimer = -1.0f;
 
 	m_tDir._x = 0.0f;
-	m_tDir._y = -100.0f;
+	m_tDir._y = -50.0f;
 
 	CGame::GetInstance( )->SetTimeLeft( 600 );
 }
@@ -200,8 +201,6 @@ bool CGameplayState::Input( )
 
 	if(!m_pPlayerOne->GetTossed())
 	{
-
-
 		if( m_pDI->KeyDown( DIK_D ) || m_pDI->JoystickDPadDown( 1 ) )
 			m_pPlayerOne->SetVelX( PLAYER_SPEED );
 		else if( m_pDI->KeyDown( DIK_A )  || m_pDI->JoystickDPadDown(0) )
@@ -294,7 +293,7 @@ bool CGameplayState::Input( )
 	if( m_pDI->KeyPressed( DIK_M ) ) m_bMapActive = !m_bMapActive;
 
 #ifdef _DEBUG
-	if(m_pDI->KeyPressed( DIK_K ) )
+	if(m_pDI->KeyDown( DIK_K ) )
 		spawnenergy();
 #endif
 	return true;
@@ -330,9 +329,9 @@ void CGameplayState::Update( float fET )
 		}
 	}
 
-	if( m_bPlayerReachedEnd )
+	if( theLevel.NextLevelOpen( ) )
 	{
-		if( theLevel.NextLevelOpen( ) )
+		if( m_bPlayerReachedEnd )
 		{
 			theLevel.LoadNextLevel();
 
@@ -397,6 +396,20 @@ void CGameplayState::Update( float fET )
 
 		if( theLevel.GetSwitchFourPosX( ) < m_pPlayerOne->GetPosX( ) )
 			m_fMMCurrentRotation[3] *= -1;
+
+		// - - - - - - - - - - -
+		// Level End
+		// - - - - - - - - - - -
+		tVector2D _end;
+		_end._x = theLevel.GetLevelEndX( ) - m_pPlayerOne->GetPosX( );
+		_end._y = theLevel.GetLevelEndY( ) - m_pPlayerOne->GetPosY( );
+
+		m_fMMCurrentRotation[4] = Lapidem_Math::GetInstance( )->
+		AngleBetweenVectors( m_tDir, _end );
+
+		//if( theLevel.GetLevelEndX( ) < m_pPlayerOne->GetPosX( ) )
+		//	m_fMMCurrentRotation[4] *= -1;
+
 	}
 
 	m_pCoM->UpdateObjects( CGame::GetInstance( )->GetElapsedTime( ) );
@@ -547,17 +560,25 @@ void CGameplayState::Render( )
 
 		// check if the switch is on or not. 
 		// if the switch has been hit, remove it from the mini-map.
-		m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
-			16.0f, 110.0f, m_fMMCurrentRotation[0] );
+		if( !theLevel.GetSwitchOneON( ) )
+			m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
+				16.0f, 110.0f, m_fMMCurrentRotation[0] );
 
-		m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
-			16.0f, 110.0f, m_fMMCurrentRotation[1] );
+		if( !theLevel.GetSwitchTwoON( ) )
+			m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
+				16.0f, 110.0f, m_fMMCurrentRotation[1] );
 
-		m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
-			16.0f, 110.0f, m_fMMCurrentRotation[2] );
+		if( !theLevel.GetSwitchThreeON( ) )
+			m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
+				16.0f, 110.0f, m_fMMCurrentRotation[2] );
 
-		m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
-			16.0f, 110.0f, m_fMMCurrentRotation[3] );
+		if( !theLevel.GetSwitchFourON( ) )
+			m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
+				16.0f, 110.0f, m_fMMCurrentRotation[3] );
+
+		if( theLevel.NextLevelOpen( ) )
+			m_pTM->Draw( m_nImageID[5], 53, 385, 0.4f, 0.4f, NULL,
+				16.0f, 110.0f, m_fMMCurrentRotation[4] );
 	}
 }
 
@@ -583,6 +604,7 @@ void CGameplayState::Exit( )
 	m_pWM->Stop( CGame::GetInstance( )->GetMainMenuMusic( ) );
 	m_pWM->Reset( CGame::GetInstance( )->GetMainMenuMusic( ) );
 
+	m_pTM->UnloadTexture( m_nImageID[5] );
 	m_pTM->UnloadTexture( m_nImageID[4] );
 	m_pTM->UnloadTexture( m_nImageID[3] );
 	m_pTM->UnloadTexture( m_nImageID[2] );
