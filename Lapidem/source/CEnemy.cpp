@@ -296,35 +296,7 @@ void CEnemy::Update( float fElapsedTime )
 
 void CEnemy::HandleCollision( CBase* collidingObject )
 {
-	if(collidingObject->GetType() == OBJ_ENEMY)
-	{
-		if(((CEnemy*)collidingObject)->GetEleType() == OBJ_WIND)
-		{
-			RECT r;
-			IntersectRect( &r, & this->GetCollisionRect( 0 ), &collidingObject->GetCollisionRect( 0 ) );
-
-			int nRectWidth    = r.right - r.left;
-			int nRectHeight   = r.bottom - r.top;
-
-			if( nRectHeight > nRectWidth )
-			{
-				if( this->GetPosX( ) > collidingObject->GetPosX( ) )
-					SetPosX( GetPosX( ) + nRectWidth );
-				else if ( this->GetPosX() < collidingObject->GetPosX( ) )
-					SetPosX( GetPosX( ) - nRectWidth );
-				SetVelY(-GetVelY());
-			}
-			else
-			{
-				if( this->GetPosY( ) > collidingObject->GetPosY( ) )
-					SetPosY( GetPosY( ) + nRectHeight );
-				else if(this->GetPosY( ) < collidingObject->GetPosY( ) )
-					SetPosY( GetPosY( ) - nRectHeight );
-				SetVelX(-GetVelX());
-			}
-		}
-	}
-	else if( collidingObject->GetType() == OBJ_TERRA )
+	if( collidingObject->GetType() == OBJ_TERRA )
 	{
 		//if(((CTerrainBase*)collidingObject)->GetTypeTerrain() == T_EMPTY)
 		//	SetVelX(-GetVelX());

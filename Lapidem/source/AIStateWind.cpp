@@ -243,8 +243,8 @@ int AIStateWind::AttackUpdate(CPlayer* pTarget, CEnemy* pEnemy, float fElapsedTi
 
 
 	tVector2D enemyvelocity;
-	enemyvelocity._x = -150.0f;
-	enemyvelocity._y = 0.0f;
+	enemyvelocity._x = pEnemy->GetVelX();
+	enemyvelocity._y = pEnemy->GetVelY();
 
 	float angle = Lapidem_Math::GetInstance()->AngleBetweenVectors(enemypos,targetpos);
 
@@ -252,13 +252,13 @@ int AIStateWind::AttackUpdate(CPlayer* pTarget, CEnemy* pEnemy, float fElapsedTi
 
 	if(pEnemy->GetPosX() > pTarget->GetPosX())
 	{
-		pEnemy->SetVelX(pEnemy->GetVelX() + enemyvelocity._x* fElapsedTime);
-		pEnemy->SetVelY(pEnemy->GetVelY() + enemyvelocity._y* fElapsedTime);
+		pEnemy->SetVelX(enemyvelocity._x);
+		pEnemy->SetVelY(enemyvelocity._y);
 	}
 	else
 	{
-		pEnemy->SetVelX(pEnemy->GetVelX() - enemyvelocity._x* fElapsedTime);
-		pEnemy->SetVelY(pEnemy->GetVelY() - enemyvelocity._y* fElapsedTime);
+		pEnemy->SetVelX(-enemyvelocity._x);
+		pEnemy->SetVelY(enemyvelocity._y);
 	}
 
 
