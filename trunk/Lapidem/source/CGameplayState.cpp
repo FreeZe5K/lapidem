@@ -27,9 +27,9 @@ void CGameplayState::Enter( )
 	m_pPlayerOne   = NULL;
 	m_pPlayerTwo   = NULL;
 	m_fP2RespawnTimer = 0.0f;
-m_nPlayerOneScore = 0;
-m_nPlayerTwoScore = 0;
-m_nSinglePlayerScore = 0;
+	m_nPlayerOneScore = 0;
+	m_nPlayerTwoScore = 0;
+	m_nSinglePlayerScore = 0;
 
 
 	m_pD3D          = CSGD_Direct3D::GetInstance( );
