@@ -17,7 +17,7 @@ CLevelSwitch::~CLevelSwitch()
 		CSGD_TextureManager::GetInstance()->UnloadTexture(m_nSwitchModeID[i]);
 }
 
-void CLevelSwitch::HandleCollision(CBase* pBase)
+void CLevelSwitch::HandleCollision(float fElapsedTime, CBase* pBase)
 {
 	if(pBase->GetType() == OBJ_PLAYER)
 		m_bIsOn = true;

@@ -85,7 +85,7 @@ void CSpell::Update( float fElapsedTime )
 	}
 }
 
-void CSpell::HandleCollision( CBase* pObject )
+void CSpell::HandleCollision(float fElapsedTime, CBase* pObject )
 {
 	////////////////////////////////////////////////////////////////
 	//TODO: Carona_ObjectManager->GetInstance()->RemoveObject(this);

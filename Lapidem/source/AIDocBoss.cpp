@@ -95,7 +95,7 @@ void AIDocBoss::Attack(CCharacter* pTarget, CCharacter* pShooter)
 
 	if(m_fSpawnEnemyTimer <= 0)
 	{
-		m_fSpawnEnemyTimer = 20.0f * pShooter->GetHealth() / m_nMaxHealth;
+		m_fSpawnEnemyTimer = 10.0f * pShooter->GetHealth() / m_nMaxHealth;
 
 		CEnemy* spawnd = new CEnemy(EleType(rand() % 4), pTarget->GetPosX() + pTarget->GetVelX() * 5, pTarget->GetPosY());
 

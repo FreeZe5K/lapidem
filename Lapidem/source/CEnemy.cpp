@@ -41,7 +41,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			SetHeight( 64 );
 			SetWidth( 16 );
 
-			m_nHealth      = 80 + (CSpellFactory::GetInstance()->GetWindLevel() * 3);
+			m_nHealth      = 80 + (CSpellFactory::GetInstance()->GetWindLevel() * 10);
 			m_SpellType    = OBJ_EARTH;
 			currDirec      = RIGHT;
 			currAnimation  = NULL;
@@ -57,7 +57,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			SetHeight( 54 );
 			SetWidth ( 16 );
 
-			m_nHealth      = 50 + (CSpellFactory::GetInstance()->GetEarthLevel() * 2);
+			m_nHealth      = 50 + (CSpellFactory::GetInstance()->GetEarthLevel() * 7);
 			m_SpellType    = OBJ_FIRE;
 			currDirec      = RIGHT;
 			currAnimation  = NULL;
@@ -74,7 +74,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			SetHeight( 64 );
 			SetWidth ( 16 );
 
-			m_nHealth      = 50 + (CSpellFactory::GetInstance()->GetFireLevel() * 2);
+			m_nHealth      = 50 + (CSpellFactory::GetInstance()->GetFireLevel() * 7);
 			m_SpellType    = OBJ_ICE;
 			currDirec      = RIGHT;
 			currAnimation  = NULL;
@@ -100,7 +100,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/lapid_lulzwindenemy.png"));
 			SetHeight(16);
 			SetWidth(16);
-			m_nHealth = 25 + CSpellFactory::GetInstance()->GetWindLevel();
+			m_nHealth = 25 + CSpellFactory::GetInstance()->GetIceLevel() * 5;
 			m_SpellType = OBJ_WIND;
 			currDirec = RIGHT;
 			currAnimation = NULL;
@@ -121,7 +121,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 		SetHeight(64);
 		SetWidth(40);
 		SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Doctorboss.png"));
-		m_nHealth = 1500;
+		m_nHealth = 1500 + (CSpellFactory::GetInstance()->GetIceLevel() + CSpellFactory::GetInstance()->GetWindLevel() + CSpellFactory::GetInstance()->GetEarthLevel() + CSpellFactory::GetInstance()->GetFireLevel()) * 15;
 		m_SpellType = OBJ_SHIELD;
 		currDirec = RIGHT;
 		currAnimation = NULL;
@@ -154,11 +154,15 @@ CEnemy::~CEnemy( )
 	newpickup->SetPosY(GetPosY());
 	newpickup->SetActive(true);
 
-	//if(!(rand() % 1023))
-	//{
-	//	newpickup->SetActive(false);
-	//}
-	//else
+	if(!(rand() % 15))
+	{
+		newpickup->SetType(OBJ_T3SPELL);
+		newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_SuperEnergy.png"));
+		newpickup->SetWidth(32);
+		newpickup->SetHeight(32);
+
+	}
+	else
 	{
 		newpickup->SetType(OBJ_ENERGY);
 		if(GetEleType() == OBJ_EARTH)
@@ -297,7 +301,7 @@ void CEnemy::Update( float fElapsedTime )
 	}
 }
 
-void CEnemy::HandleCollision( CBase* collidingObject )
+void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 {
 	if( collidingObject->GetType() == OBJ_TERRA )
 	{
@@ -306,7 +310,7 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 		if(m_SpellType == OBJ_WIND)
 		{
 			RECT r;
-			IntersectRect( &r, & this->GetCollisionRect( 0 ), &collidingObject->GetCollisionRect( 0 ) );
+			IntersectRect( &r, & this->GetCollisionRect( fElapsedTime ), &collidingObject->GetCollisionRect( fElapsedTime ) );
 
 			int nRectWidth    = r.right - r.left;
 			int nRectHeight   = r.bottom - r.top;
@@ -334,7 +338,7 @@ void CEnemy::HandleCollision( CBase* collidingObject )
 			int TerraType = ( ( CTerrainBase* )collidingObject )->GetTypeTerrain( );
 
 			RECT r;
-			IntersectRect( &r, & this->GetCollisionRect( 0 ), &collidingObject->GetCollisionRect( 0 ) );
+			IntersectRect( &r, & this->GetCollisionRect( fElapsedTime ), &collidingObject->GetCollisionRect( fElapsedTime ) );
 
 			int nRectWidth    = r.right - r.left;
 			int nRectHeight   = r.bottom - r.top;

@@ -106,9 +106,9 @@ void CIce::RenderTier2( )
 void CIce::RenderTier3( )
 { /* NOTHING HERE YET */ }
 
-void CIce::HandleCollision( CBase* pObject )
+void CIce::HandleCollision(float fElapsedTime, CBase* pObject )
 {
-	CSpell::HandleCollision(pObject);
+	CSpell::HandleCollision(fElapsedTime, pObject);
 
 	if( 1 == GetTier() )
 	{
@@ -134,7 +134,7 @@ void CIce::HandleCollision( CBase* pObject )
 	else if( 2 == GetTier( ) )
 	{
 		if( pObject->GetType( ) == OBJ_PLAYER ) 
-			pObject->MoveOutOf( this ); 
+			pObject->MoveOutOf( this, fElapsedTime ); 
 	}
 	else if( 3 == GetTier( ) )
 	{ /* holy crap everything go splode */ }

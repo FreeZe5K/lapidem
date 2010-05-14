@@ -38,7 +38,7 @@ void CTerrainBase::Update( float fDT )
 	m_fTransformTimer -= fDT;
 }
 
-void CTerrainBase::HandleCollision( CBase* pBase )
+void CTerrainBase::HandleCollision(float fElapsedTime, CBase* pBase )
 {
 	switch( pBase->GetType( ) )
 	{

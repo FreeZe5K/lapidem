@@ -62,18 +62,18 @@ CSpellFactory::~CSpellFactory()
 void CSpellFactory::AddWindXP(int nXP)
 {
 	m_nWindXP += nXP;
-	if(m_nWindXP> (35*(1.5*m_nWindLVL)))
+	if(m_nWindXP> (35*(m_nWindLVL + (m_nWindLVL>>1))))
 	{
-		m_nWindXP -=(int)(35*(1.5f*m_nWindLVL));
+		m_nWindXP -=(int)(35*(m_nWindLVL + (m_nWindLVL>>1)));
 		m_nWindLVL++;
 	}
 }
 void CSpellFactory::AddEarthXP(int nXP)
 {
 	m_nEarthXP += nXP;
-	if(m_nEarthXP > (25+(40* m_nEarthLVL * 0.5)))
+	if(m_nEarthXP > (25+(20* m_nEarthLVL)))
 	{
-		m_nEarthXP -= (int)(25+(40* m_nEarthLVL * 0.5f));
+		m_nEarthXP -= (int)(25+(20* m_nEarthLVL));
 		m_nEarthLVL++;
 	}
 }
@@ -186,8 +186,8 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 						}
 					}
 				}
-				newearth->SetDamage(20 + 4* m_nEarthLVL);
-				newearth->SetLifespan(10.0f + 1.5f* m_nEarthLVL);
+				newearth->SetDamage(10 + 4 * m_nEarthLVL);
+				newearth->SetLifespan(10.0f + 1.5f * m_nEarthLVL);
 				newearth->SetActive(true);
 				newearth->SetTier(nTier);
 				newearth->ShotBy(true);	
@@ -287,7 +287,7 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 		}
 		newearth->SetVelX(0);
 		newearth->SetVelY(100);
-		newearth->SetDamage(20);
+		newearth->SetDamage(10);
 		newearth->SetLifespan(10.0);
 		newearth->SetActive(true);
 		newearth->SetTier(1);
@@ -377,58 +377,58 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 				{
 				case 0:
 					{
-						newfire->SetVelX(-250);
+						newfire->SetVelX(-200);
 						newfire->SetVelY(0);
 						break;
 					}
 				case 1:
 					{
-						newfire->SetVelX(250);
+						newfire->SetVelX(200);
 						newfire->SetVelY(0);
 						break;
 					}
 				case 2:
 					{
 						newfire->SetVelX(0);
-						newfire->SetVelY(-250);
+						newfire->SetVelY(-200);
 						break;
 					}
 				case 3:
 					{
 						newfire->SetVelX(0);
-						newfire->SetVelY(250);
+						newfire->SetVelY(200);
 						break;
 					}
 				case 4:
 					{
-						newfire->SetVelX(-175);
-						newfire->SetVelY(-175);
+						newfire->SetVelX(-150);
+						newfire->SetVelY(-150);
 						break;
 					}
 				case 5:
 					{
-						newfire->SetVelX(-175);
-						newfire->SetVelY(175);
+						newfire->SetVelX(-150);
+						newfire->SetVelY(150);
 						break;
 					}
 				case 6:
 					{
-						newfire->SetVelX(175);
-						newfire->SetVelY(-175);
+						newfire->SetVelX(150);
+						newfire->SetVelY(-150);
 						break;
 					}
 				case 7:
 					{
-						newfire->SetVelX(175);
-						newfire->SetVelY(175);
+						newfire->SetVelX(150);
+						newfire->SetVelY(150);
 						break;
 					}
 				}
 			}
 
-			newfire->SetDamage(15 + (3 * m_nFireLVL));
+			newfire->SetDamage(12 + (3 * m_nFireLVL));
 			newfire->SetDOT(3 + (1 * (m_nFireLVL>>1)));
-			newfire->SetLifespan(5.0f);
+			newfire->SetLifespan(7.5f);
 			newfire->SetActive(true);
 			newfire->SetTier(nTier);
 
@@ -444,9 +444,9 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 			newfire->SetPosY(pShooter->GetPosY() + pShooter->GetHeight());
 			newfire->SetVelX(100);
 			newfire->SetVelY(50);
-			newfire->SetDamage(25 + (30 * m_nFireLVL));
+			newfire->SetDamage(20 + (10 * m_nFireLVL));
 			newfire->SetDOT(3);
-			newfire->SetLifespan(7.5f);
+			newfire->SetLifespan(10.f);
 			newfire->SetTier(nTier);
 			newfire->SetWidth(32);
 			newfire->SetHeight(16);
@@ -483,9 +483,9 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 			newfire->SetPosY( CCamera::GetCamera()->GetYOffset() + 1);
 			newfire->SetVelX(750);
 			newfire->SetVelY(50);
-			newfire->SetDamage(50 + (30 * m_nFireLVL));
+			newfire->SetDamage(30 + (20 * m_nFireLVL));
 			newfire->SetDOT(3);
-			newfire->SetLifespan(15.0f);
+			newfire->SetLifespan(10.0f);
 			newfire->SetTier(nTier);
 			newfire->SetWidth(32);
 			newfire->SetHeight(16);
@@ -631,12 +631,12 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 				}
 			}
 
-			newice->SetDamage( 9 + 2 * m_nIceLVL );
+			newice->SetDamage( 12 + 2 * m_nIceLVL );
 			newice->SetSlow( 10.0f + 2.0f * m_nIceLVL );
 			newice->SetWidth( 32 );
 			newice->SetHeight( 16 );
 			newice->SetActive( true );
-			newice->SetLifespan( 5.0f );
+			newice->SetLifespan( 7.5f );
 
 			if( pShooter->GetType( ) == OBJ_PLAYER )
 				newice->ShotBy( true );
@@ -709,50 +709,50 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 					{
 					case 0:
 						{
-							newwind->SetVelX(-150);
+							newwind->SetVelX(-250);
 							newwind->SetVelY(0);
 							break;
 						}
 					case 1:
 						{
-							newwind->SetVelX(150);
+							newwind->SetVelX(250);
 							newwind->SetVelY(0);
 							break;
 						}
 					case 2:
 						{
 							newwind->SetVelX(0);
-							newwind->SetVelY(-150);
+							newwind->SetVelY(-250);
 							break;
 						}
 					case 3:
 						{
 							newwind->SetVelX(0);
-							newwind->SetVelY(150);
+							newwind->SetVelY(250);
 							break;
 						}
 					case 4:
 						{
-							newwind->SetVelX(-75);
-							newwind->SetVelY(-75);
+							newwind->SetVelX(-175);
+							newwind->SetVelY(-175);
 							break;
 						}
 					case 5:
 						{
-							newwind->SetVelX(-75);
-							newwind->SetVelY(75);
+							newwind->SetVelX(-175);
+							newwind->SetVelY(175);
 							break;
 						}
 					case 6:
 						{
-							newwind->SetVelX(75);
-							newwind->SetVelY(-75);
+							newwind->SetVelX(175);
+							newwind->SetVelY(-175);
 							break;
 						}
 					case 7:
 						{
-							newwind->SetVelX(75);
-							newwind->SetVelY(75);
+							newwind->SetVelX(175);
+							newwind->SetVelY(175);
 							break;
 						}
 					}
@@ -760,8 +760,8 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 
 				newwind->SetActive(true);
 				newwind->SetElement(OBJ_WIND);
-				newwind->SetDamage(9 + m_nWindLVL);
-				newwind->SetPushBack(10.0f + 5 *m_nWindLVL);
+				newwind->SetDamage(10 + m_nWindLVL);
+				newwind->SetPushBack(10.0f + 5 * m_nWindLVL);
 				newwind->SetLifespan(5.0f);
 				newwind->SetTier(nTier);
 				newwind->SetWidth(32);
@@ -855,7 +855,7 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 
 				newwind->SetActive(true);
 				newwind->SetElement(OBJ_WIND);
-				newwind->SetDamage(9 + m_nWindLVL);
+				newwind->SetDamage(10 + m_nWindLVL);
 				newwind->SetPushBack(10.0f + 5 *m_nWindLVL);
 				newwind->SetLifespan(.25f);
 				newwind->SetTier(nTier);
@@ -876,7 +876,7 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 				newwind->SetActive(true);
 				newwind->SetElement(OBJ_WIND);
 				newwind->SetDamage(0);
-				newwind->SetPushBack(10.0f + 5 *m_nWindLVL);
+				newwind->SetPushBack(5.0f + 5 *m_nWindLVL);
 				newwind->SetLifespan(30.0f);
 				newwind->SetTier(nTier);
 				newwind->SetWidth(pShooter->GetWidth());
@@ -928,7 +928,6 @@ void CSpellFactory::CreateGrenade(CSpell* pFire, CSpell* pEarth)
 
 	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
 
-	//Corona_ObjectManager::GetInstance()->RemoveObject(pFire);
 	Corona_ObjectManager::GetInstance()->RemoveObject(pEarth);
 	pFire->SetActive(false);
 
@@ -993,7 +992,6 @@ void CSpellFactory::CreateSpear(CSpell* pIce, CSpell* pWind)
 	
 	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
 
-	//Corona_ObjectManager::GetInstance()->RemoveObject(pFire);
 	Corona_ObjectManager::GetInstance()->RemoveObject(pWind);
 	pIce->SetActive(false);
 
@@ -1024,64 +1022,13 @@ void CSpellFactory::CreateIceCube(CSpell* pIce, CSpell* pEarth)
 	
 	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
 
-	//Corona_ObjectManager::GetInstance()->RemoveObject(pFire);
 	Corona_ObjectManager::GetInstance()->RemoveObject(pEarth);
 	pIce->SetActive(false);
 
 	Corona_ObjectManager::GetInstance()->AddObject(pSpell);
 	pSpell->Release();
 }
-/*
-void SpellFactory::CreateSparks(int Type, float fDirRotation, float fSparkLifeTime)
-{
-	tVector2D velocity;
-	velocity._x = 0.0f; velocity._y = -1.0f;
-	velocity = Lapidem_Math::GetInstance()->Vector2DRotate(velocity, fDirRotation);
-	CEmitter* pEmitter = 0;
-	CSpell* pNewSpell = 0;
-	
-	switch(Type)
-	{
-	case OBJ_FIRE:
-		m_pEF->CreateEmitter("firespell");
-		pNewSpell = new CFire;
-		break;
-	case OBJ_ICE:
-		break;
-	case OBJ_WIND:
-		break;
-	case OBJ_EARTH:
-		break;
-	}
 
-	CEmitter* pEmitter = m_pEF->CreateEmitter("firespell");
-	pEmitter->SetPosX(this->GetPosX());
-	pEmitter->SetPosY(this->GetPosY());
-	pEmitter->SetVelX(250.0f * velocity._x);
-	pEmitter->SetVelY(250.0f * velocity._y);
-
-	CFire* newfire = new CFire;
-	newfire->SetDamage(this->GetDamage());
-	newfire->SetDOT(3);
-	newfire->SetLifespan(fSparkLifeTime);
-	newfire->SetActive(true);
-	newfire->SetTier(1);
-	newfire->ShotBy(true);
-	newfire->SetEmitter(pEmitter);
-
-	newfire->SetWidth(32);
-	newfire->SetHeight(16);
-
-	newfire->SetPosX(this->GetPosX());
-	newfire->SetPosY(this->GetPosY());
-	newfire->SetVelX(250.0f * velocity._x);
-	newfire->SetVelY(250.0f * velocity._y);
-
-	CParticleManager::GetInstance()->AddEmitter(pEmitter);
-	Corona_ObjectManager::GetInstance()->AddObject(newfire);
-	newfire->Release();
-}
-*/
 
 
 

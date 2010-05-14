@@ -350,7 +350,7 @@ void CGameplayState::Update( float fET )
 				// move the player2 out of player 1 so it looks nice
 				m_pPlayerTwo->SetPosX( m_pPlayerOne->GetPosX( ) + 2 );
 				m_pPlayerTwo->SetPosY( m_pPlayerOne->GetPosY( ) );
-				m_pPlayerTwo->MoveOutOf( m_pPlayerOne);
+				m_pPlayerTwo->MoveOutOf( m_pPlayerOne, fET);
 			}
 		}
 	}

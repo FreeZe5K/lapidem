@@ -111,9 +111,9 @@ void CFire::RenderTier2( )
 void CFire::RenderTier3( )
 { /* NOTHING HERE YET */ }
 
-void CFire::HandleCollision( CBase* pObject )
+void CFire::HandleCollision(float fElapsedTime,  CBase* pObject )
 {
-	CSpell::HandleCollision(pObject);
+	CSpell::HandleCollision(fElapsedTime, pObject);
 
 	if( 1 == GetTier( ) )
 	{
@@ -142,7 +142,7 @@ void CFire::HandleCollision( CBase* pObject )
 		if( pObject->GetType() == OBJ_ENEMY )
 			CSpellFactory::GetInstance()->AddFireXP(5);
 		else if( pObject->GetType( ) == OBJ_TERRA )
-			CBase::MoveOutOf(pObject);
+			CBase::MoveOutOf(pObject, fElapsedTime);
 	}
 	else if( 3 == GetTier( ) )
 	{ /* holy crap everything go splode */ }

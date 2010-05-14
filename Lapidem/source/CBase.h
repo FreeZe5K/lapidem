@@ -95,7 +95,7 @@ public:
 	//				  collision can also be handled here.
 	//////////////////////////////////////////////////////////////////////////
 	bool CheckCollision( float, CBase* );
-	virtual void HandleCollision(CBase*);
+	virtual void HandleCollision(float, CBase*);
 	
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Update"
@@ -149,7 +149,7 @@ public:
 	//			May cause some funny collision (i.e. Player not being able to
 	//			walk left, if they fall faster than 150 pix/sec).
 	/////////////////////////////////////////////////////////////////////////
-	void MoveOutOf( CBase* pSolidObject );
+	void MoveOutOf( CBase* pSolidObject, float fElapsedTime );
 
 	/////////////////////////////////////////////////////////////////////////
 	//	Function: "ClampToScreen"
