@@ -24,6 +24,14 @@ void CGameplayState::Enter( )
 {
 	m_bBossSpawned = false;
 	thaBoss        = NULL;
+	m_pPlayerOne   = NULL;
+	m_pPlayerTwo   = NULL;
+	m_fP2RespawnTimer = 0.0f;
+m_nPlayerOneScore = 0;
+m_nPlayerTwoScore = 0;
+m_nSinglePlayerScore = 0;
+
+
 	m_pD3D          = CSGD_Direct3D::GetInstance( );
 	m_pTM           = CSGD_TextureManager::GetInstance( );
 	m_pDS           = CSGD_DirectSound::GetInstance( );
@@ -79,7 +87,6 @@ void CGameplayState::Enter( )
 		m_pPlayerTwo->SetPosY( 400 );
 		m_pPlayerTwo->SetAnimation( 0, 0 );
 	}
-	else m_pPlayerTwo = NULL;
 
 	CCamera::InitCamera( 0.0f, 0.0f, float(CGame::GetInstance( )->GetScreenWidth( ) ),
 		float( CGame::GetInstance( )->GetScreenHeight( ) ), m_pPlayerOne );
@@ -108,8 +115,6 @@ void CGameplayState::Enter( )
 	m_nImageID[4]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_MMArrow.png" );
 	m_nImageID[5]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_MMComplete.png" );
 	// - - - - - - - - - - - - - -
-
-	m_pCoM->AddObject( m_pPlayerOne );
 
 	if( m_pPlayerTwo )
 		m_pCoM->AddObject( m_pPlayerTwo );
@@ -178,6 +183,9 @@ void CGameplayState::Enter( )
 		m_pPlayerOne->SetPosX( pEntry->GetPosX( ) );
 		m_pPlayerOne->SetPosY( pEntry->GetPosY( ) );
 	}
+
+	m_pCoM->AddObject( m_pPlayerOne );
+
 
 	if( m_pPlayerTwo )
 		Corona_EventHandler::GetInstance( )->RegisterClient( this, "P2 OFFSCREEN" );

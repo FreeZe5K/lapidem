@@ -85,12 +85,12 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			SetPosX(initx);
 			SetPosY(inity);
 			((AIStateWind*)currState)->SetFlock((CFlock*)Flock);
-			SetVelX(rand()%150);
-			SetVelY(rand()%150);
+			SetVelX((float)(rand()%150));
+			SetVelY((float)(rand()%150));
 			if(rand()%2)
 			{
-				SetVelX(rand()%150);
-				SetVelY(rand()%150);
+				SetVelX((float)(rand()%150));
+				SetVelY((float)(rand()%150));
 			}
 			else
 			{
