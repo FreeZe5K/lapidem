@@ -141,31 +141,41 @@ void CSpell::CreateCollisionEffect(int nFirst, int nSecond)
 	{
 	case OBJ_FIRE:
 		if(nSecond == OBJ_FIRE)
-			; // Create Fire blast effect
+			{
+		} // Create Fire blast effect
 		else if(nSecond == OBJ_ICE)
-			; // create steam
+			{
+		} // create steam
 		else if(nSecond == OBJ_WIND)
-			; // create scatter
+			{
+		} // create scatter
 		else if(nSecond == OBJ_EARTH)
-			; // fire scatters
+			{
+		} // fire scatters
 		break;
 	case OBJ_ICE:
 		if(nSecond == OBJ_ICE)
-			; // create pieces of ice
+		{
+		}// create pieces of ice
 		else if(nSecond == OBJ_WIND)
-			; // create ice dust...
+		{
+		}// create ice dust...
 		else if(nSecond == OBJ_EARTH)
-			; // creates icy rock
+		{
+		}
 		break;
 	case OBJ_WIND:
 		if(nSecond == OBJ_WIND)
-			; // create whirlwind
+			{
+		} // create whirlwind
 		else if(nSecond == OBJ_EARTH)
-			; // rock pieces
+			{
+		} // rock pieces
 		break;
 	case OBJ_EARTH:
 		if(nSecond == OBJ_EARTH)
-			; // creates dust
+			{
+		} // creates dust
 		break;
 	}
 }

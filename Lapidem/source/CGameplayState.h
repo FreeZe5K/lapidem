@@ -18,9 +18,9 @@ class CGameplayState : public IGameState, public CLDevice
 private:
 	int                     m_nImageID[6];
 	int                     m_nSlotLoadedFrom;
-	int                     m_nSinglePlayerScore;
-	int                     m_nPlayerOneScore;
-	int                     m_nPlayerTwoScore;
+	int						m_nPlayerOneScore;
+	int						m_nPlayerTwoScore;
+	int						m_nSinglePlayerScore;
 
 	float					m_fP2RespawnTimer;
 	float                   m_fMMCurrentRotation[5];
