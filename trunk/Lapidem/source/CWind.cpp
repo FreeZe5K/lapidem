@@ -180,9 +180,9 @@ void CWind::RenderTier2( )
 void CWind::RenderTier3( )
 { /* NOTHING HERE YET */ }
 
-void CWind::HandleCollision( CBase* pObject )
+void CWind::HandleCollision(float fElapsedTime, CBase* pObject )
 {
-	CSpell::HandleCollision(pObject);
+	CSpell::HandleCollision(fElapsedTime, pObject);
 
 	if( 1 == GetTier( ) )
 	{

@@ -93,15 +93,15 @@ bool CBase::CheckCollision( float fElapsedTime, CBase* pBase )
 	return false;
 }
 
-void CBase::HandleCollision( CBase* _base )
+void CBase::HandleCollision(float, CBase* _base )
 {
 }
 
-void CBase::MoveOutOf( CBase* pSolidObject )
+void CBase::MoveOutOf( CBase* pSolidObject, float fElapsedTime )
 {
 	RECT r;
-	IntersectRect( &r, &this->GetCollisionRect( 0.0167f ), 
-		&pSolidObject->GetCollisionRect( 0.0167f ) );
+	IntersectRect( &r, &this->GetCollisionRect( fElapsedTime ), 
+		&pSolidObject->GetCollisionRect( fElapsedTime ) );
 
 	int nRectWidth( r.right -r.left );
 	int nRectHeight( r.bottom - r.top );

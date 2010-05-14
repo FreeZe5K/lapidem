@@ -253,9 +253,9 @@ void CEarth::RenderTier3( )
 	}
 }
 
-void CEarth::HandleCollision( CBase* pObject )
+void CEarth::HandleCollision(float fElapsedTime, CBase* pObject )
 {
-	CSpell::HandleCollision(pObject);
+	CSpell::HandleCollision(fElapsedTime, pObject);
 
 	if( 1 == GetTier( ) )
 	{
@@ -272,11 +272,11 @@ void CEarth::HandleCollision( CBase* pObject )
 				SetVelY( GetVelY( ) * -0.2f );
 
 			if(!m_bIsIce)
-				this->MoveOutOf( pObject );
+				this->MoveOutOf(pObject, fElapsedTime );
 
 			else if(pObject->GetType( ) == OBJ_PLAYER )
 			{
-				pObject->MoveOutOf(this);
+				pObject->MoveOutOf(this, fElapsedTime);
 				((CPlayer*)pObject)->ResetJump();
 			}
 			collided = true;
@@ -299,7 +299,7 @@ void CEarth::HandleCollision( CBase* pObject )
 					SetVelX( GetVelX( ) * -0.4f );
 					SetVelY( GetVelY( ) * -0.2f );
 				}
-				pObject->MoveOutOf( this );
+				pObject->MoveOutOf( this, fElapsedTime );
 			}
 		}
 	}

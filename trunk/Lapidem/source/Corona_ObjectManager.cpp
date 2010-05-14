@@ -125,8 +125,8 @@ void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
 
 			if(Objects[index]->CheckCollision(fElapsedTime, Objects[jay]))
 			{
-				Objects[index]->HandleCollision(Objects[jay]);
-				Objects[jay]->HandleCollision(Objects[index]);
+				Objects[index]->HandleCollision(fElapsedTime, Objects[jay]);
+				Objects[jay]->HandleCollision(fElapsedTime, Objects[index]);
 			}
 		}
 
@@ -142,8 +142,8 @@ void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
 		CBase* pBase = CGameplayState::GetInstance()->GetLevel()->CheckCollision( ObjectsOnScreen[jay]);
 		while( pBase )
 		{
-			pBase->HandleCollision( ObjectsOnScreen[jay]);
-			ObjectsOnScreen[jay]->HandleCollision(pBase );
+			pBase->HandleCollision(fElapsedTime, ObjectsOnScreen[jay]);
+			ObjectsOnScreen[jay]->HandleCollision(fElapsedTime, pBase );
 
 			pBase = CGameplayState::GetInstance()->GetLevel()->CheckCollision( ObjectsOnScreen[jay] );
 		}

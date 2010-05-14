@@ -12,7 +12,7 @@ public:
 	CLevelSwitch();
 	~CLevelSwitch();
 
-	void HandleCollision(CBase*);
+	void HandleCollision(float, CBase*);
 
 	void SetSwitchState(bool bIsOn) { m_bIsOn = bIsOn; }
 	void Reset();

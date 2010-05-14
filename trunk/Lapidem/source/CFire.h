@@ -43,7 +43,7 @@ public:
 	//  Purpose   :   The effect of the collision including object destruction
 	//			      and damage dealing is done here.
 	//////////////////////////////////////////////////////////////////////////
-	void HandleCollision( CBase* );
+	void HandleCollision(float, CBase* );
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Update"
@@ -69,11 +69,4 @@ public:
 	void RenderTier2( );
 	void RenderTier3( );
 	
-	//////////////////////////////////////////////////////////////////////////
-	//  Function  :   "CheckCollision"
-	//
-	//  Purpose   :   Checks collision against passed in CBase. Handle
-	//				  Collision is called here in event of collision
-	//////////////////////////////////////////////////////////////////////////
-	bool CheckCollision( CBase* );
 };

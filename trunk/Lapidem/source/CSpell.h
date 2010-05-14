@@ -74,7 +74,7 @@ public:
 	//  Purpose   :   The effect of the collision including object destruction
 	//			      and damage dealing is done here.
 	//////////////////////////////////////////////////////////////////////////
-	void HandleCollision( CBase* );
+	void HandleCollision(float, CBase* );
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Update"

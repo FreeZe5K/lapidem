@@ -309,14 +309,16 @@ void CAuxiliaryState::Render( )
 
 		CGame::GetInstance( )->GetFont( )->Draw( "PROGRAMMERS", 30, 
 			m_nCreditScroll + 300, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-		CGame::GetInstance( )->GetFont( )->Draw( "MIKE HATTER", 80, 
-			m_nCreditScroll + 340, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		CGame::GetInstance( )->GetFont( )->Draw( "PABLO LEON", 80, 
+			m_nCreditScroll + 340, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		CGame::GetInstance( )->GetFont( )->Draw( "XIAODONG WENG", 80, 
 			m_nCreditScroll + 370, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-		CGame::GetInstance( )->GetFont( )->Draw( "JONATHAN CARO", 80, 
+		CGame::GetInstance( )->GetFont( )->Draw( "MIKE HATTER", 80, 
 			m_nCreditScroll + 400, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-		CGame::GetInstance( )->GetFont( )->Draw( "SAMUEL MATHIS", 80, 
+		CGame::GetInstance( )->GetFont( )->Draw( "JONATHAN CARO", 80, 
 			m_nCreditScroll + 430, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		CGame::GetInstance( )->GetFont( )->Draw( "SAMUEL MATHIS", 80, 
+			m_nCreditScroll + 460, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	}
 }
 

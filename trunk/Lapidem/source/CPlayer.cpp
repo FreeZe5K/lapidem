@@ -151,12 +151,24 @@ void CPlayer::Update( float fElapsedTime )
 	if(DI->JoystickGetLStickXNormalized( GetPlayerID() - 1) < 0)
 	{
 		SetAnimation(0, 1);
-		currDirec = LEFT;
+
+		if(DI->JoystickGetLStickYNormalized(GetPlayerID() - 1) < 0)
+			currDirec = LEFT_UP;
+		else if(DI->JoystickGetLStickYNormalized(GetPlayerID() - 1) > 0 )
+			currDirec = LEFT_DOWN;
+		else
+			currDirec = LEFT;
 	}
 	else if (DI->JoystickGetLStickXNormalized( GetPlayerID() - 1 ) > 0 )
 	{
 		SetAnimation(0 , 1);
-		currDirec = RIGHT;
+
+		if(DI->JoystickGetLStickYNormalized(GetPlayerID() - 1) < 0)
+			currDirec = RIGHT_UP;
+		else if(DI->JoystickGetLStickYNormalized(GetPlayerID() - 1) > 0 )
+			currDirec = RIGHT_DOWN;
+		else
+			currDirec = RIGHT;
 	}
 
 	if( currDirec == RIGHT || currDirec == RIGHT_DOWN || currDirec == RIGHT_UP )
@@ -176,7 +188,7 @@ void CPlayer::Update( float fElapsedTime )
 		m_pReticle->ClampToScreen();
 	}
 
-	
+
 
 	//******************************************************************************
 	//******************************************************************************
@@ -218,7 +230,7 @@ void CPlayer::Update( float fElapsedTime )
 		m_bIsDrowning = false;
 
 
-		m_bIsTouching = false;
+	m_bIsTouching = false;
 
 	if(m_bIsDrowning)
 	{
@@ -228,8 +240,8 @@ void CPlayer::Update( float fElapsedTime )
 
 		m_fJumpTimer = 0.0f;
 	}
-		
-	
+
+
 
 
 	m_fFireTimer = m_fFireTimer + fElapsedTime;
@@ -267,37 +279,34 @@ void CPlayer::Update( float fElapsedTime )
 
 void CPlayer::Attack( int nTier )
 {
+	if(nTier == 3)
+		if(this->GetT3Count() <= 0)
+			return;
+		else
+			this->m_nTierThree -= 1;
+
 	if( m_fFireTimer > 0.25f )
 	{
 		switch( m_SpellType )
 		{
 		case OBJ_EARTH:
+			if( m_fFireTimer < 1.5f )
+				return;
+
+			if(nTier == 2)
 			{
-				if( m_fFireTimer < 1.5f )
+				if(m_nEarthEnergy < 5)
 					return;
-
-				if(nTier == 2)
-				{
-					if(m_nEarthEnergy < 5)
-						return;
-					else m_nEarthEnergy -= 5;
-				}
-				else if(nTier == 3)
-				{
-				}
-				m_pSpells->CreateEarth( this, nTier );
-				break;
+				else m_nEarthEnergy -= 5;
 			}
-
+			m_pSpells->CreateEarth( this, nTier );
+			break;
 		case OBJ_FIRE:
 			if(nTier == 2)
 			{
 				if(m_nFireEnergy < 2)
 					return;
 				else m_nFireEnergy -= 2;
-			}
-			else if(nTier == 3)
-			{
 			}
 			m_pSpells->CreateFire( this, nTier );
 			break;
@@ -308,9 +317,6 @@ void CPlayer::Attack( int nTier )
 					return;
 				else m_nWaterEnergy -= 2;
 			}
-			else if(nTier == 3)
-			{
-			}
 			m_pSpells->CreateIce( this, nTier );
 			break;
 
@@ -320,9 +326,6 @@ void CPlayer::Attack( int nTier )
 				if(m_nWindEnergy < 2)
 					return;
 				else m_nWindEnergy -= 2;
-			}
-			else if(nTier == 3)
-			{
 			}
 			m_pSpells->CreateWind( this, nTier );
 			break;
@@ -339,10 +342,8 @@ void CPlayer::Jump( )
 	m_bIsJumping = true;
 }
 
-void CPlayer::HandleCollision( CBase * collidingObject )
+void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 {
-
-
 	if( collidingObject->GetType( ) == OBJ_TERRA || ( collidingObject->GetType( ) == 
 		OBJ_SPELL && ( ( CSpell* )collidingObject )->GetElement( ) == OBJ_EARTH ) )
 	{
@@ -356,7 +357,7 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 			{
 				m_bIsDrowning = true;
 				m_bIsTouching = true;
-				
+
 				TakeDamage(1);
 
 				return;
@@ -379,8 +380,8 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 		}
 
 		RECT r;
-		IntersectRect( &r, & this->GetCollisionRect( 0.0167f ), 
-			&collidingObject->GetCollisionRect( 0.0167f ) );
+		IntersectRect( &r, & this->GetCollisionRect( fElapsedTime ), 
+			&collidingObject->GetCollisionRect( fElapsedTime ) );
 
 		int nRectWidth( r.right -r.left );
 		int nRectHeight( r.bottom - r.top );
@@ -500,6 +501,11 @@ void CPlayer::HandleCollision( CBase * collidingObject )
 			}
 		}
 
+	}
+	else if(collidingObject->GetType() == OBJ_T3SPELL)
+	{
+		collidingObject->SetActive(false);
+		m_nTierThree += 1;
 	}
 }
 void CPlayer::ToggleReticle()

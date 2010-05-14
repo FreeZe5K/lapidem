@@ -400,6 +400,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\source\CLevelSwitch.h"
+						>
+					</File>
+					<File
 						RelativePath=".\source\CPickups.h"
 						>
 					</File>
@@ -421,6 +425,10 @@
 					</File>
 					<File
 						RelativePath=".\source\CCamera.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\source\CLevelSwitch.cpp"
 						>
 					</File>
 					<File
@@ -605,10 +613,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\source\CLevelSwitch.h"
-					>
-				</File>
-				<File
 					RelativePath=".\source\Corona_ObjectManager.h"
 					>
 				</File>
@@ -634,10 +638,6 @@
 				</File>
 				<File
 					RelativePath=".\source\CLevel.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CLevelSwitch.cpp"
 					>
 				</File>
 				<File
