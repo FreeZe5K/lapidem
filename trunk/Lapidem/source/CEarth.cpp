@@ -28,6 +28,8 @@ CEarth::CEarth() : CSpell()
 {
 	m_fRotate            = float( PI / 4.0f );
 	m_fRiseAmount = 0.0f;
+	m_fXScale = 1.0f;
+	m_fYScale = 1.0f;
 	m_fTimeTillRotate    = 1.0f;
 	m_fDisplay = 0.0f;
 	SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/LapidemEarth.bmp", D3DCOLOR_XRGB( 0, 0, 0 ) ) );
@@ -163,51 +165,25 @@ void CEarth::UpdateTier2( float fElapsedTime )
 
 void Tier3Effect(CBase * pBase, CBase* pSpell)
 {
-	if(pSpell->GetPosX() < pBase->GetPosX())
-	{
-		pBase->SetActive(false);
-	}
+	//if(pSpell->GetVelX() <0)
+	//{
+	//	if(pSpell->GetPosX() < pBase->GetPosX())
+	//	{
+	//		pBase->SetActive(false);
+	//	}
+	//}
 }
 
 void CEarth::UpdateTier3( float fElapsedTime )
 { 
 	CSpell::UpdateTier3(fElapsedTime);
-	if(GetPosY() < CCamera::GetCamera()->GetYOffset() && GetVelY() <0)
-	{
-		SetVelY(1);
-		SetPosY(CCamera::GetCamera()->GetYOffset());
-	}
 
-	if(GetPosY() <= CCamera::GetCamera()->GetYOffset())
+	Corona_ObjectManager::GetInstance()->AuxFunction(&Tier3Effect,OBJ_ENEMY,false,this);
+	if(GetPosX()+ GetWidth() < CCamera::GetCamera()->GetXOffset() && GetVelX() <0)
 	{
-		m_fTimeTillRotate -= fElapsedTime/2.0f;
-		if(m_fTimeTillRotate > 0)
-		{
-			if(m_fDisplay > -(D3DX_PI /2))
-			{
-				m_fDisplay -= fElapsedTime;
-			}
-			SetPosY(CCamera::GetCamera()->GetYOffset() + m_fDisplay * 75);
-		}
-		else
-		{
-			SetVelY(300);
-		}
+		SetActive(false);
 	}
-	
-	
-	if(GetVelY() > 0)
-	{
-		SetVelX(-500);
-		Corona_ObjectManager::GetInstance()->AuxFunction(&Tier3Effect,OBJ_ENEMY,false,this);
-		
-		if(m_fDisplay > -(D3DX_PI /2))
-		{
-			m_fDisplay -= fElapsedTime *2;
-		}
-	}
-
-	if(GetPosY() > CCamera::GetCamera()->GetHeight())
+	else if(GetPosX() > CCamera::GetCamera()->GetWidth() && GetVelX() >0)
 	{
 		SetActive(false);
 	}
@@ -272,7 +248,7 @@ void CEarth::RenderTier3( )
 		pleasework.bottom = 500;
 		CSGD_TextureManager::GetInstance( )->Draw( GetImage( ), 
 			int(GetPosX() - CCamera::GetCamera()->GetXOffset()), 
-			int(GetPosY()- CCamera::GetCamera()->GetYOffset()) ,1.0f, 1.0f,&pleasework,(int)((455)/*(GetWidth() >>1)*/),
+			int(GetPosY()- CCamera::GetCamera()->GetYOffset()) ,m_fXScale, m_fYScale,&pleasework,(int)((455)/*(GetWidth() >>1)*/),
 			int((250/*GetHeight() >>1*/)),m_fDisplay); 
 	}
 }

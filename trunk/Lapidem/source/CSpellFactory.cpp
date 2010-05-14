@@ -220,19 +220,50 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 			}
 		case 3:
 			{
+
 				CEarth* newearth = new CEarth();
-				newearth->SetPosX(CCamera::GetCamera()->GetXOffset());
-				newearth->SetPosY(CCamera::GetCamera()->GetHeight());
-				newearth->SetVelX(0.0f);
-				newearth->SetVelY(-300.0f);
-				newearth->SetDamage(20 + 4* m_nEarthLVL);
+				newearth->SetHeight(CGame::GetInstance()->GetScreenHeight());
+				newearth->SetWidth(CGame::GetInstance()->GetScreenWidth());	
+	
+				if(pShooter->GetType() == OBJ_PLAYER && ((CPlayer*)pShooter)->GetReticle())
+				{
+					int retposition = ((CPlayer*)pShooter)->GetReticle()->GetPosX();
+
+					if(pShooter->GetVelX() < retposition)
+					{
+						newearth->SetPosX(CCamera::GetCamera()->GetWidth() + newearth->GetWidth());
+						newearth->SetVelX(-500.0f);
+					}
+					else
+					{
+						newearth->SetPosX(CCamera::GetCamera()->GetXOffset() - newearth->GetWidth());
+						newearth->SetVelX(500.0f);
+						newearth->SetXScale(-1.0f);	
+					}
+				}
+				else
+				{
+					int direction = pShooter->GetDirection();
+					if(direction == LEFT || direction == LEFT_DOWN || direction == LEFT_UP || direction == UP)
+					{
+						newearth->SetPosX(CCamera::GetCamera()->GetWidth() + newearth->GetWidth());
+						newearth->SetVelX(-500.0f);
+					}
+					else
+					{
+						newearth->SetPosX(CCamera::GetCamera()->GetXOffset() - newearth->GetWidth());
+						newearth->SetVelX(500.0f);
+						newearth->SetXScale(-1.0f);		
+					}
+				}
+				newearth->SetPosY(CCamera::GetCamera()->GetYOffset());
+				newearth->SetVelY(0.0f);
+				newearth->SetDamage(200);
 				newearth->SetLifespan(300);
 				newearth->SetActive(true);
 				newearth->SetTier(3);
 				newearth->ShotBy(true);	
 				newearth->SetElement(OBJ_EARTH);
-				newearth->SetHeight(CGame::GetInstance()->GetScreenHeight());
-				newearth->SetWidth(CGame::GetInstance()->GetScreenWidth());	
 				newearth->SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapidem_EarthHand.png", D3DCOLOR_XRGB(255,255,255)));
 				Corona_ObjectManager::GetInstance()->AddObject(newearth);
 				newearth->Release();
@@ -1066,7 +1097,7 @@ void CSpellFactory::CreateEnemyWind(CCharacter * pShooter, CBase * pTarget)
 	newWind->SetVelX( SpeedX * 250 );
 	newWind->SetVelY( SpeedY * 250 );
 
-	newWind->SetDamage(2);
+	newWind->SetDamage(3);
 	newWind->SetLifespan(5.0f);
 	newWind->SetActive(true);
 	newWind->SetTier(1);

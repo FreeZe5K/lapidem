@@ -141,7 +141,10 @@ CEnemy::~CEnemy( )
 {
 	if(m_SpellType == OBJ_WIND)
 	{
-		((AIStateWind*)currState)->GetFlock()->RemoveMember(this);
+		if(((AIStateWind*)currState)->GetFlock())
+		{
+			((AIStateWind*)currState)->GetFlock()->RemoveMember(this);
+		}
 	}
 	if( currState ) 
 		delete currState;
