@@ -14,7 +14,7 @@ AIStateWind::AIStateWind()
 	m_pFlock = NULL;
 	int shudder = rand() % 15;
 	m_fShudderTimer = (float)shudder/10.0f;
-	m_fInfluence =50.0f;
+	m_fInfluence =75.0f;
 	m_pTarget = NULL;
 	m_bAttacking = false;
 }
@@ -71,11 +71,11 @@ int AIStateWind::Update( float fElapsedTime, CEnemy* pEnemy)
 							m_fShudderTimer = (float)(shudder/10.0f);
 						}
 						// check to see if they are in the radius and do stuff
-						int player1dist = (int)(m_pFlock->CalculateDistance(pEnemy->GetPosX(), pEnemy->GetPosY(),CGameplayState::GetInstance()->GetPlayerOne()->GetPosX(),CGameplayState::GetInstance()->GetPlayerOne()->GetPosY()));
+						int player1dist = m_pFlock->CalculateDistance(pEnemy->GetPosX(), pEnemy->GetPosY(),CGameplayState::GetInstance()->GetPlayerOne()->GetPosX(),CGameplayState::GetInstance()->GetPlayerOne()->GetPosY());
 						int player2dist = 1000;
 						if(CGameplayState::GetInstance()->GetPlayerTwo() != NULL)
 						{
-							player2dist = (int)(m_pFlock->CalculateDistance(pEnemy->GetPosX(), pEnemy->GetPosY(),CGameplayState::GetInstance()->GetPlayerTwo()->GetPosX(),CGameplayState::GetInstance()->GetPlayerTwo()->GetPosY()));
+							player2dist = m_pFlock->CalculateDistance(pEnemy->GetPosX(), pEnemy->GetPosY(),CGameplayState::GetInstance()->GetPlayerTwo()->GetPosX(),CGameplayState::GetInstance()->GetPlayerTwo()->GetPosY());
 						}
 
 						if(player1dist < player2dist)
@@ -97,8 +97,8 @@ int AIStateWind::Update( float fElapsedTime, CEnemy* pEnemy)
 					}
 					else
 					{
-						pEnemy->SetVelX((float)(rand() %300 - 150));
-						pEnemy->SetVelY((float)(rand() %300 - 150));
+						pEnemy->SetVelX(rand() %300 - 150);
+						pEnemy->SetVelY(rand() %300 - 150);
 					}
 				}
 				else if(!m_pFlock->IsAttacking())	// not attacking yet and not the leader
@@ -138,8 +138,8 @@ int AIStateWind::Update( float fElapsedTime, CEnemy* pEnemy)
 					}
 					else			// holy crap i am freakin shocked our leader died what do i do
 					{
-						pEnemy->SetVelX((float)(rand() %300 - 150));
-						pEnemy->SetVelY((float)(rand() %300 - 150));
+						pEnemy->SetVelX(rand() %300 - 150);
+						pEnemy->SetVelY(rand() %300 - 150);
 					}
 				}
 				else						// holy crap im attacking
@@ -149,7 +149,11 @@ int AIStateWind::Update( float fElapsedTime, CEnemy* pEnemy)
 			}
 			else if(m_fShudderTimer < 0.0f)	// flock of one bird
 			{
-				if(!m_pFlock->GetShocked())
+				if(m_pFlock->IsAttacking())
+				{
+					AttackUpdate(m_pFlock->GetTarget(),pEnemy,fElapsedTime);
+				}
+				else if(!m_pFlock->GetShocked())
 				{
 					if(rand() %2)
 					{
@@ -164,34 +168,34 @@ int AIStateWind::Update( float fElapsedTime, CEnemy* pEnemy)
 					int shudder = rand() % 10;
 					m_fShudderTimer = (float)(shudder/10.0f);
 
-						int player1dist = m_pFlock->CalculateDistance(pEnemy->GetPosX(), pEnemy->GetPosY(),CGameplayState::GetInstance()->GetPlayerOne()->GetPosX(),CGameplayState::GetInstance()->GetPlayerOne()->GetPosY());
-						int player2dist = 1000;
-						if(CGameplayState::GetInstance()->GetPlayerTwo() != NULL)
-						{
-							player2dist = m_pFlock->CalculateDistance(pEnemy->GetPosX(), pEnemy->GetPosY(),CGameplayState::GetInstance()->GetPlayerTwo()->GetPosX(),CGameplayState::GetInstance()->GetPlayerTwo()->GetPosY());
-						}
+					int player1dist = m_pFlock->CalculateDistance(pEnemy->GetPosX(), pEnemy->GetPosY(),CGameplayState::GetInstance()->GetPlayerOne()->GetPosX(),CGameplayState::GetInstance()->GetPlayerOne()->GetPosY());
+					int player2dist = 1000;
+					if(CGameplayState::GetInstance()->GetPlayerTwo() != NULL)
+					{
+						player2dist = m_pFlock->CalculateDistance(pEnemy->GetPosX(), pEnemy->GetPosY(),CGameplayState::GetInstance()->GetPlayerTwo()->GetPosX(),CGameplayState::GetInstance()->GetPlayerTwo()->GetPosY());
+					}
 
-						if(player1dist < player2dist)
+					if(player1dist < player2dist)
+					{
+						if(player1dist < 200)
 						{
-							if(player1dist < 200)
-							{
-								m_pFlock->SetAttacking(true);
-								m_pFlock->SetTarget(CGameplayState::GetInstance()->GetPlayerOne());
-							}
+							m_pFlock->SetAttacking(true);
+							m_pFlock->SetTarget(CGameplayState::GetInstance()->GetPlayerOne());
 						}
-						else
+					}
+					else
+					{
+						if(player2dist < 200)
 						{
-							if(player2dist < 200)
-							{
-								m_pFlock->SetAttacking(true);
-								m_pFlock->SetTarget(CGameplayState::GetInstance()->GetPlayerTwo());
-							}
-						}	
+							m_pFlock->SetAttacking(true);
+							m_pFlock->SetTarget(CGameplayState::GetInstance()->GetPlayerTwo());
+						}
+					}	
 				}
 				else
 				{
-					pEnemy->SetVelX((float)(rand() %300 - 150));
-					pEnemy->SetVelY((float)(rand() %300 - 150));
+					pEnemy->SetVelX(rand() %300 - 150);
+					pEnemy->SetVelY(rand() %300 - 150);
 				}
 
 			}
@@ -211,8 +215,6 @@ int AIStateWind::Update( float fElapsedTime, CEnemy* pEnemy)
 			m_pFlock->SetPosX(pEnemy->GetPosX());
 			m_pFlock->SetPosY(pEnemy->GetPosY());*/
 		}
-
-
 	}
 	else //aww man... i have no flock... ill create my own.
 	{
@@ -225,6 +227,8 @@ int AIStateWind::Update( float fElapsedTime, CEnemy* pEnemy)
 		Corona_ObjectManager::GetInstance()->AddObject(m_pFlock);
 		m_pFlock->Release();
 	}
+
+	//if(pEnemy->GetPosX() < 0 ||
 	return 0;
 }
 void AIStateWind::Attack( CCharacter* pTarget, CCharacter* pEnemy)
@@ -267,10 +271,10 @@ int AIStateWind::AttackUpdate(CPlayer* pTarget, CEnemy* pEnemy, float fElapsedTi
 
 
 	tVector2D enemyvelocity;
-	enemyvelocity._x = pEnemy->GetVelX();
-	enemyvelocity._y = pEnemy->GetVelY();
+	enemyvelocity._x = 150.0f;
+	enemyvelocity._y = 0.0f;
 
-	float angle = Lapidem_Math::GetInstance()->AngleBetweenVectors(enemypos,targetpos);
+	float angle = Lapidem_Math::GetInstance()->AngleBetweenVectors(targetpos,enemypos);
 
 	enemyvelocity = Lapidem_Math::GetInstance()->Vector2DRotate(enemyvelocity,angle);
 
