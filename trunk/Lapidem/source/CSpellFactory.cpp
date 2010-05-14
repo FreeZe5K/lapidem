@@ -1082,6 +1082,10 @@ void SpellFactory::CreateSparks(int Type, float fDirRotation, float fSparkLifeTi
 	newfire->Release();
 }
 */
+
+
+
+// CHeck if they search for targets when they fly solo
 void CSpellFactory::CreateEnemyWind(CCharacter * pShooter, CBase * pTarget)
 {
 	CWind* newWind = new CWind();
