@@ -29,6 +29,8 @@ private:
 	
 	float m_fDisplay;
 	float  m_fRiseAmount;
+	float m_fXScale;
+	float m_fYScale;
 	bool   collided;
 	bool  m_bSunk;
 	bool  m_bIsIce;
@@ -45,6 +47,11 @@ public:
 	//  Purpose   :   Set Stuff
 	//////////////////////////////////////////////////////////////////////////
 	void SetRotate( float fRotation ) { m_fRotate = fRotation; }
+	void SetDisplay(float fDisplay) { m_fDisplay = fDisplay; }
+	void SetXScale(float fScale) { m_fXScale = fScale;}
+	void SetYScale(float fScale) { m_fYScale = fScale;}
+
+
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "HandleCollision"

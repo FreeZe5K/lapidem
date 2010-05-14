@@ -163,6 +163,30 @@ int AIStateWind::Update( float fElapsedTime, CEnemy* pEnemy)
 					}
 					int shudder = rand() % 10;
 					m_fShudderTimer = (float)(shudder/10.0f);
+
+						int player1dist = m_pFlock->CalculateDistance(pEnemy->GetPosX(), pEnemy->GetPosY(),CGameplayState::GetInstance()->GetPlayerOne()->GetPosX(),CGameplayState::GetInstance()->GetPlayerOne()->GetPosY());
+						int player2dist = 1000;
+						if(CGameplayState::GetInstance()->GetPlayerTwo() != NULL)
+						{
+							player2dist = m_pFlock->CalculateDistance(pEnemy->GetPosX(), pEnemy->GetPosY(),CGameplayState::GetInstance()->GetPlayerTwo()->GetPosX(),CGameplayState::GetInstance()->GetPlayerTwo()->GetPosY());
+						}
+
+						if(player1dist < player2dist)
+						{
+							if(player1dist < 200)
+							{
+								m_pFlock->SetAttacking(true);
+								m_pFlock->SetTarget(CGameplayState::GetInstance()->GetPlayerOne());
+							}
+						}
+						else
+						{
+							if(player2dist < 200)
+							{
+								m_pFlock->SetAttacking(true);
+								m_pFlock->SetTarget(CGameplayState::GetInstance()->GetPlayerTwo());
+							}
+						}	
 				}
 				else
 				{
