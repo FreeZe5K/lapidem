@@ -6,25 +6,37 @@
 //  Purpose     :   Provides the functionality for the spells to inherit 
 //////////////////////////////////////////////////////////////////////////
 #include "Wrappers/CSGD_TextureManager.h"
+#include "CGameplayState.h"
 #include "Corona_ObjectManager.h" 
 #include "CEmitter.h"
+#include "CParticleManager.h"
 #include "CSpell.h"
 #include "CSpellFactory.h"
 
 CSpell::CSpell( ) : CBase( )
 {
 	SetType(OBJ_SPELL);
-	m_pEmitter = NULL;
+
+	// REMOVE ME LATER
+	
 }
 
 CSpell::~CSpell()
 { 
+
 }
 
 void CSpell::UpdateTier1( float fElapsedTime )
-{	
-	if( m_pEmitter && IsActive( ) )
-		m_pEmitter->UpdateParticlePos( int( GetPosX( ) ), int( GetPosY( ) ) );
+{		
+	// - - - - - - - -
+	// REPLACE (AND FIX)
+	// - - - - - - - - - - - - - - 
+	/*if( IsActive( ) )
+	{
+		CGameplayState::GetInstance( )->GetFire( )->SetPosX( GetPosX( ) );
+		CGameplayState::GetInstance( )->GetFire( )->SetPosY( GetPosY( ) );
+	} */
+	//m_pEmitter->UpdateParticlePos( int( GetPosX( ) ), int( GetPosY( ) ) );
 
 	SetPosX( GetPosX( ) + GetVelX( ) * fElapsedTime );
 	SetPosY( GetPosY( ) + GetVelY( ) * fElapsedTime );
@@ -61,6 +73,8 @@ void CSpell::RenderTier3( )
 void CSpell::Update( float fElapsedTime )
 {
 	SetLifespan( GetLifespan( ) - fElapsedTime);
+
+
 
 	if( GetLifespan( ) <= 0 )
 		SetActive( false );

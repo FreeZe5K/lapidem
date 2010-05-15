@@ -28,6 +28,7 @@ private:
 	int    m_nDirection;  // Enumed(sp?) to represent a direction the spell is  beign shot at
 	int    m_nElement;    // Enum for which element the spell is... Fire Earth Wind Ice
 
+protected:
 	CEmitter* m_pEmitter;
 
 public:

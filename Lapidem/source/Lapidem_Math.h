@@ -12,6 +12,8 @@
 #include <cfloat>
 #include <cstdlib>
 
+#define ARGB( a, r, g, b )       D3DCOLOR_ARGB( a, r, g, b ) 
+
 #define RAND_INT(min,max)        (((rand()/(int)RAND_MAX)*((max)-(min)))+(min))
 #define RAND_FLOAT(min,max)      (((rand()/(float)RAND_MAX)*((max)-(min)))+(min))
 
@@ -29,10 +31,12 @@
 #define EPS                      1.2e-7
 #define RNMX                     (1.0-EPS)
 
+typedef int             s32;
 typedef unsigned int    u32;
+typedef bool            s1;
 typedef unsigned char   u1;
-typedef unsigned long   ul32;
 typedef float           f32;
+typedef unsigned long   ul32;
 
 static long idum = 0;
 

@@ -10,7 +10,6 @@ class CGrenade : public CSpell
 {
 	int m_nRadius;
 	bool m_bExploded;
-	CEmitter* m_pExplosionEmitter;
 
 public:
 	CGrenade();
@@ -21,8 +20,6 @@ public:
 
 	void HandleCollision(float, CBase*);
 
-	void SetExplosionEmitter(CEmitter* pEmitter) { m_pExplosionEmitter = pEmitter; }
-	CEmitter* GetExplosionEmitter() { return m_pExplosionEmitter; }
 
 	void CreateExplosion();
 	void CreateSparks(float fDirRotation);

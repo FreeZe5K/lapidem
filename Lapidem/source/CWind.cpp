@@ -10,6 +10,8 @@
 #include "Wrappers/CSGD_TextureManager.h"
 #include "CCamera.h"
 #include "CSpellFactory.h"
+#include "CEmitter.h"
+#include "CParticleManager.h"
 #include "CPlayer.h"
 #include "CEnemy.h"
 #include "Corona_ObjectManager.h"
@@ -25,7 +27,7 @@ CWind::CWind( ) : CSpell( )
 
 CWind::~CWind( )
 {	
-
+	CParticleManager::GetInstance()->RemoveEmitter(m_pEmitter);
 }
 
 void CWind::Update( float fElapsedTime )
@@ -34,6 +36,12 @@ void CWind::Update( float fElapsedTime )
 
 	if( GetLifespan( ) < 0 )
 		SetActive( false );
+
+	if(m_pEmitter)
+	{
+		m_pEmitter->SetPosX(GetPosX());
+		m_pEmitter->SetPosY(GetPosY());
+	}
 
 	switch( GetTier( ) )
 	{

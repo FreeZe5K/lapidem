@@ -6,7 +6,8 @@
 #include "Corona_ObjectManager.h"
 #include "CEnemy.h"
 #include "CIce.h"
-
+#include "CEmitter.h"
+#include "CParticleManager.h"
 #include "Lapidem_Math.h"
 
 CIceCube::CIceCube()
@@ -19,6 +20,7 @@ CIceCube::CIceCube()
 
 CIceCube::~CIceCube()
 {
+	CParticleManager::GetInstance()->RemoveEmitter(m_pEmitter);
 }
 
 void CIceCube::HandleCollision(float fElapsedTime, CBase* pObject)
@@ -34,6 +36,12 @@ void CIceCube::Update(float fElapsedTime)
 {
 	this->SetVelY(this->GetVelY() + 100.0f * fElapsedTime);
 	CSpell::Update(fElapsedTime);
+
+	if(m_pEmitter)
+	{
+		m_pEmitter->SetPosX(GetPosX());
+		m_pEmitter->SetPosY(GetPosY());
+	}
 
 	if(this->GetLifespan() <= 0.3f && !m_bExploded)
 	{
@@ -86,19 +94,28 @@ void CIceCube::CreateSparks(float fDirRotation)
 	velocity._x = 0.0f; velocity._y = -1.0f;
 	velocity = Lapidem_Math::GetInstance()->Vector2DRotate(velocity, fDirRotation);
 
-	CEmitter* pEmitter = CEmitterFactory::GetInstance()->CreateEmitter("icespell");
-	pEmitter->SetPosX(this->GetPosX());
-	pEmitter->SetPosY(this->GetPosY());
-	pEmitter->SetVelX(250.0f * velocity._x);
-	pEmitter->SetVelY(250.0f * velocity._y);
+	// - - - - - - - -
+	// REPLACE
+	// - - - - - - - - - - - - - - 
+	//CEmitter* pEmitter = CEmitterFactory::GetInstance()->CreateEmitter("icespell");
+	//pEmitter->SetPosX(this->GetPosX());
+	//pEmitter->SetPosY(this->GetPosY());
+	//pEmitter->SetVelX(250.0f * velocity._x);
+	//pEmitter->SetVelY(250.0f * velocity._y);
 
 	CIce* newfire = new CIce;
+
+	
+	CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/iceSpell.lapipt",0,0);
+	newfire->SetEmitter(hahaiworknow);
+	CParticleManager::GetInstance()->AddEmitter(newfire->GetEmitter());
+
 	newfire->SetDamage(this->GetDamage());
 	newfire->SetLifespan(0.5f);
 	newfire->SetActive(true);
 	newfire->SetTier(1);
 	newfire->ShotBy(true);
-	newfire->SetEmitter(pEmitter);
+	//newfire->SetEmitter(pEmitter);
 
 	newfire->SetWidth(32);
 	newfire->SetHeight(16);
@@ -108,7 +125,7 @@ void CIceCube::CreateSparks(float fDirRotation)
 	newfire->SetVelX(250.0f * velocity._x);
 	newfire->SetVelY(250.0f * velocity._y);
 
-	CParticleManager::GetInstance()->AddEmitter(pEmitter);
+	//CParticleManager::GetInstance()->AddEmitter(pEmitter);
 	Corona_ObjectManager::GetInstance()->AddObject(newfire);
 	newfire->Release();
 }

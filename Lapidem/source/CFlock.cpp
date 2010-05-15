@@ -3,7 +3,7 @@
 #include "CPlayer.h"
 #include "AIStateWind.h"
 #include "Corona_ObjectManager.h"
-
+#include <cmath>
 
 CFlock::CFlock()
 {
@@ -14,9 +14,7 @@ CFlock::CFlock()
 }
 
 CFlock::~CFlock()
-{
-
-}
+{ }
 
 void CFlock::AddMember(CEnemy* addme)
 {

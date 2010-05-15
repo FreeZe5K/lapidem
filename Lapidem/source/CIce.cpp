@@ -10,6 +10,8 @@
 #include "Wrappers/CSGD_TextureManager.h"
 #include "CCamera.h"
 #include "CSpellFactory.h"
+#include "CEmitter.h"
+#include "CParticleManager.h"
 #include "CPlayer.h"
 
 CIce::CIce( ) : CSpell( )
@@ -20,6 +22,7 @@ CIce::~CIce( )
 {
 	if( GetImage( ) >= 0 )
 		CSGD_TextureManager::GetInstance( )->UnloadTexture( GetImage( ) );
+	CParticleManager::GetInstance()->RemoveEmitter(m_pEmitter);
 }
 
 void CIce::Update( float fElapsedTime )
@@ -28,6 +31,12 @@ void CIce::Update( float fElapsedTime )
 
 	if( GetLifespan( ) < 0 )
 		SetActive( false );
+
+	if(m_pEmitter)
+	{
+		m_pEmitter->SetPosX(GetPosX());
+		m_pEmitter->SetPosY(GetPosY());
+	}
 
 	switch( GetTier( ) )
 	{
