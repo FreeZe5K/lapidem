@@ -4,6 +4,7 @@
 #include <map>
 using namespace std;
 
+
 #include "CLDevice.h"
 
 

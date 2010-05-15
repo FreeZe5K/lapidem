@@ -5,19 +5,14 @@
 //
 //  Purpose     :   Provides the functionality for the spells to inherit 
 //////////////////////////////////////////////////////////////////////////
-#include "Wrappers/CSGD_TextureManager.h"
-#include "CGameplayState.h"
-#include "Corona_ObjectManager.h" 
-#include "CEmitter.h"
-#include "CParticleManager.h"
 #include "CSpell.h"
-#include "CSpellFactory.h"
+#include "stdheaders.h"
+#include "CEmitter.h"
+
 
 CSpell::CSpell( ) : CBase( )
 {
 	SetType(OBJ_SPELL);
-
-	// REMOVE ME LATER
 	
 }
 
@@ -28,15 +23,6 @@ CSpell::~CSpell()
 
 void CSpell::UpdateTier1( float fElapsedTime )
 {		
-	// - - - - - - - -
-	// REPLACE (AND FIX)
-	// - - - - - - - - - - - - - - 
-	/*if( IsActive( ) )
-	{
-		CGameplayState::GetInstance( )->GetFire( )->SetPosX( GetPosX( ) );
-		CGameplayState::GetInstance( )->GetFire( )->SetPosY( GetPosY( ) );
-	} */
-	//m_pEmitter->UpdateParticlePos( int( GetPosX( ) ), int( GetPosY( ) ) );
 
 	SetPosX( GetPosX( ) + GetVelX( ) * fElapsedTime );
 	SetPosY( GetPosY( ) + GetVelY( ) * fElapsedTime );

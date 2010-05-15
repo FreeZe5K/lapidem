@@ -728,6 +728,10 @@
 					RelativePath=".\source\CGame.h"
 					>
 				</File>
+				<File
+					RelativePath=".\source\stdheaders.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="Resources"

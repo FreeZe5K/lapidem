@@ -7,14 +7,11 @@
 //					enemies. Handles all 3 tiers of spells.
 //////////////////////////////////////////////////////////////////////////
 #include "CWind.h"
-#include "Wrappers/CSGD_TextureManager.h"
-#include "CCamera.h"
-#include "CSpellFactory.h"
+#include "stdheaders.h"
+
 #include "CEmitter.h"
-#include "CParticleManager.h"
 #include "CPlayer.h"
 #include "CEnemy.h"
-#include "Corona_ObjectManager.h"
 #include "Lapidem_Math.h"
 
 

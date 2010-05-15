@@ -1,8 +1,8 @@
 #include "CGiantFireBall.h"
+#include "stdheaders.h"
+
 #include "CEmitter.h"
-#include "CParticleManager.h"
-#include "CCamera.h"
-#include "Wrappers/CSGD_TextureManager.h"
+
 
 CGiantFireBall::CGiantFireBall()
 {

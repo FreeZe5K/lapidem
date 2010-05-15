@@ -1,10 +1,7 @@
 #pragma once
-
 #include "CTerrainBase.h"
-#include "CLDevice.h"
-#include "Corona_EventHandler.h"
 
-class CLevelSwitch : public CTerrainBase/*, public CLDevice*/
+class CLevelSwitch : public CTerrainBase
 {
 	bool m_bIsOn;
 	int m_nSwitchModeID[2];
@@ -19,6 +16,4 @@ public:
 	bool GetSwitchState() { return m_bIsOn; }
 
 	void Render();
-
-	//void HandleEvent(CEvent*);
 };

@@ -1,5 +1,4 @@
 #pragma once
-
 #include "CSpell.h"
 
 class CGiantFireBall : public CSpell

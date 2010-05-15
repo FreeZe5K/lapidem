@@ -7,12 +7,10 @@
 //					enemies. Handles all 3 tiers of spells.
 //////////////////////////////////////////////////////////////////////////
 #include "CFire.h"
-#include "Wrappers/CSGD_TextureManager.h"
+#include "stdheaders.h"
+
 #include "CTerrainBase.h"
 #include "CEmitter.h"
-#include "CParticleManager.h"
-#include "CSpellFactory.h"
-#include "CCamera.h"
 #include "CPlayer.h"
 
 CFire::CFire( ) : CSpell( )

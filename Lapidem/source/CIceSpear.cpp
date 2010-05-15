@@ -1,8 +1,8 @@
 #include "CIceSpear.h"
-#include "CCamera.h"
-#include "Wrappers/CSGD_TextureManager.h"
+#include "stdheaders.h"
+
 #include "CEmitter.h"
-#include "CParticleManager.h"
+
 
 
 CIceSpear::CIceSpear()

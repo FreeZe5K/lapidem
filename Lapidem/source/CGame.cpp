@@ -5,9 +5,7 @@
 //
 //  Purpose     :   The main game loop.
 //////////////////////////////////////////////////////////////////////////
-#include "CGame.h"
-#include "CSpellFactory.h"
-#include <ctime>
+#include "stdheaders.h"
 
 
 CGame *CGame::GetInstance( )

@@ -1,5 +1,4 @@
 #pragma once
-
 #include "CSpell.h"
 
 #define MAX_SPARK 10

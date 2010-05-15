@@ -1,12 +1,7 @@
 #include "CWaterTerrain.h"
-#include "Corona_ObjectManager.h"
-#include "CGameplayState.h"
-#include "Corona_EventHandler.h"
+#include "Stdheaders.h"
 #include "CEnemy.h"
 #include "CEarth.h"
-#include "CGameplayState.h"
-#include "Wrappers/CSGD_TextureManager.h"
-#include "CCamera.h"
 #include "CSpell.h"
 
 CWaterTerrain::CWaterTerrain()

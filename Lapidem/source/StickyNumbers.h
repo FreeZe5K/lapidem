@@ -1,6 +1,5 @@
 #pragma once
 #include "CBase.h"
-#include "CGame.h"
 #include "CBitmapFont.h"
 
 class StickyNumbers : public CBase

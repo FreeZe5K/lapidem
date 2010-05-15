@@ -1,11 +1,6 @@
+#include "stdheaders.h"
 #include "CGrenade.h"
-#include "CParticleManager.h"
-#include "Wrappers/CSGD_TextureManager.h"
-#include "CGameplayState.h"
 #include "CEmitter.h"
-#include "CParticleManager.h"
-#include "CSpellFactory.h"
-#include "Corona_ObjectManager.h"
 #include "CEnemy.h"
 #include "CFire.h"
 
@@ -79,24 +74,6 @@ void CGrenade::Render()
 
 void CGrenade::CreateExplosion()
 {
-	//CLevel* pLevel = CGameplayState::GetInstance()->GetLevel();
-
-
-	//CTerrainBase* pTerrain;
-
-	//for(int i = -m_nRadius; i < m_nRadius; ++i)
-	//{
-	//	for(int j = -m_nRadius; j < m_nRadius; ++j)
-	//	{
-	//		pTerrain = (CTerrainBase*)pLevel->GetTile((int)this->GetPosX() + i * pLevel->GetTileWidth(), (int)this->GetPosY() + j * pLevel->GetTileHeight());
-	//		if(pTerrain->GetTypeTerrain() == T_ROCK)
-	//		{
-	//			pTerrain->SetTileID(pTerrain->GetBaseTile());
-	//			pTerrain->SetTypeTerrain(T_EMPTY);
-	//			pTerrain->SetActive(false);
-	//		}
-	//	}
-	//}
 
 	for(int i = 0; i < 10; ++i)
 	{
@@ -112,17 +89,6 @@ void CGrenade::CreateSparks(float fDirRotation)
 	velocity._x = 0.0f; velocity._y = -1.0f;
 	velocity = Lapidem_Math::GetInstance()->Vector2DRotate(velocity, fDirRotation);
 
-	// - - - - - - - -
-	// REPLACE
-	// - - - - - - - - - - - - - - 
-	//CEmitter* pEmitter = CEmitterFactory::GetInstance()->CreateEmitter("firespell");
-	//pEmitter->SetPosX(this->GetPosX());
-	//pEmitter->SetPosY(this->GetPosY());
-	//pEmitter->SetVelX(250.0f * velocity._x);
-	//pEmitter->SetVelY(250.0f * velocity._y);
-
-	
-
 	CFire* newfire = new CFire;
 	
 	
@@ -136,7 +102,6 @@ void CGrenade::CreateSparks(float fDirRotation)
 	newfire->SetActive(true);
 	newfire->SetTier(1);
 	newfire->ShotBy(true);
-	//newfire->SetEmitter(pEmitter);
 
 	newfire->SetWidth(32);
 	newfire->SetHeight(16);
@@ -145,8 +110,6 @@ void CGrenade::CreateSparks(float fDirRotation)
 	newfire->SetPosY(this->GetPosY());
 	newfire->SetVelX(250.0f * velocity._x);
 	newfire->SetVelY(250.0f * velocity._y);
-
-	//CParticleManager::GetInstance()->AddEmitter(pEmitter);
 	Corona_ObjectManager::GetInstance()->AddObject(newfire);
 	newfire->Release();
 }
