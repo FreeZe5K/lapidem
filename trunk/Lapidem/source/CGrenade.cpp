@@ -21,7 +21,7 @@ CGrenade::~CGrenade()
 {
 }
 
-void CGrenade::HandleCollision(CBase* pObject)
+void CGrenade::HandleCollision(float fElapsedTime, CBase* pObject)
 {
 	if( pObject->GetType( ) == OBJ_TERRA || pObject->GetType( ) ==  OBJ_PLAYER  )
 	{
@@ -34,6 +34,15 @@ void CGrenade::HandleCollision(CBase* pObject)
 
 		if( pObject->GetPosY( ) + 1 > GetPosY( ) + GetHeight( ) )
 			SetVelY( GetVelY( ) * -0.2f );
+
+		if(dynamic_cast<CTerrainBase*>(pObject))
+		{
+			if(((CTerrainBase*)pObject)->GetTypeTerrain() == T_BOUNDARY)
+			{
+				MoveOutOf(pObject, fElapsedTime);
+				SetVelX(-GetVelX());
+			}
+		}
 	}
 }
 
