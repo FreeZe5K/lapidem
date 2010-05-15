@@ -21,7 +21,7 @@ CIceCube::~CIceCube()
 {
 }
 
-void CIceCube::HandleCollision(CBase* pObject)
+void CIceCube::HandleCollision(float fElapsedTime, CBase* pObject)
 {
 	if( pObject->GetType( ) == OBJ_TERRA || pObject->GetType( ) ==  OBJ_ENEMY  )
 	{

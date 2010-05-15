@@ -19,7 +19,7 @@ public:
 	void Update(float);
 	void Render();
 
-	void HandleCollision(CBase*);
+	void HandleCollision(float, CBase*);
 
 	void SetExplosionEmitter(CEmitter* pEmitter) { m_pExplosionEmitter = pEmitter; }
 	CEmitter* GetExplosionEmitter() { return m_pExplosionEmitter; }
