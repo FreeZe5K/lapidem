@@ -35,9 +35,8 @@ HRS LEFT - 90
 
 - - - - - - - - - - - - - - - - - -
 - - - - - - - Mike - - - - - - - 
-HRS LEFT - 8
+HRS LEFT - 0
 - - - - - - - - - - - - - - - - - -
-- Make the particle engine better. ( 8 hrs )
 
 - High score table, etc.
 - Fix attract mode.
