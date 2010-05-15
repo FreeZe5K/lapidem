@@ -294,8 +294,8 @@ void CEnemy::Update( float fElapsedTime )
 			SN->SetTimer(5.0f);
 			SN->SetPosX( GetPosX());
 			SN->SetPosY( GetPosY() - 24);
-			char buffer[4];
-			sprintf_s(buffer, 4, "%i", TakeDamage(m_nBurnDamage));
+			char buffer[16];
+			sprintf_s(buffer, 16, "%i", TakeDamage(m_nBurnDamage));
 			SN->SetText(buffer);
 			SN->SetVelY(-30);
 
@@ -418,9 +418,9 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 			SN->SetPosY( GetPosY() - 24);
 
 			//char * buffer = new char[4];//NULL;
-			char buffer[4];
+			char buffer[16];
 
-			sprintf_s(buffer, 4, "%i", TakeDamage(DamageToTake<<1));
+			sprintf_s(buffer, 16, "%i", TakeDamage(DamageToTake<<1));
 			SN->SetText(buffer);
 			SN->SetVelY(-30);
 
@@ -438,9 +438,9 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 			SN->SetPosY( GetPosY() - 24);
 
 			//char * buffer = new char[4];//NULL;
-			char buffer[4];
+			char buffer[16];
 
-			sprintf_s(buffer, 4, "%i", TakeDamage(DamageToTake>>1));
+			sprintf_s(buffer, 16, "%i", TakeDamage(DamageToTake>>1));
 			SN->SetText(buffer);
 			SN->SetVelY(-20);
 
@@ -455,9 +455,9 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 			SN->SetPosY( GetPosY() - 24);
 
 			//char * buffer = new char[4];//NULL;
-			char buffer[4];
+			char buffer[16];
 
-			sprintf_s(buffer, 4, "%i", TakeDamage(DamageToTake));
+			sprintf_s(buffer, 16, "%i", TakeDamage(DamageToTake));
 			SN->SetText(buffer);
 			SN->SetVelY(-25);
 
