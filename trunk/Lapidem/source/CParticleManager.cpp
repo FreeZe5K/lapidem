@@ -1,8 +1,4 @@
-#include "CParticleManager.h"
-#include "Wrappers/CSGD_TextureManager.h"
-#include "CGameplayState.h"
-#include <fstream>
-using namespace std;
+#include "stdheaders.h"
 
 CParticleManager::CParticleManager( )
 { /* NOTHING TO SEE HERE */ }

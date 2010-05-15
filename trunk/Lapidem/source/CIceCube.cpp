@@ -1,13 +1,9 @@
 #include "CIceCube.h"
-#include "CCamera.h"
-#include "Wrappers/CSGD_TextureManager.h"
-#include "CGameplayState.h"
-#include "CSpellFactory.h"
-#include "Corona_ObjectManager.h"
+#include "stdheaders.h"
+
 #include "CEnemy.h"
 #include "CIce.h"
 #include "CEmitter.h"
-#include "CParticleManager.h"
 #include "Lapidem_Math.h"
 
 CIceCube::CIceCube()

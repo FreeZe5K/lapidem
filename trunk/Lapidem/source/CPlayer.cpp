@@ -1,15 +1,12 @@
+#include "stdheaders.h"
 #include "CPlayer.h"
 #include "CSpell.h"
 #include "CTerrainBase.h"
 #include "CTAirCurrent.h"
-#include "CGame.h"
 #include "CPickups.h"
 #include "CAnimation.h"
-#include "Wrappers/CSGD_DirectInput.h"
-#include "Wrappers/CSGD_DirectSound.h"
 #include "CAnimationWarehouse.h"
-#include "Corona_ObjectManager.h"
-#include "Corona_EventHandler.h"
+
 
 int CPlayer::PlayerCount = 0;
 

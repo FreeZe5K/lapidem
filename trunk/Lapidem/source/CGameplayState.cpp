@@ -1,13 +1,9 @@
-#include "CGameplayState.h"
-#include "CCamera.h"
+#include "stdheaders.h"
 #include "CPlayer.h"
-#include "CGameOver.h"
-#include "Corona_ObjectManager.h"
-#include "Corona_EventHandler.h"
-#include "CProfiler.h"
-#include "CParticleManager.h"
-#include "CAnimationWarehouse.h"
 #include "CEnemy.h"
+#include "CGameOver.h"
+#include "CProfiler.h"
+#include "CAnimationWarehouse.h"
 
 #ifdef _DEBUG
 #include "CPickups.h"
@@ -728,7 +724,7 @@ void CGameplayState::spawnenergy()
 	newpickup->SetPosY(m_pPlayerOne->GetPosY());
 	newpickup->SetActive(true);
 
-	newpickup->SetType(OBJ_ENERGY);
+	newpickup->SetType(OBJ_T3SPELL);
 	newpickup->SetEleType(OBJ_WIND);
 	newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_WindEnergy.png"));
 	newpickup->SetWidth(64);

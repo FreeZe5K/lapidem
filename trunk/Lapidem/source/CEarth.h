@@ -7,7 +7,6 @@
 //					enemies. Handles all 3 tiers of spells.
 //////////////////////////////////////////////////////////////////////////
 #pragma once
-
 #include "CSpell.h"
 #include "Lapidem_Math.h"
 #include "CLDevice.h"

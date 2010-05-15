@@ -6,16 +6,11 @@
 //  Purpose     :   Handles the terrain objects as well and loading levels
 //					into the game
 //////////////////////////////////////////////////////////////////////////
-#include "CLevel.h"
-#include "Wrappers/CSGD_TextureManager.h"
-#include "Corona_ObjectManager.h"// CSGD_TextureManager.h"
-//#include "CTerrainBase.h"
+
 #include "CTAirCurrent.h"
 #include "CEnemySpawner.h"
 #include "CWaterTerrain.h"
-#include "CCamera.h"
-//#include <fstream>
-#include <string>
+#include "stdheaders.h"
 using namespace std;
 
 CLevel::CLevel()

@@ -8,9 +8,7 @@
 //					spell is put into the ObjectFactory as well as 
 //					returned.
 //////////////////////////////////////////////////////////////////////////
-#include "CSpellFactory.h"
-
-#include "Corona_ObjectManager.h"
+#include "stdheaders.h"
 #include "CCharacter.h"
 
 #include "CFire.h"
@@ -22,10 +20,6 @@
 #include "CIceSpear.h"
 #include "CGiantFireBall.h"
 #include "CIceCube.h"
-
-#include "CCamera.h"
-#include "CParticleManager.h"
-#include "CGameplayState.h"
 
 #include "Lapidem_Math.h"
 

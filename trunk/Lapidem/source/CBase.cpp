@@ -7,9 +7,7 @@
 //                  object data and functionality.
 //////////////////////////////////////////////////////////////////////////
 #include "CBase.h"
-#include "CGame.h"
-#include "CCamera.h"
-#include "Wrappers/CSGD_TextureManager.h" 
+#include "stdheaders.h"
 
 CBase::CBase( )
 {

@@ -1,11 +1,7 @@
-#include "Corona_ObjectManager.h"
-#include "Corona_EventHandler.h"
-#include "CCamera.h"
+#include "stdheaders.h"
 #include "CBase.h"
 #include "CTerrainBase.h"
 #include "CProfiler.h"
-
-#include "CGameplayState.h"
 
 #define __PABLOS_COLLISION 
 

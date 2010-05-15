@@ -1,3 +1,4 @@
+#include "stdheaders.h"
 #include "CEnemy.h"
 #include "CSpell.h"
 #include "CFire.h"
@@ -8,16 +9,13 @@
 #include "AIStateIce.h"
 #include "AIDocBoss.h"
 #include "AISisBoss.h"
-#include "CGameplayState.h"
 
 #include "CPickups.h"
 #include "CAnimation.h"
 #include "CTerrainBase.h"
 #include "StickyNumbers.h"
 
-#include "Corona_EventHandler.h"
-#include "Corona_ObjectManager.h"
-#include "Wrappers/CSGD_TextureManager.h"
+
 
 CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock* Flock )
 {

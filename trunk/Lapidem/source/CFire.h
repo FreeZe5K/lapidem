@@ -7,7 +7,6 @@
 //					enemies. Handles all 3 tiers of spells.
 //////////////////////////////////////////////////////////////////////////
 #pragma once
-
 #include "CSpell.h"
 
 class CEmitter;

@@ -1,10 +1,7 @@
 #ifndef CPROFILER_H
 #define CPROFILER_H
+#include "stdheaders.h"
 
-#include <windows.h>
-#include <vector>
-#include <string>
-using namespace std;
 struct ID
 {
 	string FunctionName;

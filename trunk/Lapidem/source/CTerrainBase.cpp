@@ -8,10 +8,7 @@
 //////////////////////////////////////////////////////////////////////////
 #include "CTerrainBase.h"
 #include "CSpell.h"
-#include "CCamera.h"
-#include "Wrappers/CSGD_TextureManager.h" 
-#include "CGamePlayState.h"
-#include "Corona_EventHandler.h"
+#include "stdheaders.h"
 
 CTerrainBase::CTerrainBase( )
 { SetCollided( false ); m_fTransformTimer = -2.f; }

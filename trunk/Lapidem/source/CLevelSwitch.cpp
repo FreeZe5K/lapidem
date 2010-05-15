@@ -1,8 +1,5 @@
 #include "CLevelSwitch.h"
-#include "Wrappers/CSGD_TextureManager.h"
-#include "Corona_EventHandler.h"
-#include "CCamera.h"
-
+#include "stdheaders.h"
 
 CLevelSwitch::CLevelSwitch()
 {
