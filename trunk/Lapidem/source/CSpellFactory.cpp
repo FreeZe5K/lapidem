@@ -980,6 +980,8 @@ void CSpellFactory::CreateGiantFireBall(CSpell* pFire, CSpell* pWind)
 	pSpell->ShotBy(true);
 
 	CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/fireSpell.lapipt",0,0);
+	hahaiworknow->SetNumberOfParticles(hahaiworknow->GetNumberOfParticles() + 100);
+	hahaiworknow->SetLifeSpan(1.0f);
 	pSpell->SetEmitter(hahaiworknow);
 	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
 
