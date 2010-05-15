@@ -20,19 +20,19 @@ void CGiantFireBall::Update(float fElapsedTime)
 {
 	CSpell::Update(fElapsedTime);
 
-	m_fRadiusIncrease += fElapsedTime;
+	m_fRadiusIncrease = m_fRadiusIncrease + fElapsedTime;
 
-	if(m_pEmitter)
+	if( m_pEmitter )
 	{
-		m_pEmitter->SetPosX(GetPosX());
-		m_pEmitter->SetPosY(GetPosY());
-		m_pEmitter->SetWidth(m_fRadiusIncrease);
-		m_pEmitter->SetHeight(m_fRadiusIncrease);
-		m_pEmitter->SetRadius(m_fRadiusIncrease /2.0f);
+		m_pEmitter->SetPosX( GetPosX( ) );
+		m_pEmitter->SetPosY( GetPosY( ) );
+		m_pEmitter->SetWidth( int( m_fRadiusIncrease ) );
+		m_pEmitter->SetHeight( int( m_fRadiusIncrease ) );
+		m_pEmitter->SetRadius( int( m_fRadiusIncrease / 2.0f ) );
 	}
 
-	this->SetWidth((int)(m_fRadiusIncrease * fElapsedTime));
-	this->SetHeight((int)(m_fRadiusIncrease * fElapsedTime));
+	this->SetWidth( int( m_fRadiusIncrease * fElapsedTime ) );
+	this->SetHeight( int( m_fRadiusIncrease * fElapsedTime ) );
 
 	// - - - - - - - -
 	// REPLACE
