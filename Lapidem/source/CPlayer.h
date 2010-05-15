@@ -19,6 +19,9 @@ class CPlayer : public CCharacter, public CLDevice
 	int m_nEarthEnergy;
 	int m_nScore;
 	int m_nTierThree;
+	//int m_nFireSound;
+	//int m_nWindSound;
+	//int m_nIceSound;
 	bool m_bShielded;
 	bool m_bIsDrowning;
 	bool m_bIsTouching;

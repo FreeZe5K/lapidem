@@ -6,6 +6,7 @@
 #include "CPickups.h"
 #include "CAnimation.h"
 #include "Wrappers/CSGD_DirectInput.h"
+#include "Wrappers/CSGD_DirectSound.h"
 #include "CAnimationWarehouse.h"
 #include "Corona_ObjectManager.h"
 #include "Corona_EventHandler.h"
@@ -40,6 +41,10 @@ CPlayer::CPlayer( )
 	if( GetPlayerID( ) == 1 )
 		m_SpellType = OBJ_ICE;
 	else m_SpellType = OBJ_WIND;
+
+	//m_nFireSound = CSGD_WaveManager::GetInstance()->LoadWave( "resource/audio/sizzle.wav");
+	//m_nWindSound = CSGD_WaveManager::GetInstance()->LoadWave( "resource/audio/woosh.wav");
+	//m_nIceSound = CSGD_WaveManager::GetInstance()->LoadWave( "resource/audio/ice.wav");
 
 	Corona_EventHandler::GetInstance()->RegisterClient(this, "TileDestroyed");
 	Corona_EventHandler::GetInstance()->RegisterClient(this, "EnemyDied");
@@ -306,6 +311,7 @@ void CPlayer::Attack( int nTier )
 				else m_nFireEnergy -= 2;
 			}
 			m_pSpells->CreateFire( this, nTier );
+			//CSGD_WaveManager::GetInstance()->Play( m_nFireSound );
 			break;
 		case OBJ_ICE:
 			if(nTier == 2)
@@ -315,6 +321,7 @@ void CPlayer::Attack( int nTier )
 				else m_nWaterEnergy -= 2;
 			}
 			m_pSpells->CreateIce( this, nTier );
+			//CSGD_WaveManager::GetInstance()->Play(m_nIceSound);
 			break;
 
 		case OBJ_WIND:
@@ -325,6 +332,8 @@ void CPlayer::Attack( int nTier )
 				else m_nWindEnergy -= 2;
 			}
 			m_pSpells->CreateWind( this, nTier );
+			//CSGD_WaveManager::GetInstance()->Play( m_nWindSound );
+
 			break;
 		}
 		m_fFireTimer = 0.0f;
