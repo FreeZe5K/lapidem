@@ -9,26 +9,26 @@
 #include "CFire.h"
 #include "Wrappers/CSGD_TextureManager.h"
 #include "CTerrainBase.h"
+#include "CEmitter.h"
+#include "CParticleManager.h"
 #include "CSpellFactory.h"
 #include "CCamera.h"
 #include "CPlayer.h"
 
 CFire::CFire( ) : CSpell( )
 {
-	// - - - - - - - - - - - - - - -
-	// TODO : Delete this and replace with particle effects.
-	// - - - - - - - - - - - - - - -
-
 	SetType( OBJ_SPELL );
 	SetElement( OBJ_FIRE );
+
+	m_pEmitter = NULL;
+	
 }
 
 CFire::~CFire()
 {
 	if( GetImage( ) >= 0 )
 		CSGD_TextureManager::GetInstance( )->UnloadTexture( GetImage( ) );
-	//CParticleManager::r
-	//m_pEmitter->SetEmitTimer(0.0f);
+		CParticleManager::GetInstance()->RemoveEmitter(m_pEmitter);
 }
 
 void CFire::Update( float fElapsedTime )
@@ -37,6 +37,12 @@ void CFire::Update( float fElapsedTime )
 
 	if( GetLifespan( ) < 0 )
 		SetActive( false );
+
+	if(m_pEmitter)
+	{
+		m_pEmitter->SetPosX(GetPosX());
+		m_pEmitter->SetPosY(GetPosY());
+	}
 
 	switch( GetTier( ) )
 	{

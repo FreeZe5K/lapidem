@@ -3,6 +3,7 @@
 #include "CGame.h"
 #include "IGameState.h"
 #include "CParticleManager.h"
+#include "CEmitter.h"
 #include "CLevel.h"
 
 class CCamera;
@@ -11,7 +12,6 @@ class CEnemy;
 class IGameState;
 class Corona_ObjectManager;
 class Corona_EventHandler;
-class CEmitterFactory;
 
 class CGameplayState : public IGameState, public CLDevice 
 {
@@ -43,14 +43,13 @@ private:
 
 	tVector2D               m_tDir;
 
-	CEmitterFactory         *m_pEF;
-	CParticleManager        *m_pPM;
-
 	CLevel					theLevel;
 
 	CPlayer					*m_pPlayerOne;
 	CPlayer					*m_pPlayerTwo;
 	CEnemy					*thaBoss;
+
+
 
 	CGameplayState( )  { /* DO NOTHING */ }
 	~CGameplayState( ) { /* DO NOTHING */ }
@@ -89,6 +88,6 @@ public:
 	void    SetPlayerReachedEnd( bool _b )   { m_bPlayerReachedEnd    =  _b;  }
 
 #ifdef _DEBUG
-	void spawnenergy();
+	void spawnenergy( );
 #endif
 };

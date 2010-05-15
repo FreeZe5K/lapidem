@@ -1,6 +1,8 @@
 #include "CIceSpear.h"
 #include "CCamera.h"
 #include "Wrappers/CSGD_TextureManager.h"
+#include "CEmitter.h"
+#include "CParticleManager.h"
 
 
 CIceSpear::CIceSpear()
@@ -11,6 +13,7 @@ CIceSpear::CIceSpear()
 
 CIceSpear::~CIceSpear()
 {
+	CParticleManager::GetInstance()->RemoveEmitter(m_pEmitter);
 }
 
 void CIceSpear::HandleCollision(CBase* pObject)
@@ -20,6 +23,12 @@ void CIceSpear::HandleCollision(CBase* pObject)
 void CIceSpear::Update(float fElapsedTime)
 {
 	CSpell::Update(fElapsedTime);
+
+	if(m_pEmitter)
+	{
+		m_pEmitter->SetPosX(GetPosX());
+		m_pEmitter->SetPosY(GetPosY());
+	}
 
 	if(this->GetLifespan() <= 0.0f)
 		this->SetActive(false);

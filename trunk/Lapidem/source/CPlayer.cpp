@@ -241,9 +241,6 @@ void CPlayer::Update( float fElapsedTime )
 		m_fJumpTimer = 0.0f;
 	}
 
-
-
-
 	m_fFireTimer = m_fFireTimer + fElapsedTime;
 
 	//******************************************************************************

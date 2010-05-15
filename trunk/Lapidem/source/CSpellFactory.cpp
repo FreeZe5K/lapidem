@@ -33,30 +33,19 @@ CSpellFactory* CSpellFactory::m_pSF = NULL;
 
 CSpellFactory::CSpellFactory()
 {
-	m_nEarthLVL = 0;
-	m_nWindLVL = 0;
-	m_nFireLVL = 0;
-	m_nIceLVL = 0;
+	m_nEarthLVL  = 0;
+	m_nWindLVL   = 0;
+	m_nFireLVL   = 0;
+	m_nIceLVL    = 0;
 
-	m_nEarthXP = 0;
-	m_nWindXP = 0;
-	m_nFireXP = 0;
-	m_nIceXP = 0;
-
-	m_pEF = CEmitterFactory::GetInstance();
+	m_nEarthXP   = 0;
+	m_nWindXP    = 0;
+	m_nFireXP    = 0;
+	m_nIceXP     = 0;
 }
 
 CSpellFactory::~CSpellFactory()
 {
-	if(m_pEF)
-	{
-		m_pEF = NULL;
-	}
-	if( m_pEF )
-	{
-		m_pEF->UnloadAll( );
-		m_pEF = NULL;
-	}
 }
 
 void CSpellFactory::AddWindXP(int nXP)
@@ -326,21 +315,27 @@ void CSpellFactory::CreateEnemyFire(CCharacter * pShooter, CBase * pTarget)
 
 	Corona_ObjectManager::GetInstance()->AddObject(newfire);
 
-	CEmitter *emitter;
-	emitter = m_pEF->CreateEmitter( "firespell" );
-	emitter->SetPosX( newfire->GetPosX( ) - ( newfire->GetWidth( ) / 2 ) );
-	emitter->SetPosY( newfire->GetPosY( ) - ( newfire->GetHeight( ) / 2 ) );
+	// - - - - - - - -
+	// REPLACE
+	// - - - - - - - - - - - - - - 
+	//CEmitter *emitter;
+	//emitter = m_pEF->CreateEmitter( "firespell" );
+	//emitter->SetPosX( newfire->GetPosX( ) - ( newfire->GetWidth( ) / 2 ) );
+	//emitter->SetPosY( newfire->GetPosY( ) - ( newfire->GetHeight( ) / 2 ) );
 
-	emitter->SetVelX( newfire->GetVelX( ) );
-	emitter->SetVelY( newfire->GetVelY( ) );
+	//emitter->SetVelX( newfire->GetVelX( ) );
+	//emitter->SetVelY( newfire->GetVelY( ) );
 
-	emitter->GetParticle( )->SetPosX( newfire->GetPosX( ) - ( newfire->GetWidth( )  ) );
-	emitter->GetParticle( )->SetPosY( newfire->GetPosY( ) - ( newfire->GetHeight( )  ) );
-	emitter->SetLooping( true );
+	//emitter->GetParticle( )->SetPosX( newfire->GetPosX( ) - ( newfire->GetWidth( )  ) );
+	//emitter->GetParticle( )->SetPosY( newfire->GetPosY( ) - ( newfire->GetHeight( )  ) );
+	//emitter->SetLooping( true );
 
-	newfire->SetEmitter(emitter);
-	CParticleManager::GetInstance( )->AddEmitter( emitter );
-	emitter = NULL;
+	//newfire->SetEmitter(emitter);
+	//CParticleManager::GetInstance( )->AddEmitter( emitter );
+	//emitter = NULL;
+	CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/fireSpell.lapipt",0,0);
+	newfire->SetEmitter(hahaiworknow);
+	CParticleManager::GetInstance()->AddEmitter(newfire->GetEmitter());
 
 	newfire->Release();
 
@@ -457,21 +452,27 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 			secondfire->SetVelX(-secondfire->GetVelX());
 			Corona_ObjectManager::GetInstance()->AddObject(secondfire);
 
-			CEmitter *emitter;
-			emitter = m_pEF->CreateEmitter( "firespell" );
-			emitter->SetPosX( secondfire->GetPosX( ) - ( secondfire->GetWidth( ) / 2 ) );
-			emitter->SetPosY( secondfire->GetPosY( ) - ( secondfire->GetHeight( ) / 2 ) );
+			// - - - - - - - -
+			// REPLACE
+			// - - - - - - - - - - - - - - 
+			//CEmitter *emitter;
+			//emitter = m_pEF->CreateEmitter( "firespell" );
+			//emitter->SetPosX( secondfire->GetPosX( ) - ( secondfire->GetWidth( ) / 2 ) );
+			//emitter->SetPosY( secondfire->GetPosY( ) - ( secondfire->GetHeight( ) / 2 ) );
 
-			emitter->SetVelX( secondfire->GetVelX( ) );
-			emitter->SetVelY( secondfire->GetVelY( ) );
+			//emitter->SetVelX( secondfire->GetVelX( ) );
+			//emitter->SetVelY( secondfire->GetVelY( ) );
 
-			emitter->GetParticle( )->SetPosX( secondfire->GetPosX( ) - ( secondfire->GetWidth( )  ) );
-			emitter->GetParticle( )->SetPosY( secondfire->GetPosY( ) - ( secondfire->GetHeight( )  ) );
-			emitter->SetLooping( true );
+			//emitter->GetParticle( )->SetPosX( secondfire->GetPosX( ) - ( secondfire->GetWidth( )  ) );
+			//emitter->GetParticle( )->SetPosY( secondfire->GetPosY( ) - ( secondfire->GetHeight( )  ) );
+			//emitter->SetLooping( true );
 
-			secondfire->SetEmitter(emitter);
-			CParticleManager::GetInstance( )->AddEmitter( emitter );
-			emitter = NULL;
+			//secondfire->SetEmitter(emitter);
+			//CParticleManager::GetInstance( )->AddEmitter( emitter );
+			//emitter = NULL;
+			CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/fireSpell.lapipt",0,0);
+			secondfire->SetEmitter(hahaiworknow);
+			CParticleManager::GetInstance()->AddEmitter(secondfire->GetEmitter());
 
 			secondfire->Release();
 			break;
@@ -504,22 +505,28 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 					secondfire->SetVelY(newfire->GetVelY() * index + 32);
 					Corona_ObjectManager::GetInstance()->AddObject(secondfire);
 
-					CEmitter *emitter;
-					emitter = m_pEF->CreateEmitter( "firespell" );
-					emitter->SetPosX( secondfire->GetPosX( ) - ( secondfire->GetWidth( ) / 2 ) );
-					emitter->SetPosY( secondfire->GetPosY( ) - ( secondfire->GetHeight( ) / 2 ) );
+					// - - - - - - - -
+					// REPLACE
+					// - - - - - - - - - - - - - - 
+					//CEmitter *emitter;
+					//emitter = m_pEF->CreateEmitter( "firespell" );
+					//emitter->SetPosX( secondfire->GetPosX( ) - ( secondfire->GetWidth( ) / 2 ) );
+					//emitter->SetPosY( secondfire->GetPosY( ) - ( secondfire->GetHeight( ) / 2 ) );
 
-					emitter->SetVelX( secondfire->GetVelX( ) );
-					emitter->SetVelY( secondfire->GetVelY( ) );
+					//emitter->SetVelX( secondfire->GetVelX( ) );
+					//emitter->SetVelY( secondfire->GetVelY( ) );
 
-					emitter->GetParticle( )->SetPosX( secondfire->GetPosX( ) - ( secondfire->GetWidth( )  ) );
-					emitter->GetParticle( )->SetPosY( secondfire->GetPosY( ) - ( secondfire->GetHeight( )  ) );
-					emitter->SetLooping( true );
+					//emitter->GetParticle( )->SetPosX( secondfire->GetPosX( ) - ( secondfire->GetWidth( )  ) );
+					//emitter->GetParticle( )->SetPosY( secondfire->GetPosY( ) - ( secondfire->GetHeight( )  ) );
+					//emitter->SetLooping( true );
 
-					secondfire->SetEmitter(emitter);
-					CParticleManager::GetInstance( )->AddEmitter( emitter );
-					emitter = NULL;
+					//secondfire->SetEmitter(emitter);
+					//CParticleManager::GetInstance( )->AddEmitter( emitter );
+					//emitter = NULL;
 
+					CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/fireSpell.lapipt",0,0);
+					secondfire->SetEmitter(hahaiworknow);
+					CParticleManager::GetInstance()->AddEmitter(secondfire->GetEmitter());
 					secondfire->Release();
 				}
 			}
@@ -528,21 +535,20 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 
 	Corona_ObjectManager::GetInstance()->AddObject(newfire);
 
-	CEmitter *emitter;
-	emitter = m_pEF->CreateEmitter( "firespell" );
-	emitter->SetPosX( newfire->GetPosX( ) - ( newfire->GetWidth( ) / 2 ) );
-	emitter->SetPosY( newfire->GetPosY( ) - ( newfire->GetHeight( ) / 2 ) );
+	// - - - - - - - -
+	// REPLACE
+	// - - - - - - - - - - - - - - 
+	/*CParticleManager::GetInstance( )->AddEmitter( CGameplayState::GetInstance( )->GetFire( ) );
+	CGameplayState::GetInstance( )->GetFire( )->SetPosX( newfire->GetPosX( ) - ( newfire->GetWidth( ) / 2 ) );
+	CGameplayState::GetInstance( )->GetFire( )->SetPosY( newfire->GetPosY( ) - ( newfire->GetHeight( ) / 2 ) );
+	CGameplayState::GetInstance( )->GetFire( )->SetVelX( newfire->GetVelX( ) );
+	CGameplayState::GetInstance( )->GetFire( )->SetVelY( newfire->GetVelY( ) );*/
+	CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/fireSpell.lapipt",0,0);
+	newfire->SetEmitter(hahaiworknow);
+	CParticleManager::GetInstance()->AddEmitter(newfire->GetEmitter());
+	
+	
 
-	emitter->SetVelX( newfire->GetVelX( ) );
-	emitter->SetVelY( newfire->GetVelY( ) );
-
-	emitter->GetParticle( )->SetPosX( newfire->GetPosX( ) - ( newfire->GetWidth( )  ) );
-	emitter->GetParticle( )->SetPosY( newfire->GetPosY( ) - ( newfire->GetHeight( )  ) );
-	emitter->SetLooping( true );
-
-	newfire->SetEmitter(emitter);
-	CParticleManager::GetInstance( )->AddEmitter( emitter );
-	emitter = NULL;
 
 	newfire->Release();
 }
@@ -659,21 +665,27 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 
 	Corona_ObjectManager::GetInstance( )->AddObject( newice );
 	
-	CEmitter *emitter;
-	emitter = m_pEF->CreateEmitter( "icespell" );
-	emitter->SetPosX( newice->GetPosX( ) - ( newice->GetWidth( ) / 2 ) );
-	emitter->SetPosY( newice->GetPosY( ) - ( newice->GetHeight( ) / 2 ) );
+	// - - - - - - - -
+	// REPLACE
+	// - - - - - - - - - - - - - - 
+	//CEmitter *emitter;
+	//emitter = m_pEF->CreateEmitter( "icespell" );
+	//emitter->SetPosX( newice->GetPosX( ) - ( newice->GetWidth( ) / 2 ) );
+	//emitter->SetPosY( newice->GetPosY( ) - ( newice->GetHeight( ) / 2 ) );
 
-	emitter->SetVelX( newice->GetVelX( ) );
-	emitter->SetVelY( newice->GetVelY( ) );
+	//emitter->SetVelX( newice->GetVelX( ) );
+	//emitter->SetVelY( newice->GetVelY( ) );
 
-	emitter->GetParticle( )->SetPosX( newice->GetPosX( ) - ( newice->GetWidth( ) ) );
-	emitter->GetParticle( )->SetPosY( newice->GetPosY( ) - ( newice->GetHeight( ) ) );
-	emitter->SetLooping( true );
+	//emitter->GetParticle( )->SetPosX( newice->GetPosX( ) - ( newice->GetWidth( ) ) );
+	//emitter->GetParticle( )->SetPosY( newice->GetPosY( ) - ( newice->GetHeight( ) ) );
+	//emitter->SetLooping( true );
 
-	newice->SetEmitter( emitter );
-	CParticleManager::GetInstance( )->AddEmitter( emitter );
-	emitter = NULL;
+	//newice->SetEmitter( emitter );
+	//CParticleManager::GetInstance( )->AddEmitter( emitter );
+	//emitter = NULL;
+	CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/iceSpell.lapipt",0,0);
+	newice->SetEmitter(hahaiworknow);
+	CParticleManager::GetInstance()->AddEmitter(newice->GetEmitter());
 
 	newice->Release( );
 }
@@ -888,21 +900,28 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 			}
 		}
 	}
-	CEmitter *emitter;
-	emitter = m_pEF->CreateEmitter( "windSpell" );
-	emitter->SetPosX( newwind->GetPosX( ) - ( newwind->GetWidth( ) / 2 ) );
-	emitter->SetPosY( newwind->GetPosY( ) - ( newwind->GetHeight( ) / 2 ) );
 
-	emitter->SetVelX( newwind->GetVelX( ) );
-	emitter->SetVelY( newwind->GetVelY( ) );
+	// - - - - - - - -
+	// REPLACE
+	// - - - - - - - - - - - - - - 
+	//CEmitter *emitter;
+	//emitter = m_pEF->CreateEmitter( "windSpell" );
+	//emitter->SetPosX( newwind->GetPosX( ) - ( newwind->GetWidth( ) / 2 ) );
+	//emitter->SetPosY( newwind->GetPosY( ) - ( newwind->GetHeight( ) / 2 ) );
 
-	emitter->GetParticle( )->SetPosX( newwind->GetPosX( ) - ( newwind->GetWidth( )  ) );
-	emitter->GetParticle( )->SetPosY( newwind->GetPosY( ) - ( newwind->GetHeight( )  ) );
-	emitter->SetLooping( true );
+	//emitter->SetVelX( newwind->GetVelX( ) );
+	//emitter->SetVelY( newwind->GetVelY( ) );
 
-	newwind->SetEmitter(emitter);
-	CParticleManager::GetInstance( )->AddEmitter( emitter );
-	emitter = NULL;
+	//emitter->GetParticle( )->SetPosX( newwind->GetPosX( ) - ( newwind->GetWidth( )  ) );
+	//emitter->GetParticle( )->SetPosY( newwind->GetPosY( ) - ( newwind->GetHeight( )  ) );
+	//emitter->SetLooping( true );
+
+	//newwind->SetEmitter(emitter);
+	//CParticleManager::GetInstance( )->AddEmitter( emitter );
+	//emitter = NULL;
+	CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/windSpell.lapipt",0,0);
+	newwind->SetEmitter(hahaiworknow);
+	CParticleManager::GetInstance()->AddEmitter(newwind->GetEmitter());
 }
 
 void CSpellFactory::CreateGrenade(CSpell* pFire, CSpell* pEarth)
@@ -923,10 +942,13 @@ void CSpellFactory::CreateGrenade(CSpell* pFire, CSpell* pEarth)
 	pSpell->SetWidth(32);
 	pSpell->SetImage(pEarth->GetImage());
 	pSpell->ShotBy(true);
-	pSpell->SetEmitter(CEmitterFactory::GetInstance()->CreateEmitter("firespell"));
+	//pSpell->SetEmitter(CEmitterFactory::GetInstance()->CreateEmitter("firespell"));
+	CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/fireSpell.lapipt",0,0);
+	pSpell->SetEmitter(hahaiworknow);
+	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
 	pSpell->SetSound(pFire->GetSound());
 
-	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
+	//CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
 
 	Corona_ObjectManager::GetInstance()->RemoveObject(pEarth);
 	pFire->SetActive(false);
@@ -954,12 +976,17 @@ void CSpellFactory::CreateGiantFireBall(CSpell* pFire, CSpell* pWind)
 
 	pSpell->SetRadiusIncrease((float)(16 + pSpell->GetWidth()));
 
-	pSpell->SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource\\graphics\\Lapidem_GiantFireBall.png", D3DCOLOR_XRGB(255, 255, 255)));
+	//pSpell->SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource\\graphics\\Lapidem_GiantFireBall.png", D3DCOLOR_XRGB(255, 255, 255)));
 	pSpell->ShotBy(true);
-	pSpell->SetEmitter(CEmitterFactory::GetInstance()->CreateEmitter("firespell"));
+
+	CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/fireSpell.lapipt",0,0);
+	pSpell->SetEmitter(hahaiworknow);
+	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
+
+	//pSpell->SetEmitter(CEmitterFactory::GetInstance()->CreateEmitter("firespell"));
 	pSpell->SetSound(pFire->GetSound());
 	
-	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
+	//CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
 	
 	Corona_ObjectManager::GetInstance()->RemoveObject(pWind);
 	pFire->SetActive(false);
@@ -987,9 +1014,17 @@ void CSpellFactory::CreateSpear(CSpell* pIce, CSpell* pWind)
 	pSpell->SetWidth(64);
 	pSpell->SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource\\graphics\\Lapidem_IceSpear.png", D3DCOLOR_XRGB(255, 255, 255)));
 	pSpell->ShotBy(true);
-	pSpell->SetEmitter(CEmitterFactory::GetInstance()->CreateEmitter("icespell"));
+
+	// - - - - - - - -
+	// REPLACE
+	// - - - - - - - - - - - - - - 
+	//pSpell->SetEmitter(CEmitterFactory::GetInstance()->CreateEmitter("icespell"));
 	pSpell->SetSound(pIce->GetSound());
 	
+	//CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
+
+	CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/iceSpell.lapipt",0,0);
+	pSpell->SetEmitter(hahaiworknow);
 	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
 
 	Corona_ObjectManager::GetInstance()->RemoveObject(pWind);
@@ -1017,10 +1052,18 @@ void CSpellFactory::CreateIceCube(CSpell* pIce, CSpell* pEarth)
 	pSpell->SetWidth(32);
 	pSpell->SetImage(pEarth->GetImage());
 	pSpell->ShotBy(true);
-	pSpell->SetEmitter(CEmitterFactory::GetInstance()->CreateEmitter("icespell"));
-	pSpell->SetSound(pIce->GetSound());
 	
+	// - - - - - - - -
+	// REPLACE
+	// - - - - - - - - - - - - - - 
+	//pSpell->SetEmitter(CEmitterFactory::GetInstance()->CreateEmitter("icespell"));
+	pSpell->SetSound(pIce->GetSound());
+
+	CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/iceSpell.lapipt",0,0);
+	pSpell->SetEmitter(hahaiworknow);
 	CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
+	
+	//CParticleManager::GetInstance()->AddEmitter(pSpell->GetEmitter());
 
 	Corona_ObjectManager::GetInstance()->RemoveObject(pEarth);
 	pIce->SetActive(false);
@@ -1028,10 +1071,6 @@ void CSpellFactory::CreateIceCube(CSpell* pIce, CSpell* pEarth)
 	Corona_ObjectManager::GetInstance()->AddObject(pSpell);
 	pSpell->Release();
 }
-
-
-
-
 
 void CSpellFactory::CreateEnemyWind(CCharacter * pShooter, CBase * pTarget)
 {
@@ -1058,21 +1097,28 @@ void CSpellFactory::CreateEnemyWind(CCharacter * pShooter, CBase * pTarget)
 
 	Corona_ObjectManager::GetInstance()->AddObject(newWind);
 
-	CEmitter *emitter;
-	emitter = m_pEF->CreateEmitter( "windspell" );
-	emitter->SetPosX( newWind->GetPosX( ) - ( newWind->GetWidth( ) / 2 ) );
-	emitter->SetPosY( newWind->GetPosY( ) - ( newWind->GetHeight( ) / 2 ) );
+	// - - - - - - - -
+	// REPLACE
+	// - - - - - - - - - - - - - - 
+	//CEmitter *emitter;
+	//emitter = m_pEF->CreateEmitter( "windspell" );
+	//emitter->SetPosX( newWind->GetPosX( ) - ( newWind->GetWidth( ) / 2 ) );
+	//emitter->SetPosY( newWind->GetPosY( ) - ( newWind->GetHeight( ) / 2 ) );
 
-	emitter->SetVelX( newWind->GetVelX( ) );
-	emitter->SetVelY( newWind->GetVelY( ) );
+	//emitter->SetVelX( newWind->GetVelX( ) );
+	//emitter->SetVelY( newWind->GetVelY( ) );
 
-	emitter->GetParticle( )->SetPosX( newWind->GetPosX( ) - ( newWind->GetWidth( )  ) );
-	emitter->GetParticle( )->SetPosY( newWind->GetPosY( ) - ( newWind->GetHeight( )  ) );
-	emitter->SetLooping( true );
+	//emitter->GetParticle( )->SetPosX( newWind->GetPosX( ) - ( newWind->GetWidth( )  ) );
+	//emitter->GetParticle( )->SetPosY( newWind->GetPosY( ) - ( newWind->GetHeight( )  ) );
+	//emitter->SetLooping( true );
 
-	newWind->SetEmitter(emitter);
-	CParticleManager::GetInstance( )->AddEmitter( emitter );
-	emitter = NULL;
+	//newWind->SetEmitter(emitter);
+	//CParticleManager::GetInstance( )->AddEmitter( emitter );
+	//emitter = NULL;
+
+	CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/windSpell.lapipt",0,0);
+	newWind->SetEmitter(hahaiworknow);
+	CParticleManager::GetInstance()->AddEmitter(newWind->GetEmitter());
 
 	newWind->Release();
 
@@ -1103,21 +1149,28 @@ void CSpellFactory::CreateEnemyIce(CCharacter * pShooter, CBase * pTarget)
 
 	Corona_ObjectManager::GetInstance()->AddObject(newIce);
 
-	CEmitter *emitter;
-	emitter = m_pEF->CreateEmitter( "Icespell" );
-	emitter->SetPosX( newIce->GetPosX( ) - ( newIce->GetWidth( ) / 2 ) );
-	emitter->SetPosY( newIce->GetPosY( ) - ( newIce->GetHeight( ) / 2 ) );
+	// - - - - - - - -
+	// REPLACE
+	// - - - - - - - - - - - - - - 
+	//CEmitter *emitter;
+	//emitter = m_pEF->CreateEmitter( "Icespell" );
+	//emitter->SetPosX( newIce->GetPosX( ) - ( newIce->GetWidth( ) / 2 ) );
+	//emitter->SetPosY( newIce->GetPosY( ) - ( newIce->GetHeight( ) / 2 ) );
 
-	emitter->SetVelX( newIce->GetVelX( ) );
-	emitter->SetVelY( newIce->GetVelY( ) );
+	//emitter->SetVelX( newIce->GetVelX( ) );
+	//emitter->SetVelY( newIce->GetVelY( ) );
 
-	emitter->GetParticle( )->SetPosX( newIce->GetPosX( ) - ( newIce->GetWidth( )  ) );
-	emitter->GetParticle( )->SetPosY( newIce->GetPosY( ) - ( newIce->GetHeight( )  ) );
-	emitter->SetLooping( true );
+	//emitter->GetParticle( )->SetPosX( newIce->GetPosX( ) - ( newIce->GetWidth( )  ) );
+	//emitter->GetParticle( )->SetPosY( newIce->GetPosY( ) - ( newIce->GetHeight( )  ) );
+	//emitter->SetLooping( true );
 
-	newIce->SetEmitter(emitter);
-	CParticleManager::GetInstance( )->AddEmitter( emitter );
-	emitter = NULL;
+	//newIce->SetEmitter(emitter);
+	//CParticleManager::GetInstance( )->AddEmitter( emitter );
+	//emitter = NULL;
+
+	CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/iceSpell.lapipt",0,0);
+	newIce->SetEmitter(hahaiworknow);
+	CParticleManager::GetInstance()->AddEmitter(newIce->GetEmitter());
 
 	newIce->Release();
 

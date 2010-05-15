@@ -31,15 +31,11 @@ void CGameplayState::Enter( )
 	m_nPlayerTwoScore = 0;
 	m_nSinglePlayerScore = 0;
 
-
 	m_pD3D          = CSGD_Direct3D::GetInstance( );
 	m_pTM           = CSGD_TextureManager::GetInstance( );
 	m_pDS           = CSGD_DirectSound::GetInstance( );
 	m_pWM           = CSGD_WaveManager::GetInstance( );
 	m_pDI           = CSGD_DirectInput::GetInstance( );
-
-	m_pEF			= CEmitterFactory::GetInstance( );
-	m_pEF->Initialize( );
 
 	CAnimationWarehouse::GetInstance( )->LoadAnimationSet( 
 		"resource/idlewalk.Anim", D3DCOLOR_XRGB( 255, 255, 255 ) );
@@ -48,7 +44,7 @@ void CGameplayState::Enter( )
 
 	m_pPlayerOne	= new CPlayer( );
 	m_pPlayerOne->SetAnimation( 0, 0 );
-
+	
 	if( m_bLoadedFromFile )
 	{
 		if( 1 == m_nSlotLoadedFrom )
@@ -118,10 +114,6 @@ void CGameplayState::Enter( )
 
 	if( m_pPlayerTwo )
 		m_pCoM->AddObject( m_pPlayerTwo );
-
-	m_pPM = CParticleManager::GetInstance( );
-	m_pEF = CEmitterFactory::GetInstance( );
-	m_pEF->Initialize( );
 
 	if( m_bLoadedFromFile )
 	{
@@ -318,6 +310,8 @@ void CGameplayState::Update( float fET )
 	CProfiler::GetInstance( )->End( "Profiler Start" );
 #endif
 
+	CParticleManager::GetInstance( )->Update( fET );
+
 	if(!m_bBossSpawned && !strcmp(theLevel.GetNextLevelFileName(), " "))
 	{
 		int GameTime = CGame::GetInstance()->GetTimeLeft();
@@ -446,7 +440,6 @@ void CGameplayState::Update( float fET )
 
 	m_pCoM->UpdateObjects( CGame::GetInstance( )->GetElapsedTime( ) );
 	theLevel.Update( fET );
-	m_pPM->Update( fET );
 	m_pCeH->ProcessEvents( );
 
 	if( m_pPlayerOne->GetHealth( ) <= 0 )
@@ -472,7 +465,7 @@ void CGameplayState::Render( )
 {
 	theLevel.Render( );
 	m_pCoM->RenderObjects( );
-	m_pPM->Render( );
+	CParticleManager::GetInstance( )->Render( );
 
 	if( 1 == CMenuState::GetInstance( )->GetPlayerCount( ) )
 	{
@@ -616,20 +609,10 @@ void CGameplayState::Render( )
 
 void CGameplayState::Exit( )
 {
-	if( m_pPM )
-	{
-		m_pPM->UnloadAll( );
-		m_pPM = NULL;
-	}
-
-	if( m_pEF )
-	{
-		m_pEF->UnloadAll( );
-		m_pEF = NULL;
-	}
-
 	m_pCeH->SendEvent( "EnemyDied", NULL ); 
 	m_pCeH->ProcessEvents( );
+
+	CParticleManager::GetInstance()->ClearAll();
 
 	m_pWM->Stop( CGame::GetInstance( )->GetGameBGMusic( ) );
 	m_pWM->Reset( CGame::GetInstance( )->GetGameBGMusic( ) );
@@ -674,23 +657,26 @@ void CGameplayState::HandleEvent( CEvent* pEvent )
 		if( m_fP2RespawnTimer == -1.0f )
 		{
 			m_fP2RespawnTimer = 0.0f;
-			CEmitter* emmiter; //= new CEmitter();
-			emmiter = CEmitterFactory::GetInstance( )->CreateEmitter( "return" );
+			
+			// - - - - - - - -
+			// REPLACE
+			// - - - - - - - - - - - - - - 
+			//CEmitter* emmiter; 
 
-			emmiter->SetPosX( m_pPlayerTwo->GetPosX( ) );
-			emmiter->SetPosY( m_pPlayerTwo->GetPosY( ) );
+			//emmiter->SetPosX( m_pPlayerTwo->GetPosX( ) );
+			//emmiter->SetPosY( m_pPlayerTwo->GetPosY( ) );
 
 			tVector2D direction;
 			direction._x = ( m_pPlayerOne->GetPosX( ) - m_pPlayerTwo->GetPosX( ) );
 			direction._y = ( m_pPlayerOne->GetPosY( ) - m_pPlayerTwo->GetPosY( ) );
 
-			direction = Lapidem_Math::GetInstance( )->Vector2DNormalize( direction );
+			//direction = Lapidem_Math::GetInstance( )->Vector2DNormalize( direction );
 
-			emmiter->SetVelX( direction._x * ( m_pPlayerOne->GetPosX( ) - 
-				m_pPlayerTwo->GetPosX( ) ) / 1.5f );
-			emmiter->SetVelY( direction._y * ( m_pPlayerOne->GetPosY( ) - 
-				m_pPlayerTwo->GetPosY( ) ) / 1.5f );
-			CParticleManager::GetInstance( )->AddEmitter( emmiter );
+			//emmiter->SetVelX( direction._x * ( m_pPlayerOne->GetPosX( ) - 
+			//	m_pPlayerTwo->GetPosX( ) ) / 1.5f );
+			//emmiter->SetVelY( direction._y * ( m_pPlayerOne->GetPosY( ) - 
+			//	m_pPlayerTwo->GetPosY( ) ) / 1.5f );
+			//CParticleManager::GetInstance( )->AddEmitter( emmiter );
 		}
 	}
 }

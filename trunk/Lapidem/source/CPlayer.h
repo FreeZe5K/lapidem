@@ -1,5 +1,6 @@
 #pragma once
 #include "CCharacter.h"
+#include "CCamera.h"
 #include "CLDevice.h"
 
 class CPlayer : public CCharacter, public CLDevice

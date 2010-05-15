@@ -10,8 +10,6 @@
 //////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "CParticleManager.h"
-
 class CCharacter;
 class CBase;
 class CSpell;
@@ -19,7 +17,6 @@ class CIce;
 class CFire;
 class CEarth;
 class CWind;
-class CEmitterFactory;
 
 class CSpellFactory
 {
@@ -37,7 +34,7 @@ private:
 	int     m_nEarthXP;              // How much XP the earth abilities have accumulated. Used to level up the earth abilities
 	int     m_nEarthLVL;             // Current level of earth abilities. Used to determine damage increase as well as lifespan.
 
-	CEmitterFactory* m_pEF;
+//	CEmitter *m_pEmitter;
 
 public:
 	CSpellFactory( );

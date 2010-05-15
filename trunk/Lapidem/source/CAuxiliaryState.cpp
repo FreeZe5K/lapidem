@@ -292,7 +292,7 @@ void CAuxiliaryState::Render( )
 	{
 		CGame::GetInstance( )->GetFont( )->Draw( "EXECUTIVE PRODUCERS", 30, 
 			m_nCreditScroll, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-		CGame::GetInstance( )->GetFont( )->Draw( "DUSTIN CLIGMAN", 80, 
+		CGame::GetInstance( )->GetFont( )->Draw( "DUSTIN CLINGMAN", 80, 
 			m_nCreditScroll + 40, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		CGame::GetInstance( )->GetFont( )->Draw( "JOHN O'LESKE", 80, 
 			m_nCreditScroll + 70, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
