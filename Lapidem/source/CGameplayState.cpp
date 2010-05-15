@@ -320,7 +320,13 @@ void CGameplayState::Update( float fET )
 
 	if(!m_bBossSpawned && !strcmp(theLevel.GetNextLevelFileName(), " "))
 	{
-		thaBoss = new CEnemy(OBJ_SHIELD, 750, 500, 1);
+		int GameTime = CGame::GetInstance()->GetTimeLeft();
+		if(GameTime < 0)
+			GameTime = 2;
+		else
+			GameTime = 1;
+
+		thaBoss = new CEnemy(OBJ_SHIELD, 750, 500, GameTime);
 		Corona_ObjectManager::GetInstance()->AddObject(thaBoss);
 		m_bBossSpawned = true;
 	}
