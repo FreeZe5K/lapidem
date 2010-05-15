@@ -17,6 +17,7 @@ class AIStateEarth : public IAIState
 	int InitY;	// give the initial position of the earth enemy
 
 public:
+	~AIStateEarth() { }
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Update"
 	//

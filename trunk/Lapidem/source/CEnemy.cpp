@@ -7,6 +7,7 @@
 #include "AIStateWind.h"
 #include "AIStateIce.h"
 #include "AIDocBoss.h"
+#include "AISisBoss.h"
 #include "CGameplayState.h"
 
 #include "CPickups.h"
@@ -125,8 +126,24 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 		m_SpellType = OBJ_SHIELD;
 		currDirec = RIGHT;
 		currAnimation = NULL;
-
 	}
+	else if(boss >= 2)
+	{
+		currState = new AISisBoss;
+
+		SetPosX(initx);
+		SetPosY(inity);
+		SetVelX(0.0f);
+		SetVelY(0.0f);
+		SetHeight(50);
+		SetWidth(64);
+		SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapidem_WomanBoss.png", D3DCOLOR_XRGB(0, 0, 0)));
+		m_nHealth = 1500;
+		m_SpellType = OBJ_EARTH;
+		currDirec = RIGHT;
+		currAnimation = NULL;
+	}
+
 	m_fShotTimer   = 3.0f;
 	m_fWaitTimer   = 0.0f;
 	m_nAttackWho   = 0;
@@ -141,9 +158,12 @@ CEnemy::~CEnemy( )
 {
 	if(m_SpellType == OBJ_WIND)
 	{
-		if(((AIStateWind*)currState)->GetFlock())
+		if(dynamic_cast<AIStateWind*>(currState))
 		{
-			((AIStateWind*)currState)->GetFlock()->RemoveMember(this);
+			if(((AIStateWind*)currState)->GetFlock())
+			{
+				((AIStateWind*)currState)->GetFlock()->RemoveMember(this);
+			}
 		}
 	}
 	if( currState ) 
