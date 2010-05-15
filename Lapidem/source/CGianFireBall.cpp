@@ -13,7 +13,7 @@ CGiantFireBall::CGiantFireBall()
 
 CGiantFireBall::~CGiantFireBall()
 {
-		CParticleManager::GetInstance()->RemoveEmitter(m_pEmitter);
+	CParticleManager::GetInstance()->RemoveEmitter(m_pEmitter);
 }
 
 void CGiantFireBall::Update(float fElapsedTime)
@@ -22,17 +22,24 @@ void CGiantFireBall::Update(float fElapsedTime)
 
 	m_fRadiusIncrease = m_fRadiusIncrease + fElapsedTime;
 
+	float fPosOffset = m_fRadiusIncrease * fElapsedTime;
+
+	//this->SetPosX(this->GetPosX() - fPosOffset);
+	//this->SetPosY(this->GetPosY() - fPosOffset);
+
+	this->SetWidth(this->GetWidth() + int( m_fRadiusIncrease * fElapsedTime ) );
+	this->SetHeight(this->GetHeight() + int( m_fRadiusIncrease * fElapsedTime ) );
+
 	if( m_pEmitter )
 	{
 		m_pEmitter->SetPosX( GetPosX( ) );
 		m_pEmitter->SetPosY( GetPosY( ) );
-		m_pEmitter->SetWidth( int( m_fRadiusIncrease ) );
-		m_pEmitter->SetHeight( int( m_fRadiusIncrease ) );
-		m_pEmitter->SetRadius( int( m_fRadiusIncrease / 2.0f ) );
+		m_pEmitter->SetWidth(this->GetWidth());
+		m_pEmitter->SetHeight(this->GetHeight());
+		m_pEmitter->SetRadius(this->GetHeight()>>1);
+		//m_pEmitter->SetSpawnRate(m_pEmitter->GetSpawnRate() + (int)fPosOffset);
 	}
 
-	this->SetWidth( int( m_fRadiusIncrease * fElapsedTime ) );
-	this->SetHeight( int( m_fRadiusIncrease * fElapsedTime ) );
 
 	// - - - - - - - -
 	// REPLACE
