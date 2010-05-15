@@ -52,6 +52,7 @@ public:
 	//  Purpose   :   Create and put into object manager an Ice spell based on tier provided
 	//////////////////////////////////////////////////////////////////////////
 	void CreateIce( CCharacter* pShooter, int nTier );
+	void CreateEnemyIce( CCharacter * pShooter, CBase* pTarget);
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "CreateFire"
