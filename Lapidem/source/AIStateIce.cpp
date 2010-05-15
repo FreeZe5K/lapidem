@@ -90,6 +90,6 @@ void AIStateIce::Attack( CCharacter* pTarget, CCharacter* pShooter )
 {
 	if( pTarget )
 	{
-
+		CSpellFactory::GetInstance()->CreateEnemyIce(pShooter, pTarget);
 	}
 }

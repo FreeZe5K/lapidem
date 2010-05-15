@@ -227,7 +227,7 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 	
 				if(pShooter->GetType() == OBJ_PLAYER && ((CPlayer*)pShooter)->GetReticle())
 				{
-					int retposition = ((CPlayer*)pShooter)->GetReticle()->GetPosX();
+					int retposition = int(((CPlayer*)pShooter)->GetReticle()->GetPosX());
 
 					if(pShooter->GetVelX() < retposition)
 					{
@@ -1032,7 +1032,7 @@ void CSpellFactory::CreateIceCube(CSpell* pIce, CSpell* pEarth)
 
 
 
-// CHeck if they search for targets when they fly solo
+
 void CSpellFactory::CreateEnemyWind(CCharacter * pShooter, CBase * pTarget)
 {
 	CWind* newWind = new CWind();
@@ -1075,5 +1075,50 @@ void CSpellFactory::CreateEnemyWind(CCharacter * pShooter, CBase * pTarget)
 	emitter = NULL;
 
 	newWind->Release();
+
+}
+
+void CSpellFactory::CreateEnemyIce(CCharacter * pShooter, CBase * pTarget)
+{
+	CIce* newIce = new CIce();
+
+	newIce->SetElement(OBJ_ICE);
+
+	newIce->ShotBy(false);
+
+	newIce->SetPosX(pShooter->GetPosX() + pShooter->GetWidth()  * .5f);
+	newIce->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
+	float SpeedX =  ( (pTarget->GetPosX() + pTarget->GetWidth()  * .5f) - newIce->GetPosX() ) / 100;
+	float SpeedY =  ( (pTarget->GetPosY() + pTarget->GetHeight() * .5f) - newIce->GetPosY() ) / 100;
+	newIce->SetVelX( SpeedX * 250 );
+	newIce->SetVelY( SpeedY * 250 );
+
+	newIce->SetDamage(10);
+	newIce->SetLifespan(5.0f);
+	newIce->SetActive(true);
+	newIce->SetTier(1);
+
+	newIce->SetWidth(32);
+	newIce->SetHeight(16);
+
+	Corona_ObjectManager::GetInstance()->AddObject(newIce);
+
+	CEmitter *emitter;
+	emitter = m_pEF->CreateEmitter( "Icespell" );
+	emitter->SetPosX( newIce->GetPosX( ) - ( newIce->GetWidth( ) / 2 ) );
+	emitter->SetPosY( newIce->GetPosY( ) - ( newIce->GetHeight( ) / 2 ) );
+
+	emitter->SetVelX( newIce->GetVelX( ) );
+	emitter->SetVelY( newIce->GetVelY( ) );
+
+	emitter->GetParticle( )->SetPosX( newIce->GetPosX( ) - ( newIce->GetWidth( )  ) );
+	emitter->GetParticle( )->SetPosY( newIce->GetPosY( ) - ( newIce->GetHeight( )  ) );
+	emitter->SetLooping( true );
+
+	newIce->SetEmitter(emitter);
+	CParticleManager::GetInstance( )->AddEmitter( emitter );
+	emitter = NULL;
+
+	newIce->Release();
 
 }
