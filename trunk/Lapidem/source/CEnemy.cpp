@@ -346,7 +346,10 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 				if( this->GetPosY( ) > collidingObject->GetPosY( ) )
 					SetPosY( GetPosY( ) + nRectHeight );
 				else if(this->GetPosY( ) < collidingObject->GetPosY( ) )
+				{
 					SetPosY( GetPosY( ) - nRectHeight );
+					SetVelY(0.0);
+				}
 				SetVelX(-GetVelX());
 			}
 		}
