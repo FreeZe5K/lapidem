@@ -39,10 +39,6 @@ CPlayer::CPlayer( )
 		m_SpellType = OBJ_ICE;
 	else m_SpellType = OBJ_WIND;
 
-	//m_nFireSound = CSGD_WaveManager::GetInstance()->LoadWave( "resource/audio/sizzle.wav");
-	//m_nWindSound = CSGD_WaveManager::GetInstance()->LoadWave( "resource/audio/woosh.wav");
-	//m_nIceSound = CSGD_WaveManager::GetInstance()->LoadWave( "resource/audio/ice.wav");
-
 	Corona_EventHandler::GetInstance()->RegisterClient(this, "TileDestroyed");
 	Corona_EventHandler::GetInstance()->RegisterClient(this, "EnemyDied");
 }
@@ -196,37 +192,20 @@ void CPlayer::Update( float fElapsedTime )
 	//******************************************************************************
 	//******************************************************************************
 
-	if( m_bIsJumping )
-	{
-		m_fJumpTimer = m_fJumpTimer + fElapsedTime;
+	//if( m_bIsJumping )
+	//{
+	//	m_fJumpTimer = m_fJumpTimer + fElapsedTime;
 
-		if( m_fJumpTimer <= 0.20f )
-		{
-			SetVelY( -200 );
-			SetAnimation( 0, 0 );
-		}
-		else if( m_fJumpTimer <= 0.4f )
-		{
-			SetVelY( -150 );
-			SetAnimation( 0, 0 );
-		}
-		else if( m_fJumpTimer < 0.6f )
-		{
-			SetVelY( -100 );
-			SetAnimation( 0, 0 );
-		}
-		else if( m_fJumpTimer >= .6 && m_fJumpTimer <= 0.62f )
-		{
-			SetVelY( 0.0f );
-			SetAnimation( 0, 0 );
-		}
-		else if(m_fJumpTimer > 0.62f && m_fJumpTimer <= .8)
-		{
-			SetVelY( 100 );
-			SetAnimation( 0, 0 );
-		}
-		else SetAnimation( 0, 0 );
-	}
+	//	if( m_fJumpTimer <= 0.20f )
+	//	{
+	//		SetVelY( -200 );
+	//		SetAnimation( 0, 0 );
+	//	}
+	//	else SetAnimation( 0, 0 );
+	//}
+
+	if(m_bIsJumping)
+		SetAnimation(0,0);
 
 	if(!m_bIsTouching)
 		m_bIsDrowning = false;
@@ -342,6 +321,7 @@ void CPlayer::Jump( )
 	if( m_bIsJumping )
 		return;
 
+	SetVelY(-150);
 	m_bIsJumping = true;
 }
 
@@ -409,6 +389,7 @@ void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 			{
 				m_bIsJumping = false;
 				m_fJumpTimer = 0.0f;
+				SetVelY(0.0);
 				SetPosY( GetPosY( ) - nRectHeight );
 			}
 		}

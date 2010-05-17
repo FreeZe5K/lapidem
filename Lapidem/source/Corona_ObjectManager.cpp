@@ -45,8 +45,6 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 				DeadItems.push_back(Objects[index]);
 	}
 
-	for(unsigned index = 0; index < DeadItems.size(); ++index)
-			RemoveObject(DeadItems[index]);
 
 	CheckCollisions(fElapsedTime);
 	
@@ -60,6 +58,10 @@ void Corona_ObjectManager::UpdateObjects(float fElapsedTime)
 		m_fTimer = 0.0f;
 		Corona_EventHandler::GetInstance( )->SendEvent( "OffScreenPulse" );
 	}
+
+	for(unsigned index = 0; index < DeadItems.size(); ++index)
+			RemoveObject(DeadItems[index]);
+
 
 #ifdef _DEBUG
 	CProfiler::GetInstance( )->End( "ObjectManager Update" );
