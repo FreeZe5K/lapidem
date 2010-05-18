@@ -56,7 +56,7 @@ bool CMenuState::Input( )
 
 	m_fInputTimer += .0167f;
 
-	if(m_fInputTimer > .1)
+	if(m_fInputTimer > .08)
 	{
 
 	if( 0 == m_nState ) // Main menu

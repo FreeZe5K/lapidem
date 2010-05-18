@@ -20,6 +20,7 @@ CBase::CBase( )
 	SetImage( -1 );
 	SetSound( -1 );
 
+	m_nType = -1;
 	m_nRefCount = 1;
 }
 
@@ -93,6 +94,9 @@ bool CBase::CheckCollision( float fElapsedTime, CBase* pBase )
 
 void CBase::HandleCollision(float, CBase* _base )
 {
+	if(_base->GetType() < 0)
+		return;
+
 }
 
 void CBase::MoveOutOf( CBase* pSolidObject, float fElapsedTime )

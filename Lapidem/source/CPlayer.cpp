@@ -356,11 +356,11 @@ void CPlayer::Jump( )
 
 void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 {
-	if( GetFainted() )
+	if( GetFainted()  || collidingObject->GetType() < 0)
 	{
 		return;
 	}
-
+		
 	if( collidingObject->GetType( ) == OBJ_TERRA || ( collidingObject->GetType( ) == 
 		OBJ_SPELL && ( ( CSpell* )collidingObject )->GetElement( ) == OBJ_EARTH ) )
 	{

@@ -255,6 +255,10 @@ void CEarth::RenderTier3( )
 
 void CEarth::HandleCollision(float fElapsedTime, CBase* pObject )
 {
+	if(pObject->GetType() < 0)
+		return;
+
+
 	CSpell::HandleCollision(fElapsedTime, pObject);
 
 	if( 1 == GetTier( ) )

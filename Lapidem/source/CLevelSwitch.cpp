@@ -16,6 +16,9 @@ CLevelSwitch::~CLevelSwitch()
 
 void CLevelSwitch::HandleCollision(float fElapsedTime, CBase* pBase)
 {
+	if(pBase->GetType() < 0)
+		return;
+
 	if(pBase->GetType() == OBJ_PLAYER)
 		m_bIsOn = true;
 }

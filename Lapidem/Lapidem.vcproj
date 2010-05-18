@@ -432,6 +432,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\source\CPickups.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\source\StickyNumbers.cpp"
 						>
 					</File>

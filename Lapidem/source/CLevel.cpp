@@ -459,6 +459,9 @@ bool CLevel::LoadNextLevel(  )
 
 CBase* CLevel::CheckCollision( CBase* pBase  )
 {
+	if(pBase->GetType() < 0)
+		return NULL;
+
 	int nX( int( pBase->GetPosX( ) ) );
 	int nY( int( pBase->GetPosY( ) ) );
 	int nX2( nX + pBase->GetWidth( ) );

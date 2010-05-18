@@ -37,6 +37,9 @@ void CTerrainBase::Update( float fDT )
 
 void CTerrainBase::HandleCollision(float fElapsedTime, CBase* pBase )
 {
+	if(pBase->GetType() <0)
+		return;
+
 	switch( pBase->GetType( ) )
 	{
 	case OBJ_SPELL:

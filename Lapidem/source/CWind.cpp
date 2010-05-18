@@ -17,8 +17,6 @@
 
 CWind::CWind( ) : CSpell( )
 {
-	//SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture
-		//( "resource/graphics/wind.bmp", D3DCOLOR_XRGB( 0, 0, 0 ) ) );
 	m_fShotTimer = 0.5f;
 }
 
@@ -132,6 +130,10 @@ void WindTier3(CBase* pEnemy, CBase* pSpell)
 		newwind->SetHeight(16);
 		Corona_ObjectManager::GetInstance()->AddObject(newwind);
 		newwind->Release();
+
+	CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/windSpell.lapipt",0,0);
+	newwind->SetEmitter(hahaiworknow);
+	CParticleManager::GetInstance()->AddEmitter(newwind->GetEmitter());
 	}
 }
 

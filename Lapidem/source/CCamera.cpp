@@ -44,7 +44,7 @@ void CCamera::Update( float fElapsedTime )
 	rCamera.bottom  = LONG( rCamera.top + GetHeight() );
 
 	RECT rPlayer;
-	if( !((CPlayer*)thePlayer)->GetFainted() )
+	if( !((CPlayer*)thePlayer)->GetFainted() || thePlayer2 == NULL )
 	 rPlayer    = thePlayer->GetCollisionRect( fElapsedTime );
 	else
 	 rPlayer    = thePlayer2->GetCollisionRect( fElapsedTime );

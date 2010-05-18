@@ -323,6 +323,10 @@ void CEnemy::Update( float fElapsedTime )
 
 void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 {
+
+	if(collidingObject->GetType() < 0)
+		return;
+
 	if( collidingObject->GetType() == OBJ_TERRA )
 	{
 		if(m_SpellType == OBJ_WIND)
