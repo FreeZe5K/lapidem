@@ -33,7 +33,7 @@ void CAttractState::Enter( )
 
 bool CAttractState::Input( )
 {
-	if( m_pDI->CheckBufferedKeysEx( ) )
+	if( m_pDI->CheckBufferedKeysEx( ) || m_pDI->JoystickCheckBufferedButtons() != -1)
 	{
 		m_pMediaControl->Stop( );
 		CMenuState::GetInstance( )->ResetAttractTimer( );

@@ -53,6 +53,9 @@ private:
 	CMenuState( const CMenuState& );
 	CMenuState& operator=( const CMenuState& );
 
+
+	float m_fInputTimer;
+
 public:
 	static CMenuState* GetInstance( );
 
