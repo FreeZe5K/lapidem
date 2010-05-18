@@ -37,51 +37,8 @@ void CAuxiliaryState::Enter( )
 
 	if( m_nState == 1 )
 	{
-		//char*   _NameBuffer( "" );
-		//int     _tempSize( 0 );
-		//string  _szNames[10] = { 0 };
-		//int     _nScores[10] = { 0 };
-
-		//ifstream fin( "resource/data/Lapidem_HighscoreTable.bin", 
-		//	std::ios_base::in | std::ios_base::binary );
-
 		// - - - - - - - - - - - - - - - -
-		// This doesn't load in correctly
-		// past the first name. 
-		// 
-		// The file is in the following format:
-		//
-		// - Highscore Player 1's name
-		// - Highscore Player 1's score
-		// - Player 2, Player 3, ...
-		// All the way until 10.
-		// 
-		// The player's name is a string.
-		// The player's score is an int32.
-		//
-		// Have at it...
-		// - - - - - - - - - - - - - - - -
-		//if( fin.is_open( ) )
-		//{
-		//for( int i = 0; i < 10; i++ )
-		//{
-		//	fin.read( ( char* )&_tempSize, sizeof( string ) );
-		//	_NameBuffer = new char[_tempSize + 1];
-		//	fin.read( _NameBuffer, _tempSize );
-		//	_szNames[i] = _NameBuffer;
-
-		//	fin.read( ( char* )&_nScores[i], sizeof( int ) );
-
-		//	// - -
-		//	m_szPlayerNames[i] = _szNames[i];
-		//	m_nPlayerScores[i] = _nScores[i];
-		//	// - -
-
-		//	delete[] _NameBuffer;
-		//	_NameBuffer = NULL;
-		//}
-
-		//} fin.close( );
+		// Load high scores!
 		// - - - - - - - - - - - - - - - -
 	}
 
@@ -171,10 +128,29 @@ void CAuxiliaryState::Update( float fET )
 		else if( CGame::GetInstance( )->GetSoundFXVolume( ) < 0 )
 			CGame::GetInstance( )->SetSoundFXVolume( 0 );
 
-		m_pWM->SetVolume( CGame::GetInstance( )->GetMainMenuMusic( ), 
+		// - - - - - - - - - - - -
+		// Music volume(s)
+		// - - - - - - - - - - - -
+		m_pWM->SetVolume( CGame::GetInstance( )->GetGameBGMusic( ), 
 			CGame::GetInstance( )->GetMusicVolume( ) ); 
+		m_pWM->SetVolume( CGame::GetInstance( )->GetMainMenuMusic( ),
+			CGame::GetInstance( )->GetMusicVolume( ) );
+		m_pWM->SetVolume( CGame::GetInstance( )->GetVictoryMusic( ),
+			CGame::GetInstance( )->GetMusicVolume( ) );
+		m_pWM->SetVolume( CGame::GetInstance( )->GetLostMusic( ), 
+			CGame::GetInstance( )->GetMusicVolume( ) );
+
+		// - - - - - - - - - - - -
+		// Sound effect volume(s)
+		// - - - - - - - - - - - -
 		m_pWM->SetVolume( CGame::GetInstance( )->GetMenuTick( ), 
 			CGame::GetInstance( )->GetSoundFXVolume( ) ); 
+		m_pWM->SetVolume( CGame::GetInstance( )->GetPlayerHitSound( ),
+			CGame::GetInstance( )->GetSoundFXVolume( ) );
+		m_pWM->SetVolume( CGame::GetInstance( )->GetShotFiredSound( ),
+			CGame::GetInstance( )->GetSoundFXVolume( ) );
+		m_pWM->SetVolume( CGame::GetInstance( )->GetTileDestroyedSound( ),
+			CGame::GetInstance( )->GetSoundFXVolume( ) );
 	}
 	else if( m_nState == 1 ) // High Scores
 	{
@@ -198,9 +174,6 @@ void CAuxiliaryState::Render( )
 		m_pTM->Draw( m_nImageID[0], 0, 0, 1.0f, 1.0f, 
 		NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 200, 255, 255, 255 ) );
 
-	// - - - - - - - - - - - - - - - - - -
-	// Fix the bitmap fonts to be kerned.
-	// - - - - - - - - - - - - - - - - - -
 	if( m_nState == 0 ) // Options
 	{
 		char cBuffer[64];

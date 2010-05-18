@@ -49,8 +49,6 @@ private:
 	CPlayer					*m_pPlayerTwo;
 	CEnemy					*thaBoss;
 
-
-
 	CGameplayState( )  { /* DO NOTHING */ }
 	~CGameplayState( ) { /* DO NOTHING */ }
 	CGameplayState( const CGameplayState& );

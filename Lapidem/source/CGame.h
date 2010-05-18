@@ -74,13 +74,18 @@ private:
 	//     How To Play BG
 	//      
 	// Sounds -
-	//     Main Menu Music
-	//     Menu Click
-	//     Level One Music
-	//     Victory Music
-	//     Player Died Music
+	//     0. Main Menu Music
+	//     1. Menu Click
+	//     2. Level One Music
+	//     3. Victory Music
+	//     4. Player Died Music
+	//     5. Player Hit Effect
+	//     6. Spell Fired Effect
+	//     7. Tile Destroyed Effect
+	//     8. Level Two Music
+	//     9. Level Three Music
 	int                     m_nImageID[3];
-	int                     m_nSoundID[5];
+	int                     m_nSoundID[10];
 
 	int                     m_nSoundEffectVolume;
 	int                     m_nMusicVolume;
@@ -250,6 +255,9 @@ public:
 	int GetGameBGMusic( )         const      { return m_nSoundID[2];           }
 	int GetVictoryMusic( )        const      { return m_nSoundID[3];           }
 	int GetLostMusic( )           const      { return m_nSoundID[4];           }
+	int GetPlayerHitSound( )      const      { return m_nSoundID[5];           }
+	int GetShotFiredSound( )      const      { return m_nSoundID[6];           }
+	int GetTileDestroyedSound( )  const      { return m_nSoundID[7];           }
 
 	int GetTimeLeft( )            const      { return m_nTimeLeft;             }
 

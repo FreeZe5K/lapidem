@@ -42,14 +42,6 @@ HRS LEFT - 0
 - Fix attract mode.
 - Change the timer to count up from zero instead of down from 10 minutes.
 - Put time on win/lose screen.
-- The minimap needs to remove switches that are no longer active and then show where the exit is once complete.
-
-- When the final boss is beat, run this code:
-/////////////////////////////////////////////////
-CGameOver::GetInstance( )->SetState( 2 );
-CGameOver::GetInstance( )->SetCondition( 1 );
-CGame::GetInstance( )->ChangeState( CGameOver::GetInstance( ) );
-/////////////////////////////////////////////////
 
 - - - Pablo aka DOM - - -
 HRS LEFT - 74

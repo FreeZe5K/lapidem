@@ -28,18 +28,6 @@ void CMenuState::Enter( )
 
 	m_nImageID      = m_pTM->LoadTexture( "resource/graphics/Lapidem_MainMenuBG.png" );
 
-	// - - - - - - - - - - - - - - - -
-	// TODO
-	//
-	// Don't touch these. 
-	// They'll be implemented soon.
-	// - - - - - - - - - - - - - - - -
-	m_nScrollSpeedOne     = -128;
-	m_nScrollSpeedTwo     = -128;
-	m_nScrollSpeedThree   = -128;
-	m_nScrollSpeedFour    = -128;
-	// - - - - - - - - - - - - - - - -
-
 	m_pWM->SetVolume( CGame::GetInstance( )->GetMainMenuMusic( ), 
 			CGame::GetInstance( )->GetMusicVolume( ) ); 
 		m_pWM->SetVolume( CGame::GetInstance( )->GetMenuTick( ), 

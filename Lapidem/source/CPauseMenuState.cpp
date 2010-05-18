@@ -65,8 +65,7 @@ bool CPauseMenuState::Input( )
 			}
 			else if( m_nChoice == 2 ) // Save and quit
 			{
-				//SaveGame( "resource/data/config.xml" );
-				m_nChoice  = 0;
+				//SaveGame( "resource/data/config.xml" );				m_nChoice  = 0;
 				m_nState   = 2;
 			}
 			else // Main menu (or other...)
@@ -88,10 +87,29 @@ bool CPauseMenuState::Input( )
 		else if( CGame::GetInstance( )->GetSoundFXVolume( ) < 0 )
 			CGame::GetInstance( )->SetSoundFXVolume( 0 );
 
+		// - - - - - - - - - - - -
+		// Music volume(s)
+		// - - - - - - - - - - - -
 		m_pWM->SetVolume( CGame::GetInstance( )->GetGameBGMusic( ), 
 			CGame::GetInstance( )->GetMusicVolume( ) ); 
+		m_pWM->SetVolume( CGame::GetInstance( )->GetMainMenuMusic( ),
+			CGame::GetInstance( )->GetMusicVolume( ) );
+		m_pWM->SetVolume( CGame::GetInstance( )->GetVictoryMusic( ),
+			CGame::GetInstance( )->GetMusicVolume( ) );
+		m_pWM->SetVolume( CGame::GetInstance( )->GetLostMusic( ), 
+			CGame::GetInstance( )->GetMusicVolume( ) );
+
+		// - - - - - - - - - - - -
+		// Sound effect volume(s)
+		// - - - - - - - - - - - -
 		m_pWM->SetVolume( CGame::GetInstance( )->GetMenuTick( ), 
 			CGame::GetInstance( )->GetSoundFXVolume( ) ); 
+		m_pWM->SetVolume( CGame::GetInstance( )->GetPlayerHitSound( ),
+			CGame::GetInstance( )->GetSoundFXVolume( ) );
+		m_pWM->SetVolume( CGame::GetInstance( )->GetShotFiredSound( ),
+			CGame::GetInstance( )->GetSoundFXVolume( ) );
+		m_pWM->SetVolume( CGame::GetInstance( )->GetTileDestroyedSound( ),
+			CGame::GetInstance( )->GetSoundFXVolume( ) );
 
 		if(m_pDI->KeyPressed( DIK_UP ) || m_pDI->JoystickDPadPressed( 2 ) )
 		{
