@@ -81,7 +81,7 @@ void CGameplayState::Enter( )
 	}
 
 	CCamera::InitCamera( 0.0f, 0.0f, float(CGame::GetInstance( )->GetScreenWidth( ) ),
-		float( CGame::GetInstance( )->GetScreenHeight( ) ), m_pPlayerOne );
+		float( CGame::GetInstance( )->GetScreenHeight( ) ), m_pPlayerOne, m_pPlayerTwo  );
 
 	m_pCoM			= Corona_ObjectManager::GetInstance( );
 	m_pCoM->SetCamera(CCamera::GetCamera());
@@ -457,14 +457,29 @@ void CGameplayState::Update( float fET )
 
 	if( m_pPlayerOne->GetHealth( ) <= 0 )
 	{
-		// Player lost
-		CGameOver::GetInstance( )->SetState( 1 );
+		m_pPlayerOne->SetFainted(true);
+	}
+	if( m_pPlayerTwo)
+	{
+		if( m_pPlayerTwo->GetHealth( ) <= 0 )
+		{
+			m_pPlayerTwo->SetFainted(true);
+		}
+	}
 
-		// Player died because their health ran out
-		CGameOver::GetInstance( )->SetCondition( 1 );
+	if( m_pPlayerOne->GetFainted() && m_pPlayerTwo )
+	{
+		if( m_pPlayerTwo->GetFainted() )
+		{
+			// Player lost
+			CGameOver::GetInstance( )->SetState( 1 );
 
-		// Change the state to game over
-		CGame::GetInstance( )->ChangeState( CGameOver::GetInstance( ) );
+			// Player died because their health ran out
+			CGameOver::GetInstance( )->SetCondition( 1 );
+
+			// Change the state to game over
+			CGame::GetInstance( )->ChangeState( CGameOver::GetInstance( ) );
+		}
 	}
 
 #ifdef _DEBUG
@@ -485,32 +500,34 @@ void CGameplayState::Render( )
 		m_pTM->Draw( m_nImageID[1], 0, 0, 1.0f, 1.0f, NULL, 
 			0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 160, 255, 255, 255 ) );
 
-		char cBuffer[64];
+		char cBuffer[128];
 		sprintf_s( cBuffer, "HEALTH  - %i", m_pPlayerOne->GetHealth( ) );
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 			5, 0, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
+		
+
 		if( OBJ_FIRE == m_pPlayerOne->GetEleType( ) )
 		{
-			sprintf_s( cBuffer, "ELEMENT - %s", "FIRE" );
+			sprintf_s( cBuffer, "ELEMENT - %s - %i", "FIRE", m_pPlayerOne->GetFireEnergy() );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 150, 150 ) );
 		}
 		else if( OBJ_ICE == m_pPlayerOne->GetEleType( ) )
 		{
-			sprintf_s( cBuffer, "ELEMENT - %s", "ICE" );			
+			sprintf_s( cBuffer, "ELEMENT - %s - %i", "ICE", m_pPlayerOne->GetIceEnergy() );			
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 150, 150, 255 ) );
 		}
 		else if( OBJ_WIND == m_pPlayerOne->GetEleType( ) )
 		{
-			sprintf_s( cBuffer, "ELEMENT - %s", "WIND" );
+			sprintf_s( cBuffer, "ELEMENT - %s - %i", "WIND", m_pPlayerOne->GetWindEnergy() );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( OBJ_EARTH == m_pPlayerOne->GetEleType( ) )
 		{
-			sprintf_s( cBuffer, "ELEMENT - %s", "EARTH" );
+			sprintf_s( cBuffer, "ELEMENT - %s - %i", "EARTH", m_pPlayerOne->GetEarthEnergy() );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 160, 255, 40 ) );
 		}
@@ -533,27 +550,43 @@ void CGameplayState::Render( )
 
 		if( OBJ_FIRE == m_pPlayerOne->GetEleType( ) )
 		{
-			sprintf_s( cBuffer, "ELEMENT  - %s", "FIRE" );
+			sprintf_s( cBuffer, "ELEMENT - %s", "FIRE" );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 150, 150 ) );
+			
+			sprintf_s( cBuffer, "ENERGY  - %i", m_pPlayerOne->GetFireEnergy() );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+			5, 35, 0.7f, D3DCOLOR_ARGB( 255, 255, 150, 150 ) );
 		}
 		else if( OBJ_ICE == m_pPlayerOne->GetEleType( ) )
 		{
-			sprintf_s( cBuffer, "ELEMENT  - %s", "ICE" );			
+			sprintf_s( cBuffer, "ELEMENT - %s", "ICE" );			
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 150, 150, 255 ) );
+
+			sprintf_s( cBuffer, "ENERGY  - %i", m_pPlayerOne->GetIceEnergy() );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+			5, 35, 0.7f, D3DCOLOR_ARGB( 255, 150, 150, 255 ));
 		}
 		else if( OBJ_WIND == m_pPlayerOne->GetEleType( ) )
 		{
-			sprintf_s( cBuffer, "ELEMENT  - %s", "WIND" );
+			sprintf_s( cBuffer, "ELEMENT - %s", "WIND");
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			sprintf_s( cBuffer, "ENERGY  - %i", m_pPlayerOne->GetWindEnergy() );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+			5, 35, 0.7f,D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( OBJ_EARTH == m_pPlayerOne->GetEleType( ) )
 		{
-			sprintf_s( cBuffer, "ELEMENT  - %s", "EARTH" );
+			sprintf_s( cBuffer, "ELEMENT - %s", "EARTH" );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 160, 255, 40 ) );
+
+			sprintf_s( cBuffer, "ENERGY  - %i", m_pPlayerOne->GetEarthEnergy() );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+			5, 35, 0.7f, D3DCOLOR_ARGB( 255, 160, 255, 40 ) );
 		}
 
 		// Player two
@@ -565,20 +598,28 @@ void CGameplayState::Render( )
 
 		if( OBJ_WIND == m_pPlayerTwo->GetEleType( ) )
 		{
-			sprintf_s( cBuffer, "ELEMENT  - %s", "WIND" );
+			sprintf_s( cBuffer, "ELEMENT - %s", "WIND" );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				420, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			sprintf_s( cBuffer, "ENERGY  - %i", m_pPlayerTwo->GetWindEnergy() );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+			420, 35, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( OBJ_EARTH == m_pPlayerTwo->GetEleType( ) )
 		{
-			sprintf_s( cBuffer, "ELEMENT  - %s", "EARTH" );
+			sprintf_s( cBuffer, "ELEMENT - %s", "EARTH" );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				420, 18, 0.7f, D3DCOLOR_ARGB( 255, 160, 255, 40 ) );
+
+			sprintf_s( cBuffer, "ENERGY  - %i", m_pPlayerTwo->GetEarthEnergy() );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+			420, 35, 0.7f,D3DCOLOR_ARGB( 255, 160, 255, 40 ) );
 		}
 
-		sprintf_s( cBuffer, "SCORE - %i", GetPlayerTwo( )->GetScore( ) );
+		sprintf_s( cBuffer, "%i -SCORE- %i", GetPlayerOne( )->GetScore( ),GetPlayerTwo( )->GetScore( ) );
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
-			5, 35, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			250, 0, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	}
 
 	if( m_bMapActive )

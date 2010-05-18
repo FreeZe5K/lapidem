@@ -29,10 +29,11 @@ private:
 	void SetCameraHeight( float fHeight )   { m_fHeight     = fHeight;      }
 
 	CBase* thePlayer;
+	CBase* thePlayer2;
 
 public:
 	//Creates the Camera.
-	static void InitCamera( float, float, float, float, CBase* );
+	static void InitCamera( float, float, float, float, CBase*, CBase* );
 	void ShutDownCamera( );
 
 	//Updates the Camera's Place and hooks
