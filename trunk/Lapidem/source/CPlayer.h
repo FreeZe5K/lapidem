@@ -7,7 +7,7 @@ class CCamera;
 class CPlayer : public CCharacter, public CLDevice
 {
 	bool m_bIsJumping;
-	float m_fJumpTimer;
+	//float m_fJumpTimer;
 	float m_fFireTimer;
 
 	CBase* m_pReticle;
@@ -20,12 +20,10 @@ class CPlayer : public CCharacter, public CLDevice
 	int m_nEarthEnergy;
 	int m_nScore;
 	int m_nTierThree;
-	//int m_nFireSound;
-	//int m_nWindSound;
-	//int m_nIceSound;
 	bool m_bShielded;
 	bool m_bIsDrowning;
 	bool m_bIsTouching;
+	float m_fDrownTimer; //Seriously?
 	float m_fShieldTimer;
 	float RetPosX;
 	float RetPosY;
@@ -57,7 +55,6 @@ public:
 	void ResetJump()
 	{
 		m_bIsJumping = false;
-		m_fJumpTimer = 0.0f;
 	}
 
 

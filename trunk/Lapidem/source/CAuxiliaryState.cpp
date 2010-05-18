@@ -140,17 +140,17 @@ bool CAuxiliaryState::Input( )
 	}
 	else if( m_nState == 1 ) // High Scores
 	{
-		if( m_pDI->CheckBufferedKeysEx( ) )
+		if( m_pDI->CheckBufferedKeysEx( ) || m_pDI->JoystickCheckBufferedButtons() != -1)
 			CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
 	}
 	else if( m_nState == 2 ) // How To Play
 	{
-		if( m_pDI->CheckBufferedKeysEx( ) )
+		if( m_pDI->CheckBufferedKeysEx( ) || m_pDI->JoystickCheckBufferedButtons() != -1)
 			CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
 	}
 	else if( m_nState == 3 ) // Credits
 	{
-		if( m_pDI->CheckBufferedKeysEx( ) )
+		if( m_pDI->CheckBufferedKeysEx( ) || m_pDI->JoystickCheckBufferedButtons() != -1)
 			CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
 	}
 

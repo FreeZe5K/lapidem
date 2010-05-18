@@ -210,15 +210,15 @@ bool CGameplayState::Input( )
 			m_pDI->JoystickGetLStickYNormalized( ) < -0.5f )
 			m_pPlayerOne->Jump( );
 	}
-	if( m_pDI->KeyDown( DIK_F ) || m_pDI->JoystickButtonDown( 1 ) || 
+	if( m_pDI->KeyDown( DIK_F ) || m_pDI->JoystickButtonDown( 0 ) || 
 		m_pDI->JoystickButtonDown( 7 ) )
 		m_pPlayerOne->Attack( 1 );
 
-	if( m_pDI->KeyDown( DIK_R ) || m_pDI->JoystickButtonDown( 2 ) || 
+	if( m_pDI->KeyDown( DIK_R ) || m_pDI->JoystickButtonDown( 1 ) || 
 		m_pDI->JoystickButtonDown( 6 ) )
 		m_pPlayerOne->Attack( 2 );
 
-	if( m_pDI->KeyPressed( DIK_T ) || m_pDI->JoystickButtonDown( 3 ))
+	if( m_pDI->KeyPressed( DIK_T ) || m_pDI->JoystickButtonDown( 2 ))
 		m_pPlayerOne->Attack( 3 );
 
 	if( m_pDI->KeyPressed( DIK_1 ) )
@@ -263,15 +263,15 @@ bool CGameplayState::Input( )
 				m_pPlayerTwo->Jump( );
 		}
 
-		if(m_pDI->KeyDown( DIK_RSHIFT ) || m_pDI->JoystickButtonDown( 1, 1 ) || 
+		if(m_pDI->KeyDown( DIK_RSHIFT ) || m_pDI->JoystickButtonDown( 0, 1 ) || 
 			m_pDI->JoystickButtonDown( 7, 1 ) )
 			m_pPlayerTwo->Attack( 1 );
 
-		if(m_pDI->KeyDown( DIK_NUMPAD0 ) || m_pDI->JoystickButtonDown( 2, 1 ) ||
+		if(m_pDI->KeyDown( DIK_NUMPAD0 ) || m_pDI->JoystickButtonDown( 1, 1 ) ||
 			m_pDI->JoystickButtonDown( 6, 1 ) )
 			m_pPlayerTwo->Attack( 2 );
 
-		if(m_pDI->KeyDown( DIK_NUMPADENTER ) || m_pDI->JoystickButtonDown( 3, 1 ) )
+		if(m_pDI->KeyDown( DIK_NUMPADENTER ) || m_pDI->JoystickButtonDown( 2, 1 ) )
 			m_pPlayerTwo->Attack( 3 );
 
 		if(m_pDI->KeyDown( DIK_NUMPAD1 ))

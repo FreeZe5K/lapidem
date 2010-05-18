@@ -32,7 +32,7 @@ bool CGameOver::Input( )
 {
 	if( 1 == m_nState )
 	{
-		if( m_pDI->CheckBufferedKeysEx( ) )
+		if( m_pDI->CheckBufferedKeysEx( ) || m_pDI->JoystickCheckBufferedButtons() != -1)
 		{
 			// Set the state to high scores
 			CAuxiliaryState::GetInstance( )->SetMenuState( 1 );
@@ -41,7 +41,7 @@ bool CGameOver::Input( )
 	}
 	else if( 2 == m_nState )
 	{
-		if( m_pDI->CheckBufferedKeysEx( ) )
+		if( m_pDI->CheckBufferedKeysEx( ) || m_pDI->JoystickCheckBufferedButtons() != -1)
 		{
 			// Set the state to high scores
 			CAuxiliaryState::GetInstance( )->SetMenuState( 1 );

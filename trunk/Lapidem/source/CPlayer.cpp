@@ -16,9 +16,9 @@ int CPlayer::PlayerCount = 0;
 
 CPlayer::CPlayer( )
 {
-	m_fFireTimer       = 0.0f; 
+	m_fFireTimer       = 0.0f;
+	m_fDrownTimer	   = 0.0f;
 	m_nHealth          = 200; 
-	m_fJumpTimer       = 0.0f;
 	currAnimation      = 0;
 	currDirec          = RIGHT; 
 	m_nType            = OBJ_PLAYER; 
@@ -177,9 +177,6 @@ void CPlayer::Update( float fElapsedTime )
 			currDirec = RIGHT;
 	}
 
-	if(DI->KeyPressed(DIK_NUMPAD9 ) )
-		ToggleReticle();
-
 	if( currDirec == RIGHT || currDirec == RIGHT_DOWN || currDirec == RIGHT_UP )
 		IsRotated = true;
 	else IsRotated = false;
@@ -189,45 +186,11 @@ void CPlayer::Update( float fElapsedTime )
 		float SpeedX = DI->JoystickGetRStickXNormalized(GetPlayerID() - 1);
 		float SpeedY = DI->JoystickGetRStickYNormalized(GetPlayerID() - 1);
 
-		m_pReticle->SetVelX(300 * SpeedX);
-		m_pReticle->SetVelY(300 * SpeedY);
-
-		m_pReticle->Update(fElapsedTime);
+		m_pReticle->SetVelX(500 * SpeedX);
+		m_pReticle->SetVelY(500 * SpeedY);
 
 		m_pReticle->ClampToScreen();
-	}
 
-
-
-	//******************************************************************************
-	//******************************************************************************
-	//******************************************************************************
-
-	if(m_bIsJumping)
-		SetAnimation(0,0);
-
-	if(!m_bIsTouching)
-		m_bIsDrowning = false;
-
-
-	m_bIsTouching = false;
-
-	if(m_bIsDrowning)
-	{
-		if(!m_bIsJumping)
-			SetVelY(25);
-		else SetVelY(-50);
-
-		m_fJumpTimer = 0.0f;
-	}
-
-	m_fFireTimer = m_fFireTimer + fElapsedTime;
-
-	//******************************************************************************
-	//******************************************************************************
-	//******************************************************************************
-	if(m_pReticle)
-	{
 		if(m_pReticle->GetVelX() != 0)
 			RetPosX = m_pReticle->GetPosX() - CCamera::GetCamera()->GetXOffset();
 		else
@@ -244,6 +207,33 @@ void CPlayer::Update( float fElapsedTime )
 		RetPosY = GetPosY() - 32 - CCamera::GetCamera()->GetYOffset();
 		RetPosX = GetPosX() - CCamera::GetCamera()->GetXOffset();
 	}
+
+
+
+	//******************************************************************************
+	//******************************************************************************
+	//******************************************************************************
+
+	if(m_bIsJumping)
+		SetAnimation(0,0);
+
+	if(!m_bIsTouching)
+		m_bIsDrowning = false;
+
+
+	m_bIsTouching = false;
+	m_fDrownTimer -=fElapsedTime;
+
+	if(m_bIsDrowning)
+	{
+		if(!m_bIsJumping)
+			SetVelY(25);
+		else SetVelY(-150);
+	}
+
+	m_fFireTimer = m_fFireTimer + fElapsedTime;
+
+	
 	//******************************************************************************
 	//******************************************************************************
 	//******************************************************************************
@@ -287,7 +277,7 @@ void CPlayer::Attack( int nTier )
 		switch( m_SpellType )
 		{
 		case OBJ_EARTH:
-			if( m_fFireTimer < 1.5f )
+			if( m_fFireTimer < .75f )
 				return;
 
 			if(nTier == 2)
@@ -360,7 +350,11 @@ void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 				m_bIsDrowning = true;
 				m_bIsTouching = true;
 
-				TakeDamage(1);
+				if(m_fDrownTimer <= 0)
+				{
+					TakeDamage(5);
+					m_fDrownTimer = 1.f;
+				}
 
 				return;
 			}
@@ -407,7 +401,6 @@ void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 			else if( this->GetPosY( ) < collidingObject->GetPosY( ) )
 			{
 				m_bIsJumping = false;
-				m_fJumpTimer = 0.0f;
 				SetVelY(0.0);
 				SetPosY( GetPosY( ) - nRectHeight );
 			}
