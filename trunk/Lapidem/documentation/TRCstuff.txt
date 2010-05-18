@@ -1,0 +1,13 @@
+Loading Game Screen
+Load in game
+Video Options
+	Resolution
+	Brightness
+	Windowed Mode
+Control Options
+	Keybinding?
+	Reverse Axis
+	Speed of Motion
+GamePlay Options
+	Difficulty
+How to Play
