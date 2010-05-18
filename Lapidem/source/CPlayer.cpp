@@ -11,8 +11,8 @@
 int CPlayer::PlayerCount = 0;
 
 #define Jump_Value 175
-#define X_Diag 175
-#define Y_Diag 150
+#define X_Diag 150
+#define Y_Diag 175
 
 CPlayer::CPlayer( )
 {
@@ -34,6 +34,8 @@ CPlayer::CPlayer( )
 	m_bShielded		   = false;
 	m_bIsTouching	   = false;
 	m_fShieldTimer = 30.0f;
+	RetPosX = 0;
+	RetPosY = 0;
 
 	m_pReticle		   = NULL;
 
@@ -65,6 +67,8 @@ void CPlayer::Update( float fElapsedTime )
 		m_bShielded = false;
 		m_fShieldTimer = 30.0f;
 	}
+
+			
 
 	if(Tossed)
 	{
@@ -173,6 +177,9 @@ void CPlayer::Update( float fElapsedTime )
 			currDirec = RIGHT;
 	}
 
+	if(DI->KeyPressed(DIK_NUMPAD9 ) )
+		ToggleReticle();
+
 	if( currDirec == RIGHT || currDirec == RIGHT_DOWN || currDirec == RIGHT_UP )
 		IsRotated = true;
 	else IsRotated = false;
@@ -195,18 +202,6 @@ void CPlayer::Update( float fElapsedTime )
 	//******************************************************************************
 	//******************************************************************************
 	//******************************************************************************
-
-	//if( m_bIsJumping )
-	//{
-	//	m_fJumpTimer = m_fJumpTimer + fElapsedTime;
-
-	//	if( m_fJumpTimer <= 0.20f )
-	//	{
-	//		SetVelY( -200 );
-	//		SetAnimation( 0, 0 );
-	//	}
-	//	else SetAnimation( 0, 0 );
-	//}
 
 	if(m_bIsJumping)
 		SetAnimation(0,0);
@@ -231,7 +226,27 @@ void CPlayer::Update( float fElapsedTime )
 	//******************************************************************************
 	//******************************************************************************
 	//******************************************************************************
+	if(m_pReticle)
+	{
+		if(m_pReticle->GetVelX() != 0)
+			RetPosX = m_pReticle->GetPosX() - CCamera::GetCamera()->GetXOffset();
+		else
+			m_pReticle->SetPosX(RetPosX + CCamera::GetCamera()->GetXOffset());
 
+		if(m_pReticle->GetVelY() == 0)
+			m_pReticle->SetPosY(RetPosY + CCamera::GetCamera()->GetYOffset());
+		else
+			RetPosY = m_pReticle->GetPosY() - CCamera::GetCamera()->GetYOffset();
+
+	}
+	else
+	{
+		RetPosY = GetPosY() - 32 - CCamera::GetCamera()->GetYOffset();
+		RetPosX = GetPosX() - CCamera::GetCamera()->GetXOffset();
+	}
+	//******************************************************************************
+	//******************************************************************************
+	//******************************************************************************
 	if(	GetPlayerID( ) == 2 )
 	{
 		if( !Corona_ObjectManager::GetInstance( )->IsOnScreen( this ) )
@@ -503,7 +518,10 @@ void CPlayer::ToggleReticle()
 		m_pReticle = new CBase();
 		m_pReticle->SetPosX(GetPosX());
 		m_pReticle->SetPosY(GetPosY() - 32);
-		m_pReticle->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Reticle.png", D3DXCOLOR(1,0,1,1)));
+		if(GetPlayerID() == 1)
+			m_pReticle->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Reticle.png", D3DXCOLOR(1,0,1,1)));
+		else
+			m_pReticle->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Reticle2.png", D3DXCOLOR(1,0,1,1)));
 		m_pReticle->SetType(OBJ_RETICLE);
 		m_pReticle->SetWidth(32);
 		m_pReticle->SetHeight(32);

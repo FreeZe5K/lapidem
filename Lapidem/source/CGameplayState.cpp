@@ -359,7 +359,15 @@ void CGameplayState::Update( float fET )
 			m_pCoM->RemoveAllObjects();
 			m_pCoM->AddObject(m_pPlayerOne);
 			if(m_pPlayerTwo)
+			{
 				m_pCoM->AddObject(m_pPlayerTwo);
+
+				if(m_pPlayerTwo->GetReticle())
+					m_pCoM->AddObject(m_pPlayerTwo->GetReticle());
+			}
+
+			if(m_pPlayerOne->GetReticle())
+				m_pCoM->AddObject(m_pPlayerOne->GetReticle());
 
 			theLevel.LoadNextLevel();
 
