@@ -1,9 +1,10 @@
 #include "CCamera.h"
 #include "CBase.h"
+#include "CPlayer.h"
 
 CCamera * CCamera::theCamera = 0;
 
-void CCamera::InitCamera( float fPosX, float fPosY, float fWidth, float fHeight, CBase* ObjectToFollow )
+void CCamera::InitCamera( float fPosX, float fPosY, float fWidth, float fHeight, CBase* ObjectToFollow, CBase* SecondObject )
 {
 	if( !theCamera )
 	{
@@ -15,6 +16,7 @@ void CCamera::InitCamera( float fPosX, float fPosY, float fWidth, float fHeight,
 		theCamera->SetCameraHeight( fHeight );
 
 		theCamera->thePlayer = ObjectToFollow;
+		theCamera->thePlayer2 = SecondObject;
 
 		theCamera->SetVelocityX( 0.0f );
 		theCamera->SetVelocityY( 0.0f );
@@ -41,7 +43,13 @@ void CCamera::Update( float fElapsedTime )
 	rCamera.top     = LONG( GetYOffset() );
 	rCamera.bottom  = LONG( rCamera.top + GetHeight() );
 
-	RECT rPlayer    = thePlayer->GetCollisionRect( fElapsedTime );
+	RECT rPlayer;
+	if( !((CPlayer*)thePlayer)->GetFainted() )
+	 rPlayer    = thePlayer->GetCollisionRect( fElapsedTime );
+	else
+	 rPlayer    = thePlayer2->GetCollisionRect( fElapsedTime );
+
+
 
 	int CenterOfScreenX( int( theCamera->GetXOffset( ) + width / 2 ) );
 	int CenterOfScreenY( int( theCamera->GetYOffset( ) + height / 2 ) );

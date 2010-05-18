@@ -33,6 +33,7 @@ CPlayer::CPlayer( )
 	m_bIsDrowning	   = false;
 	m_bShielded		   = false;
 	m_bIsTouching	   = false;
+	m_bFainted			= false;
 	m_fShieldTimer = 30.0f;
 	RetPosX = 0;
 	RetPosY = 0;
@@ -59,8 +60,27 @@ CPlayer::~CPlayer()
 	Corona_EventHandler::GetInstance()->UnregisterClient("EnemyDied", this);
 }
 
+
 void CPlayer::Update( float fElapsedTime )
 {
+	if( GetHealth() < 0 )
+		SetHealth( 0 );
+
+
+	if( GetFainted() )
+	{
+		animation = 0;
+
+		if(m_pReticle)
+		{
+		Corona_ObjectManager::GetInstance()->RemoveObject(m_pReticle);
+		m_pReticle->Release();
+		m_pReticle = NULL;
+		}	
+		return;
+
+	}
+
 	m_fShieldTimer -= fElapsedTime;
 	if(m_fShieldTimer < 0)
 	{
@@ -336,6 +356,11 @@ void CPlayer::Jump( )
 
 void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 {
+	if( GetFainted() )
+	{
+		return;
+	}
+
 	if( collidingObject->GetType( ) == OBJ_TERRA || ( collidingObject->GetType( ) == 
 		OBJ_SPELL && ( ( CSpell* )collidingObject )->GetElement( ) == OBJ_EARTH ) )
 	{

@@ -33,6 +33,8 @@ class CPlayer : public CCharacter, public CLDevice
 
 	bool Tossed;
 
+	bool m_bFainted;
+
 public:
 	CPlayer( );
 	~CPlayer( );
@@ -57,6 +59,8 @@ public:
 		m_bIsJumping = false;
 	}
 
+	void SetFainted( bool bFainted ) { m_bFainted = bFainted; }
+	bool GetFainted() { return m_bFainted; }
 
 	int GetPlayerCount( )    { return PlayerCount;    }
 	int GetPlayerID( )       { return PlayerID;       }
