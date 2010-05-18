@@ -79,7 +79,7 @@ bool CMenuState::Input( )
 				m_nChoice = 0;
 		}
 
-		if( m_pDI->KeyDown( DIK_RETURN )  || m_pDI->JoystickButtonDown( 0 ) || m_pDI->JoystickButtonDown( 1 ))
+		if( m_pDI->KeyPressed( DIK_RETURN )  || m_pDI->JoystickButtonPressed( 0 ) || m_pDI->JoystickButtonPressed( 1 ))
 		{
 			m_nAttractTimer = 0;
 
@@ -129,7 +129,7 @@ bool CMenuState::Input( )
 				m_nChoice = 0;
 		}
 
-		if( m_pDI->KeyDown( DIK_RETURN )  || m_pDI->JoystickButtonDown( 0 ) || m_pDI->JoystickButtonDown( 1 ) )
+		if( m_pDI->KeyPressed( DIK_RETURN )  || m_pDI->JoystickButtonPressed( 0 ) || m_pDI->JoystickButtonPressed( 1 ) )
 		{
 			m_nAttractTimer = 0;
 
@@ -170,7 +170,7 @@ bool CMenuState::Input( )
 				m_nChoice = 0;
 		}
 
-		if( m_pDI->KeyDown( DIK_RETURN )  || m_pDI->JoystickButtonDown( 0 ) || m_pDI->JoystickButtonDown( 1 ) )
+		if( m_pDI->KeyPressed( DIK_RETURN )  || m_pDI->JoystickButtonPressed( 0 ) || m_pDI->JoystickButtonPressed( 1 ) )
 		{
 			m_nAttractTimer = 0;
 
@@ -212,7 +212,7 @@ bool CMenuState::Input( )
 				m_nChoice = 0;
 		}
 
-		if( m_pDI->KeyDown( DIK_RETURN )  || m_pDI->JoystickButtonDown( 0 ) || m_pDI->JoystickButtonDown( 1 ) )
+		if( m_pDI->KeyPressed( DIK_RETURN )  || m_pDI->JoystickButtonPressed( 0 ) || m_pDI->JoystickButtonPressed( 1 ) )
 		{
 			m_nAttractTimer = 0;
 
