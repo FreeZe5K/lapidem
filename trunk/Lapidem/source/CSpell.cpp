@@ -13,7 +13,6 @@
 CSpell::CSpell( ) : CBase( )
 {
 	SetType(OBJ_SPELL);
-	
 }
 
 CSpell::~CSpell()
@@ -23,10 +22,10 @@ CSpell::~CSpell()
 
 void CSpell::UpdateTier1( float fElapsedTime )
 {		
-
 	SetPosX( GetPosX( ) + GetVelX( ) * fElapsedTime );
 	SetPosY( GetPosY( ) + GetVelY( ) * fElapsedTime );
 }
+
 void CSpell::UpdateTier2( float fElapsedTime )
 {
 	SetPosX( GetPosX( ) + GetVelX( ) * fElapsedTime );

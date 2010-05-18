@@ -33,6 +33,10 @@ CGame::CGame( )
 	m_nSoundID[3]            = -1;
 	m_nSoundID[4]            = -1;
 
+	m_nSoundID[5]            = -1;
+	m_nSoundID[6]            = -1;
+	m_nSoundID[7]            = -1;
+
 	m_nMusicVolume           = 75;
 	m_nSoundEffectVolume     = 75;
 
@@ -40,7 +44,7 @@ CGame::CGame( )
 	m_bIsPaused              = false;
 	m_bIsNotFullscreen       = true;
 
-	srand((unsigned int)time(0));
+	srand( unsigned int( time_t( NULL ) ) );
 }
 
 void CGame::Initialize( HWND hWnd, HINSTANCE hInstance, 
@@ -85,6 +89,21 @@ void CGame::Initialize( HWND hWnd, HINSTANCE hInstance,
 	m_nSoundID[4]   = m_pWM->LoadWave( "resource/audio/Lapidem_PlayerDied.wav" );
 	m_pWM->SetVolume( m_nSoundID[2], GetMusicVolume( ) );
 
+	m_nSoundID[5]   = m_pWM->LoadWave( "resource/audio/Lapidem_PlayerHit.wav" );
+	m_pWM->SetVolume( m_nSoundID[2], GetSoundFXVolume( ) );
+	
+	m_nSoundID[6]   = m_pWM->LoadWave( "resource/audio/Lapidem_ShotFired.wav" );
+	m_pWM->SetVolume( m_nSoundID[2], GetSoundFXVolume( ) );
+	
+	m_nSoundID[7]   = m_pWM->LoadWave( "resource/audio/Lapidem_TileDestroyed.wav" );
+	m_pWM->SetVolume( m_nSoundID[2], GetSoundFXVolume( ) );
+
+	m_nSoundID[8]   = m_pWM->LoadWave( "resource/audio/Lapidem_LevelTwoMusic.wav" );
+	m_pWM->SetVolume( m_nSoundID[2], GetMusicVolume( ) );
+
+	m_nSoundID[9]   = m_pWM->LoadWave( "resource/audio/Lapidem_LevelThreeMusic.wav" );
+	m_pWM->SetVolume( m_nSoundID[2], GetMusicVolume( ) );
+
 	m_dwTimeStamp         = GetTickCount( );
 	m_dwPreviousTimeStamp = GetTickCount( );
 
@@ -95,6 +114,17 @@ void CGame::Shutdown( )
 {	
 	ChangeState( NULL );
 	CSpellFactory::GetInstance( )->DeleteInstance( );
+
+	m_pWM->UnloadWave( m_nSoundID[9] );
+	m_pWM->UnloadWave( m_nSoundID[8] );
+	m_pWM->UnloadWave( m_nSoundID[7] );
+	m_pWM->UnloadWave( m_nSoundID[6] );
+	m_pWM->UnloadWave( m_nSoundID[5] );
+	m_pWM->UnloadWave( m_nSoundID[4] );
+	m_pWM->UnloadWave( m_nSoundID[3] );
+	m_pWM->UnloadWave( m_nSoundID[2] );
+	m_pWM->UnloadWave( m_nSoundID[1] );
+	m_pWM->UnloadWave( m_nSoundID[0] );
 
 	if( m_bmFont )
 	{

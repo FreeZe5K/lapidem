@@ -37,11 +37,6 @@ private:
 	int                     m_nImageID;
 	int                     m_nAttractTimer;
 
-	int                     m_nScrollSpeedOne;
-	int                     m_nScrollSpeedTwo;
-	int                     m_nScrollSpeedThree;
-	int                     m_nScrollSpeedFour;
-
 	CSGD_Direct3D           *m_pD3D;
 	CSGD_TextureManager     *m_pTM;
 	CSGD_DirectSound        *m_pDS;

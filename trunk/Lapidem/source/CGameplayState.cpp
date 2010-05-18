@@ -175,7 +175,6 @@ void CGameplayState::Enter( )
 
 	m_pCoM->AddObject( m_pPlayerOne );
 
-
 	if( m_pPlayerTwo )
 		Corona_EventHandler::GetInstance( )->RegisterClient( this, "P2 OFFSCREEN" );
 	m_fP2RespawnTimer = -1.0f;
@@ -279,10 +278,8 @@ bool CGameplayState::Input( )
 		{
 			if(m_pPlayerTwo->GetEleType() == OBJ_WIND )
 				m_pPlayerTwo->SetEleType( OBJ_EARTH );
-			else
-				m_pPlayerTwo->SetEleType( OBJ_WIND );
+			else m_pPlayerTwo->SetEleType( OBJ_WIND );
 		}
-
 
 		if( m_pDI->JoystickButtonPressed( 4, 1 ) )
 			m_pPlayerTwo->SetEleType( OBJ_WIND );
@@ -309,13 +306,13 @@ void CGameplayState::Update( float fET )
 
 	CParticleManager::GetInstance( )->Update( fET );
 
-	if(!m_bBossSpawned && !strcmp(theLevel.GetNextLevelFileName(), " "))
+	if( !m_bBossSpawned && !strcmp( theLevel.GetNextLevelFileName(), " " ) )
 	{
-		int GameTime = CGame::GetInstance()->GetTimeLeft();
-		if(GameTime < 0)
+		int GameTime( CGame::GetInstance( )->GetTimeLeft( ) );
+
+		if( GameTime < 0 )
 			GameTime = 2;
-		else
-			GameTime = 1;
+		else GameTime = 1;
 
 		thaBoss = new CEnemy(OBJ_SHIELD, 750, 500, GameTime);
 		Corona_ObjectManager::GetInstance()->AddObject(thaBoss);
@@ -377,11 +374,9 @@ void CGameplayState::Update( float fET )
 			m_pPlayerOne->SetPosY( pEntry->GetPosY( ) );
 
 			m_bPlayerReachedEnd = false;
-	
 		}
 	}
-	else
-		m_bPlayerReachedEnd = false;
+	else m_bPlayerReachedEnd = false;
 
 	if( m_bMapActive )
 	{
@@ -447,9 +442,9 @@ void CGameplayState::Update( float fET )
 		m_fMMCurrentRotation[4] = Lapidem_Math::GetInstance( )->
 		AngleBetweenVectors( m_tDir, _end );
 
+		// Internal bug fix
 		//if( theLevel.GetLevelEndX( ) < m_pPlayerOne->GetPosX( ) )
 		//	m_fMMCurrentRotation[4] *= -1;
-
 	}
 
 	m_pCoM->UpdateObjects( CGame::GetInstance( )->GetElapsedTime( ) );
@@ -596,7 +591,6 @@ void CGameplayState::Render( )
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 			420, 0, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-
 		if( OBJ_WIND == m_pPlayerTwo->GetEleType( ) )
 		{
 			sprintf_s( cBuffer, "ELEMENT - %s", "WIND" );
@@ -627,8 +621,6 @@ void CGameplayState::Render( )
 	{
 		m_pTM->Draw( m_nImageID[3], 0, 0 );
 
-		// check if the switch is on or not. 
-		// if the switch has been hit, remove it from the mini-map.
 		if( !theLevel.GetSwitchOneON( ) )
 			m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
 				16.0f, 110.0f, m_fMMCurrentRotation[0] );
@@ -702,25 +694,9 @@ void CGameplayState::HandleEvent( CEvent* pEvent )
 		{
 			m_fP2RespawnTimer = 0.0f;
 			
-			// - - - - - - - -
-			// REPLACE
-			// - - - - - - - - - - - - - - 
-			//CEmitter* emmiter; 
-
-			//emmiter->SetPosX( m_pPlayerTwo->GetPosX( ) );
-			//emmiter->SetPosY( m_pPlayerTwo->GetPosY( ) );
-
 			tVector2D direction;
 			direction._x = ( m_pPlayerOne->GetPosX( ) - m_pPlayerTwo->GetPosX( ) );
 			direction._y = ( m_pPlayerOne->GetPosY( ) - m_pPlayerTwo->GetPosY( ) );
-
-			//direction = Lapidem_Math::GetInstance( )->Vector2DNormalize( direction );
-
-			//emmiter->SetVelX( direction._x * ( m_pPlayerOne->GetPosX( ) - 
-			//	m_pPlayerTwo->GetPosX( ) ) / 1.5f );
-			//emmiter->SetVelY( direction._y * ( m_pPlayerOne->GetPosY( ) - 
-			//	m_pPlayerTwo->GetPosY( ) ) / 1.5f );
-			//CParticleManager::GetInstance( )->AddEmitter( emmiter );
 		}
 	}
 }

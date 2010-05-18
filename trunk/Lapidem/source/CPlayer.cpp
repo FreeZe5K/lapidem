@@ -50,14 +50,14 @@ CPlayer::CPlayer( )
 	Corona_EventHandler::GetInstance()->RegisterClient(this, "EnemyDied");
 }
 
-CPlayer::~CPlayer()
+CPlayer::~CPlayer( )
 {
 	--PlayerCount; 
-	if(m_pReticle)
-		ToggleReticle();
 
-	Corona_EventHandler::GetInstance()->UnregisterClient("TileDestroyed", this);
-	Corona_EventHandler::GetInstance()->UnregisterClient("EnemyDied", this);
+	if( m_pReticle ) ToggleReticle( );
+
+	Corona_EventHandler::GetInstance( )->UnregisterClient( "TileDestroyed", this );
+	Corona_EventHandler::GetInstance( )->UnregisterClient( "EnemyDied", this );
 }
 
 
@@ -86,9 +86,7 @@ void CPlayer::Update( float fElapsedTime )
 	{
 		m_bShielded = false;
 		m_fShieldTimer = 30.0f;
-	}
-
-			
+	}			
 
 	if(Tossed)
 	{
@@ -307,6 +305,8 @@ void CPlayer::Attack( int nTier )
 				else m_nEarthEnergy -= 5;
 			}
 			m_pSpells->CreateEarth( this, nTier );
+			CSGD_WaveManager::GetInstance( )->Play
+				( CGame::GetInstance( )->GetShotFiredSound( ) );
 			break;
 		case OBJ_FIRE:
 			if(nTier == 2)
@@ -316,7 +316,8 @@ void CPlayer::Attack( int nTier )
 				else m_nFireEnergy -= 2;
 			}
 			m_pSpells->CreateFire( this, nTier );
-			//CSGD_WaveManager::GetInstance()->Play( m_nFireSound );
+			CSGD_WaveManager::GetInstance( )->Play
+				( CGame::GetInstance( )->GetShotFiredSound( ) );
 			break;
 		case OBJ_ICE:
 			if(nTier == 2)
@@ -326,18 +327,19 @@ void CPlayer::Attack( int nTier )
 				else m_nWaterEnergy -= 2;
 			}
 			m_pSpells->CreateIce( this, nTier );
-			//CSGD_WaveManager::GetInstance()->Play(m_nIceSound);
+			CSGD_WaveManager::GetInstance( )->Play
+				( CGame::GetInstance( )->GetShotFiredSound( ) );
 			break;
 
 		case OBJ_WIND:
 			if(nTier == 2)
 			{
-				if(m_nWindEnergy < 2)
-					return;
-				else m_nWindEnergy -= 2;
+				if(m_nWindEnergy < 2) return;
+				else m_nWindEnergy = m_nWindEnergy - 2;
 			}
 			m_pSpells->CreateWind( this, nTier );
-			//CSGD_WaveManager::GetInstance()->Play( m_nWindSound );
+			CSGD_WaveManager::GetInstance( )->Play
+				( CGame::GetInstance( )->GetShotFiredSound( ) );
 
 			break;
 		}
@@ -350,7 +352,7 @@ void CPlayer::Jump( )
 	if( m_bIsJumping )
 		return;
 
-	SetVelY(-Jump_Value);
+	SetVelY( -Jump_Value );
 	m_bIsJumping = true;
 }
 
@@ -366,9 +368,7 @@ void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 	{
 		if( collidingObject->GetType( ) == OBJ_TERRA )
 		{
-
 			int TerraType( ( ( CTerrainBase* )collidingObject )->GetTypeTerrain( ) );
-
 
 			if( TerraType == T_LAVA || TerraType == T_WATER)
 			{
@@ -380,23 +380,21 @@ void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 					TakeDamage(5);
 					m_fDrownTimer = 1.f;
 				}
-
 				return;
 			}
-			else
-				m_bIsDrowning = false;
-
+			else m_bIsDrowning = false;
 		}
 
 		if( collidingObject->GetType( ) == OBJ_SPELL)
 		{
-			if(((CSpell*)collidingObject)->GetTier() ==3)
-			{
-				return;
-			}
+			if(((CSpell*)collidingObject)->GetTier() == 3)
+			{ return; }
 			if(!((CSpell*)collidingObject )->PlayerShot())
-			{
-				TakeDamage( ( ( CSpell* )collidingObject )->GetDamage( ) );
+			{ 
+				TakeDamage( ( ( CSpell* )collidingObject )->GetDamage( ) ); 
+
+				CSGD_WaveManager::GetInstance( )->Play
+				( CGame::GetInstance( )->GetPlayerHitSound( ) );
 			}
 		}
 
@@ -432,7 +430,12 @@ void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 		}
 	}
 	else if( collidingObject->GetType( ) == OBJ_SPELL && !( ( CSpell* )collidingObject )->PlayerShot( ) )
+	{
+		CSGD_WaveManager::GetInstance( )->Play
+				( CGame::GetInstance( )->GetPlayerHitSound( ) );
+
 		TakeDamage(( ( CSpell* )collidingObject )->GetDamage( ) );
+	}
 	else if( collidingObject->GetType( ) == OBJ_EVENT )
 	{
 		int TerraType( ( ( CTerrainBase* )collidingObject )->GetTypeTerrain( ) );
@@ -521,7 +524,6 @@ void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 				m_nEarthEnergy += 10;
 			}
 		}
-
 	}
 	else if(collidingObject->GetType() == OBJ_T3SPELL)
 	{
@@ -537,14 +539,15 @@ void CPlayer::ToggleReticle()
 		m_pReticle->SetPosX(GetPosX());
 		m_pReticle->SetPosY(GetPosY() - 32);
 		if(GetPlayerID() == 1)
-			m_pReticle->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Reticle.png", D3DXCOLOR(1,0,1,1)));
+			m_pReticle->SetImage( CSGD_TextureManager::GetInstance()->
+			LoadTexture("resource/graphics/Reticle.png", D3DXCOLOR(1,0,1,1)));
 		else
-			m_pReticle->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Reticle2.png", D3DXCOLOR(1,0,1,1)));
+			m_pReticle->SetImage( CSGD_TextureManager::GetInstance()->
+			LoadTexture("resource/graphics/Reticle2.png", D3DXCOLOR(1,0,1,1)));
 		m_pReticle->SetType(OBJ_RETICLE);
 		m_pReticle->SetWidth(32);
 		m_pReticle->SetHeight(32);
 		Corona_ObjectManager::GetInstance()->AddObject(m_pReticle);
-
 	}
 	else
 	{
@@ -553,11 +556,17 @@ void CPlayer::ToggleReticle()
 		m_pReticle = NULL;
 	}
 }
-void CPlayer::HandleEvent(CEvent * pEvent)
+void CPlayer::HandleEvent( CEvent * pEvent )
 {
-	if(pEvent->GetEventID() == "TileDestroyed" && (CPlayer*)(pEvent->GetData1()) == this)
-		m_nScore += 1;
-	else if(pEvent->GetEventID() =="EnemyDied")
-		m_nScore += 5;
+	if( pEvent->GetEventID( ) == "TileDestroyed" && ( CPlayer* )( pEvent->GetData1( ) ) == this )
+	{
+		if( !CSGD_WaveManager::GetInstance( )->IsWavePlaying
+			( CGame::GetInstance( )->GetTileDestroyedSound( ) ) )
+			CSGD_WaveManager::GetInstance( )->Play
+			( CGame::GetInstance( )->GetTileDestroyedSound( ) );
 
+		m_nScore = m_nScore + 1;
+	}
+	else if( pEvent->GetEventID( ) =="EnemyDied" )
+		m_nScore = m_nScore + 5;
 }
