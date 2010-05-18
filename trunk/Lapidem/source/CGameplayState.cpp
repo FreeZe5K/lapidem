@@ -78,7 +78,8 @@ void CGameplayState::Enter( )
 		m_pPlayerTwo->SetPosX( 190 ); 
 		m_pPlayerTwo->SetPosY( 400 );
 		m_pPlayerTwo->SetAnimation( 0, 0 );
-	}
+	}else
+		m_pPlayerTwo = 0;
 
 	CCamera::InitCamera( 0.0f, 0.0f, float(CGame::GetInstance( )->GetScreenWidth( ) ),
 		float( CGame::GetInstance( )->GetScreenHeight( ) ), m_pPlayerOne, m_pPlayerTwo  );
@@ -467,9 +468,9 @@ void CGameplayState::Update( float fET )
 		}
 	}
 
-	if( m_pPlayerOne->GetFainted() && m_pPlayerTwo )
+	if( m_pPlayerOne->GetFainted()  )//&& m_pPlayerTwo )
 	{
-		if( m_pPlayerTwo->GetFainted() )
+		if( !m_pPlayerTwo || m_pPlayerTwo->GetFainted() )
 		{
 			// Player lost
 			CGameOver::GetInstance( )->SetState( 1 );
