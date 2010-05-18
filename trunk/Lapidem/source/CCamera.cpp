@@ -66,17 +66,22 @@ void CCamera::Update( float fElapsedTime )
 	}
 
 	{
-		if( rPlayer.left < rHook.left )
+		if( rPlayer.left < rHook.left && thePlayer->GetVelX() < -110)
+			theCamera->SetVelocityX( thePlayer->GetVelX());
+		else if( rPlayer.left < rHook.left )
 			theCamera->SetVelocityX( -100 );
+		else if( rPlayer.right > rHook.right && thePlayer->GetVelX() > 110)
+			theCamera->SetVelocityX( thePlayer->GetVelX() );
 		else if( rPlayer.right > rHook.right )
 			theCamera->SetVelocityX( 100 );
 
 		if( rPlayer.top < rHook.top )
 			theCamera->SetVelocityY( -100 );
-		else if(rPlayer.bottom > rHook.bottom)
-			theCamera->SetVelocityY( 200 );
 		else if( rPlayer.bottom > rHook.bottom && thePlayer->GetVelY() > 200)
 			theCamera->SetVelocityY( thePlayer->GetVelY() );
+		else if(rPlayer.bottom > rHook.bottom)
+			theCamera->SetVelocityY( 200 );
+		
 	}
 
 	theCamera->SetCameraXOffset( theCamera->GetXOffset( ) + theCamera->GetVelocityX( ) * fElapsedTime );

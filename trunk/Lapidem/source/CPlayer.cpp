@@ -10,6 +10,10 @@
 
 int CPlayer::PlayerCount = 0;
 
+#define Jump_Value 175
+#define X_Diag 175
+#define Y_Diag 150
+
 CPlayer::CPlayer( )
 {
 	m_fFireTimer       = 0.0f; 
@@ -321,7 +325,7 @@ void CPlayer::Jump( )
 	if( m_bIsJumping )
 		return;
 
-	SetVelY(-150);
+	SetVelY(-Jump_Value);
 	m_bIsJumping = true;
 }
 
@@ -408,41 +412,41 @@ void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 			switch(((CTAirCurrent*)collidingObject)->GetDirection())
 			{
 			case RIGHT_UP:
-				SetVelX(200);
-				SetVelY(-200);
+				SetVelX(X_Diag);
+				SetVelY(-Y_Diag);
 				SetDirection(RIGHT_UP);
 				break;
 			case LEFT_UP:
-				SetVelX(-200);
-				SetVelY(-200);
+				SetVelX(-X_Diag);
+				SetVelY(-Y_Diag);
 				SetDirection(LEFT_UP);
 				break;
 			case RIGHT:
-				SetVelX(200);
+				SetVelX(250);
 				SetDirection(RIGHT);
 				break;
 			case LEFT:
-				SetVelX(-200);
+				SetVelX(-250);
 				SetDirection(LEFT);
 				break;
 			case UP:
-				SetVelY(-200);
+				SetVelY(-250);
 				SetVelX(0.0f);
 				SetDirection(UP);
 				break;
 			case DOWN:
-				SetVelY(200);
+				SetVelY(125);
 				SetVelX(0.0f);
 				SetDirection(DOWN);
 				break;
 			case LEFT_DOWN:
-				SetVelX(-200);
-				SetVelY(250);
+				SetVelX(-X_Diag);
+				SetVelY(Y_Diag);
 				SetDirection(LEFT_DOWN);
 				break;
 			case RIGHT_DOWN:
-				SetVelX(200);
-				SetVelY(250);
+				SetVelX(X_Diag);
+				SetVelY(Y_Diag);
 				SetDirection(RIGHT_DOWN);
 				break;
 			default:

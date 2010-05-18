@@ -95,18 +95,26 @@ void Corona_ObjectManager::RemoveObject(CBase* ObjectToRemove)
 	if(ObjectToRemove == NULL)
 		return;
 
-	vector<CBase*>::iterator iter = Objects.begin();
-
-	while(iter != Objects.end())
-	{
+	for(vector<CBase*>::iterator iter = Objects.begin(); iter != Objects.end(); ++iter)
 		if(*iter == ObjectToRemove)
 		{
 			(*iter)->Release();
 			Objects.erase(iter);
-			return;
+			break;
 		}
-		++iter;
-	}
+
+
+
+	//while(iter != Objects.end())
+	//{
+	//	if(*iter == ObjectToRemove)
+	//	{
+	//		(*iter)->Release();
+	//		Objects.erase(iter);
+	//		return;
+	//	}
+	//	++iter;
+	//}
 }
 
 void Corona_ObjectManager::CheckCollisions(float fElapsedTime)
