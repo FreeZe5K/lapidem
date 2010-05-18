@@ -21,6 +21,9 @@ CGrenade::~CGrenade()
 
 void CGrenade::HandleCollision(float fElapsedTime, CBase* pObject)
 {
+	if(pObject->GetType() < 0)
+		return;
+
 	if( pObject->GetType( ) == OBJ_TERRA || pObject->GetType( ) ==  OBJ_PLAYER  )
 	{
 		if( pObject->GetPosX( ) + 1 > GetPosX( ) + GetWidth( ) || 

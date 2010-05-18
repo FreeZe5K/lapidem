@@ -43,6 +43,9 @@ void CCharacter::Update( float fElapsedTime )
 		SetWidth( animation->GetFrames( )->DrawRect.right - animation->GetFrames( )->DrawRect.left );
 		SetHeight( animation->GetFrames( )->DrawRect.bottom - animation->GetFrames( )->DrawRect.top );
 	}
+
+	if(GetVelY() > 3 && GetVelY() < 50)
+		SetVelY(GetVelY() + Fall_Rate * 2 * fElapsedTime);
 	SetVelY( GetVelY() + Fall_Rate * fElapsedTime );
 }
 

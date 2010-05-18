@@ -174,6 +174,10 @@ float CFlock::GetAverageYVel(float nposx, float nposy, float radius)
 
 void CFlock::HandleCollision(CBase* pObject)
 {
+	if(pObject->GetType() < 0)
+		return;
+
+
 	if(pObject->GetType() == OBJ_FLOCK)
 	{
 

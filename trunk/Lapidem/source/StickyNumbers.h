@@ -10,12 +10,13 @@ class StickyNumbers : public CBase
 	char * m_szText;
 
 public:
-	StickyNumbers() { m_nAlpha = 255; m_szText = 0; }
+	StickyNumbers() { m_nAlpha = 255; m_szText = 0;}
 	~StickyNumbers() { delete[] m_szText; }
 	void Update(float);
 	void Render();
 	void SetTimer(float timer) {m_fTimeStart = m_fTimer = timer;}
 	void SetText(const char * text);// { m_szText = text; }
+	void HandleCollision(float, CBase* );
 };
 
 

@@ -108,6 +108,9 @@ void CWaterTerrain::Update(float fElapsedTime)
 
 void CWaterTerrain::HandleCollision(CBase* pBase)
 {	
+	if(pBase->GetType() < 0)
+		return;
+
 	if(m_bIsFlooding)
 	{
 		if((pBase->GetType() == OBJ_ENEMY && ((CEnemy*)pBase)->GetEleType() != OBJ_ICE))
