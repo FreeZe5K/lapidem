@@ -100,7 +100,7 @@ bool CAuxiliaryState::Input( )
 				m_nChoice = 2;
 		}
 
-		if( m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed( 3 ) )
+		if( m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed( 3 ) || m_pDI->JoystickGetLStickXNormalized() > 0)
 		{
 			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
 
@@ -108,7 +108,7 @@ bool CAuxiliaryState::Input( )
 				m_nChoice = 0;
 		}
 
-		if( m_pDI->KeyDown( DIK_LEFT ) || m_pDI->JoystickDPadDown( 0 ) )
+		if( m_pDI->KeyDown( DIK_LEFT ) || m_pDI->JoystickDPadDown( 0 ) || m_pDI->JoystickGetLStickXNormalized() < 0 )
 		{
 			// Music Volume
 			if( m_nChoice == 0 )
