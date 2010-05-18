@@ -1,10 +1,11 @@
 #include "CCharacter.h"
+#include "stdheaders.h"
 #include "CAnimationWarehouse.h"
 #include "CAnimation.h"
-#include "CCamera.h"
 #include "CSpell.h"
-#include "Wrappers/CSGD_TextureManager.h"
-#include <windows.h>
+
+
+#define Fall_Rate 200
 
 CCharacter::CCharacter( )
 {
@@ -33,6 +34,7 @@ void CCharacter::Render( )
 
 void CCharacter::Update( float fElapsedTime )
 {
+
 	CBase::Update( fElapsedTime );
 
 	if( animation )
@@ -41,7 +43,7 @@ void CCharacter::Update( float fElapsedTime )
 		SetWidth( animation->GetFrames( )->DrawRect.right - animation->GetFrames( )->DrawRect.left );
 		SetHeight( animation->GetFrames( )->DrawRect.bottom - animation->GetFrames( )->DrawRect.top );
 	}
-	SetVelY( GetVelY() + 200 * fElapsedTime );
+	SetVelY( GetVelY() + Fall_Rate * fElapsedTime );
 }
 
 void CCharacter::SetAnimation( int object, int animation, int frame )

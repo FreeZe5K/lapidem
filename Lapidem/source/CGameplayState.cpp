@@ -355,6 +355,12 @@ void CGameplayState::Update( float fET )
 	{
 		if( m_bPlayerReachedEnd )
 		{
+
+			m_pCoM->RemoveAllObjects();
+			m_pCoM->AddObject(m_pPlayerOne);
+			if(m_pPlayerTwo)
+				m_pCoM->AddObject(m_pPlayerTwo);
+
 			theLevel.LoadNextLevel();
 
 			CBase* pEntry = theLevel.GetEntryPoint( );
@@ -362,8 +368,11 @@ void CGameplayState::Update( float fET )
 			m_pPlayerOne->SetPosY( pEntry->GetPosY( ) );
 
 			m_bPlayerReachedEnd = false;
+	
 		}
 	}
+	else
+		m_bPlayerReachedEnd = false;
 
 	if( m_bMapActive )
 	{
@@ -545,19 +554,8 @@ void CGameplayState::Render( )
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 			420, 0, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-		if( OBJ_FIRE == m_pPlayerTwo->GetEleType( ) )
-		{
-			sprintf_s( cBuffer, "ELEMENT  - %s", "FIRE" );
-			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
-				420, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 150, 150 ) );
-		}
-		else if( OBJ_ICE == m_pPlayerTwo->GetEleType( ) )
-		{
-			sprintf_s( cBuffer, "ELEMENT  - %s", "ICE" );			
-			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
-				420, 18, 0.7f, D3DCOLOR_ARGB( 255, 150, 150, 255 ) );
-		}
-		else if( OBJ_WIND == m_pPlayerTwo->GetEleType( ) )
+
+		if( OBJ_WIND == m_pPlayerTwo->GetEleType( ) )
 		{
 			sprintf_s( cBuffer, "ELEMENT  - %s", "WIND" );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 

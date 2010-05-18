@@ -172,7 +172,7 @@ CEnemy::~CEnemy( )
 	newpickup->SetPosY(GetPosY());
 	newpickup->SetActive(true);
 
-	if(!(rand() % 15))
+	if(!(rand() % 20))
 	{
 		newpickup->SetType(OBJ_T3SPELL);
 		newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_SuperEnergy.png"));
@@ -235,16 +235,18 @@ void CEnemy::Update( float fElapsedTime )
 					SetHeight( animation->GetFrames( )->DrawRect.bottom - animation->GetFrames( )->DrawRect.top );
 				}
 			}
+			
+			if(m_SpellType != OBJ_WIND)
+			{
+				CCharacter::Update( fElapsedTime );
+			}
+
 			m_nAttackWho = currState->Update( fElapsedTime, this );
 
 			if( m_nAttackWho && m_fShotTimer < 0 )
 			{
 				m_fWaitTimer += fElapsedTime;
 				m_fShotTimer = 2.0f;
-			}
-			if(m_SpellType != OBJ_WIND)
-			{
-				CCharacter::Update( fElapsedTime );
 			}
 		}
 		else
@@ -323,8 +325,6 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 {
 	if( collidingObject->GetType() == OBJ_TERRA )
 	{
-		//if(((CTerrainBase*)collidingObject)->GetTypeTerrain() == T_EMPTY)
-		//	SetVelX(-GetVelX());
 		if(m_SpellType == OBJ_WIND)
 		{
 			RECT r;
@@ -348,7 +348,6 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 				else if(this->GetPosY( ) < collidingObject->GetPosY( ) )
 				{
 					SetPosY( GetPosY( ) - nRectHeight );
-					SetVelY(0.0);
 				}
 				SetVelX(-GetVelX());
 			}
@@ -376,7 +375,10 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 				if( this->GetPosY( ) > collidingObject->GetPosY( ) )
 					SetPosY( GetPosY( ) + nRectHeight );
 				else if(this->GetPosY( ) < collidingObject->GetPosY( ) )
+				{
 					SetPosY( GetPosY( ) - nRectHeight );
+					SetVelY(0.0);
+				}
 			}
 		}
 	}
@@ -418,7 +420,6 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 			SN->SetPosX( GetPosX());
 			SN->SetPosY( GetPosY() - 24);
 
-			//char * buffer = new char[4];//NULL;
 			char buffer[16];
 
 			sprintf_s(buffer, 16, "%i", TakeDamage(DamageToTake<<1));
@@ -455,7 +456,6 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 			SN->SetPosX( GetPosX());
 			SN->SetPosY( GetPosY() - 24);
 
-			//char * buffer = new char[4];//NULL;
 			char buffer[16];
 
 			sprintf_s(buffer, 16, "%i", TakeDamage(DamageToTake));
