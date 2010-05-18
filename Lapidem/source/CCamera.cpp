@@ -43,11 +43,20 @@ void CCamera::Update( float fElapsedTime )
 	rCamera.top     = LONG( GetYOffset() );
 	rCamera.bottom  = LONG( rCamera.top + GetHeight() );
 
+	CBase* pCurPlayer;
+
 	RECT rPlayer;
 	if( !((CPlayer*)thePlayer)->GetFainted() || thePlayer2 == NULL )
+	{
+		pCurPlayer = thePlayer;
 	 rPlayer    = thePlayer->GetCollisionRect( fElapsedTime );
-	else
+	}
+	else if( thePlayer2 )
+	{
+		pCurPlayer = thePlayer2;
+
 	 rPlayer    = thePlayer2->GetCollisionRect( fElapsedTime );
+	}
 
 
 
@@ -63,8 +72,8 @@ void CCamera::Update( float fElapsedTime )
 
 	if( !IntersectRect( &r, &rPlayer, &rCamera ) )
 	{
-		theCamera->SetCameraXOffset( thePlayer->GetPosX( ) - width / 2 );
-		theCamera->SetCameraYOffset( thePlayer->GetPosY( ) - height / 2 );
+		theCamera->SetCameraXOffset( pCurPlayer->GetPosX( ) - width / 2 );
+		theCamera->SetCameraYOffset( pCurPlayer->GetPosY( ) - height / 2 );
 	}
 
 	if (IntersectRect( &r, &rHook, &rPlayer ) )
@@ -74,19 +83,19 @@ void CCamera::Update( float fElapsedTime )
 	}
 
 	{
-		if( rPlayer.left < rHook.left && thePlayer->GetVelX() < -110)
-			theCamera->SetVelocityX( thePlayer->GetVelX());
+		if( rPlayer.left < rHook.left && pCurPlayer->GetVelX() < -110)
+			theCamera->SetVelocityX( pCurPlayer->GetVelX());
 		else if( rPlayer.left < rHook.left )
 			theCamera->SetVelocityX( -100 );
-		else if( rPlayer.right > rHook.right && thePlayer->GetVelX() > 110)
-			theCamera->SetVelocityX( thePlayer->GetVelX() );
+		else if( rPlayer.right > rHook.right && pCurPlayer->GetVelX() > 110)
+			theCamera->SetVelocityX( pCurPlayer->GetVelX() );
 		else if( rPlayer.right > rHook.right )
 			theCamera->SetVelocityX( 100 );
 
 		if( rPlayer.top < rHook.top )
 			theCamera->SetVelocityY( -100 );
-		else if( rPlayer.bottom > rHook.bottom && thePlayer->GetVelY() > 200)
-			theCamera->SetVelocityY( thePlayer->GetVelY() );
+		else if( rPlayer.bottom > rHook.bottom && pCurPlayer->GetVelY() > 200)
+			theCamera->SetVelocityY( pCurPlayer->GetVelY() );
 		else if(rPlayer.bottom > rHook.bottom)
 			theCamera->SetVelocityY( 200 );
 		
