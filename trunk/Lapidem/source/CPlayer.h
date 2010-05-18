@@ -27,6 +27,8 @@ class CPlayer : public CCharacter, public CLDevice
 	bool m_bIsDrowning;
 	bool m_bIsTouching;
 	float m_fShieldTimer;
+	float RetPosX;
+	float RetPosY;
 
 	void SetPlayerID( int _i )  { PlayerID = _i;      }
 	void ToggleReticle();
