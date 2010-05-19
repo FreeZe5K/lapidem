@@ -2,6 +2,7 @@
 
 #include "IGameState.h"
 #include "CGame.h"
+#include "CHighScores.h"
 
 class CGame;
 class IGameState;
@@ -10,6 +11,7 @@ class CSGD_TextureManager;
 class CSGD_DirectSound;
 class CSGD_WaveManager;
 class CSGD_DirectInput;
+
 
 class CGameOver : public IGameState
 {
@@ -21,6 +23,10 @@ private:
 	int       m_nImageID[2];
 
 	bool      m_bIsAllowedToExit;
+
+	CHighScores	m_HS;
+	Score		m_CurrScore;
+	int m_nLetterSelection;
 
 	CSGD_Direct3D           *m_pD3D;
 	CSGD_TextureManager     *m_pTM;

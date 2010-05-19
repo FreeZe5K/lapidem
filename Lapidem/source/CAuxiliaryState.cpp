@@ -33,6 +33,9 @@ void CAuxiliaryState::Enter( )
 	}
 
 	CGameplayState::GetInstance( )->SetPlayerReachedEnd( false );
+
+	m_HS.Load( "resource/data/scores.bin" );
+
 }
 
 bool CAuxiliaryState::Input( )
@@ -232,20 +235,8 @@ void CAuxiliaryState::Render( )
 	}
 	else if( m_nState == 1 ) // High Scores
 	{
-		int _ScoreHeight( 100 );
-		char _ScoreBuffer[16];
 
-		for( int i = 0; i < 10; i++ )
-		{
-			CGame::GetInstance( )->GetFont( )->Draw( m_szPlayerNames[i].c_str(), 30, 
-				_ScoreHeight, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-
-			sprintf_s( _ScoreBuffer, "%i", m_nPlayerScores[i] );
-			CGame::GetInstance( )->GetFont( )->Draw( _ScoreBuffer, 150, 
-				_ScoreHeight, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-
-			_ScoreHeight = _ScoreHeight + 30;
-		}
+		m_HS.Render();
 
 		CGame::GetInstance( )->GetFont( )->Draw( "PRESS ANY KEY TO CONTINUE", 45, 
 			450, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
