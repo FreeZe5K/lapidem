@@ -708,10 +708,18 @@ void CGameplayState::Exit( )
 	m_pTM->UnloadTexture( m_nImageID[0] );
 	m_pCoM->RemoveAllObjects( );
 
+	
+
 	if( m_pPlayerOne )
+	{
+		AddScore( m_pPlayerOne->GetScore() );
 		m_pPlayerOne->Release( );
+	}
 	if( m_pPlayerTwo )
+	{
+		AddScore( m_pPlayerOne->GetScore() );
 		m_pPlayerTwo->Release( );
+	}
 	if( thaBoss )
 		thaBoss->Release();
 

@@ -86,6 +86,8 @@ public:
 	void    SetLoadedFromFile( bool _b )     { m_bLoadedFromFile      =  _b;  }
 	void    bTwoPlayerMode( bool _b )        { m_bTwoPlayers          =  _b;  }
 	void    SetPlayerReachedEnd( bool _b )   { m_bPlayerReachedEnd    =  _b;  }
+
+	void	AddScore( int _n ) { m_nSinglePlayerScore+=_n; }
 #ifdef _DEBUG
 	void spawnenergy( );
 #endif

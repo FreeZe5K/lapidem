@@ -7,6 +7,7 @@
 
 #include "CGame.h"
 #include "IGameState.h"
+#include "CHighScores.h"
 
 using std::fstream;
 using std::ios;
@@ -23,6 +24,8 @@ private:
 	CSGD_DirectSound        *m_pDS;
 	CSGD_WaveManager        *m_pWM;
 	CSGD_DirectInput        *m_pDI;
+
+	CHighScores				m_HS;
 
 	int                     m_nState;
 	int                     m_nChoice;

@@ -537,6 +537,14 @@
 		<Filter
 			Name="Misc"
 			>
+			<File
+				RelativePath=".\source\CHighScores.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\source\CHighScores.h"
+				>
+			</File>
 			<Filter
 				Name="Header Files"
 				>
