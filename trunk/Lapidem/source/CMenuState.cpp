@@ -523,6 +523,8 @@ void CMenuState::Exit( )
 {
 	CAuxiliaryState::GetInstance( )->SaveConfig( "resource/data/Lapidem_Config.dat" );
 
-	m_pWM->Stop( CGame::GetInstance( )->GetGameBGMusic( ) );
+	m_pWM->Stop( CGame::GetInstance( )->GetLevelOneMusic( ) );
+	m_pWM->Stop( CGame::GetInstance( )->GetLevelTwoMusic( ) );
+	m_pWM->Stop( CGame::GetInstance( )->GetLevelThreeMusic( ) );
 	m_pTM->UnloadTexture( m_nImageID );
 }

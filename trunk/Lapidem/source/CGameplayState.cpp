@@ -22,10 +22,11 @@ void CGameplayState::Enter( )
 	thaBoss        = NULL;
 	m_pPlayerOne   = NULL;
 	m_pPlayerTwo   = NULL;
-	m_fP2RespawnTimer = 0.0f;
-	m_nPlayerOneScore = 0;
-	m_nPlayerTwoScore = 0;
-	m_nSinglePlayerScore = 0;
+	m_fP2RespawnTimer      = 0.0f;
+	m_nPlayerOneScore      = 0;
+	m_nPlayerTwoScore      = 0;
+	m_nSinglePlayerScore   = 0;
+	m_nCurrentLevel        = 1;
 
 	m_pD3D          = CSGD_Direct3D::GetInstance( );
 	m_pTM           = CSGD_TextureManager::GetInstance( );
@@ -78,8 +79,7 @@ void CGameplayState::Enter( )
 		m_pPlayerTwo->SetPosX( 190 ); 
 		m_pPlayerTwo->SetPosY( 400 );
 		m_pPlayerTwo->SetAnimation( 0, 0 );
-	}else
-		m_pPlayerTwo = 0;
+	}else m_pPlayerTwo = 0;
 
 	CCamera::InitCamera( 0.0f, 0.0f, float(CGame::GetInstance( )->GetScreenWidth( ) ),
 		float( CGame::GetInstance( )->GetScreenHeight( ) ), m_pPlayerOne, m_pPlayerTwo  );
@@ -88,19 +88,28 @@ void CGameplayState::Enter( )
 	m_pCoM->SetCamera(CCamera::GetCamera());
 	m_pCeH			= Corona_EventHandler::GetInstance( );
 
-	m_pWM->SetVolume( CGame::GetInstance( )->GetGameBGMusic( ), 
-		CGame::GetInstance( )->GetMusicVolume( ) ); 
+	m_pWM->SetVolume( CGame::GetInstance( )->GetLevelOneMusic( ), 
+			CGame::GetInstance( )->GetMusicVolume( ) ); 
+		m_pWM->SetVolume( CGame::GetInstance( )->GetLevelTwoMusic( ), 
+			CGame::GetInstance( )->GetMusicVolume( ) );
+		m_pWM->SetVolume( CGame::GetInstance( )->GetLevelTwoMusic( ), 
+			CGame::GetInstance( )->GetMusicVolume( ) );
 	m_pWM->SetVolume( CGame::GetInstance( )->GetMenuTick( ), 
 		CGame::GetInstance( )->GetSoundFXVolume( ) ); 
 
 	m_pWM->Stop( CGame::GetInstance( )->GetMainMenuMusic( ) );
-	m_pWM->Play( CGame::GetInstance( )->GetGameBGMusic( ), DSBPLAY_LOOPING );
+	if( m_nCurrentLevel == 1 )
+		m_pWM->Play( CGame::GetInstance( )->GetLevelOneMusic( ), DSBPLAY_LOOPING );
+	else if( m_nCurrentLevel == 2 )
+		m_pWM->Play( CGame::GetInstance( )->GetLevelTwoMusic( ), DSBPLAY_LOOPING );
+	else if( m_nCurrentLevel == 3 )
+		m_pWM->Play( CGame::GetInstance( )->GetLevelThreeMusic( ), DSBPLAY_LOOPING );
 
 	// - - - - - - - - - - - - - -
 	// Change the background image.
 	// - - - - - - - - - - - - - -
-	/* Note by Pablo
-	Background image will be handled by the CLevel.	*/
+	// Note by Pablo ::
+	// Background image will be handled by the CLevel.
 	m_nImageID[0]   = m_pTM->LoadTexture( "resource/graphics/placeholderArt.png");
 	m_nImageID[1]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_ISinglePlayer.png" );
 	m_nImageID[2]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_IMultiPlayer.png" );
@@ -319,6 +328,37 @@ void CGameplayState::Update( float fET )
 		m_bBossSpawned = true;
 	}
 
+	if( m_nCurrentLevel == 1)
+	{
+		if( m_pWM->IsWavePlaying( CGame::GetInstance( )->GetLevelTwoMusic( ) ) )
+			m_pWM->Stop( CGame::GetInstance( )->GetLevelTwoMusic( ) );
+		else if( m_pWM->IsWavePlaying( CGame::GetInstance( )->GetLevelThreeMusic( ) ) )
+			m_pWM->Stop( CGame::GetInstance( )->GetLevelTwoMusic( ) );
+
+		if( !m_pWM->IsWavePlaying( CGame::GetInstance( )->GetLevelOneMusic( ) ) )
+			m_pWM->Play( CGame::GetInstance( )->GetLevelOneMusic( ), DSBPLAY_LOOPING );
+	}
+	else if( m_nCurrentLevel == 2)
+	{
+		if( m_pWM->IsWavePlaying( CGame::GetInstance( )->GetLevelOneMusic( ) ) )
+			m_pWM->Stop( CGame::GetInstance( )->GetLevelOneMusic( ) );
+		else if( m_pWM->IsWavePlaying( CGame::GetInstance( )->GetLevelThreeMusic( ) ) )
+			m_pWM->Stop( CGame::GetInstance( )->GetLevelThreeMusic( ) );
+		
+		if( !m_pWM->IsWavePlaying( CGame::GetInstance( )->GetLevelTwoMusic( ) ) )
+			m_pWM->Play( CGame::GetInstance( )->GetLevelTwoMusic( ), DSBPLAY_LOOPING );
+	}
+	else if( m_nCurrentLevel == 3)
+	{
+		if( m_pWM->IsWavePlaying( CGame::GetInstance( )->GetLevelTwoMusic( ) ) )
+			m_pWM->Stop( CGame::GetInstance( )->GetLevelTwoMusic( ) );
+		else if( m_pWM->IsWavePlaying( CGame::GetInstance( )->GetLevelOneMusic( ) ) )
+			m_pWM->Stop( CGame::GetInstance( )->GetLevelOneMusic( ) );
+		
+		if( !m_pWM->IsWavePlaying( CGame::GetInstance( )->GetLevelThreeMusic( ) ) )
+			m_pWM->Play( CGame::GetInstance( )->GetLevelThreeMusic( ), DSBPLAY_LOOPING );
+	}
+
 	if(m_bBossSpawned && thaBoss->GetHealth() <= 0)
 	{
 		CGameOver::GetInstance( )->SetState( 2 );
@@ -368,6 +408,7 @@ void CGameplayState::Update( float fET )
 				m_pCoM->AddObject(m_pPlayerOne->GetReticle());
 
 			theLevel.LoadNextLevel();
+			++m_nCurrentLevel;
 
 			CBase* pEntry = theLevel.GetEntryPoint( );
 			m_pPlayerOne->SetPosX( pEntry->GetPosX( ) );
@@ -650,8 +691,12 @@ void CGameplayState::Exit( )
 
 	CParticleManager::GetInstance()->ClearAll();
 
-	m_pWM->Stop( CGame::GetInstance( )->GetGameBGMusic( ) );
-	m_pWM->Reset( CGame::GetInstance( )->GetGameBGMusic( ) );
+	m_pWM->Stop( CGame::GetInstance( )->GetLevelOneMusic( ) );
+	m_pWM->Stop( CGame::GetInstance( )->GetLevelTwoMusic( ) );
+	m_pWM->Stop( CGame::GetInstance( )->GetLevelThreeMusic( ) );
+	m_pWM->Reset( CGame::GetInstance( )->GetLevelOneMusic( ) );
+	m_pWM->Reset( CGame::GetInstance( )->GetLevelTwoMusic( ) );
+	m_pWM->Reset( CGame::GetInstance( )->GetLevelThreeMusic( ) );
 	m_pWM->Stop( CGame::GetInstance( )->GetMainMenuMusic( ) );
 	m_pWM->Reset( CGame::GetInstance( )->GetMainMenuMusic( ) );
 

@@ -25,16 +25,6 @@ void CAuxiliaryState::Enter( )
 	m_nImageID[0]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_MainMenuBG.png" );
 	m_nImageID[1]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_HowToPlay.png" );
 
-	// - - - - - - - - - - - - - - - -
-	// Don't touch these. 
-	// They'll be implemented soon.
-	// - - - - - - - - - - - - - - - -
-	m_nScrollSpeedOne     = -128;
-	m_nScrollSpeedTwo     = -128;
-	m_nScrollSpeedThree   = -128;
-	m_nScrollSpeedFour    = -128;
-	// - - - - - - - - - - - - - - - -
-
 	if( m_nState == 1 )
 	{
 		// - - - - - - - - - - - - - - - -
@@ -131,8 +121,12 @@ void CAuxiliaryState::Update( float fET )
 		// - - - - - - - - - - - -
 		// Music volume(s)
 		// - - - - - - - - - - - -
-		m_pWM->SetVolume( CGame::GetInstance( )->GetGameBGMusic( ), 
+		m_pWM->SetVolume( CGame::GetInstance( )->GetLevelOneMusic( ), 
 			CGame::GetInstance( )->GetMusicVolume( ) ); 
+		m_pWM->SetVolume( CGame::GetInstance( )->GetLevelTwoMusic( ), 
+			CGame::GetInstance( )->GetMusicVolume( ) );
+		m_pWM->SetVolume( CGame::GetInstance( )->GetLevelTwoMusic( ), 
+			CGame::GetInstance( )->GetMusicVolume( ) );
 		m_pWM->SetVolume( CGame::GetInstance( )->GetMainMenuMusic( ),
 			CGame::GetInstance( )->GetMusicVolume( ) );
 		m_pWM->SetVolume( CGame::GetInstance( )->GetVictoryMusic( ),
@@ -160,7 +154,7 @@ void CAuxiliaryState::Update( float fET )
 	}
 	else if( m_nState == 3 ) // Credits
 	{
-		if( --m_nCreditScroll < -470 )
+		if( --m_nCreditScroll < -490 )
 			CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
 	}
 }
@@ -169,10 +163,10 @@ void CAuxiliaryState::Render( )
 {
 	if( m_nState == 2 )
 		m_pTM->Draw( m_nImageID[1], 0, 0, 1.0f, 1.0f, 
-		NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 200, 255, 255, 255 ) );
+		NULL, 0.0f, 0.0f, 0.0f, ARGB( 200, 255, 255, 255 ) );
 	else
 		m_pTM->Draw( m_nImageID[0], 0, 0, 1.0f, 1.0f, 
-		NULL, 0.0f, 0.0f, 0.0f, D3DCOLOR_ARGB( 200, 255, 255, 255 ) );
+		NULL, 0.0f, 0.0f, 0.0f, ARGB( 200, 255, 255, 255 ) );
 
 	if( m_nState == 0 ) // Options
 	{
