@@ -16,8 +16,11 @@ class CGameOver : public IGameState
 private:
 	int       m_nState;
 	int       m_nCondition;
+	int       m_nExitTimer;
 
 	int       m_nImageID[2];
+
+	bool      m_bIsAllowedToExit;
 
 	CSGD_Direct3D           *m_pD3D;
 	CSGD_TextureManager     *m_pTM;
