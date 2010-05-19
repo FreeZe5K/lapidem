@@ -8,14 +8,17 @@ CGameOver* CGameOver::GetInstance( )
 
 void CGameOver::Enter( )
 {
-	m_pD3D        = CSGD_Direct3D::GetInstance( );
-	m_pTM         = CSGD_TextureManager::GetInstance( );
-	m_pDS         = CSGD_DirectSound::GetInstance( );
-	m_pWM         = CSGD_WaveManager::GetInstance( );
-	m_pDI         = CSGD_DirectInput::GetInstance( );
+	m_pD3D              = CSGD_Direct3D::GetInstance( );
+	m_pTM        = CSGD_TextureManager::GetInstance( );
+	m_pDS        = CSGD_DirectSound::GetInstance( );
+	m_pWM        = CSGD_WaveManager::GetInstance( );
+	m_pDI        = CSGD_DirectInput::GetInstance( );
 
-	m_nImageID[0] = m_pTM->LoadTexture( "resource/graphics/Lapidem_YouDied.png" );
-	m_nImageID[1] = m_pTM->LoadTexture( "resource/graphics/Lapidem_YouWon.png" );
+	m_nExitTimer        = 0;
+	m_bIsAllowedToExit  = false;
+
+	m_nImageID[0]       = m_pTM->LoadTexture( "resource/graphics/Lapidem_YouDied.png" );
+	m_nImageID[1]       = m_pTM->LoadTexture( "resource/graphics/Lapidem_YouWon.png" );
 
 	m_pWM->SetVolume( CGame::GetInstance( )->GetLostMusic( ), 
 		CGame::GetInstance( )->GetMusicVolume( ) );
@@ -32,18 +35,18 @@ bool CGameOver::Input( )
 {
 	if( 1 == m_nState )
 	{
-		if( m_pDI->CheckBufferedKeysEx( ) || m_pDI->JoystickCheckBufferedButtons() != -1)
+		// Set the state to high scores
+		if( m_bIsAllowedToExit )
 		{
-			// Set the state to high scores
 			CAuxiliaryState::GetInstance( )->SetMenuState( 1 );
 			CGame::GetInstance( )->ChangeState( CAuxiliaryState::GetInstance( ) );
 		}
 	}
 	else if( 2 == m_nState )
 	{
-		if( m_pDI->CheckBufferedKeysEx( ) || m_pDI->JoystickCheckBufferedButtons() != -1)
+		// Set the state to high scores
+		if( m_bIsAllowedToExit )
 		{
-			// Set the state to high scores
 			CAuxiliaryState::GetInstance( )->SetMenuState( 1 );
 			CGame::GetInstance( )->ChangeState( CAuxiliaryState::GetInstance( ) );
 		}
@@ -54,6 +57,8 @@ bool CGameOver::Input( )
 
 void CGameOver::Update( float fDT )
 {
+	if( ++m_nExitTimer > 250 )
+		m_bIsAllowedToExit = true;
 }
 
 void CGameOver::Render( )
@@ -84,6 +89,7 @@ void CGameOver::Render( )
 
 void CGameOver::Exit( )
 {
+	m_bIsAllowedToExit = false;
 	m_pTM->UnloadTexture( m_nImageID[1] );
 	m_pTM->UnloadTexture( m_nImageID[0] );
 }
