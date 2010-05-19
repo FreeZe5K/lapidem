@@ -29,11 +29,6 @@ private:
 	int                     m_nImageID[2];
 	int                     m_nCreditScroll;
 
-	int                     m_nScrollSpeedOne;
-	int                     m_nScrollSpeedTwo;
-	int                     m_nScrollSpeedThree;
-	int                     m_nScrollSpeedFour;
-
 	/////////////////////////
 	// High score info
 	string                  m_szPlayerNames[10];

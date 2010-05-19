@@ -21,6 +21,7 @@ private:
 	int						m_nPlayerOneScore;
 	int						m_nPlayerTwoScore;
 	int						m_nSinglePlayerScore;
+	int                     m_nCurrentLevel;
 
 	float					m_fP2RespawnTimer;
 	float                   m_fMMCurrentRotation[5];
@@ -79,12 +80,12 @@ public:
 	void    SetSinglePlayerScore( int _i )   { m_nSinglePlayerScore   =  _i;  }
 	void    SetPlayerOneScore( int _i )      { m_nPlayerOneScore      =  _i;  }
 	void    SetPlayerTwoScore( int _i )      { m_nPlayerTwoScore      =  _i;  }
+	void    SetCurrentLevel( int _i )        { m_nCurrentLevel        =  _i;  }
 	void    SetSlotLoaded( int _i )          { m_nSlotLoadedFrom      =  _i; m_bLoadedFromFile = true; }
 
 	void    SetLoadedFromFile( bool _b )     { m_bLoadedFromFile      =  _b;  }
 	void    bTwoPlayerMode( bool _b )        { m_bTwoPlayers          =  _b;  }
 	void    SetPlayerReachedEnd( bool _b )   { m_bPlayerReachedEnd    =  _b;  }
-
 #ifdef _DEBUG
 	void spawnenergy( );
 #endif

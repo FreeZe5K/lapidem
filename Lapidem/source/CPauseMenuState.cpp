@@ -90,8 +90,12 @@ bool CPauseMenuState::Input( )
 		// - - - - - - - - - - - -
 		// Music volume(s)
 		// - - - - - - - - - - - -
-		m_pWM->SetVolume( CGame::GetInstance( )->GetGameBGMusic( ), 
+		m_pWM->SetVolume( CGame::GetInstance( )->GetLevelOneMusic( ), 
 			CGame::GetInstance( )->GetMusicVolume( ) ); 
+		m_pWM->SetVolume( CGame::GetInstance( )->GetLevelTwoMusic( ), 
+			CGame::GetInstance( )->GetMusicVolume( ) );
+		m_pWM->SetVolume( CGame::GetInstance( )->GetLevelTwoMusic( ), 
+			CGame::GetInstance( )->GetMusicVolume( ) );
 		m_pWM->SetVolume( CGame::GetInstance( )->GetMainMenuMusic( ),
 			CGame::GetInstance( )->GetMusicVolume( ) );
 		m_pWM->SetVolume( CGame::GetInstance( )->GetVictoryMusic( ),

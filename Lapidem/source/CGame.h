@@ -252,12 +252,14 @@ public:
 
 	int GetMainMenuMusic( )       const      { return m_nSoundID[0];           }
 	int GetMenuTick( )            const      { return m_nSoundID[1];           }
-	int GetGameBGMusic( )         const      { return m_nSoundID[2];           }
+	int GetLevelOneMusic( )       const      { return m_nSoundID[2];           }
 	int GetVictoryMusic( )        const      { return m_nSoundID[3];           }
 	int GetLostMusic( )           const      { return m_nSoundID[4];           }
 	int GetPlayerHitSound( )      const      { return m_nSoundID[5];           }
 	int GetShotFiredSound( )      const      { return m_nSoundID[6];           }
 	int GetTileDestroyedSound( )  const      { return m_nSoundID[7];           }
+	int GetLevelTwoMusic( )       const      { return m_nSoundID[8];           }
+	int GetLevelThreeMusic( )     const      { return m_nSoundID[9];           }
 
 	int GetTimeLeft( )            const      { return m_nTimeLeft;             }
 
