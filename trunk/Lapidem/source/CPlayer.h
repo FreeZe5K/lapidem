@@ -71,4 +71,9 @@ public:
 	int GetT3Count( )	     { return m_nTierThree;   }
 	bool GetTossed( )		 { return Tossed;		  }
 	CBase* GetReticle( )	 { return m_pReticle;	  }
+
+	void setWindEnergy( int _i )  { m_nWindEnergy   = _i; }
+	void setFireEnergy( int _i )  { m_nFireEnergy   = _i; }
+	void setEarthEnergy( int _i ) { m_nEarthEnergy  = _i; }
+	void setIceEnergy( int _i )   { m_nWaterEnergy  = _i; }
 };

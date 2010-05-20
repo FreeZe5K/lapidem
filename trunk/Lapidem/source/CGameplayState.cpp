@@ -68,8 +68,7 @@ void CGameplayState::Enter( )
 				CMenuState::GetInstance( )->SetPlayerCount( 2 );
 			}
 		}
-	}
-	else theLevel.LoadNewLevel( "resource/data/level1.laplvl" );	// if not loaded from file
+	} else theLevel.LoadNewLevel( "resource/data/level1.laplvl" );	// if not loaded from file
 
 	CBase* pEntry = theLevel.GetEntryPoint( );
 
@@ -130,33 +129,58 @@ void CGameplayState::Enter( )
 			pEntry->SetPosY( float( CMenuState::GetInstance( )->GetSlotOne( ).nPositionY ) );
 			m_pPlayerOne->SetPosY( float( CMenuState::GetInstance( )->GetSlotOne( ).nPositionY ) );
 
+			m_pPlayerOne->setWindEnergy( CMenuState::GetInstance( )->GetSlotOne( ).manaP1.nAir );
+			m_pPlayerOne->setFireEnergy( CMenuState::GetInstance( )->GetSlotOne( ).manaP1.nFire );
+			m_pPlayerOne->setEarthEnergy( CMenuState::GetInstance( )->GetSlotOne( ).manaP1.nEarth );
+			m_pPlayerOne->setIceEnergy( CMenuState::GetInstance( )->GetSlotOne( ).manaP1.nIce );
+
+			m_pPlayerOne->SetHealth( CMenuState::GetInstance( )->GetSlotOne( ).nPlayerOneHealth );
+
 			if( 2 == CMenuState::GetInstance( )->GetSlotOne( ).nPlayerCount )
 			{
+				m_pPlayerTwo->SetHealth( CMenuState::GetInstance( )->GetSlotOne( ).nPlayerTwoHealth );
+
 				m_pPlayerTwo->SetPosX( float( CMenuState::GetInstance( )->GetSlotOne( ).nPlayerTwoPosX ) );
 				m_pPlayerTwo->SetPosY( float( CMenuState::GetInstance( )->GetSlotOne( ).nPlayerTwoPosY ) );
+				
+				m_pPlayerTwo->setWindEnergy( CMenuState::GetInstance( )->GetSlotOne( ).manaP2.nAir );
+				m_pPlayerTwo->setFireEnergy( CMenuState::GetInstance( )->GetSlotOne( ).manaP2.nFire );
+				m_pPlayerTwo->setEarthEnergy( CMenuState::GetInstance( )->GetSlotOne( ).manaP2.nEarth );
+				m_pPlayerTwo->setIceEnergy( CMenuState::GetInstance( )->GetSlotOne( ).manaP2.nIce );
 			}
 
 			m_nPlayerOneScore     = CMenuState::GetInstance( )->GetSlotOne( ).nPlayerOneScore;
 			m_nPlayerTwoScore     = CMenuState::GetInstance( )->GetSlotOne( ).nPlayerTwoScore;
-			m_nSinglePlayerScore  = CMenuState::GetInstance( )->GetSlotOne( ).nSinglePlayerScore;
 		}
 		else if( 2 == m_nSlotLoadedFrom )
 		{
 			pEntry->SetPosX( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionX ) );
 			m_pPlayerOne->SetPosX( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionX ) );
-
 			pEntry->SetPosY( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionY ) );
 			m_pPlayerOne->SetPosY( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionY ) );
+			
+			m_pPlayerOne->setWindEnergy( CMenuState::GetInstance( )->GetSlotTwo( ).manaP1.nAir );
+			m_pPlayerOne->setFireEnergy( CMenuState::GetInstance( )->GetSlotTwo( ).manaP1.nFire );
+			m_pPlayerOne->setEarthEnergy( CMenuState::GetInstance( )->GetSlotTwo( ).manaP1.nEarth );
+			m_pPlayerOne->setIceEnergy( CMenuState::GetInstance( )->GetSlotTwo( ).manaP1.nIce );
+
+			m_pPlayerOne->SetHealth( CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerOneHealth );
 
 			if( 2 == CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerCount )
 			{
+				m_pPlayerTwo->SetHealth( CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerTwoHealth );
+
 				m_pPlayerTwo->SetPosX( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerTwoPosX ) );
 				m_pPlayerTwo->SetPosY( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerTwoPosY ) );
+				
+				m_pPlayerTwo->setWindEnergy( CMenuState::GetInstance( )->GetSlotTwo( ).manaP2.nAir );
+				m_pPlayerTwo->setFireEnergy( CMenuState::GetInstance( )->GetSlotTwo( ).manaP2.nFire );
+				m_pPlayerTwo->setEarthEnergy( CMenuState::GetInstance( )->GetSlotTwo( ).manaP2.nEarth );
+				m_pPlayerTwo->setIceEnergy( CMenuState::GetInstance( )->GetSlotTwo( ).manaP2.nIce );
 			}
 
 			m_nPlayerOneScore     = CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerOneScore;
 			m_nPlayerTwoScore     = CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerTwoScore;
-			m_nSinglePlayerScore  = CMenuState::GetInstance( )->GetSlotTwo( ).nSinglePlayerScore;
 		}
 		else if( 3 == m_nSlotLoadedFrom )
 		{
@@ -164,16 +188,29 @@ void CGameplayState::Enter( )
 			m_pPlayerOne->SetPosX( float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionX ) );
 			pEntry->SetPosY( float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionY ) );
 			m_pPlayerOne->SetPosY( float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionY ) );
+			
+			m_pPlayerOne->setWindEnergy( CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nAir );
+			m_pPlayerOne->setFireEnergy( CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nFire );
+			m_pPlayerOne->setEarthEnergy( CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nEarth );
+			m_pPlayerOne->setIceEnergy( CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nIce );
+
+			m_pPlayerOne->SetHealth( CMenuState::GetInstance( )->GetSlotThree( ).nPlayerOneHealth );
 
 			if( 2 == CMenuState::GetInstance( )->GetSlotThree( ).nPlayerCount )
 			{
+				m_pPlayerTwo->SetHealth( CMenuState::GetInstance( )->GetSlotThree( ).nPlayerTwoHealth );
+
 				m_pPlayerTwo->SetPosX( float( CMenuState::GetInstance( )->GetSlotThree( ).nPlayerTwoPosX ) );
 				m_pPlayerTwo->SetPosY( float( CMenuState::GetInstance( )->GetSlotThree( ).nPlayerTwoPosY ) );
+				
+				m_pPlayerTwo->setWindEnergy( CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nAir );
+				m_pPlayerTwo->setFireEnergy( CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nFire );
+				m_pPlayerTwo->setEarthEnergy( CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nEarth );
+				m_pPlayerTwo->setIceEnergy( CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nIce );
 			}
 
 			m_nPlayerOneScore     = CMenuState::GetInstance( )->GetSlotThree( ).nPlayerOneScore;
 			m_nPlayerTwoScore     = CMenuState::GetInstance( )->GetSlotThree( ).nPlayerTwoScore;
-			m_nSinglePlayerScore  = CMenuState::GetInstance( )->GetSlotThree( ).nSinglePlayerScore;
 		}
 	}
 	else

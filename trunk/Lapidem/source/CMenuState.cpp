@@ -419,27 +419,39 @@ bool CMenuState::Load( int _nSlot )
 		fin.read( ( char* )&tSlotOne.nPositionX, sizeof( int ) );
 		fin.read( ( char* )&tSlotOne.nPositionY, sizeof( int ) );
 
+		fin.read( ( char* )&tSlotOne.manaP1.nFire, sizeof( int ) );
+		fin.read( ( char* )&tSlotOne.manaP1.nEarth, sizeof( int ) );
+		fin.read( ( char* )&tSlotOne.manaP1.nIce, sizeof( int ) );
+		fin.read( ( char* )&tSlotOne.manaP1.nAir, sizeof( int ) );
+
+		fin.read( ( char* )&tSlotOne.nPlayerOneHealth, sizeof( int ) );
+
 		if( 2 == tSlotOne.nPlayerCount )
 		{
+			fin.read( ( char* )&tSlotOne.nPlayerTwoHealth, sizeof( int ) );
+
 			fin.read( ( char* )&tSlotOne.nPlayerTwoPosX, sizeof( int ) );
 			fin.read( ( char* )&tSlotOne.nPlayerTwoPosY, sizeof( int ) );
+			
+			fin.read( ( char* )&tSlotOne.manaP2.nFire, sizeof( int ) );
+			fin.read( ( char* )&tSlotOne.manaP2.nEarth, sizeof( int ) );
+			fin.read( ( char* )&tSlotOne.manaP2.nIce, sizeof( int ) );
+			fin.read( ( char* )&tSlotOne.manaP2.nAir, sizeof( int ) );
 		}
 
-		fin.read( ( char* )&tSlotOne.nSinglePlayerScore, sizeof( int ) );
 		fin.read( ( char* )&tSlotOne.nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&tSlotOne.nPlayerTwoScore, sizeof( int ) );
 
-		fin.read((char*)&nDataChunkSize, sizeof(int));
-		if(_nSlot == 1)
+		fin.read( ( char* )&nDataChunkSize, sizeof( int ) );
+
+		if( _nSlot == 1 )
 		{
-			if(!pLevel->LoadLevelFromSave(&fin))
+			if( !pLevel->LoadLevelFromSave( &fin ) )
 			{
-				fin.close();
+				fin.close( );
 				return false;
 			}
-		}
-		else
-			fin.seekg(nDataChunkSize, ios_base::cur);
+		} else fin.seekg( nDataChunkSize, ios_base::cur );
 
 		// - - - - - - - - - - - - - - 
 		// Slot 2
@@ -448,27 +460,39 @@ bool CMenuState::Load( int _nSlot )
 		fin.read( ( char* )&tSlotTwo.nPositionX, sizeof( int ) );
 		fin.read( ( char* )&tSlotTwo.nPositionY, sizeof( int ) );
 
+		fin.read( ( char* )&tSlotTwo.manaP1.nFire, sizeof( int ) );
+		fin.read( ( char* )&tSlotTwo.manaP1.nEarth, sizeof( int ) );
+		fin.read( ( char* )&tSlotTwo.manaP1.nIce, sizeof( int ) );
+		fin.read( ( char* )&tSlotTwo.manaP1.nAir, sizeof( int ) );
+
+		fin.read( ( char* )&tSlotTwo.nPlayerOneHealth, sizeof( int ) );
+
 		if( 2 == tSlotTwo.nPlayerCount )
 		{
+			fin.read( ( char* )&tSlotTwo.nPlayerTwoHealth, sizeof( int ) );
+
 			fin.read( ( char* )&tSlotTwo.nPlayerTwoPosX, sizeof( int ) );
 			fin.read( ( char* )&tSlotTwo.nPlayerTwoPosY, sizeof( int ) );
+			
+			fin.read( ( char* )&tSlotTwo.manaP2.nFire, sizeof( int ) );
+			fin.read( ( char* )&tSlotTwo.manaP2.nEarth, sizeof( int ) );
+			fin.read( ( char* )&tSlotTwo.manaP2.nIce, sizeof( int ) );
+			fin.read( ( char* )&tSlotTwo.manaP2.nAir, sizeof( int ) );
 		}
 
-		fin.read( ( char* )&tSlotTwo.nSinglePlayerScore, sizeof( int ) );
 		fin.read( ( char* )&tSlotTwo.nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&tSlotTwo.nPlayerTwoScore, sizeof( int ) );
 
-		fin.read((char*)&nDataChunkSize, sizeof(int));
-		if(_nSlot == 2)
+		fin.read( ( char* )&nDataChunkSize, sizeof( int ) );
+		
+		if( _nSlot == 2 )
 		{
-			if(!pLevel->LoadLevelFromSave(&fin))
+			if( !pLevel->LoadLevelFromSave( &fin ) )
 			{
-				fin.close();
+				fin.close( );
 				return false;
 			}
-		}
-		else
-			fin.seekg(nDataChunkSize, ios_base::cur);
+		} else fin.seekg( nDataChunkSize, ios_base::cur );
 
 		// - - - - - - - - - - - - - - 
 		// Slot 3
@@ -477,18 +501,32 @@ bool CMenuState::Load( int _nSlot )
 		fin.read( ( char* )&tSlotThree.nPositionX, sizeof( int ) );
 		fin.read( ( char* )&tSlotThree.nPositionY, sizeof( int ) );
 
+		fin.read( ( char* )&tSlotThree.manaP1.nFire, sizeof( int ) );
+		fin.read( ( char* )&tSlotThree.manaP1.nEarth, sizeof( int ) );
+		fin.read( ( char* )&tSlotThree.manaP1.nIce, sizeof( int ) );
+		fin.read( ( char* )&tSlotThree.manaP1.nAir, sizeof( int ) );
+
+		fin.read( ( char* )&tSlotThree.nPlayerOneHealth, sizeof( int ) );
+
 		if( 2 == tSlotThree.nPlayerCount )
 		{
+			fin.read( ( char* )&tSlotThree.nPlayerTwoHealth, sizeof( int ) );
+
 			fin.read( ( char* )&tSlotThree.nPlayerTwoPosX, sizeof( int ) );
 			fin.read( ( char* )&tSlotThree.nPlayerTwoPosY, sizeof( int ) );
+			
+			fin.read( ( char* )&tSlotThree.manaP2.nFire, sizeof( int ) );
+			fin.read( ( char* )&tSlotThree.manaP2.nEarth, sizeof( int ) );
+			fin.read( ( char* )&tSlotThree.manaP2.nIce, sizeof( int ) );
+			fin.read( ( char* )&tSlotThree.manaP2.nAir, sizeof( int ) );
 		}
 
-		fin.read( ( char* )&tSlotThree.nSinglePlayerScore, sizeof( int ) );
 		fin.read( ( char* )&tSlotThree.nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&tSlotThree.nPlayerTwoScore, sizeof( int ) );
 
-		fin.read((char*)&nDataChunkSize, sizeof(int));
-		if(_nSlot == 3)
+		fin.read( ( char*)&nDataChunkSize, sizeof( int ) );
+
+		if( _nSlot == 3 )
 		{
 			if(!pLevel->LoadLevelFromSave(&fin))
 			{
