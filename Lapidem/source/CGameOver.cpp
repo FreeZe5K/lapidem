@@ -46,6 +46,16 @@ bool CGameOver::Input( )
 	if( 1 == m_nState )
 	{
 		// Set the state to high scores
+		if( m_bIsAllowedToExit )
+		{
+		CAuxiliaryState::GetInstance( )->SetMenuState( 1 );
+		CGame::GetInstance( )->ChangeState( CAuxiliaryState::GetInstance( ) );
+		}
+
+	}
+	else if( 2 == m_nState )
+	{
+		// Set the state to high scores
 		/*if( m_bIsAllowedToExit )
 		{
 		CAuxiliaryState::GetInstance( )->SetMenuState( 1 );
@@ -59,8 +69,6 @@ bool CGameOver::Input( )
 				m_HS.Add( m_CurrScore.score, m_CurrScore.name );
 			}
 
-
-			
 		CAuxiliaryState::GetInstance( )->SetMenuState( 1 );
 		CGame::GetInstance( )->ChangeState( CAuxiliaryState::GetInstance( ) );
 
@@ -74,29 +82,8 @@ bool CGameOver::Input( )
 		else if( m_pDI->KeyPressedEx ( DIK_LEFT ) )
 			m_nLetterSelection--;
 		else if( m_pDI->KeyPressedEx ( DIK_RIGHT ) )
-			m_nLetterSelection++;
-	}
-	else if( 2 == m_nState )
-	{
-		// Set the state to high scores
-		/*if( m_bIsAllowedToExit )
-		{
-		CAuxiliaryState::GetInstance( )->SetMenuState( 1 );
-		CGame::GetInstance( )->ChangeState( CAuxiliaryState::GetInstance( ) );
-		}*/
-
-		if( m_pDI->KeyPressedEx ( DIK_UP ) )
-			m_CurrScore.name[m_nLetterSelection] += 1;
-		else if( m_pDI->KeyPressedEx ( DIK_DOWN ) )
-			m_CurrScore.name[m_nLetterSelection] -= 1;
-
-		else if( m_pDI->KeyPressedEx ( DIK_LEFT ) )
-			m_nLetterSelection++;
-		else if( m_pDI->KeyPressedEx ( DIK_RIGHT ) )
-			m_nLetterSelection--;
-
-
-
+			m_nLetterSelection++;	
+	
 	}
 
 	return true;
@@ -127,6 +114,17 @@ void CGameOver::Render( )
 	if( 1 == m_nState ) // Player lost
 	{
 		m_pTM->Draw( m_nImageID[0], 0, 0 );
+		if( 0 == m_nCondition ) // Timer ran out
+		{
+		}
+		else if( 1 == m_nCondition ) // Health ran out
+		{
+		}
+	}
+	else if( 2 == m_nState ) // Player won
+	{
+		m_pTM->Draw( m_nImageID[1], 0, 0 );
+
 
 		char cBuffer[128];
 		char szFirstLetter[] = "a";
@@ -176,23 +174,6 @@ void CGameOver::Render( )
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 			420, 400, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-		if( 0 == m_nCondition ) // Timer ran out
-		{
-		}
-		else if( 1 == m_nCondition ) // Health ran out
-		{
-		}
-	}
-	else if( 2 == m_nState ) // Player won
-	{
-		m_pTM->Draw( m_nImageID[1], 0, 0 );
-
-		char cBuffer[128];
-		sprintf_s( cBuffer, "%i", m_CurrScore.score );
-		CGame::GetInstance( )->GetFont( )->Draw( m_CurrScore.name, 
-			220, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
-			420, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
 	}
 }
