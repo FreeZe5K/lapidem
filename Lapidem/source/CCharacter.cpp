@@ -27,7 +27,7 @@ void CCharacter::Render( )
 			CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
 			int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ),
 			int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
-			1.0f, 1.0f, &animation->GetFrames( )->DrawRect );
+			1.0f, 1.0f, &animation->GetFrames( )->DrawRect);
 		else if( animation->GetImageID( ) != -1 && IsRotated )
 		{
 			CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
