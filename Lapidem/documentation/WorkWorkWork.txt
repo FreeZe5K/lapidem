@@ -8,8 +8,6 @@ Tiles  :: Always Destructable
 Water  :: No Excessive Rising && Freezing
 
 Sister :: Animations
-Doctor :: Summons more Enemies
-Timer  :: 5-7 minutes?
 
 GiantFire Ball :: Tick
 Tier 3 Fire    :: Balance
@@ -19,9 +17,6 @@ Tier 2 Ice     :: Work
 //Non Critical
 Sound Effects
 Config File
-Timer
-Doctor Summons More Enemies
-GiantFire Ball
 Tier 3 fire
 Sister animations
 Attract Mode
