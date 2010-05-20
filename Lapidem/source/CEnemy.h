@@ -23,6 +23,7 @@ private:
 public:
 	CEnemy( EleType, float, float, int boss = 0, CFlock* Flock = NULL ); 
 	~CEnemy();
+	void Render(void);
 	void Update( float );
 	void HandleCollision(float, CBase* );
 	void SetWait( float _f )          { m_fWaitTimer = _f;}

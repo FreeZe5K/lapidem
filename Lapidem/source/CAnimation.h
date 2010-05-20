@@ -34,6 +34,7 @@ public:
 	CAnimation();
 	~CAnimation();
 	void Update(float fElapsedTime);
+	char* GetTrigger(void) {return m_vFrames[m_nFrame]->Trigger;}
 	void Play()
 	{
 		m_bIsPlaying = !m_bIsPlaying;
@@ -43,6 +44,10 @@ public:
 		m_bIsPlaying = false;
 		m_nFrame = 0;
 
+	}
+	void Reset()
+	{
+		m_nFrame = 0;
 	}
 	void Resume()
 	{

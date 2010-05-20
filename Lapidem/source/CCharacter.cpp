@@ -42,12 +42,9 @@ void CCharacter::Update( float fElapsedTime )
 {
 
 	CBase::Update( fElapsedTime );
-
 	if( animation )
 	{
 		animation->Update( fElapsedTime );
-		SetWidth( animation->GetFrames( )->DrawRect.right - animation->GetFrames( )->DrawRect.left );
-		SetHeight( animation->GetFrames( )->DrawRect.bottom - animation->GetFrames( )->DrawRect.top );
 	}
 
 	if(GetVelY() > 3 && GetVelY() < 50)
@@ -59,7 +56,7 @@ void CCharacter::SetAnimation( int object, int animation, int frame )
 {
 	this->animation = ( CAnimationWarehouse::GetInstance
 		( )->GetAnimation(object,animation ) );
-	currAnimation = 0;
+	currAnimation = animation;
 }
 
 void CCharacter::SetEleType( EleType newType )

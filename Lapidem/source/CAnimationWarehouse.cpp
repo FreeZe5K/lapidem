@@ -27,7 +27,7 @@ void CAnimationWarehouse::DeleteInstance(void)
 		}
 	}
 
-void CAnimationWarehouse::LoadAnimationSet(char* Filename, DWORD keycolor)
+void CAnimationWarehouse::LoadAnimationSet(char* Filename, DWORD keycolor, char* imagepath)
 {
 	ifstream in;
 	in.open(Filename,ios_base::binary);
@@ -64,7 +64,7 @@ void CAnimationWarehouse::LoadAnimationSet(char* Filename, DWORD keycolor)
 			PictureFileName[PictureFileNameLength] =0;
 
 			//load into texture manager and save id
-			anim->SetImageID(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/highpriest_m_sheet.bmp",keycolor));
+			anim->SetImageID(CSGD_TextureManager::GetInstance()->LoadTexture(imagepath,keycolor));
 			delete[] PictureFileName;
 
 			bool looping;
@@ -132,5 +132,9 @@ CAnimation* CAnimationWarehouse::GetAnimation(int nAnimationSet, int nAnimation)
 
 void CAnimationWarehouse::Init(void)
 {
-	
+	LoadAnimationSet("resource/idlewalk.Anim", D3DCOLOR_XRGB(255, 255, 255),"resource/graphics/highpriest_m_sheet.bmp");
+	LoadAnimationSet("resource/fireEnemy.Anim", D3DCOLOR_XRGB(255, 255, 255),"resource/graphics/Lapid_lulzfireenemy.png");
+	LoadAnimationSet("resource/iceEnemy.Anim", D3DCOLOR_XRGB(127, 127, 127),"resource/graphics/lapidemIce.png");
+	LoadAnimationSet("resource/windEnemy.Anim", D3DCOLOR_XRGB(195, 195, 195),"resource/graphics/bird.png");
+	LoadAnimationSet("resource/earthEnemy.Anim", NULL ,"resource/graphics/Lapidem_lulzenemy.png");
 }

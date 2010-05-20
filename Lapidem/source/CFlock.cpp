@@ -58,7 +58,7 @@ void CFlock::RemoveMember(CEnemy* removeme)
 			++iter;
 		}
 	}
-	if(m_vFlock.size() == 0)
+	else 
 	{
 		SetActive(false);
 	}

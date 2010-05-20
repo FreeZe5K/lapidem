@@ -85,6 +85,12 @@ void CPlayer::Update( float fElapsedTime )
 		m_bShielded = false;
 		m_fShieldTimer = 30.0f;
 	}			
+	
+	if( animation )
+	{
+		SetWidth( animation->GetFrames( )->DrawRect.right - animation->GetFrames( )->DrawRect.left );
+		SetHeight( animation->GetFrames( )->DrawRect.bottom - animation->GetFrames( )->DrawRect.top );
+	}
 
 	if(Tossed)
 	{
