@@ -532,6 +532,7 @@ void CGameplayState::Render( )
 	m_pCoM->RenderObjects( );
 	CParticleManager::GetInstance( )->Render( );
 
+	
 	if( 1 == CMenuState::GetInstance( )->GetPlayerCount( ) )
 	{
 		m_pTM->Draw( m_nImageID[1], 0, 0, 1.0f, 1.0f, NULL, 
@@ -542,13 +543,14 @@ void CGameplayState::Render( )
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 			5, 0, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-		
+
 
 		if( OBJ_FIRE == m_pPlayerOne->GetEleType( ) )
 		{
 			sprintf_s( cBuffer, "ELEMENT - %s - %i", "FIRE", m_pPlayerOne->GetFireEnergy() );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 150, 150 ) );
+
 		}
 		else if( OBJ_ICE == m_pPlayerOne->GetEleType( ) )
 		{
@@ -568,6 +570,11 @@ void CGameplayState::Render( )
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 160, 255, 40 ) );
 		}
+
+		sprintf_s( cBuffer, "%i",  m_pPlayerOne->GetT3Count());
+		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+			250, 20, 1.5f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
 
 		sprintf_s( cBuffer, "SCORE  - %i", GetPlayerOne( )->GetScore( ));
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
@@ -590,7 +597,7 @@ void CGameplayState::Render( )
 			sprintf_s( cBuffer, "ELEMENT - %s", "FIRE" );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 				5, 18, 0.7f, D3DCOLOR_ARGB( 255, 255, 150, 150 ) );
-			
+
 			sprintf_s( cBuffer, "ENERGY  - %i", m_pPlayerOne->GetFireEnergy() );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 			5, 35, 0.7f, D3DCOLOR_ARGB( 255, 255, 150, 150 ) );
@@ -603,7 +610,7 @@ void CGameplayState::Render( )
 
 			sprintf_s( cBuffer, "ENERGY  - %i", m_pPlayerOne->GetIceEnergy() );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
-			5, 35, 0.7f, D3DCOLOR_ARGB( 255, 150, 150, 255 ));
+				5, 35, 0.7f, D3DCOLOR_ARGB( 255, 150, 150, 255 ));
 		}
 		else if( OBJ_WIND == m_pPlayerOne->GetEleType( ) )
 		{
@@ -613,7 +620,7 @@ void CGameplayState::Render( )
 
 			sprintf_s( cBuffer, "ENERGY  - %i", m_pPlayerOne->GetWindEnergy() );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
-			5, 35, 0.7f,D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				5, 35, 0.7f,D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( OBJ_EARTH == m_pPlayerOne->GetEleType( ) )
 		{
@@ -623,7 +630,7 @@ void CGameplayState::Render( )
 
 			sprintf_s( cBuffer, "ENERGY  - %i", m_pPlayerOne->GetEarthEnergy() );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
-			5, 35, 0.7f, D3DCOLOR_ARGB( 255, 160, 255, 40 ) );
+				5, 35, 0.7f, D3DCOLOR_ARGB( 255, 160, 255, 40 ) );
 		}
 
 		// Player two
@@ -640,7 +647,7 @@ void CGameplayState::Render( )
 
 			sprintf_s( cBuffer, "ENERGY  - %i", m_pPlayerTwo->GetWindEnergy() );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
-			420, 35, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				420, 35, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( OBJ_EARTH == m_pPlayerTwo->GetEleType( ) )
 		{
@@ -650,13 +657,28 @@ void CGameplayState::Render( )
 
 			sprintf_s( cBuffer, "ENERGY  - %i", m_pPlayerTwo->GetEarthEnergy() );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
-			420, 35, 0.7f,D3DCOLOR_ARGB( 255, 160, 255, 40 ) );
+				420, 35, 0.7f,D3DCOLOR_ARGB( 255, 160, 255, 40 ) );
 		}
-
-		sprintf_s( cBuffer, "%i -SCORE- %i", GetPlayerOne( )->GetScore( ),GetPlayerTwo( )->GetScore( ) );
+		sprintf_s( cBuffer, "%i",  m_pPlayerOne->GetT3Count());
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
-			250, 0, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			250, 20, 1.5f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+		sprintf_s( cBuffer, "%i",  m_pPlayerTwo->GetT3Count());
+		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+			340, 20, 1.5f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+	
+		sprintf_s( cBuffer, "SCORE- %i", GetPlayerOne( )->GetScore( ));//,GetPlayerTwo( )->GetScore( ) );
+		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+			5, 50, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		sprintf_s( cBuffer, "SCORE- %i", GetPlayerTwo( )->GetScore( ) );
+		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+			420, 50, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+		//CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
+		//	240, 0, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	}
+
 
 	if( m_bMapActive )
 	{
