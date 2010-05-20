@@ -40,7 +40,7 @@ void CGameplayState::Enter( )
 
 	m_pPlayerOne	= new CPlayer( );
 	m_pPlayerOne->SetAnimation( 0, 0 );
-	
+
 	if( m_bLoadedFromFile )
 	{
 		if( 1 == m_nSlotLoadedFrom )
@@ -87,15 +87,23 @@ void CGameplayState::Enter( )
 	m_pCeH			= Corona_EventHandler::GetInstance( );
 
 	m_pWM->SetVolume( CGame::GetInstance( )->GetLevelOneMusic( ), 
-			CGame::GetInstance( )->GetMusicVolume( ) ); 
-		m_pWM->SetVolume( CGame::GetInstance( )->GetLevelTwoMusic( ), 
-			CGame::GetInstance( )->GetMusicVolume( ) );
-		m_pWM->SetVolume( CGame::GetInstance( )->GetLevelTwoMusic( ), 
-			CGame::GetInstance( )->GetMusicVolume( ) );
+		CGame::GetInstance( )->GetMusicVolume( ) ); 
+	m_pWM->SetVolume( CGame::GetInstance( )->GetLevelTwoMusic( ), 
+		CGame::GetInstance( )->GetMusicVolume( ) );
+	m_pWM->SetVolume( CGame::GetInstance( )->GetLevelTwoMusic( ), 
+		CGame::GetInstance( )->GetMusicVolume( ) );
+
 	m_pWM->SetVolume( CGame::GetInstance( )->GetMenuTick( ), 
 		CGame::GetInstance( )->GetSoundFXVolume( ) ); 
+	m_pWM->SetVolume( CGame::GetInstance( )->GetPlayerHitSound( ), 
+		CGame::GetInstance( )->GetSoundFXVolume( ) ); 
+	m_pWM->SetVolume( CGame::GetInstance( )->GetShotFiredSound( ), 
+		CGame::GetInstance( )->GetSoundFXVolume( ) ); 
+	m_pWM->SetVolume( CGame::GetInstance( )->GetTileDestroyedSound( ), 
+		CGame::GetInstance( )->GetSoundFXVolume( ) );
 
 	m_pWM->Stop( CGame::GetInstance( )->GetMainMenuMusic( ) );
+
 	if( m_nCurrentLevel == 1 )
 		m_pWM->Play( CGame::GetInstance( )->GetLevelOneMusic( ), DSBPLAY_LOOPING );
 	else if( m_nCurrentLevel == 2 )
@@ -141,7 +149,7 @@ void CGameplayState::Enter( )
 
 				m_pPlayerTwo->SetPosX( float( CMenuState::GetInstance( )->GetSlotOne( ).nPlayerTwoPosX ) );
 				m_pPlayerTwo->SetPosY( float( CMenuState::GetInstance( )->GetSlotOne( ).nPlayerTwoPosY ) );
-				
+
 				m_pPlayerTwo->setWindEnergy( CMenuState::GetInstance( )->GetSlotOne( ).manaP2.nAir );
 				m_pPlayerTwo->setFireEnergy( CMenuState::GetInstance( )->GetSlotOne( ).manaP2.nFire );
 				m_pPlayerTwo->setEarthEnergy( CMenuState::GetInstance( )->GetSlotOne( ).manaP2.nEarth );
@@ -157,7 +165,7 @@ void CGameplayState::Enter( )
 			m_pPlayerOne->SetPosX( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionX ) );
 			pEntry->SetPosY( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionY ) );
 			m_pPlayerOne->SetPosY( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionY ) );
-			
+
 			m_pPlayerOne->setWindEnergy( CMenuState::GetInstance( )->GetSlotTwo( ).manaP1.nAir );
 			m_pPlayerOne->setFireEnergy( CMenuState::GetInstance( )->GetSlotTwo( ).manaP1.nFire );
 			m_pPlayerOne->setEarthEnergy( CMenuState::GetInstance( )->GetSlotTwo( ).manaP1.nEarth );
@@ -171,7 +179,7 @@ void CGameplayState::Enter( )
 
 				m_pPlayerTwo->SetPosX( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerTwoPosX ) );
 				m_pPlayerTwo->SetPosY( float( CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerTwoPosY ) );
-				
+
 				m_pPlayerTwo->setWindEnergy( CMenuState::GetInstance( )->GetSlotTwo( ).manaP2.nAir );
 				m_pPlayerTwo->setFireEnergy( CMenuState::GetInstance( )->GetSlotTwo( ).manaP2.nFire );
 				m_pPlayerTwo->setEarthEnergy( CMenuState::GetInstance( )->GetSlotTwo( ).manaP2.nEarth );
@@ -187,7 +195,7 @@ void CGameplayState::Enter( )
 			m_pPlayerOne->SetPosX( float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionX ) );
 			pEntry->SetPosY( float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionY ) );
 			m_pPlayerOne->SetPosY( float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionY ) );
-			
+
 			m_pPlayerOne->setWindEnergy( CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nAir );
 			m_pPlayerOne->setFireEnergy( CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nFire );
 			m_pPlayerOne->setEarthEnergy( CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nEarth );
@@ -201,7 +209,7 @@ void CGameplayState::Enter( )
 
 				m_pPlayerTwo->SetPosX( float( CMenuState::GetInstance( )->GetSlotThree( ).nPlayerTwoPosX ) );
 				m_pPlayerTwo->SetPosY( float( CMenuState::GetInstance( )->GetSlotThree( ).nPlayerTwoPosY ) );
-				
+
 				m_pPlayerTwo->setWindEnergy( CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nAir );
 				m_pPlayerTwo->setFireEnergy( CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nFire );
 				m_pPlayerTwo->setEarthEnergy( CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nEarth );
@@ -380,7 +388,7 @@ void CGameplayState::Update( float fET )
 			m_pWM->Stop( CGame::GetInstance( )->GetLevelOneMusic( ) );
 		else if( m_pWM->IsWavePlaying( CGame::GetInstance( )->GetLevelThreeMusic( ) ) )
 			m_pWM->Stop( CGame::GetInstance( )->GetLevelThreeMusic( ) );
-		
+
 		if( !m_pWM->IsWavePlaying( CGame::GetInstance( )->GetLevelTwoMusic( ) ) )
 			m_pWM->Play( CGame::GetInstance( )->GetLevelTwoMusic( ), DSBPLAY_LOOPING );
 	}
@@ -390,7 +398,7 @@ void CGameplayState::Update( float fET )
 			m_pWM->Stop( CGame::GetInstance( )->GetLevelTwoMusic( ) );
 		else if( m_pWM->IsWavePlaying( CGame::GetInstance( )->GetLevelOneMusic( ) ) )
 			m_pWM->Stop( CGame::GetInstance( )->GetLevelOneMusic( ) );
-		
+
 		if( !m_pWM->IsWavePlaying( CGame::GetInstance( )->GetLevelThreeMusic( ) ) )
 			m_pWM->Play( CGame::GetInstance( )->GetLevelThreeMusic( ), DSBPLAY_LOOPING );
 	}
@@ -517,7 +525,7 @@ void CGameplayState::Update( float fET )
 		_end._y = theLevel.GetLevelEndY( ) - m_pPlayerOne->GetPosY( );
 
 		m_fMMCurrentRotation[4] = Lapidem_Math::GetInstance( )->
-		AngleBetweenVectors( m_tDir, _end );
+			AngleBetweenVectors( m_tDir, _end );
 
 		// Internal bug fix
 		//if( theLevel.GetLevelEndX( ) < m_pPlayerOne->GetPosX( ) )
@@ -568,7 +576,7 @@ void CGameplayState::Render( )
 	m_pCoM->RenderObjects( );
 	CParticleManager::GetInstance( )->Render( );
 
-	
+
 	if( 1 == CMenuState::GetInstance( )->GetPlayerCount( ) )
 	{
 		m_pTM->Draw( m_nImageID[1], 0, 0, 1.0f, 1.0f, NULL, 
@@ -636,7 +644,7 @@ void CGameplayState::Render( )
 
 			sprintf_s( cBuffer, "ENERGY  - %i", m_pPlayerOne->GetFireEnergy() );
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
-			5, 35, 0.7f, D3DCOLOR_ARGB( 255, 255, 150, 150 ) );
+				5, 35, 0.7f, D3DCOLOR_ARGB( 255, 255, 150, 150 ) );
 		}
 		else if( OBJ_ICE == m_pPlayerOne->GetEleType( ) )
 		{
@@ -703,7 +711,7 @@ void CGameplayState::Render( )
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 			340, 20, 1.5f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-	
+
 		sprintf_s( cBuffer, "SCORE- %i", GetPlayerOne( )->GetScore( ));//,GetPlayerTwo( )->GetScore( ) );
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 			5, 50, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
@@ -722,23 +730,23 @@ void CGameplayState::Render( )
 
 		if( !theLevel.GetSwitchOneON( ) )
 			m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
-				16.0f, 110.0f, m_fMMCurrentRotation[0] );
+			16.0f, 110.0f, m_fMMCurrentRotation[0] );
 
 		if( !theLevel.GetSwitchTwoON( ) )
 			m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
-				16.0f, 110.0f, m_fMMCurrentRotation[1] );
+			16.0f, 110.0f, m_fMMCurrentRotation[1] );
 
 		if( !theLevel.GetSwitchThreeON( ) )
 			m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
-				16.0f, 110.0f, m_fMMCurrentRotation[2] );
+			16.0f, 110.0f, m_fMMCurrentRotation[2] );
 
 		if( !theLevel.GetSwitchFourON( ) )
 			m_pTM->Draw( m_nImageID[4], 53, 385, 0.4f, 0.4f, NULL,
-				16.0f, 110.0f, m_fMMCurrentRotation[3] );
+			16.0f, 110.0f, m_fMMCurrentRotation[3] );
 
 		if( theLevel.NextLevelOpen( ) )
 			m_pTM->Draw( m_nImageID[5], 53, 385, 0.4f, 0.4f, NULL,
-				16.0f, 110.0f, m_fMMCurrentRotation[4] );
+			16.0f, 110.0f, m_fMMCurrentRotation[4] );
 	}
 }
 
@@ -766,7 +774,7 @@ void CGameplayState::Exit( )
 	m_pTM->UnloadTexture( m_nImageID[0] );
 	m_pCoM->RemoveAllObjects( );
 
-	
+
 
 	if( m_pPlayerOne )
 	{
@@ -804,7 +812,7 @@ void CGameplayState::HandleEvent( CEvent* pEvent )
 		if( m_fP2RespawnTimer == -1.0f )
 		{
 			m_fP2RespawnTimer = 0.0f;
-			
+
 			tVector2D direction;
 			direction._x = ( m_pPlayerOne->GetPosX( ) - m_pPlayerTwo->GetPosX( ) );
 			direction._y = ( m_pPlayerOne->GetPosY( ) - m_pPlayerTwo->GetPosY( ) );
