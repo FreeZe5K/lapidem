@@ -26,9 +26,20 @@ private:
 		int            nPositionY;
 		int            nPlayerTwoPosX;
 		int            nPlayerTwoPosY;
-		int            nSinglePlayerScore;
+
 		int            nPlayerOneScore;
 		int            nPlayerTwoScore;
+
+		int            nPlayerOneHealth;
+		int            nPlayerTwoHealth;
+
+		struct tMana
+		{
+			int        nFire;
+			int        nEarth;
+			int        nIce;
+			int        nAir;
+		} manaP1, manaP2;
 	} tSlotOne, tSlotTwo, tSlotThree;
 
 	int                     m_nState;

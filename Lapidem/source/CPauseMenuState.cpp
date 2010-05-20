@@ -404,36 +404,6 @@ void CPauseMenuState::Exit( )
 
 bool CPauseMenuState::SaveGame( int _nSlot )
 {
-	// - - - - - - - - - - - - - - -
-	// Needed for sprint 2 checkoff
-	// - - - - - - - - - - - - - - -
-	// Location
-	// Score
-	// Co-op or single player
-	// 
-	// Load game
-	//
-	// 3 slots are available
-	// - - - - - - - - - - - - - - -
-
-	// Slot                                // - 
-	// Single player or multi-player       // - 
-	// Level                               // 
-	// Player health                       // 
-	// Player position                     // 
-	// Player score                        // 
-	// Time left                           // 
-	// Currently equipped ability          // 
-	// Fire mana                           // 
-	// Earth mana                          // 
-	// Wind mana                           // 
-	// Ice mana                            // 
-	// 
-	// Pablo :: 
-	//       Save the state of all the blocks
-	// GetLevelFileName( )          :: CLevel
-	//
-
 	// - - - - - - - - - - - - - -
 	// Read in slot 1 / 2 / 3 info.
 	// - - - - - - - - - - - - - -
@@ -452,21 +422,35 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 		fin.read( ( char* )&_tSlotOne._nPositionX, sizeof( int ) );
 		fin.read( ( char* )&_tSlotOne._nPositionY, sizeof( int ) );
 
+		fin.read( ( char* )&_tSlotOne._manaP1._nFire, sizeof( int ) );
+		fin.read( ( char* )&_tSlotOne._manaP1._nEarth, sizeof( int ) );
+		fin.read( ( char* )&_tSlotOne._manaP1._nIce, sizeof( int ) );
+		fin.read( ( char* )&_tSlotOne._manaP1._nAir, sizeof( int ) );
+
+		fin.read( ( char* )&_tSlotOne._nPlayerOneHealth, sizeof( int ) );
+
 		if( 2 == _tSlotOne._nPlayerCount )
 		{
+			fin.read( ( char* )&_tSlotOne._nPlayerTwoHealth, sizeof( int ) );
+
 			fin.read( ( char* )&_tSlotOne._nPlayerTwoPosX, sizeof( int ) );
 			fin.read( ( char* )&_tSlotOne._nPlayerTwoPosY, sizeof( int ) );
+			
+			fin.read( ( char* )&_tSlotOne._manaP2._nFire, sizeof( int ) );
+			fin.read( ( char* )&_tSlotOne._manaP2._nEarth, sizeof( int ) );
+			fin.read( ( char* )&_tSlotOne._manaP2._nIce, sizeof( int ) );
+			fin.read( ( char* )&_tSlotOne._manaP2._nAir, sizeof( int ) );
 		}
 
-		fin.read( ( char* )&_tSlotOne._nSinglePlayerScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotOne._nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotOne._nPlayerTwoScore, sizeof( int ) );
+		
+		fin.read( ( char* )&nDataChunkSize, sizeof( int ) );  // return size that can skip the whole next part
 
-		fin.read((char*)&nDataChunkSize, sizeof(int));	// return size that can skip the whole next part
-		if(_nSlot == 1)		// if it's slot one, skip loading from file cuz it will be changed any way
-			fin.seekg(nDataChunkSize, ios_base::cur);
-		else
-			pLevel->LoadLevelToMemory(&fin, m_tLevelInfo[0].szFileName, &m_tLevelInfo[0].pTerrainTiles, &m_tLevelInfo[0].pEventTiles, &m_tLevelInfo[0].pSwitches);
+		if( _nSlot == 1 )                                     // if it's slot one, skip loading from file cuz it will be changed any way
+			fin.seekg( nDataChunkSize, ios_base::cur );
+		else pLevel->LoadLevelToMemory( &fin, m_tLevelInfo[0].szFileName, 
+			&m_tLevelInfo[0].pTerrainTiles, &m_tLevelInfo[0].pEventTiles, &m_tLevelInfo[0].pSwitches );
 
 		// - - - - - - - - - - - - - - 
 		// Slot 2
@@ -475,21 +459,35 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 		fin.read( ( char* )&_tSlotTwo._nPositionX, sizeof( int ) );
 		fin.read( ( char* )&_tSlotTwo._nPositionY, sizeof( int ) );
 
+		fin.read( ( char* )&_tSlotTwo._manaP1._nFire, sizeof( int ) );
+		fin.read( ( char* )&_tSlotTwo._manaP1._nEarth, sizeof( int ) );
+		fin.read( ( char* )&_tSlotTwo._manaP1._nIce, sizeof( int ) );
+		fin.read( ( char* )&_tSlotTwo._manaP1._nAir, sizeof( int ) );
+
+		fin.read( ( char* )&_tSlotTwo._nPlayerOneHealth, sizeof( int ) );
+
 		if( 2 == _tSlotTwo._nPlayerCount )
 		{
+			fin.read( ( char* )&_tSlotTwo._nPlayerTwoHealth, sizeof( int ) );
+
 			fin.read( ( char* )&_tSlotTwo._nPlayerTwoPosX, sizeof( int ) );
 			fin.read( ( char* )&_tSlotTwo._nPlayerTwoPosY, sizeof( int ) );
+			
+			fin.read( ( char* )&_tSlotTwo._manaP2._nFire, sizeof( int ) );
+			fin.read( ( char* )&_tSlotTwo._manaP2._nEarth, sizeof( int ) );
+			fin.read( ( char* )&_tSlotTwo._manaP2._nIce, sizeof( int ) );
+			fin.read( ( char* )&_tSlotTwo._manaP2._nAir, sizeof( int ) );
 		}
 
-		fin.read( ( char* )&_tSlotTwo._nSinglePlayerScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotTwo._nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotTwo._nPlayerTwoScore, sizeof( int ) );
 
-		fin.read((char*)&nDataChunkSize, sizeof(int));	// return size that can skip the whole next part
-		if(_nSlot == 2)		// if it's slot two, skip loading from file cuz it will be changed any way
-			fin.seekg(nDataChunkSize, ios_base::cur);
-		else
-			pLevel->LoadLevelToMemory(&fin, m_tLevelInfo[1].szFileName, &m_tLevelInfo[1].pTerrainTiles, &m_tLevelInfo[1].pEventTiles, &m_tLevelInfo[1].pSwitches);
+		fin.read( ( char* )&nDataChunkSize, sizeof( int ) );  // return size that can skip the whole next part
+
+		if( _nSlot == 2 )                                     // if it's slot two, skip loading from file cuz it will be changed any way
+			fin.seekg( nDataChunkSize, ios_base::cur );
+		else pLevel->LoadLevelToMemory( &fin, m_tLevelInfo[1].szFileName, 
+			&m_tLevelInfo[1].pTerrainTiles, &m_tLevelInfo[1].pEventTiles, &m_tLevelInfo[1].pSwitches );
 
 		// - - - - - - - - - - - - - - 
 		// Slot 3
@@ -498,22 +496,35 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 		fin.read( ( char* )&_tSlotThree._nPositionX, sizeof( int ) );
 		fin.read( ( char* )&_tSlotThree._nPositionY, sizeof( int ) );
 
+		fin.read( ( char* )&_tSlotThree._manaP1._nFire, sizeof( int ) );
+		fin.read( ( char* )&_tSlotThree._manaP1._nEarth, sizeof( int ) );
+		fin.read( ( char* )&_tSlotThree._manaP1._nIce, sizeof( int ) );
+		fin.read( ( char* )&_tSlotThree._manaP1._nAir, sizeof( int ) );
+
+		fin.read( ( char* )&_tSlotThree._nPlayerOneHealth, sizeof( int ) );
+
 		if( 2 == _tSlotThree._nPlayerCount )
 		{
+			fin.read( ( char* )&_tSlotThree._nPlayerTwoHealth, sizeof( int ) );
+
 			fin.read( ( char* )&_tSlotThree._nPlayerTwoPosX, sizeof( int ) );
 			fin.read( ( char* )&_tSlotThree._nPlayerTwoPosY, sizeof( int ) );
+			
+			fin.read( ( char* )&_tSlotThree._manaP2._nFire, sizeof( int ) );
+			fin.read( ( char* )&_tSlotThree._manaP2._nEarth, sizeof( int ) );
+			fin.read( ( char* )&_tSlotThree._manaP2._nIce, sizeof( int ) );
+			fin.read( ( char* )&_tSlotThree._manaP2._nAir, sizeof( int ) );
 		}
 
-		fin.read( ( char* )&_tSlotThree._nSinglePlayerScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotThree._nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotThree._nPlayerTwoScore, sizeof( int ) );
 		
-		fin.read((char*)&nDataChunkSize, sizeof(int));	// return size that can skip the whole next part
-		if(_nSlot == 3)		// if it's slot three, skip loading from file cuz it will be changed any way
-			fin.seekg(nDataChunkSize, ios_base::cur);
-		else
-			pLevel->LoadLevelToMemory(&fin, m_tLevelInfo[2].szFileName, &m_tLevelInfo[2].pTerrainTiles, &m_tLevelInfo[2].pEventTiles, &m_tLevelInfo[2].pSwitches);
+		fin.read( ( char* )&nDataChunkSize, sizeof( int ) ); // return size that can skip the whole next part
 
+		if( _nSlot == 3 )                                    // if it's slot three, skip loading from file cuz it will be changed any way
+			fin.seekg( nDataChunkSize, ios_base::cur );
+		else pLevel->LoadLevelToMemory( &fin, m_tLevelInfo[2].szFileName, 
+			&m_tLevelInfo[2].pTerrainTiles, &m_tLevelInfo[2].pEventTiles, &m_tLevelInfo[2].pSwitches );
 	} fin.close( );
 
 	// - - - - - - - - - - - - - -
@@ -528,15 +539,30 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 		_tSlotOne._nPositionX         = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosX( ) );
 		_tSlotOne._nPositionY         = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosY( ) );
 
+		_tSlotOne._nPlayerOneScore    = CGameplayState::GetInstance( )->GetPlayerOne( )->GetScore( );
+		_tSlotOne._nPlayerOneHealth   = CGameplayState::GetInstance( )->GetPlayerOne( )->GetHealth( );
+
 		if( 2 == _tSlotOne._nPlayerCount )
 		{
+			_tSlotOne._nPlayerTwoScore    = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetScore( );
+			_tSlotOne._nPlayerTwoHealth   = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetHealth( );
+
 			_tSlotOne._nPlayerTwoPosX     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosX( ) );
 			_tSlotOne._nPlayerTwoPosY     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosY( ) );
+			
+			_tSlotOne._manaP2._nFire      = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetFireEnergy( );
+			_tSlotOne._manaP2._nEarth     = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetEarthEnergy( );
+			_tSlotOne._manaP2._nIce       = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetIceEnergy( );
+			_tSlotOne._manaP2._nAir       = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetWindEnergy( );
 		}
 
-		_tSlotOne._nSinglePlayerScore = CGameplayState::GetInstance( )->GetSinglePlayerScore( );
-		_tSlotOne._nPlayerOneScore    = CGameplayState::GetInstance( )->GetPlayerOneScore( );
-		_tSlotOne._nPlayerTwoScore    = CGameplayState::GetInstance( )->GetPlayerTwoScore( );
+		_tSlotOne._manaP1._nFire      = CGameplayState::GetInstance( )->GetPlayerOne( )->GetFireEnergy( );
+		_tSlotOne._manaP1._nEarth     = CGameplayState::GetInstance( )->GetPlayerOne( )->GetEarthEnergy( );
+		_tSlotOne._manaP1._nIce       = CGameplayState::GetInstance( )->GetPlayerOne( )->GetIceEnergy( );
+		_tSlotOne._manaP1._nAir       = CGameplayState::GetInstance( )->GetPlayerOne( )->GetWindEnergy( );
+		
+		// TODO ::
+		//      ^ Probably going to crash...
 	}
 	else if( 2 == _nSlot )
 	{
@@ -547,15 +573,27 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 		_tSlotTwo._nPositionX         = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosX( ) );
 		_tSlotTwo._nPositionY         = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosY( ) );
 
+		_tSlotTwo._nPlayerOneScore    = CGameplayState::GetInstance( )->GetPlayerOne( )->GetScore( );
+		_tSlotTwo._nPlayerOneHealth   = CGameplayState::GetInstance( )->GetPlayerOne( )->GetHealth( );
+
 		if( 2 == _tSlotTwo._nPlayerCount )
 		{
+			_tSlotTwo._nPlayerTwoScore    = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetScore( );
+			_tSlotTwo._nPlayerTwoHealth   = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetHealth( );
+
 			_tSlotTwo._nPlayerTwoPosX     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosX( ) );
 			_tSlotTwo._nPlayerTwoPosY     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosY( ) );
+				
+			_tSlotTwo._manaP2._nFire      = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetFireEnergy( );
+			_tSlotTwo._manaP2._nEarth     = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetEarthEnergy( );
+			_tSlotTwo._manaP2._nIce       = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetIceEnergy( );
+			_tSlotTwo._manaP2._nAir       = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetWindEnergy( );
 		}
 
-		_tSlotTwo._nSinglePlayerScore = CGameplayState::GetInstance( )->GetSinglePlayerScore( );
-		_tSlotTwo._nPlayerOneScore    = CGameplayState::GetInstance( )->GetPlayerOneScore( );
-		_tSlotTwo._nPlayerTwoScore    = CGameplayState::GetInstance( )->GetPlayerTwoScore( );
+		_tSlotTwo._manaP1._nFire      = CGameplayState::GetInstance( )->GetPlayerOne( )->GetFireEnergy( );
+		_tSlotTwo._manaP1._nEarth     = CGameplayState::GetInstance( )->GetPlayerOne( )->GetEarthEnergy( );
+		_tSlotTwo._manaP1._nIce       = CGameplayState::GetInstance( )->GetPlayerOne( )->GetIceEnergy( );
+		_tSlotTwo._manaP1._nAir       = CGameplayState::GetInstance( )->GetPlayerOne( )->GetWindEnergy( );
 	}
 	else if( 3 == _nSlot )
 	{
@@ -566,15 +604,27 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 		_tSlotThree._nPositionX         = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosX( ) );
 		_tSlotThree._nPositionY         = int( CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosY( ) );
 
+		_tSlotThree._nPlayerOneScore    = CGameplayState::GetInstance( )->GetPlayerOne( )->GetScore( );
+		_tSlotThree._nPlayerOneHealth   = CGameplayState::GetInstance( )->GetPlayerOne( )->GetHealth( );
+
 		if( 2 == _tSlotThree._nPlayerCount )
 		{
+			_tSlotThree._nPlayerTwoScore    = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetScore( );
+			_tSlotThree._nPlayerTwoHealth   = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetHealth( );
+
 			_tSlotThree._nPlayerTwoPosX     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosX( ) );
 			_tSlotThree._nPlayerTwoPosY     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosY( ) );
+			
+			_tSlotThree._manaP2._nFire      = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetFireEnergy( );
+			_tSlotThree._manaP2._nEarth     = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetEarthEnergy( );
+			_tSlotThree._manaP2._nIce       = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetIceEnergy( );
+			_tSlotThree._manaP2._nAir       = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetWindEnergy( );
 		}
 
-		_tSlotThree._nSinglePlayerScore = CGameplayState::GetInstance( )->GetSinglePlayerScore( );
-		_tSlotThree._nPlayerOneScore    = CGameplayState::GetInstance( )->GetPlayerOneScore( );
-		_tSlotThree._nPlayerTwoScore    = CGameplayState::GetInstance( )->GetPlayerTwoScore( );
+		_tSlotThree._manaP1._nFire      = CGameplayState::GetInstance( )->GetPlayerOne( )->GetFireEnergy( );
+		_tSlotThree._manaP1._nEarth     = CGameplayState::GetInstance( )->GetPlayerOne( )->GetEarthEnergy( );
+		_tSlotThree._manaP1._nIce       = CGameplayState::GetInstance( )->GetPlayerOne( )->GetIceEnergy( );
+		_tSlotThree._manaP1._nAir       = CGameplayState::GetInstance( )->GetPlayerOne( )->GetWindEnergy( );
 	}
 
 	// - - - - - - - - - - - - - -
@@ -589,20 +639,33 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 	fout.write( ( char* )&_tSlotOne._nPositionX, sizeof( int ) );
 	fout.write( ( char* )&_tSlotOne._nPositionY, sizeof( int ) );
 
+	fout.write( ( char* )&_tSlotOne._manaP1._nFire, sizeof( int ) );
+	fout.write( ( char* )&_tSlotOne._manaP1._nEarth, sizeof( int ) );
+	fout.write( ( char* )&_tSlotOne._manaP1._nIce, sizeof( int ) );
+	fout.write( ( char* )&_tSlotOne._manaP1._nAir, sizeof( int ) );
+
+	fout.write( ( char* )&_tSlotOne._nPlayerOneHealth, sizeof( int ) );
+
 	if( 2 == _tSlotOne._nPlayerCount )
 	{
+		fout.write( ( char* )&_tSlotOne._nPlayerTwoHealth, sizeof( int ) );
+
 		fout.write( ( char* )&_tSlotOne._nPlayerTwoPosX, sizeof( int ) );
 		fout.write( ( char* )&_tSlotOne._nPlayerTwoPosY, sizeof( int ) );
+		
+		fout.write( ( char* )&_tSlotOne._manaP2._nFire, sizeof( int ) );
+		fout.write( ( char* )&_tSlotOne._manaP2._nEarth, sizeof( int ) );
+		fout.write( ( char* )&_tSlotOne._manaP2._nIce, sizeof( int ) );
+		fout.write( ( char* )&_tSlotOne._manaP2._nAir, sizeof( int ) );
 	}
 
-	fout.write( ( char* )&_tSlotOne._nSinglePlayerScore, sizeof( int ) );
 	fout.write( ( char* )&_tSlotOne._nPlayerOneScore, sizeof( int ) );
 	fout.write( ( char* )&_tSlotOne._nPlayerTwoScore, sizeof( int ) );
 
-	if(_nSlot == 1)
-		pLevel->SaveCurrLevelState(&fout);
-	else
-		pLevel->SaveLevelFromMemory(&fout, m_tLevelInfo[0].szFileName, &m_tLevelInfo[0].pTerrainTiles, &m_tLevelInfo[0].pEventTiles, &m_tLevelInfo[0].pSwitches);
+	if( _nSlot == 1 )
+		pLevel->SaveCurrLevelState( &fout );
+	else pLevel->SaveLevelFromMemory( &fout, m_tLevelInfo[0].szFileName, 
+		&m_tLevelInfo[0].pTerrainTiles, &m_tLevelInfo[0].pEventTiles, &m_tLevelInfo[0].pSwitches );
 
 	// - - - - - - - - - - - - - - 
 	// Slot 2
@@ -611,20 +674,33 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 	fout.write( ( char* )&_tSlotTwo._nPositionX, sizeof( int ) );
 	fout.write( ( char* )&_tSlotTwo._nPositionY, sizeof( int ) );
 
+	fout.write( ( char* )&_tSlotTwo._manaP1._nFire, sizeof( int ) );
+	fout.write( ( char* )&_tSlotTwo._manaP1._nEarth, sizeof( int ) );
+	fout.write( ( char* )&_tSlotTwo._manaP1._nIce, sizeof( int ) );
+	fout.write( ( char* )&_tSlotTwo._manaP1._nAir, sizeof( int ) );
+
+	fout.write( ( char* )&_tSlotTwo._nPlayerOneHealth, sizeof( int ) );
+
 	if( 2 == _tSlotTwo._nPlayerCount )
 	{
+		fout.write( ( char* )&_tSlotTwo._nPlayerTwoHealth, sizeof( int ) );
+
 		fout.write( ( char* )&_tSlotTwo._nPlayerTwoPosX, sizeof( int ) );
 		fout.write( ( char* )&_tSlotTwo._nPlayerTwoPosY, sizeof( int ) );
+		
+		fout.write( ( char* )&_tSlotTwo._manaP2._nFire, sizeof( int ) );
+		fout.write( ( char* )&_tSlotTwo._manaP2._nEarth, sizeof( int ) );
+		fout.write( ( char* )&_tSlotTwo._manaP2._nIce, sizeof( int ) );
+		fout.write( ( char* )&_tSlotTwo._manaP2._nAir, sizeof( int ) );
 	}
 
-	fout.write( ( char* )&_tSlotTwo._nSinglePlayerScore, sizeof( int ) );
 	fout.write( ( char* )&_tSlotTwo._nPlayerOneScore, sizeof( int ) );
 	fout.write( ( char* )&_tSlotTwo._nPlayerTwoScore, sizeof( int ) );
 
-	if(_nSlot == 2)
-		pLevel->SaveCurrLevelState(&fout);
-	else
-		pLevel->SaveLevelFromMemory(&fout, m_tLevelInfo[1].szFileName, &m_tLevelInfo[1].pTerrainTiles, &m_tLevelInfo[1].pEventTiles, &m_tLevelInfo[1].pSwitches);
+	if( _nSlot == 2 )
+		pLevel->SaveCurrLevelState( &fout );
+	else pLevel->SaveLevelFromMemory( &fout, m_tLevelInfo[1].szFileName, 
+		&m_tLevelInfo[1].pTerrainTiles, &m_tLevelInfo[1].pEventTiles, &m_tLevelInfo[1].pSwitches );
 
 	// - - - - - - - - - - - - - - 
 	// Slot 3 
@@ -633,39 +709,52 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 	fout.write( ( char* )&_tSlotThree._nPositionX, sizeof( int ) );
 	fout.write( ( char* )&_tSlotThree._nPositionY, sizeof( int ) );
 
+	fout.write( ( char* )&_tSlotThree._manaP1._nFire, sizeof( int ) );
+	fout.write( ( char* )&_tSlotThree._manaP1._nEarth, sizeof( int ) );
+	fout.write( ( char* )&_tSlotThree._manaP1._nIce, sizeof( int ) );
+	fout.write( ( char* )&_tSlotThree._manaP1._nAir, sizeof( int ) );
+
+	fout.write( ( char* )&_tSlotThree._nPlayerOneHealth, sizeof( int ) );
+
 	if( 2 == _tSlotThree._nPlayerCount )
 	{
+		fout.write( ( char* )&_tSlotThree._nPlayerTwoHealth, sizeof( int ) );
+
 		fout.write( ( char* )&_tSlotThree._nPlayerTwoPosX, sizeof( int ) );
 		fout.write( ( char* )&_tSlotThree._nPlayerTwoPosY, sizeof( int ) );
+		
+		fout.write( ( char* )&_tSlotThree._manaP2._nFire, sizeof( int ) );
+		fout.write( ( char* )&_tSlotThree._manaP2._nEarth, sizeof( int ) );
+		fout.write( ( char* )&_tSlotThree._manaP2._nIce, sizeof( int ) );
+		fout.write( ( char* )&_tSlotThree._manaP2._nAir, sizeof( int ) );
 	}
 
-	fout.write( ( char* )&_tSlotThree._nSinglePlayerScore, sizeof( int ) );
 	fout.write( ( char* )&_tSlotThree._nPlayerOneScore, sizeof( int ) );
 	fout.write( ( char* )&_tSlotThree._nPlayerTwoScore, sizeof( int ) );
 
-	if(_nSlot == 3)
-		pLevel->SaveCurrLevelState(&fout);
-	else
-		pLevel->SaveLevelFromMemory(&fout, m_tLevelInfo[2].szFileName, &m_tLevelInfo[2].pTerrainTiles, &m_tLevelInfo[2].pEventTiles, &m_tLevelInfo[2].pSwitches);
+	if( _nSlot == 3 )
+		pLevel->SaveCurrLevelState( &fout );
+	else pLevel->SaveLevelFromMemory( &fout, m_tLevelInfo[2].szFileName, 
+		&m_tLevelInfo[2].pTerrainTiles, &m_tLevelInfo[2].pEventTiles, &m_tLevelInfo[2].pSwitches );
 
 	fout.close( );
 
-	for(int i = 0; i < 3; ++i)
+	for( int i = 0; i < 3; ++i )
 	{
 		delete[] m_tLevelInfo[i].szFileName;
 		m_tLevelInfo[i].szFileName = 0;
 
-		for(unsigned int j = 0; j < m_tLevelInfo[i].pTerrainTiles.size(); ++j)
+		for( unsigned int j = 0; j < m_tLevelInfo[i].pTerrainTiles.size( ); ++j )
 			delete m_tLevelInfo[i].pTerrainTiles[j];
-		m_tLevelInfo[i].pTerrainTiles.clear();
+		m_tLevelInfo[i].pTerrainTiles.clear( );
 
-		for(unsigned int j = 0; j < m_tLevelInfo[i].pEventTiles.size(); ++j)
+		for( unsigned int j = 0; j < m_tLevelInfo[i].pEventTiles.size( ); ++j )
 			delete m_tLevelInfo[i].pEventTiles[j];
-		m_tLevelInfo[i].pEventTiles.clear();
+		m_tLevelInfo[i].pEventTiles.clear( );
 
-		for(unsigned int j = 0; j < m_tLevelInfo[i].pSwitches.size(); ++j)
+		for( unsigned int j = 0; j < m_tLevelInfo[i].pSwitches.size( ); ++j )
 			delete m_tLevelInfo[i].pSwitches[j];
-		m_tLevelInfo[i].pSwitches.clear();
+		m_tLevelInfo[i].pSwitches.clear( );
 	}
 
 	return true;

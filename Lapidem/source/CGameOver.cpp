@@ -9,10 +9,10 @@ CGameOver* CGameOver::GetInstance( )
 void CGameOver::Enter( )
 {
 	m_pD3D              = CSGD_Direct3D::GetInstance( );
-	m_pTM        = CSGD_TextureManager::GetInstance( );
-	m_pDS        = CSGD_DirectSound::GetInstance( );
-	m_pWM        = CSGD_WaveManager::GetInstance( );
-	m_pDI        = CSGD_DirectInput::GetInstance( );
+	m_pTM               = CSGD_TextureManager::GetInstance( );
+	m_pDS               = CSGD_DirectSound::GetInstance( );
+	m_pWM               = CSGD_WaveManager::GetInstance( );
+	m_pDI               = CSGD_DirectInput::GetInstance( );
 
 	m_nExitTimer        = 0;
 	m_bIsAllowedToExit  = false;
