@@ -14,8 +14,8 @@ void StickyNumbers::Update(float fElapsedTime)
 
 	m_nAlpha = (int)((m_fTimer / m_fTimeStart) * 255);
 
-	SetWidth(24);
-	SetHeight(16);
+	SetWidth(15);
+	SetHeight(15);
 }
 
 void StickyNumbers::Render()

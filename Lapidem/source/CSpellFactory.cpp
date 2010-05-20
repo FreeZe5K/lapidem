@@ -860,6 +860,7 @@ void CSpellFactory::CreateGiantFireBall(CSpell* pFire, CSpell* pWind)
 	pSpell->SetLifespan(5.0f);
 	pSpell->SetHeight(32);
 	pSpell->SetWidth(32);
+	pSpell->SetDOT(2);
 
 	pSpell->SetRadiusIncrease((float)(16 + pSpell->GetWidth()));
 	pSpell->ShotBy(true);

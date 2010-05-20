@@ -12,6 +12,14 @@ using std::vector;
 class CBase;
 class CCamera;
 
+struct Object_Type
+{
+	void* Item;
+	int eletype;
+	int   number;
+	int	  Type;
+};
+
 class Corona_ObjectManager
 {
 private:
@@ -19,6 +27,9 @@ private:
 	float m_fTimer;
 
 	vector<CBase *> Objects;
+	vector<Object_Type> CrashHunter;
+	int Number;
+
 	//Change from CBase to CTBase
 	//vector<CBase *> Terrain;
 

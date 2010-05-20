@@ -324,7 +324,6 @@ void CEarth::HandleEvent(CEvent * pEvent)
 	}
 	if(!strcmp(pEvent->GetEventID().c_str(), "CreateIce") && pEvent->GetData1() == this)
 	{
-		Corona_ObjectManager::GetInstance()->AddObject(this);
 
 		this->SetActive(true);
 		this->SetHeight(16);
@@ -338,6 +337,7 @@ void CEarth::HandleEvent(CEvent * pEvent)
 		this->SetTier(1);
 		this->SetDamage(0);
 		m_bIsIce = true;
+		Corona_ObjectManager::GetInstance()->AddObject(this);
 		this->Release();
 		
 	}

@@ -19,8 +19,6 @@ CPlayer::CPlayer( )
 	m_fFireTimer       = 0.0f;
 	m_fDrownTimer	   = 0.0f;
 	m_nHealth          = 200; 
-	currAnimation      = 0;
-	currDirec          = RIGHT; 
 	m_nType            = OBJ_PLAYER; 
 	m_nFireEnergy	   = 0;
 	m_nEarthEnergy	   = 0;
@@ -33,7 +31,7 @@ CPlayer::CPlayer( )
 	m_bIsDrowning	   = false;
 	m_bShielded		   = false;
 	m_bIsTouching	   = false;
-	m_bFainted			= false;
+	m_bFainted		   = false;
 	m_fShieldTimer = 30.0f;
 	RetPosX = 0;
 	RetPosY = 0;
@@ -73,7 +71,7 @@ void CPlayer::Update( float fElapsedTime )
 
 		if(m_pReticle)
 		{
-		Corona_ObjectManager::GetInstance()->RemoveObject(m_pReticle);
+			m_pReticle->SetActive(false);
 		m_pReticle->Release();
 		m_pReticle = NULL;
 		}	
@@ -551,7 +549,7 @@ void CPlayer::ToggleReticle()
 	}
 	else
 	{
-		Corona_ObjectManager::GetInstance()->RemoveObject(m_pReticle);
+		m_pReticle->SetActive(false);
 		m_pReticle->Release();
 		m_pReticle = NULL;
 	}

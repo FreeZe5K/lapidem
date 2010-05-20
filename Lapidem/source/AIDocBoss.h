@@ -14,7 +14,7 @@ class AIDocBoss : public IAIState
 
 
 public:
-	AIDocBoss();
+	AIDocBoss(int);
 	~AIDocBoss() { }
 	int Update(float fElapsedTime, CEnemy* thaBoss);
 	void Attack(CCharacter*, CCharacter*);
