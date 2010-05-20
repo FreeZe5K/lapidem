@@ -31,7 +31,7 @@ public:
 	}
 	
 	void DeleteInstance( );
-	void LoadAnimationSet( char*, DWORD );
+	void LoadAnimationSet( char*, DWORD, char* );
 	CAnimation* GetAnimation( int, int );
 	void Init( );
 };

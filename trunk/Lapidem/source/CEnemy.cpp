@@ -17,6 +17,16 @@
 
 
 
+
+// 0 character 1
+// 1 wind enemy
+// 2 ice enemy
+
+
+//0 walking// idle for char 1/2
+//1 death/ walking for char1
+//2 is attacking
+
 CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock* Flock )
 {
 	m_nType         = OBJ_ENEMY;
@@ -44,7 +54,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			m_nHealth      = 80 + (CSpellFactory::GetInstance()->GetWindLevel() * 10);
 			m_SpellType    = OBJ_EARTH;
 			currDirec      = RIGHT;
-			currAnimation  = NULL;
+			SetAnimation(OBJ_EARTH +1,0);
 		} break;
 	case OBJ_FIRE:
 		{
@@ -60,7 +70,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			m_nHealth      = 50 + (CSpellFactory::GetInstance()->GetEarthLevel() * 7);
 			m_SpellType    = OBJ_FIRE;
 			currDirec      = RIGHT;
-			currAnimation  = NULL;
+			SetAnimation(OBJ_FIRE +1,0);
 
 		} break;
 	case OBJ_ICE:
@@ -73,17 +83,18 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/lapid_lulziceenemy.png" ) );
 			SetHeight( 64 );
 			SetWidth ( 16 );
-
+			SetAnimation(1,0);
 			m_nHealth      = 50 + (CSpellFactory::GetInstance()->GetFireLevel() * 7);
 			m_SpellType    = OBJ_ICE;
 			currDirec      = RIGHT;
-			currAnimation  = NULL;
+			SetAnimation(OBJ_ICE +1,0);
 		} break;
 	case OBJ_WIND:
 		{
 			currState = new AIStateWind();
 			SetPosX(initx);
 			SetPosY(inity);
+			
 			((AIStateWind*)currState)->SetFlock((CFlock*)Flock);
 			SetVelX((float)(rand()%150));
 			SetVelY((float)(rand()%150));
@@ -103,6 +114,8 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			m_nHealth = 25 + CSpellFactory::GetInstance()->GetIceLevel() * 5;
 			m_SpellType = OBJ_WIND;
 			currDirec = RIGHT;
+			
+			SetAnimation(OBJ_WIND +1,0);
 			currAnimation = NULL;
 			break;
 		} 
@@ -219,109 +232,161 @@ CEnemy::~CEnemy( )
 
 void CEnemy::Update( float fElapsedTime )
 {
-	if(!m_bKnockBack)
+	if(m_nHealth >0)
 	{
-		m_fShotTimer = m_fShotTimer - fElapsedTime;
+		if(!m_bKnockBack)
+		{
+			m_fShotTimer = m_fShotTimer - fElapsedTime;
 
-		if( 0.0f == m_fWaitTimer )
-		{	
-			if(m_SpellType == OBJ_WIND)
-			{
-				CBase::Update( fElapsedTime );
-
-				if( animation )
+			if( 0.0f == m_fWaitTimer )
+			{	
+				if(m_SpellType == OBJ_WIND)
 				{
-					animation->Update( fElapsedTime );
-					SetWidth( animation->GetFrames( )->DrawRect.right - animation->GetFrames( )->DrawRect.left );
-					SetHeight( animation->GetFrames( )->DrawRect.bottom - animation->GetFrames( )->DrawRect.top );
+					CBase::Update( fElapsedTime );
+				}
+				else
+				{
+					CCharacter::Update( fElapsedTime );
+				}
+
+				m_nAttackWho = currState->Update( fElapsedTime, this );
+
+				if( m_nAttackWho && m_fShotTimer < 0 )
+				{
+					m_fWaitTimer += fElapsedTime;
+					m_fShotTimer = 2.0f;
+					animation->Reset();
+					SetAnimation(GetEleType()+1,2);
+					
 				}
 			}
-			
-			if(m_SpellType != OBJ_WIND)
+			else
 			{
-				CCharacter::Update( fElapsedTime );
-			}
+				m_fWaitTimer = m_fWaitTimer + fElapsedTime;
 
-			m_nAttackWho = currState->Update( fElapsedTime, this );
+				if(m_SpellType !=OBJ_WIND)
+					SetPosY( GetPosY( ) + 150.0f * fElapsedTime );
 
-			if( m_nAttackWho && m_fShotTimer < 0 )
-			{
-				m_fWaitTimer += fElapsedTime;
-				m_fShotTimer = 2.0f;
+				
+				char* pleasework = animation->GetTrigger();
+				if(strcmp(pleasework, "Done") == 0)
+				{	
+					if( 1 == m_nAttackWho )
+					{
+						currState->Attack( CGameplayState::GetInstance( )->GetPlayerOne( ), this );
+					}
+					else if( 2 == m_nAttackWho )
+					{
+						currState->Attack( CGameplayState::GetInstance( )->GetPlayerTwo( ), this );
+					}
+					animation->Reset();
+					SetAnimation(GetEleType()+1,0);
+					
+					m_fWaitTimer = 0.0f;
+				}
+
 			}
 		}
 		else
 		{
-			m_fWaitTimer = m_fWaitTimer + fElapsedTime;
-			SetPosY( GetPosY( ) + 150.0f * fElapsedTime );
-
-			if( m_fWaitTimer > 0.5f )
+			if(m_fKnockBack < 0)
 			{
-				if( 1 == m_nAttackWho )
-					currState->Attack( CGameplayState::GetInstance( )->GetPlayerOne( ), this );
-				else if( 2 == m_nAttackWho )
-					currState->Attack( CGameplayState::GetInstance( )->GetPlayerTwo( ), this );
-				m_fWaitTimer = 0.0f;
+				m_bKnockBack = false;
 			}
+			else
+			{
+				CCharacter::Update(fElapsedTime);
+				m_fKnockBack-=fElapsedTime * 100;
+			}
+		}
+
+		if(m_bBurning)
+		{
+			m_fBurnTimer -= fElapsedTime;
+
+			if(m_fBurnTimer <= 0)
+			{
+				m_bBurning = false;
+				m_nBurnDamage = 0;
+			}
+
+			if(!((int)m_fBurnTimer %  3))
+			{
+				m_fBurnTimer -= 1.0f;
+				StickyNumbers* SN = new StickyNumbers();
+				SN->SetTimer(5.0f);
+				SN->SetPosX( GetPosX());
+				SN->SetPosY( GetPosY() - 24);
+				char buffer[16];
+				sprintf_s(buffer, 16, "%i", TakeDamage(m_nBurnDamage));
+				SN->SetText(buffer);
+				SN->SetVelY(-30);
+
+				Corona_ObjectManager::GetInstance()->AddObject(SN);
+				SN->Release();
+			}
+		}
+
+		if( m_bIsFrozen )
+		{
+			m_fFreezeTimer = m_fFreezeTimer - fElapsedTime;
+
+			if( m_fFreezeTimer <= 0 )
+				m_bIsFrozen = false;
+
+			SetVelX( m_fFrozenSpeed );
 		}
 	}
 	else
 	{
-		if(m_fKnockBack < 0)
+		if(currAnimation != 1)
 		{
-			m_bKnockBack = false;
+			animation->Reset();
+			SetAnimation(GetEleType() +1,1);
 		}
-		else
+		char* pleasework = animation->GetTrigger();
+		if(strcmp(pleasework,"Dead") ==0)
 		{
-			CCharacter::Update(fElapsedTime);
-			m_fKnockBack-=fElapsedTime * 100;
-		}
-	}
-
-	if(m_bBurning)
-	{
-		m_fBurnTimer -= fElapsedTime;
-
-		if(m_fBurnTimer <= 0)
-		{
-			m_bBurning = false;
-			m_nBurnDamage = 0;
-		}
-
-		if(!((int)m_fBurnTimer %  3))
-		{
-			m_fBurnTimer -= 1.0f;
-			StickyNumbers* SN = new StickyNumbers();
-			SN->SetTimer(5.0f);
-			SN->SetPosX( GetPosX());
-			SN->SetPosY( GetPosY() - 24);
-			char buffer[16];
-			sprintf_s(buffer, 16, "%i", TakeDamage(m_nBurnDamage));
-			SN->SetText(buffer);
-			SN->SetVelY(-30);
-
-			Corona_ObjectManager::GetInstance()->AddObject(SN);
-			SN->Release();
+			Corona_EventHandler::GetInstance( )->SendEvent( "EnemyDied", ( void* )this );
+			SetActive( false );
 		}
 	}
-
-	if( m_bIsFrozen )
+	animation->Update(fElapsedTime);
+	if(GetVelX() <0)
 	{
-		m_fFreezeTimer = m_fFreezeTimer - fElapsedTime;
-
-		if( m_fFreezeTimer <= 0 )
-			m_bIsFrozen = false;
-
-		SetVelX( m_fFrozenSpeed );
+		IsRotated = true;
 	}
-
-	if( m_nHealth <= 0 )
+	else
 	{
-		Corona_EventHandler::GetInstance( )->SendEvent( "EnemyDied", ( void* )this );
-		SetActive( false );
+		IsRotated = false;
 	}
 }
 
+void CEnemy::Render()
+{
+	if(m_SpellType == OBJ_WIND && dynamic_cast<AIStateWind*>(currState))
+	{
+		if( animation )
+		{
+			if( animation->GetImageID( ) != -1 && !IsRotated )
+				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
+				int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ),
+				int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
+				0.40f, 0.40f, &animation->GetFrames( )->DrawRect );
+			else if( animation->GetImageID( ) != -1 && IsRotated )
+			{
+				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
+					int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) + GetWidth( ) ), 
+					int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
+					-0.40f, 0.40f, &animation->GetFrames( )->DrawRect );
+			}
+		} else CBase::Render( );
+	}
+	else
+	{
+		CCharacter::Render();
+	}
+}
 void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 {
 
