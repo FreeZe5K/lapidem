@@ -25,17 +25,8 @@ void CAuxiliaryState::Enter( )
 	m_nImageID[0]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_MainMenuBG.png" );
 	m_nImageID[1]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_HowToPlay.png" );
 
-	if( m_nState == 1 )
-	{
-		// - - - - - - - - - - - - - - - -
-		// Load high scores!
-		// - - - - - - - - - - - - - - - -
-	}
-
 	CGameplayState::GetInstance( )->SetPlayerReachedEnd( false );
-
 	m_HS.Load( "resource/data/scores.bin" );
-
 }
 
 bool CAuxiliaryState::Input( )
@@ -235,7 +226,6 @@ void CAuxiliaryState::Render( )
 	}
 	else if( m_nState == 1 ) // High Scores
 	{
-
 		m_HS.Render();
 
 		CGame::GetInstance( )->GetFont( )->Draw( "PRESS ANY KEY TO CONTINUE", 45, 
