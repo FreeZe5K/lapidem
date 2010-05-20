@@ -286,6 +286,45 @@ void CPlayer::Update( float fElapsedTime )
 	}
 }
 
+void CPlayer::Render(void)
+{
+	if( animation )
+	{
+		if(PlayerID ==1)
+		{
+			if( animation->GetImageID( ) != -1 && !IsRotated )
+				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
+				int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ),
+				int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
+				1.0f, 1.0f, &animation->GetFrames( )->DrawRect);
+			else if( animation->GetImageID( ) != -1 && IsRotated )
+			{
+				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
+					int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) + GetWidth( ) ), 
+					int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
+					-1.0f, 1.0f, &animation->GetFrames( )->DrawRect );
+			}
+		}
+		else
+		{
+			if( animation->GetImageID( ) != -1 && !IsRotated )
+				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
+				int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ),
+				int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
+				1.0f, 1.0f, &animation->GetFrames( )->DrawRect,0,0,0,D3DCOLOR_XRGB(0,255,0));
+			else if( animation->GetImageID( ) != -1 && IsRotated )
+			{
+				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
+					int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) + GetWidth( ) ), 
+					int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
+					-1.0f, 1.0f, &animation->GetFrames( )->DrawRect,0,0,0,D3DCOLOR_XRGB(0,255,0) );
+			}
+		}
+	} 
+	else CBase::Render( );
+
+}
+
 void CPlayer::Attack( int nTier )
 {
 	if(nTier == 3)

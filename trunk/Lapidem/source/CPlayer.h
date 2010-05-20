@@ -41,6 +41,7 @@ public:
 	void Jump( );
 	void Update( float );
 	void Attack( int );
+	void Render(void);
 	void HandleCollision(float, CBase* );
 	void HandleEvent(CEvent * pEvent);
 	void SetShielded(bool bShielded) {m_bShielded = bShielded;}
