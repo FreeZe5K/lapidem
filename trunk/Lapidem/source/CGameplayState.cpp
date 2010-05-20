@@ -319,7 +319,7 @@ void CGameplayState::Update( float fET )
 	{
 		int GameTime( CGame::GetInstance( )->GetTimeLeft( ) );
 
-		if( GameTime < 0 )
+		if( GameTime <  180)
 			GameTime = 2;
 		else GameTime = 1;
 

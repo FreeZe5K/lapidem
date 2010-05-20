@@ -12,6 +12,7 @@ CWaterTerrain::CWaterTerrain()
 	m_fCurrTime = 0.0f;
 	m_nCurrDistance = 0;
 	m_nNumFlooded = 0;
+	m_nDistanceToFlood = 0;
 	m_pControlTile = 0;
 
 	//Corona_EventHandler::GetInstance()->RegisterClient(this, "Flood Tile");

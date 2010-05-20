@@ -7,7 +7,6 @@ class CCamera;
 class CPlayer : public CCharacter, public CLDevice
 {
 	bool m_bIsJumping;
-	//float m_fJumpTimer;
 	float m_fFireTimer;
 
 	CBase* m_pReticle;

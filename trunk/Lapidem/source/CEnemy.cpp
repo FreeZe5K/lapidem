@@ -24,6 +24,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 	m_fFrozenSpeed  = 0.5f;
 	m_fFreezeTimer  = 0.0f;
 
+
 	if(!boss)
 	{
 	switch( ElementToBe )
@@ -111,7 +112,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 
 	else if(boss  == 1)
 	{
-		currState = new AIDocBoss();
+		currState = new AIDocBoss(1500 + (CSpellFactory::GetInstance()->GetIceLevel() + CSpellFactory::GetInstance()->GetWindLevel() + CSpellFactory::GetInstance()->GetEarthLevel() + CSpellFactory::GetInstance()->GetFireLevel()) * 15);
 
 		SetPosX(initx);
 		SetPosY(inity);
@@ -470,7 +471,7 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 			SN->Release();
 		}
 
-		if( OBJ_FIRE == spelltype )
+		if( OBJ_FIRE == spelltype && OBJ_FIRE != EleType )
 		{
 			if(m_bBurning)
 				m_nBurnDamage += ((CFire*)collidingObject)->GetDOT();

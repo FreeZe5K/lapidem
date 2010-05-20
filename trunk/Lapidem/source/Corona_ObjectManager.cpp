@@ -3,6 +3,9 @@
 #include "CTerrainBase.h"
 #include "CProfiler.h"
 
+//TODO Clean up "Crash Hunter" Items.
+#include "CEnemy.h"
+
 #define __PABLOS_COLLISION 
 
 Corona_ObjectManager * Corona_ObjectManager::CoMReference = NULL;
@@ -13,6 +16,7 @@ Corona_ObjectManager* Corona_ObjectManager::GetInstance()
 	{
 		CoMReference = new Corona_ObjectManager();
 		GetInstance()->theCamera = CCamera::GetCamera();
+		GetInstance()->Number = 0;
 	}
 
 	return CoMReference;
@@ -88,6 +92,18 @@ void Corona_ObjectManager::AddObject(CBase* ObjectToAdd)
 {
 	Objects.push_back(ObjectToAdd);
 	ObjectToAdd->AddRef();
+
+	if(ObjectToAdd->GetType () == 2)
+	{
+		
+		Object_Type CrashFinder;
+		CrashFinder.eletype = ((CEnemy*)ObjectToAdd)->GetEleType();
+		CrashFinder.Item = ObjectToAdd;
+		CrashFinder.number = ++Number;
+		CrashFinder.Type = ObjectToAdd->GetType();
+		CrashHunter.push_back(CrashFinder);
+	}
+
 }
 
 void Corona_ObjectManager::RemoveObject(CBase* ObjectToRemove)

@@ -107,6 +107,12 @@ void CFlock::ChangeLeader()
 
 void CFlock::Update(float fElapsedTime)
 {
+	if(m_vFlock.size() == 0)
+	{
+		SetActive(false);
+		return;
+	}
+
 	SetPosX(m_pLeader->GetPosX());
 	SetPosY(m_pLeader->GetPosY());
 	SetWidth((int)m_fInfluence);
@@ -116,10 +122,6 @@ void CFlock::Update(float fElapsedTime)
 		m_fShockTimer -= fElapsedTime;
 	}
 
-	if(m_vFlock.size() == 0)
-	{
-		SetActive(false);
-	}
 }
 
 bool CFlock::GetShocked(void)

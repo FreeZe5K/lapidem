@@ -11,6 +11,12 @@ CCharacter::CCharacter( )
 {
 	m_pSpells = CSpellFactory::GetInstance( );
 	animation = NULL;
+
+	IsRotated = false;
+	m_nHealth = -1;
+	currAnimation = -1;
+	m_SpellType = OBJ_FIRE;
+	currDirec = RIGHT;
 }
 
 void CCharacter::Render( )

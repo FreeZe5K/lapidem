@@ -1,7 +1,7 @@
 #pragma once
-#include "CSpell.h"
+#include "CFire.h"
 
-class CGiantFireBall : public CSpell
+class CGiantFireBall : public CFire
 {
 	float m_fRadiusIncrease;
 public:

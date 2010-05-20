@@ -11,7 +11,21 @@
 #include "stdheaders.h"
 
 CTerrainBase::CTerrainBase( )
-{ SetCollided( false ); m_fTransformTimer = -2.f; }
+{ SetCollided( false ); m_fTransformTimer = -2.f;
+
+	m_nTerrainType = -1;
+
+	 m_nHealth = -1;
+	 m_nDamage = -1;
+
+	 m_nTileID = -1;
+
+	 m_nBaseTileID = -1;
+	 m_nTileCollumns = -1;
+	 m_nTileRows = -1;
+
+
+}
 
 CTerrainBase::~CTerrainBase( )
 { /* NOTHING HERE YET */ }
