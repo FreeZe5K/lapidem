@@ -99,7 +99,18 @@ public:
 	static CSpellFactory* GetInstance( ) 
 	{
 		if( 0 == m_pSF )
+		{
 			m_pSF = new CSpellFactory( );
+			GetInstance( )->m_nEarthLVL  = 0;
+			GetInstance( )->m_nWindLVL   = 0;
+			GetInstance( )->m_nFireLVL   = 0;
+			GetInstance( )->m_nIceLVL    = 0;
+
+			GetInstance( )->m_nEarthXP   = 0;
+			GetInstance( )->m_nWindXP    = 0;
+			GetInstance( )->m_nFireXP    = 0;
+			GetInstance( )->m_nIceXP     = 0;
+		}
 		return m_pSF;
 	}
 
