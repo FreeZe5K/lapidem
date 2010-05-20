@@ -20,6 +20,7 @@ CBase::CBase( )
 	SetImage( -1 );
 	SetSound( -1 );
 
+	SetActive(true);
 	m_nType = -1;
 	m_nRefCount = 1;
 }
