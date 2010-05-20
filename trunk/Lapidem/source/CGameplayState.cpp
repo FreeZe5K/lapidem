@@ -34,8 +34,7 @@ void CGameplayState::Enter( )
 	m_pWM           = CSGD_WaveManager::GetInstance( );
 	m_pDI           = CSGD_DirectInput::GetInstance( );
 
-	CAnimationWarehouse::GetInstance( )->LoadAnimationSet( 
-		"resource/idlewalk.Anim", D3DCOLOR_XRGB( 255, 255, 255 ) );
+	CAnimationWarehouse::GetInstance( )->Init( );
 
 	m_bMapActive    = true;
 
