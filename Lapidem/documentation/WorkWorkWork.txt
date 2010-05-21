@@ -17,14 +17,11 @@ Tier 2 Ice     :: Work
 //Non Critical
 Sound Effects
 Config File
-Tier 3 fire
 Sister animations
 Attract Mode
 Water
 
 
 //Critcial
-Player Not Null
 Crash
-Tiles always destructable
 tier 2 ice
