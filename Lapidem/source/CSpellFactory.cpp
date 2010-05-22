@@ -104,6 +104,16 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 					newearth->SetVelX(100 * speedx);
 					newearth->SetVelY(100 * speedy);
 
+					/*if(newearth->GetVelX() > 100)
+						newearth->SetVelX(100);
+					else if(newearth->GetVelX() < -100 )
+						newearth->SetVelX(-100);
+
+					if(newearth->GetVelY() > 100)
+						newearth->SetVelY(100);
+					else if(newearth->GetVelX() < -100)
+						newearth->SetVelY(-100);*/
+
 					if(newearth->GetVelX() < 0)
 						newearth->SetPosX(pShooter->GetPosX() - 34);
 				}
@@ -339,8 +349,29 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 				float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
 				float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
 
-				newfire->SetVelX(250 * speedx);
-				newfire->SetVelY(250 * speedy);
+				newfire->SetVelX(200 * speedx);
+				newfire->SetVelY(200 * speedy);
+
+				/*if(newfire->GetVelX() > 200)
+					newfire->SetVelX(200);
+				else if(newfire->GetVelX() < 100 && newfire->GetVelX() > 10)
+					newfire->SetVelX(100);
+				else if(newfire->GetVelX() > -200 )
+					newfire->SetVelX(-200);
+				else if(newfire->GetVelX() > -100 && newfire->GetVelX() < -10)
+					newfire->SetVelX(-100);
+
+				
+				if(newfire->GetVelY() > 200)
+					newfire->SetVelY(200);
+				else if(newfire->GetVelY() < 100 && newfire->GetVelY() > 10)
+					newfire->SetVelY(100);
+				else if(newfire->GetVelY() > -200 )
+					newfire->SetVelY(-200);
+				else if(newfire->GetVelY() > -100 && newfire->GetVelY() < -10)
+					newfire->SetVelY(-100);*/
+
+
 			}
 			else
 			{
@@ -504,8 +535,28 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 				float speedx = ( tempRet->GetPosX( ) - pShooter->GetPosX( ) ) / 100;
 				float speedy = ( tempRet->GetPosY( ) - pShooter->GetPosY( ) ) / 100;
 
-				newice->SetVelX( 250 * speedx );
-				newice->SetVelY( 250 * speedy );
+				newice->SetVelX( 150 * speedx );
+				newice->SetVelY( 150 * speedy );
+
+
+				/*if(newice->GetVelX() > 150)
+					newice->SetVelX(150);
+				else if(newice->GetVelX() < 75 && newice->GetVelX() > 10)
+					newice->SetVelX(75);
+				else if(newice->GetVelX() > -150 )
+					newice->SetVelX(-150);
+				else if(newice->GetVelX() > -75 && newice->GetVelX() < -10)
+					newice->SetVelX(-75);
+
+				
+				if(newice->GetVelY() > 150)
+					newice->SetVelY(150);
+				else if(newice->GetVelY() < 75 && newice->GetVelY() > 10)
+					newice->SetVelY(75);
+				else if(newice->GetVelY() > -150 )
+					newice->SetVelY(-150);
+				else if(newice->GetVelY() > -75 && newice->GetVelY() < -10)
+					newice->SetVelY(-75);*/
 			}
 			else
 			{
@@ -619,6 +670,25 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 
 					newwind->SetVelX(250 * speedx);
 					newwind->SetVelY(250 * speedy);
+
+				/*if(newwind->GetVelX() > 250)
+					newwind->SetVelX(250);
+				else if(newwind->GetVelX() < 125 && newwind->GetVelX() > 10)
+					newwind->SetVelX(125);
+				else if(newwind->GetVelX() > -250 )
+					newwind->SetVelX(-250);
+				else if(newwind->GetVelX() > -125 && newwind->GetVelX() < -10)
+					newwind->SetVelX(-125);
+
+				
+				if(newwind->GetVelY() > 250)
+					newwind->SetVelY(250);
+				else if(newwind->GetVelY() < 125 && newwind->GetVelY() > 10)
+					newwind->SetVelY(125);
+				else if(newwind->GetVelY() > -250 )
+					newwind->SetVelY(-250);
+				else if(newwind->GetVelY() > -125 && newwind->GetVelY() < -10)
+					newwind->SetVelY(-125);*/
 
 
 				}

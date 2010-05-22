@@ -20,9 +20,8 @@ class CPlayer : public CCharacter, public CLDevice
 	int m_nScore;
 	int m_nTierThree;
 	bool m_bShielded;
-	bool m_bIsDrowning;
 	bool m_bIsTouching;
-	float m_fDrownTimer; //Seriously?
+	float m_fDrownTimer;//Seriously?
 	float m_fShieldTimer;
 	float RetPosX;
 	float RetPosY;

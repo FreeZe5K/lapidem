@@ -1,12 +1,6 @@
 #include "CEarth.h"
-#include "Wrappers/CSGD_TextureManager.h"
-#include "CSpellFactory.h"
-#include "Corona_ObjectManager.h"
-#include "Corona_EventHandler.h"
+#include "stdheaders.h"
 #include "CTerrainBase.h"
-#include "CCamera.h" 
-#include "CGame.h"
-#include <math.h>
 
 
 #define PILLAR_HEIGHT 80
@@ -49,8 +43,22 @@ CEarth::~CEarth()
 void CEarth::Update( float fElapsedTime )
 {
 	SetLifespan( GetLifespan( ) - fElapsedTime );
-	if( GetLifespan( ) < 0 )
-		SetActive( false );
+
+	if(GetLifespan() < 0 || ! ( CGameplayState::GetInstance()->GetLevel()->GetTile((int)GetPosX(), (int)GetPosY()) ))
+	{
+		SetActive(false);
+		return;
+	}
+	else
+	{
+		CTerrainBase* pTile = (CTerrainBase*)CGameplayState::GetInstance()->GetLevel()->GetTile((int)GetPosX(), (int)GetPosY());
+
+		if(pTile->GetTypeTerrain() == T_BOUNDARY)
+		{
+				SetActive(false);
+				return;
+		}
+	}
 
 	switch( GetTier( ) )
 	{
@@ -74,6 +82,8 @@ void CEarth::Update( float fElapsedTime )
 
 void CEarth::UpdateTier1( float fElapsedTime )
 {
+
+
 
 	if(m_bIsIce)
 		return;
@@ -213,7 +223,7 @@ void CEarth::Render( )
 
 void CEarth::RenderTier1( )
 {
-	if( GetImage( ) != -1 )
+	if( GetImage( ) != -1 && IsActive())
 		CSGD_TextureManager::GetInstance( )->Draw( GetImage( ), 
 		int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ), 
 		int( GetPosY( )- CCamera::GetCamera( )->GetYOffset( ) ) );
@@ -267,13 +277,13 @@ void CEarth::HandleCollision(float fElapsedTime, CBase* pObject )
 		{
 			if( pObject->GetPosX( ) + 1 > GetPosX( ) + GetWidth( ) || 
 				pObject->GetPosX( ) + GetWidth( ) - 1 < GetPosX( ) )
-				SetVelX(GetVelX( ) * -0.5f );
+				SetVelX(GetVelX( ) * -0.1f );
 
 			if( pObject->GetPosY( ) + GetHeight( ) - 1 < GetPosY( ) )
-				SetVelY(GetVelX( ) * -0.4f );
+				SetVelY(GetVelX( ) * -0.09f );
 
 			if( pObject->GetPosY( ) + 1 > GetPosY( ) + GetHeight( ) )
-				SetVelY( GetVelY( ) * -0.2f );
+				SetVelY( GetVelY( ) * -0.05f );
 
 			if(!m_bIsIce)
 				this->MoveOutOf(pObject, fElapsedTime );

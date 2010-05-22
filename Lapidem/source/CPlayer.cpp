@@ -17,7 +17,7 @@ int CPlayer::PlayerCount = 0;
 CPlayer::CPlayer( )
 {
 	m_fFireTimer       = 0.0f;
-	m_fDrownTimer	   = 0.0f;
+	m_fDrownTimer      = 0.0f;
 	m_nHealth          = 200; 
 	m_nType            = OBJ_PLAYER; 
 	m_nFireEnergy	   = 0;
@@ -28,7 +28,6 @@ CPlayer::CPlayer( )
 	m_nTierThree	   = 0;
 	m_bIsJumping       = false;
 	Tossed			   = false;
-	m_bIsDrowning	   = false;
 	m_bShielded		   = false;
 	m_bIsTouching	   = false;
 	m_bFainted		   = false;
@@ -239,19 +238,17 @@ void CPlayer::Update( float fElapsedTime )
 	if(m_bIsJumping)
 		SetAnimation(0,0);
 
-	if(!m_bIsTouching)
-		m_bIsDrowning = false;
-
-
-	m_bIsTouching = false;
-	m_fDrownTimer -=fElapsedTime;
-
-	if(m_bIsDrowning)
+	if(m_bIsTouching)
 	{
-		if(!m_bIsJumping)
+		m_fDrownTimer -= fElapsedTime;
+		
+		if(DI->KeyDown(DIK_W))
+			SetVelY(-125);
+		else
 			SetVelY(25);
-		else SetVelY(-150);
 	}
+	
+	m_bIsTouching = false;
 
 	m_fFireTimer = m_fFireTimer + fElapsedTime;
 
@@ -415,17 +412,15 @@ void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 
 			if( TerraType == T_LAVA || TerraType == T_WATER)
 			{
-				m_bIsDrowning = true;
 				m_bIsTouching = true;
 
 				if(m_fDrownTimer <= 0)
 				{
-					TakeDamage(5);
-					m_fDrownTimer = 1.f;
+					TakeDamage(10);
+					m_fDrownTimer = .5f;
 				}
 				return;
 			}
-			else m_bIsDrowning = false;
 		}
 
 		if( collidingObject->GetType( ) == OBJ_SPELL)
