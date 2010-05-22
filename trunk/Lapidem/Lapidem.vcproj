@@ -537,14 +537,6 @@
 		<Filter
 			Name="Misc"
 			>
-			<File
-				RelativePath=".\source\CHighScores.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\source\CHighScores.h"
-				>
-			</File>
 			<Filter
 				Name="Header Files"
 				>
@@ -558,6 +550,10 @@
 				</File>
 				<File
 					RelativePath=".\source\CEvent.h"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CHighScores.h"
 					>
 				</File>
 				<File
@@ -586,6 +582,10 @@
 				</File>
 				<File
 					RelativePath=".\source\CBitmapFont.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CHighScores.cpp"
 					>
 				</File>
 				<File

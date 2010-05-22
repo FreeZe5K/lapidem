@@ -67,7 +67,8 @@ void CTerrainBase::HandleCollision(float fElapsedTime, CBase* pBase )
 					{
 						Corona_EventHandler::GetInstance()->SendEvent("SinkRock", (void*)pBase);
 					}
-
+					else if( ( ( CSpell *)pBase )->GetTier() == 1 && (pBase->GetVelX() > 15 || pBase->GetVelX() < -15 ))
+						SetHealth(GetHealth() - ( (CSpell* )pBase )->GetDamage() );
 				}
 				else SetHealth( GetHealth( ) - ( ( CSpell* )pBase )->GetDamage( ) );
 

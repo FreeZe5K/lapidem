@@ -74,8 +74,6 @@ void CGameplayState::Enter( )
 	if( m_bTwoPlayers )
 	{
 		m_pPlayerTwo = new CPlayer( );
-		m_pPlayerTwo->SetPosX( 190 ); 
-		m_pPlayerTwo->SetPosY( 400 );
 		m_pPlayerTwo->SetAnimation( 0, 0 );
 	}else m_pPlayerTwo = 0;
 
@@ -224,6 +222,11 @@ void CGameplayState::Enter( )
 	{
 		m_pPlayerOne->SetPosX( pEntry->GetPosX( ) );
 		m_pPlayerOne->SetPosY( pEntry->GetPosY( ) );
+		if(m_pPlayerTwo)
+		{
+			m_pPlayerTwo->SetPosX( pEntry->GetPosX( ) );
+			m_pPlayerTwo->SetPosY( pEntry->GetPosY( ) );
+		}
 	}
 
 	m_pCoM->AddObject( m_pPlayerOne );
@@ -457,6 +460,12 @@ void CGameplayState::Update( float fET )
 			CBase* pEntry = theLevel.GetEntryPoint( );
 			m_pPlayerOne->SetPosX( pEntry->GetPosX( ) );
 			m_pPlayerOne->SetPosY( pEntry->GetPosY( ) );
+
+			if(m_pPlayerTwo)
+			{
+				m_pPlayerTwo->SetPosX( pEntry->GetPosX( ) );
+				m_pPlayerTwo->SetPosY( pEntry->GetPosY( ) );
+			}
 
 			m_bPlayerReachedEnd = false;
 		}
