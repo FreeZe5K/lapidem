@@ -104,7 +104,7 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 					newearth->SetVelX(100 * speedx);
 					newearth->SetVelY(100 * speedy);
 
-					/*if(newearth->GetVelX() > 100)
+					if(newearth->GetVelX() > 100)
 						newearth->SetVelX(100);
 					else if(newearth->GetVelX() < -100 )
 						newearth->SetVelX(-100);
@@ -112,7 +112,7 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 					if(newearth->GetVelY() > 100)
 						newearth->SetVelY(100);
 					else if(newearth->GetVelX() < -100)
-						newearth->SetVelY(-100);*/
+						newearth->SetVelY(-100);
 
 					if(newearth->GetVelX() < 0)
 						newearth->SetPosX(pShooter->GetPosX() - 34);
@@ -334,10 +334,30 @@ void CSpellFactory::CreateEnemyFire(CCharacter * pShooter, CBase * pTarget)
 
 	newfire->SetPosX(pShooter->GetPosX() + pShooter->GetWidth()  * .5f);
 	newfire->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
-	float SpeedX =  ( (pTarget->GetPosX() + pTarget->GetWidth()  * .5f) - newfire->GetPosX() ) / 100;
-	float SpeedY =  ( (pTarget->GetPosY() + pTarget->GetHeight() * .5f) - newfire->GetPosY() ) / 100;
-	newfire->SetVelX( SpeedX * 250 );
-	newfire->SetVelY( SpeedY * 250 );
+
+
+	//////////////////////////////
+	// Bug #6 Fix
+	//
+	// Sam Mathis
+	//////////////////////////////
+	//float SpeedX =  ( (pTarget->GetPosX() + pTarget->GetWidth()  * .5f) - newfire->GetPosX() ) / 100;
+	//float SpeedY =  ( (pTarget->GetPosY() + pTarget->GetHeight() * .5f) - newfire->GetPosY() ) / 100;
+	//newfire->SetVelX( SpeedX * 250 );
+	//newfire->SetVelY( SpeedY * 250 );
+
+	float xComp = (pTarget->GetPosX() + pTarget->GetWidth()  * .5f) - newfire->GetPosX();
+	float yComp = (pTarget->GetPosY() + pTarget->GetHeight() * .5f) - newfire->GetPosY();
+
+	newfire->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 200);
+	newfire->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 200);
+
+
+
+	///////////////////////////
+	// End Bug Fix
+	//
+	//////////////////////////
 
 	newfire->SetDamage(20);
 	newfire->SetDOT(0);
@@ -375,30 +395,29 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 			{
 				CBase* tempRet = ((CPlayer*)pShooter)->GetReticle();
 
-				float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
-				float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
+				//////////////////
+				// Bug #6 Fix
+				// Sam Mathis
+				//////////////////
+				//float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
+				//float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
 
-				newfire->SetVelX(200 * speedx);
-				newfire->SetVelY(200 * speedy);
+				//newfire->SetVelX(200 * speedx);
+				//newfire->SetVelY(200 * speedy);
 
-				/*if(newfire->GetVelX() > 200)
-					newfire->SetVelX(200);
-				else if(newfire->GetVelX() < 100 && newfire->GetVelX() > 10)
-					newfire->SetVelX(100);
-				else if(newfire->GetVelX() > -200 )
-					newfire->SetVelX(-200);
-				else if(newfire->GetVelX() > -100 && newfire->GetVelX() < -10)
-					newfire->SetVelX(-100);
 
-				
-				if(newfire->GetVelY() > 200)
-					newfire->SetVelY(200);
-				else if(newfire->GetVelY() < 100 && newfire->GetVelY() > 10)
-					newfire->SetVelY(100);
-				else if(newfire->GetVelY() > -200 )
-					newfire->SetVelY(-200);
-				else if(newfire->GetVelY() > -100 && newfire->GetVelY() < -10)
-					newfire->SetVelY(-100);*/
+				float xComp = (tempRet->GetPosX() + tempRet->GetWidth()  * .5f) - newfire->GetPosX();
+				float yComp = (tempRet->GetPosY() + tempRet->GetHeight() * .5f) - newfire->GetPosY();
+
+				newfire->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 200);
+				newfire->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 200);
+
+
+				/////////////////
+				// End Bug Fix
+				//
+				////////////////
+
 
 
 			}
@@ -561,31 +580,27 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 			{
 				CBase* tempRet = ( ( CPlayer* )pShooter )->GetReticle( );
 
-				float speedx = ( tempRet->GetPosX( ) - pShooter->GetPosX( ) ) / 100;
-				float speedy = ( tempRet->GetPosY( ) - pShooter->GetPosY( ) ) / 100;
-
-				newice->SetVelX( 150 * speedx );
-				newice->SetVelY( 150 * speedy );
+				////////////////
+				// Bug #6 Fix
+				////////////////
 
 
-				/*if(newice->GetVelX() > 150)
-					newice->SetVelX(150);
-				else if(newice->GetVelX() < 75 && newice->GetVelX() > 10)
-					newice->SetVelX(75);
-				else if(newice->GetVelX() > -150 )
-					newice->SetVelX(-150);
-				else if(newice->GetVelX() > -75 && newice->GetVelX() < -10)
-					newice->SetVelX(-75);
+				//float speedx = ( tempRet->GetPosX( ) - pShooter->GetPosX( ) ) / 100;
+				//float speedy = ( tempRet->GetPosY( ) - pShooter->GetPosY( ) ) / 100;
 
-				
-				if(newice->GetVelY() > 150)
-					newice->SetVelY(150);
-				else if(newice->GetVelY() < 75 && newice->GetVelY() > 10)
-					newice->SetVelY(75);
-				else if(newice->GetVelY() > -150 )
-					newice->SetVelY(-150);
-				else if(newice->GetVelY() > -75 && newice->GetVelY() < -10)
-					newice->SetVelY(-75);*/
+				//newice->SetVelX( 150 * speedx );
+				//newice->SetVelY( 150 * speedy );
+
+				float xComp = (tempRet->GetPosX() + tempRet->GetWidth()  * .5f) - newice->GetPosX();
+				float yComp = (tempRet->GetPosY() + tempRet->GetHeight() * .5f) - newice->GetPosY();
+
+				newice->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 150);
+				newice->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 150);
+
+
+				/////////////
+				//End Bug Fix
+				/////////////
 			}
 			else
 			{
@@ -694,31 +709,27 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 				{
 					CBase* tempRet = ((CPlayer*)pShooter)->GetReticle();
 
-					float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
-					float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
 
-					newwind->SetVelX(250 * speedx);
-					newwind->SetVelY(250 * speedy);
+					/////////////////
+					// Bug Fix 6
+					////////////////
+					//float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
+					//float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
 
-				/*if(newwind->GetVelX() > 250)
-					newwind->SetVelX(250);
-				else if(newwind->GetVelX() < 125 && newwind->GetVelX() > 10)
-					newwind->SetVelX(125);
-				else if(newwind->GetVelX() > -250 )
-					newwind->SetVelX(-250);
-				else if(newwind->GetVelX() > -125 && newwind->GetVelX() < -10)
-					newwind->SetVelX(-125);
+					//newwind->SetVelX(250 * speedx);
+					//newwind->SetVelY(250 * speedy);
 
-				
-				if(newwind->GetVelY() > 250)
-					newwind->SetVelY(250);
-				else if(newwind->GetVelY() < 125 && newwind->GetVelY() > 10)
-					newwind->SetVelY(125);
-				else if(newwind->GetVelY() > -250 )
-					newwind->SetVelY(-250);
-				else if(newwind->GetVelY() > -125 && newwind->GetVelY() < -10)
-					newwind->SetVelY(-125);*/
 
+				float xComp = (tempRet->GetPosX() + tempRet->GetWidth()  * .5f) - newwind->GetPosX();
+				float yComp = (tempRet->GetPosY() + tempRet->GetHeight() * .5f) - newwind->GetPosY();
+
+				newwind->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 250);
+				newwind->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 250);
+
+
+					/////////////////
+					// End Bug Fix
+					/////////////////
 
 				}
 				else
@@ -808,11 +819,24 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 				{
 					CBase* tempRet = ((CPlayer*)pShooter)->GetReticle();
 
-					float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
-					float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
 
-					newwind->SetVelX(250 * speedx);
-					newwind->SetVelY(250 * speedy);
+					///////////
+					//Bug 6 fix't
+					///////////
+
+					//float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
+					//float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
+
+					//newwind->SetVelX(250 * speedx);
+					//newwind->SetVelY(250 * speedy);
+
+				float xComp = (tempRet->GetPosX() + tempRet->GetWidth()  * .5f) - newwind->GetPosX();
+				float yComp = (tempRet->GetPosY() + tempRet->GetHeight() * .5f) - newwind->GetPosY();
+
+				newwind->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 150);
+				newwind->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 150);
+
+				//End Fix't
 
 
 				}
