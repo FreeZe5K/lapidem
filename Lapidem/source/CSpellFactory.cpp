@@ -280,6 +280,35 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 				(CGameplayState::GetInstance()->GetPlayerTwo()->GetWidth()>>1));
 			newearth->SetPosY(CGameplayState::GetInstance()->GetPlayerTwo()->GetPosY() - 100);
 		}
+
+		//////////////////////////
+		// Bug #13 Bug Fix
+		//
+		// Sam Mathis
+		//////////////////////////
+
+		CTerrainBase* pTile = (CTerrainBase*)CGameplayState::GetInstance()->GetLevel()->GetTile( (int)newearth->GetPosX(), (int)newearth->GetPosY() );
+		if(pTile)
+		{
+			if(pTile->GetTypeTerrain() == T_ROCK)
+			{
+				newearth->Release();
+				return;
+			}
+		}
+		else
+		{
+			newearth->Release();
+			return;
+		}
+
+		//////////////////////////
+		// End Bug Fix
+		//
+		// 
+		//////////////////////////
+
+
 		newearth->SetVelX(0);
 		newearth->SetVelY(100);
 		newearth->SetDamage(10);

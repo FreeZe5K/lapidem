@@ -222,11 +222,20 @@ void CGameplayState::Enter( )
 	{
 		m_pPlayerOne->SetPosX( pEntry->GetPosX( ) );
 		m_pPlayerOne->SetPosY( pEntry->GetPosY( ) );
+
+		/////////////////
+		//Bug # 4 Fix
+		//Sam Mathis
+		/////////////////
 		if(m_pPlayerTwo)
 		{
 			m_pPlayerTwo->SetPosX( pEntry->GetPosX( ) );
 			m_pPlayerTwo->SetPosY( pEntry->GetPosY( ) );
 		}
+
+		//////////////
+		//End Bug Fix
+		//////////////
 	}
 
 	m_pCoM->AddObject( m_pPlayerOne );
@@ -461,11 +470,21 @@ void CGameplayState::Update( float fET )
 			m_pPlayerOne->SetPosX( pEntry->GetPosX( ) );
 			m_pPlayerOne->SetPosY( pEntry->GetPosY( ) );
 
+
+			////////////////
+			//Bug #12 Fix
+			//
+			// Sam Mathis
+			////////////////
 			if(m_pPlayerTwo)
 			{
 				m_pPlayerTwo->SetPosX( pEntry->GetPosX( ) );
 				m_pPlayerTwo->SetPosY( pEntry->GetPosY( ) );
 			}
+
+			///////////////
+			// End Bug Fix
+			///////////////
 
 			m_bPlayerReachedEnd = false;
 		}

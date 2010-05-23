@@ -44,6 +44,13 @@ void CEarth::Update( float fElapsedTime )
 {
 	SetLifespan( GetLifespan( ) - fElapsedTime );
 
+		//////////////////////////
+		// Bug #5 Fix
+		//
+		// Sam Mathis
+		//////////////////////////
+
+
 	if(GetLifespan() < 0 || ! ( CGameplayState::GetInstance()->GetLevel()->GetTile((int)GetPosX(), (int)GetPosY()) ))
 	{
 		SetActive(false);
@@ -59,6 +66,11 @@ void CEarth::Update( float fElapsedTime )
 				return;
 		}
 	}
+
+		//////////////////////////
+		// End Bug Fix
+		//
+		//////////////////////////
 
 	switch( GetTier( ) )
 	{
@@ -275,6 +287,12 @@ void CEarth::HandleCollision(float fElapsedTime, CBase* pObject )
 	{
 		if( pObject->GetType( ) == OBJ_TERRA || pObject->GetType( ) ==  OBJ_PLAYER  )
 		{
+
+			////////////////////////
+			//Bug #16 && #17 fix
+			//
+			//Sam Mathis
+			////////////////////////
 			if( pObject->GetPosX( ) + 1 > GetPosX( ) + GetWidth( ) || 
 				pObject->GetPosX( ) + GetWidth( ) - 1 < GetPosX( ) )
 				SetVelX(GetVelX( ) * -0.1f );
@@ -284,6 +302,10 @@ void CEarth::HandleCollision(float fElapsedTime, CBase* pObject )
 
 			if( pObject->GetPosY( ) + 1 > GetPosY( ) + GetHeight( ) )
 				SetVelY( GetVelY( ) * -0.05f );
+
+			////////////////////
+			//End Bug Fix.
+			///////////////////
 
 			if(!m_bIsIce)
 				this->MoveOutOf(pObject, fElapsedTime );
