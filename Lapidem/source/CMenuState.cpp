@@ -44,12 +44,18 @@ bool CMenuState::Input( )
 
 	m_fInputTimer += .0167f;
 
-	if(m_fInputTimer > .08 || m_pDI->CheckBufferedKeysEx() || m_pDI->JoystickCheckBufferedButtons() != -1)
+	if(m_pDI->JoystickGetLStickYNormalized())
 	{
+		if(m_fInputTimer < .15)
+			return true;
+		else
+			m_fInputTimer = 0.0f;
+	}
+
 
 	if( 0 == m_nState ) // Main menu
 	{
-		if( m_pDI->KeyDown( DIK_UP )  || m_pDI->JoystickDPadDown( 2 ) || m_pDI->JoystickGetLStickYNormalized() < 0 )
+		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) || m_pDI->JoystickGetLStickYNormalized() < 0 )
 		{
 			m_nAttractTimer = 0;
 			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
@@ -58,7 +64,7 @@ bool CMenuState::Input( )
 				m_nChoice = 5;
 		}
 
-		if( m_pDI->KeyDown( DIK_DOWN )  || m_pDI->JoystickDPadDown( 3 ) || m_pDI->JoystickGetLStickYNormalized() > 0 )
+		if( m_pDI->KeyPressed( DIK_DOWN )  || m_pDI->JoystickDPadPressed( 3 ) || m_pDI->JoystickGetLStickYNormalized() > 0 )
 		{
 			m_nAttractTimer = 0;
 			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
@@ -99,7 +105,7 @@ bool CMenuState::Input( )
 	}
 	else if( 1 == m_nState ) // New / load
 	{
-		if( m_pDI->KeyDown( DIK_UP )  || m_pDI->JoystickDPadDown( 2 ) || m_pDI->JoystickGetLStickYNormalized() < 0)
+		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) || m_pDI->JoystickGetLStickYNormalized() < 0)
 		{
 			m_nAttractTimer = 0;
 			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
@@ -108,7 +114,7 @@ bool CMenuState::Input( )
 				m_nChoice = 2;
 		}
 
-		if( m_pDI->KeyDown( DIK_DOWN )  || m_pDI->JoystickDPadDown( 3 ) || m_pDI->JoystickGetLStickYNormalized() > 0 )
+		if( m_pDI->KeyPressed( DIK_DOWN )  || m_pDI->JoystickDPadPressed( 3 ) || m_pDI->JoystickGetLStickYNormalized() > 0 )
 		{
 			m_nAttractTimer = 0;
 			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
@@ -140,7 +146,7 @@ bool CMenuState::Input( )
 	}
 	else if( 2 == m_nState ) // Single / mutliplayer
 	{
-		if( m_pDI->KeyDown( DIK_UP )  || m_pDI->JoystickDPadDown( 2 ) || m_pDI->JoystickGetLStickYAmount() < 0 )
+		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) || m_pDI->JoystickGetLStickYAmount() < 0 )
 		{
 			m_nAttractTimer = 0;
 			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
@@ -149,7 +155,7 @@ bool CMenuState::Input( )
 				m_nChoice = 2;
 		}
 
-		if( m_pDI->KeyDown( DIK_DOWN )  || m_pDI->JoystickDPadDown( 3 ) || m_pDI->JoystickGetLStickYAmount() > 0 )
+		if( m_pDI->KeyPressed( DIK_DOWN )  || m_pDI->JoystickDPadPressed( 3 ) || m_pDI->JoystickGetLStickYAmount() > 0 )
 		{
 			m_nAttractTimer = 0;
 			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
@@ -182,7 +188,7 @@ bool CMenuState::Input( )
 	}
 	else if( 3 == m_nState )
 	{
-		if( m_pDI->KeyDown( DIK_UP )  || m_pDI->JoystickDPadDown( 2 ) || m_pDI->JoystickGetLStickYAmount() < 0)
+		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) || m_pDI->JoystickGetLStickYAmount() < 0)
 		{
 			m_nAttractTimer = 0;
 			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
@@ -191,7 +197,7 @@ bool CMenuState::Input( )
 				m_nChoice = 3;
 		}
 
-		if( m_pDI->KeyDown( DIK_DOWN )  || m_pDI->JoystickDPadDown( 3 ) || m_pDI->JoystickGetLStickYAmount() > 0 )
+		if( m_pDI->KeyPressed( DIK_DOWN )  || m_pDI->JoystickDPadPressed( 3 ) || m_pDI->JoystickGetLStickYAmount() > 0 )
 		{
 			m_nAttractTimer = 0;
 			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
@@ -231,8 +237,6 @@ bool CMenuState::Input( )
 				m_nState = 1;
 			}
 		}
-	}
-	m_fInputTimer = 0.0f;
 	}
 
 	return true;
