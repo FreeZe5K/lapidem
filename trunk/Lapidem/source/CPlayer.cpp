@@ -238,6 +238,11 @@ void CPlayer::Update( float fElapsedTime )
 	if(m_bIsJumping)
 		SetAnimation(0,0);
 
+	//////////////////////////////
+	// Bug #1 Fix
+	// Sam Mathis
+	//////////////////////////////
+
 	if(m_bIsTouching)
 	{
 		m_fDrownTimer -= fElapsedTime;
@@ -247,6 +252,10 @@ void CPlayer::Update( float fElapsedTime )
 		else
 			SetVelY(25);
 	}
+
+	/////////////////////
+	//End bug Fix
+	/////////////////////
 	
 	m_bIsTouching = false;
 
