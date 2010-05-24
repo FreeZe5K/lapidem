@@ -65,9 +65,9 @@ void CCamera::Update( float fElapsedTime )
 
 	RECT rHook, r;
 	int x          = thePlayer->GetWidth( );
-	rHook.left     = CenterOfScreenX - ( thePlayer->GetWidth( ) << 2 );
+	rHook.left     = CenterOfScreenX - ( thePlayer->GetWidth( ) << 1 );
 	rHook.top      = CenterOfScreenY - ( thePlayer->GetHeight( ) );
-	rHook.right    = CenterOfScreenX + ( thePlayer->GetWidth( ) << 2 );
+	rHook.right    = CenterOfScreenX + ( thePlayer->GetWidth( ) << 1 );
 	rHook.bottom   = CenterOfScreenY + ( thePlayer->GetHeight( ) );
 
 	if( !IntersectRect( &r, &rPlayer, &rCamera ) )

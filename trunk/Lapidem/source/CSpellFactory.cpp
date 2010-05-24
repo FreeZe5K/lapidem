@@ -178,6 +178,35 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 						}
 					}
 				}
+
+				//////////////////////////
+				// Bug #13 Bug Fix
+				//
+				// Sam Mathis
+				//////////////////////////
+				CTerrainBase* pTile = (CTerrainBase*)CGameplayState::GetInstance()->GetLevel()->GetTile( (int)newearth->GetPosX(), (int)newearth->GetPosY() );
+				if(pTile)
+				{
+					if(pTile->GetTypeTerrain() != T_EMPTY 
+									&& newearth->GetPosX() > pTile->GetPosX() - 3 && newearth->GetPosX() < pTile->GetPosX() + 7 
+									&& newearth->GetPosY() > pTile->GetPosY() - 3 && newearth->GetPosY() < pTile->GetPosY() + 16 )
+					{
+						newearth->Release();
+						return;
+					}
+				}
+				else
+				{
+					newearth->Release();
+					return;
+				}
+
+				//////////////////////////
+				// End Bug Fix
+				//
+				// 
+				//////////////////////////
+
 				newearth->SetDamage(10 + 4 * m_nEarthLVL);
 				newearth->SetLifespan(10.0f + 1.5f * m_nEarthLVL);
 				newearth->SetActive(true);
@@ -224,12 +253,12 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 					if(pShooter->GetVelX() < retposition)
 					{
 						newearth->SetPosX(CCamera::GetCamera()->GetWidth() + newearth->GetWidth());
-						newearth->SetVelX(-500.0f);
+						newearth->SetVelX(-650.0f);
 					}
 					else
 					{
 						newearth->SetPosX(CCamera::GetCamera()->GetXOffset() - newearth->GetWidth());
-						newearth->SetVelX(500.0f);
+						newearth->SetVelX(650.0f);
 						newearth->SetXScale(-1.0f);	
 					}
 				}
@@ -239,19 +268,19 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 					if(direction == LEFT || direction == LEFT_DOWN || direction == LEFT_UP || direction == UP)
 					{
 						newearth->SetPosX(CCamera::GetCamera()->GetWidth() + newearth->GetWidth());
-						newearth->SetVelX(-500.0f);
+						newearth->SetVelX(-650.0f);
 					}
 					else
 					{
 						newearth->SetPosX(CCamera::GetCamera()->GetXOffset() - newearth->GetWidth());
-						newearth->SetVelX(500.0f);
+						newearth->SetVelX(650.0f);
 						newearth->SetXScale(-1.0f);		
 					}
 				}
 				newearth->SetPosY(CCamera::GetCamera()->GetYOffset());
 				newearth->SetVelY(0.0f);
 				newearth->SetDamage(200);
-				newearth->SetLifespan(300);
+				newearth->SetLifespan(400);
 				newearth->SetActive(true);
 				newearth->SetTier(3);
 				newearth->ShotBy(true);	
@@ -409,8 +438,8 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 				float xComp = (tempRet->GetPosX() + tempRet->GetWidth()  * .5f) - newfire->GetPosX();
 				float yComp = (tempRet->GetPosY() + tempRet->GetHeight() * .5f) - newfire->GetPosY();
 
-				newfire->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 200);
-				newfire->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 200);
+				newfire->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 250);
+				newfire->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 250);
 
 
 				/////////////////
@@ -428,50 +457,50 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 				{
 				case 0:
 					{
-						newfire->SetVelX(-200);
+						newfire->SetVelX(-250);
 						newfire->SetVelY(0);
 						break;
 					}
 				case 1:
 					{
-						newfire->SetVelX(200);
+						newfire->SetVelX(250);
 						newfire->SetVelY(0);
 						break;
 					}
 				case 2:
 					{
 						newfire->SetVelX(0);
-						newfire->SetVelY(-200);
+						newfire->SetVelY(-250);
 						break;
 					}
 				case 3:
 					{
 						newfire->SetVelX(0);
-						newfire->SetVelY(200);
+						newfire->SetVelY(250);
 						break;
 					}
 				case 4:
 					{
-						newfire->SetVelX(-150);
-						newfire->SetVelY(-150);
+						newfire->SetVelX(-200);
+						newfire->SetVelY(-200);
 						break;
 					}
 				case 5:
 					{
-						newfire->SetVelX(-150);
-						newfire->SetVelY(150);
+						newfire->SetVelX(-200);
+						newfire->SetVelY(200);
 						break;
 					}
 				case 6:
 					{
-						newfire->SetVelX(150);
-						newfire->SetVelY(-150);
+						newfire->SetVelX(200);
+						newfire->SetVelY(-200);
 						break;
 					}
 				case 7:
 					{
-						newfire->SetVelX(150);
-						newfire->SetVelY(150);
+						newfire->SetVelX(200);
+						newfire->SetVelY(200);
 						break;
 					}
 				}
@@ -495,7 +524,7 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 			newfire->SetPosY(pShooter->GetPosY() + pShooter->GetHeight());
 			newfire->SetVelX(100);
 			newfire->SetVelY(50);
-			newfire->SetDamage(20 + (10 * m_nFireLVL));
+			newfire->SetDamage(2 + (2 * m_nFireLVL));
 			newfire->SetDOT(3);
 			newfire->SetLifespan(10.f);
 			newfire->SetTier(nTier);
@@ -522,7 +551,7 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 			newfire->SetPosY( CCamera::GetCamera()->GetYOffset() + 1);
 			newfire->SetVelX(750);
 			newfire->SetVelY(50);
-			newfire->SetDamage(30 + (20 * m_nFireLVL));
+			newfire->SetDamage(5 + (2 * m_nFireLVL));
 			newfire->SetDOT(3);
 			newfire->SetLifespan(10.0f);
 			newfire->SetTier(nTier);
@@ -594,8 +623,8 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 				float xComp = (tempRet->GetPosX() + tempRet->GetWidth()  * .5f) - newice->GetPosX();
 				float yComp = (tempRet->GetPosY() + tempRet->GetHeight() * .5f) - newice->GetPosY();
 
-				newice->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 150);
-				newice->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 150);
+				newice->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 200);
+				newice->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 200);
 
 
 				/////////////
@@ -609,50 +638,50 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 				{
 				case 0:
 					{
-						newice->SetVelX( -150 );
+						newice->SetVelX( -200 );
 						newice->SetVelY( 0 );
 						break;
 					}
 				case 1:
 					{
-						newice->SetVelX( 150 );
+						newice->SetVelX( 200 );
 						newice->SetVelY( 0 );
 						break;
 					}
 				case 2:
 					{
 						newice->SetVelX( 0 );
-						newice->SetVelY( -150 );
+						newice->SetVelY( -200 );
 						break;
 					}
 				case 3:
 					{
 						newice->SetVelX( 0 );
-						newice->SetVelY( 150 );
+						newice->SetVelY( 200 );
 						break;
 					}
 				case 4:
 					{
-						newice->SetVelX( -75 );
-						newice->SetVelY( -75 );
+						newice->SetVelX( -125 );
+						newice->SetVelY( -125 );
 						break;
 					}
 				case 5:
 					{
-						newice->SetVelX( -75 );
-						newice->SetVelY( 75 );
+						newice->SetVelX( -125 );
+						newice->SetVelY( 125 );
 						break;
 					}
 				case 6:
 					{
-						newice->SetVelX( 75 );
-						newice->SetVelY( -75 );
+						newice->SetVelX( 125 );
+						newice->SetVelY( -125 );
 						break;
 					}
 				case 7:
 					{
-						newice->SetVelX( 75 );
-						newice->SetVelY( 75 );
+						newice->SetVelX( 125 );
+						newice->SetVelY( 125 );
 						break;
 					}
 				}
@@ -720,11 +749,11 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 					//newwind->SetVelY(250 * speedy);
 
 
-				float xComp = (tempRet->GetPosX() + tempRet->GetWidth()  * .5f) - newwind->GetPosX();
-				float yComp = (tempRet->GetPosY() + tempRet->GetHeight() * .5f) - newwind->GetPosY();
+					float xComp = (tempRet->GetPosX() + tempRet->GetWidth()  * .5f) - newwind->GetPosX();
+					float yComp = (tempRet->GetPosY() + tempRet->GetHeight() * .5f) - newwind->GetPosY();
 
-				newwind->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 250);
-				newwind->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 250);
+					newwind->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 300);
+					newwind->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 300);
 
 
 					/////////////////
@@ -739,50 +768,50 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 					{
 					case 0:
 						{
-							newwind->SetVelX(-250);
+							newwind->SetVelX(-300);
 							newwind->SetVelY(0);
 							break;
 						}
 					case 1:
 						{
-							newwind->SetVelX(250);
+							newwind->SetVelX(300);
 							newwind->SetVelY(0);
 							break;
 						}
 					case 2:
 						{
 							newwind->SetVelX(0);
-							newwind->SetVelY(-250);
+							newwind->SetVelY(-300);
 							break;
 						}
 					case 3:
 						{
 							newwind->SetVelX(0);
-							newwind->SetVelY(250);
+							newwind->SetVelY(300);
 							break;
 						}
 					case 4:
 						{
-							newwind->SetVelX(-175);
-							newwind->SetVelY(-175);
+							newwind->SetVelX(-225);
+							newwind->SetVelY(-225);
 							break;
 						}
 					case 5:
 						{
-							newwind->SetVelX(-175);
-							newwind->SetVelY(175);
+							newwind->SetVelX(-225);
+							newwind->SetVelY(225);
 							break;
 						}
 					case 6:
 						{
-							newwind->SetVelX(175);
-							newwind->SetVelY(-175);
+							newwind->SetVelX(225);
+							newwind->SetVelY(-225);
 							break;
 						}
 					case 7:
 						{
-							newwind->SetVelX(175);
-							newwind->SetVelY(175);
+							newwind->SetVelX(225);
+							newwind->SetVelY(225);
 							break;
 						}
 					}
@@ -830,13 +859,13 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 					//newwind->SetVelX(250 * speedx);
 					//newwind->SetVelY(250 * speedy);
 
-				float xComp = (tempRet->GetPosX() + tempRet->GetWidth()  * .5f) - newwind->GetPosX();
-				float yComp = (tempRet->GetPosY() + tempRet->GetHeight() * .5f) - newwind->GetPosY();
+					float xComp = (tempRet->GetPosX() + tempRet->GetWidth()  * .5f) - newwind->GetPosX();
+					float yComp = (tempRet->GetPosY() + tempRet->GetHeight() * .5f) - newwind->GetPosY();
 
-				newwind->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 150);
-				newwind->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 150);
+					newwind->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 150);
+					newwind->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 150);
 
-				//End Fix't
+					//End Fix't
 
 
 				}
@@ -1075,11 +1104,28 @@ void CSpellFactory::CreateEnemyWind(CCharacter * pShooter, CBase * pTarget)
 
 	newWind->SetPosX(pShooter->GetPosX() + pShooter->GetWidth()  * .5f);
 	newWind->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
-	float SpeedX =  ( (pTarget->GetPosX() + pTarget->GetWidth()  * .5f) - newWind->GetPosX() ) / 100;
-	float SpeedY =  ( (pTarget->GetPosY() + pTarget->GetHeight() * .5f) - newWind->GetPosY() ) / 100;
-	newWind->SetVelX( SpeedX * 250 );
-	newWind->SetVelY( SpeedY * 250 );
+	//////////////////////////////
+	// Bug #6 Fix
+	//
+	// Sam Mathis
+	//////////////////////////////
+	//float SpeedX =  ( (pTarget->GetPosX() + pTarget->GetWidth()  * .5f) - newWind->GetPosX() ) / 100;
+	//float SpeedY =  ( (pTarget->GetPosY() + pTarget->GetHeight() * .5f) - newWind->GetPosY() ) / 100;
+	//newWind->SetVelX( SpeedX * 250 );
+	//newWind->SetVelY( SpeedY * 250 );
 
+	float xComp = (pTarget->GetPosX() + pTarget->GetWidth()  * .5f) - newWind->GetPosX();
+	float yComp = (pTarget->GetPosY() + pTarget->GetHeight() * .5f) - newWind->GetPosY();
+
+	newWind->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 275);
+	newWind->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 275);
+
+
+
+	///////////////////////////
+	// End Bug Fix
+	//
+	//////////////////////////
 	newWind->SetDamage(3);
 	newWind->SetLifespan(5.0f);
 	newWind->SetActive(true);
@@ -1105,10 +1151,28 @@ void CSpellFactory::CreateEnemyIce(CCharacter * pShooter, CBase * pTarget)
 
 	newIce->SetPosX(pShooter->GetPosX() + pShooter->GetWidth()  * .5f);
 	newIce->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
-	float SpeedX =  ( (pTarget->GetPosX() + pTarget->GetWidth()  * .5f) - newIce->GetPosX() ) / 100;
-	float SpeedY =  ( (pTarget->GetPosY() + pTarget->GetHeight() * .5f) - newIce->GetPosY() ) / 100;
-	newIce->SetVelX( SpeedX * 250 );
-	newIce->SetVelY( SpeedY * 250 );
+	//////////////////////////////
+	// Bug #6 Fix
+	//
+	// Sam Mathis
+	//////////////////////////////
+	//float SpeedX =  ( (pTarget->GetPosX() + pTarget->GetWidth()  * .5f) - newIce->GetPosX() ) / 100;
+	//float SpeedY =  ( (pTarget->GetPosY() + pTarget->GetHeight() * .5f) - newIce->GetPosY() ) / 100;
+	//newIce->SetVelX( SpeedX * 250 );
+	//newIce->SetVelY( SpeedY * 250 );
+
+	float xComp = (pTarget->GetPosX() + pTarget->GetWidth()  * .5f) - newIce->GetPosX();
+	float yComp = (pTarget->GetPosY() + pTarget->GetHeight() * .5f) - newIce->GetPosY();
+
+	newIce->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 200);
+	newIce->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 200);
+
+
+
+	///////////////////////////
+	// End Bug Fix
+	//
+	//////////////////////////
 
 	newIce->SetDamage(10);
 	newIce->SetLifespan(5.0f);
