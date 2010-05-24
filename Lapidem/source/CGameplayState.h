@@ -3,6 +3,7 @@
 #include "CGame.h"
 #include "IGameState.h"
 #include "CParticleManager.h"
+#include "CLoading.h"
 #include "CEmitter.h"
 #include "CLevel.h"
 
@@ -73,6 +74,7 @@ public:
 	int     GetPlayerOneScore( )             { return m_nPlayerOneScore;      }
 	int     GetPlayerTwoScore( )             { return m_nPlayerTwoScore;      }
 	int     GetSlotLoaded( )                 { return m_nSlotLoadedFrom;      }
+	int     GetCurrentLevel( )               { return m_nCurrentLevel;        }
 
 	bool    GetLoadedFromFile( )             { return m_bLoadedFromFile;      }
 	bool    GetTwoPlayerMode( )              { return m_bTwoPlayers;          }

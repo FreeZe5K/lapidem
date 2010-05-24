@@ -34,8 +34,6 @@ private:
 	int     m_nEarthXP;              // How much XP the earth abilities have accumulated. Used to level up the earth abilities
 	int     m_nEarthLVL;             // Current level of earth abilities. Used to determine damage increase as well as lifespan.
 
-//	CEmitter *m_pEmitter;
-
 public:
 	CSpellFactory( );
 	~CSpellFactory( );
@@ -139,13 +137,32 @@ public:
 	void AddFireXP( int );
 	void AddIceXP( int );
 
+	void SetWindXP( int _i )      { m_nWindLVL   = _i; }
+	void SetWindLevel( int _i )   { m_nWindXP    = _i; }
+
+	void SetEarthXP( int _i )     { m_nEarthXP   = _i; }
+	void SetEarthLevel( int _i )  { m_nEarthLVL  = _i; }
+
+	void SetFireXP( int _i )      { m_nFireXP    = _i; }
+	void SetFireLevel( int _i )   { m_nFireLVL   = _i; }
+
+	void SetIceXP( int _i )       { m_nIceXP     = _i; }
+	void SetIceLevel( int _i )    { m_nIceLVL    = _i; }
+
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  :   "Accessors"	
 	//
 	//  Purpose   :   Get stuff
 	//////////////////////////////////////////////////////////////////////////
+	int GetFireXP( )        { return m_nFireXP;       }
 	int GetFireLevel( )     { return m_nFireLVL;      }
+
+	int GetIceXP( )         { return m_nIceXP;        }
 	int GetIceLevel( )      { return m_nIceLVL;       }
+
+	int GetEarthXP( )       { return m_nEarthXP;      }
 	int GetEarthLevel( )    { return m_nEarthLVL;     }
+
+	int GetWindXP( )        { return m_nWindXP;       }
 	int GetWindLevel( )     { return m_nWindLVL;      }
 };

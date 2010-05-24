@@ -25,7 +25,6 @@ void CPauseMenuState::Enter( )
 	m_pDI           = CSGD_DirectInput::GetInstance();
 
 	m_nChoice       = 0;
-
 	m_nImageID      = m_pTM->LoadTexture( "resource/graphics/Lapidem_PauseMenu.png");
 }
 
@@ -65,7 +64,7 @@ bool CPauseMenuState::Input( )
 			}
 			else if( m_nChoice == 2 ) // Save and quit
 			{
-				//SaveGame( "resource/data/config.xml" );				m_nChoice  = 0;
+				m_nChoice  = 0;
 				m_nState   = 2;
 			}
 			else // Main menu (or other...)
@@ -427,6 +426,15 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 		fin.read( ( char* )&_tSlotOne._manaP1._nIce, sizeof( int ) );
 		fin.read( ( char* )&_tSlotOne._manaP1._nAir, sizeof( int ) );
 
+		fin.read( ( char* )&_tSlotOne._spellP1._nFireXP, sizeof( int ) );
+		fin.read( ( char* )&_tSlotOne._spellP1._nFireLevel, sizeof( int ) );
+		fin.read( ( char* )&_tSlotOne._spellP1._nEarthXP, sizeof( int ) );
+		fin.read( ( char* )&_tSlotOne._spellP1._nEarthLevel, sizeof( int ) );
+		fin.read( ( char* )&_tSlotOne._spellP1._nIceXP, sizeof( int ) );
+		fin.read( ( char* )&_tSlotOne._spellP1._nIceLevel, sizeof( int ) );
+		fin.read( ( char* )&_tSlotOne._spellP1._nAirXP, sizeof( int ) );
+		fin.read( ( char* )&_tSlotOne._spellP1._nAirLevel, sizeof( int ) );
+
 		fin.read( ( char* )&_tSlotOne._nPlayerOneHealth, sizeof( int ) );
 
 		if( 2 == _tSlotOne._nPlayerCount )
@@ -435,16 +443,25 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 
 			fin.read( ( char* )&_tSlotOne._nPlayerTwoPosX, sizeof( int ) );
 			fin.read( ( char* )&_tSlotOne._nPlayerTwoPosY, sizeof( int ) );
-			
+
 			fin.read( ( char* )&_tSlotOne._manaP2._nFire, sizeof( int ) );
 			fin.read( ( char* )&_tSlotOne._manaP2._nEarth, sizeof( int ) );
 			fin.read( ( char* )&_tSlotOne._manaP2._nIce, sizeof( int ) );
 			fin.read( ( char* )&_tSlotOne._manaP2._nAir, sizeof( int ) );
+
+			fin.read( ( char* )&_tSlotOne._spellP2._nFireXP, sizeof( int ) );
+			fin.read( ( char* )&_tSlotOne._spellP2._nFireLevel, sizeof( int ) );
+			fin.read( ( char* )&_tSlotOne._spellP2._nEarthXP, sizeof( int ) );
+			fin.read( ( char* )&_tSlotOne._spellP2._nEarthLevel, sizeof( int ) );
+			fin.read( ( char* )&_tSlotOne._spellP2._nIceXP, sizeof( int ) );
+			fin.read( ( char* )&_tSlotOne._spellP2._nIceLevel, sizeof( int ) );
+			fin.read( ( char* )&_tSlotOne._spellP2._nAirXP, sizeof( int ) );
+			fin.read( ( char* )&_tSlotOne._spellP2._nAirLevel, sizeof( int ) );
 		}
 
 		fin.read( ( char* )&_tSlotOne._nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotOne._nPlayerTwoScore, sizeof( int ) );
-		
+
 		fin.read( ( char* )&nDataChunkSize, sizeof( int ) );  // return size that can skip the whole next part
 
 		if( _nSlot == 1 )                                     // if it's slot one, skip loading from file cuz it will be changed any way
@@ -464,6 +481,15 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 		fin.read( ( char* )&_tSlotTwo._manaP1._nIce, sizeof( int ) );
 		fin.read( ( char* )&_tSlotTwo._manaP1._nAir, sizeof( int ) );
 
+		fin.read( ( char* )&_tSlotTwo._spellP1._nFireXP, sizeof( int ) );
+		fin.read( ( char* )&_tSlotTwo._spellP1._nFireLevel, sizeof( int ) );
+		fin.read( ( char* )&_tSlotTwo._spellP1._nEarthXP, sizeof( int ) );
+		fin.read( ( char* )&_tSlotTwo._spellP1._nEarthLevel, sizeof( int ) );
+		fin.read( ( char* )&_tSlotTwo._spellP1._nIceXP, sizeof( int ) );
+		fin.read( ( char* )&_tSlotTwo._spellP1._nIceLevel, sizeof( int ) );
+		fin.read( ( char* )&_tSlotTwo._spellP1._nAirXP, sizeof( int ) );
+		fin.read( ( char* )&_tSlotTwo._spellP1._nAirLevel, sizeof( int ) );
+
 		fin.read( ( char* )&_tSlotTwo._nPlayerOneHealth, sizeof( int ) );
 
 		if( 2 == _tSlotTwo._nPlayerCount )
@@ -472,11 +498,20 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 
 			fin.read( ( char* )&_tSlotTwo._nPlayerTwoPosX, sizeof( int ) );
 			fin.read( ( char* )&_tSlotTwo._nPlayerTwoPosY, sizeof( int ) );
-			
+
 			fin.read( ( char* )&_tSlotTwo._manaP2._nFire, sizeof( int ) );
 			fin.read( ( char* )&_tSlotTwo._manaP2._nEarth, sizeof( int ) );
 			fin.read( ( char* )&_tSlotTwo._manaP2._nIce, sizeof( int ) );
 			fin.read( ( char* )&_tSlotTwo._manaP2._nAir, sizeof( int ) );
+
+			fin.read( ( char* )&_tSlotTwo._spellP2._nFireXP, sizeof( int ) );
+			fin.read( ( char* )&_tSlotTwo._spellP2._nFireLevel, sizeof( int ) );
+			fin.read( ( char* )&_tSlotTwo._spellP2._nEarthXP, sizeof( int ) );
+			fin.read( ( char* )&_tSlotTwo._spellP2._nEarthLevel, sizeof( int ) );
+			fin.read( ( char* )&_tSlotTwo._spellP2._nIceXP, sizeof( int ) );
+			fin.read( ( char* )&_tSlotTwo._spellP2._nIceLevel, sizeof( int ) );
+			fin.read( ( char* )&_tSlotTwo._spellP2._nAirXP, sizeof( int ) );
+			fin.read( ( char* )&_tSlotTwo._spellP2._nAirLevel, sizeof( int ) );
 		}
 
 		fin.read( ( char* )&_tSlotTwo._nPlayerOneScore, sizeof( int ) );
@@ -501,6 +536,15 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 		fin.read( ( char* )&_tSlotThree._manaP1._nIce, sizeof( int ) );
 		fin.read( ( char* )&_tSlotThree._manaP1._nAir, sizeof( int ) );
 
+		fin.read( ( char* )&_tSlotThree._spellP1._nFireXP, sizeof( int ) );
+		fin.read( ( char* )&_tSlotThree._spellP1._nFireLevel, sizeof( int ) );
+		fin.read( ( char* )&_tSlotThree._spellP1._nEarthXP, sizeof( int ) );
+		fin.read( ( char* )&_tSlotThree._spellP1._nEarthLevel, sizeof( int ) );
+		fin.read( ( char* )&_tSlotThree._spellP1._nIceXP, sizeof( int ) );
+		fin.read( ( char* )&_tSlotThree._spellP1._nIceLevel, sizeof( int ) );
+		fin.read( ( char* )&_tSlotThree._spellP1._nAirXP, sizeof( int ) );
+		fin.read( ( char* )&_tSlotThree._spellP1._nAirLevel, sizeof( int ) );
+
 		fin.read( ( char* )&_tSlotThree._nPlayerOneHealth, sizeof( int ) );
 
 		if( 2 == _tSlotThree._nPlayerCount )
@@ -509,16 +553,25 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 
 			fin.read( ( char* )&_tSlotThree._nPlayerTwoPosX, sizeof( int ) );
 			fin.read( ( char* )&_tSlotThree._nPlayerTwoPosY, sizeof( int ) );
-			
+
 			fin.read( ( char* )&_tSlotThree._manaP2._nFire, sizeof( int ) );
 			fin.read( ( char* )&_tSlotThree._manaP2._nEarth, sizeof( int ) );
 			fin.read( ( char* )&_tSlotThree._manaP2._nIce, sizeof( int ) );
 			fin.read( ( char* )&_tSlotThree._manaP2._nAir, sizeof( int ) );
+
+			fin.read( ( char* )&_tSlotThree._spellP2._nFireXP, sizeof( int ) );
+			fin.read( ( char* )&_tSlotThree._spellP2._nFireLevel, sizeof( int ) );
+			fin.read( ( char* )&_tSlotThree._spellP2._nEarthXP, sizeof( int ) );
+			fin.read( ( char* )&_tSlotThree._spellP2._nEarthLevel, sizeof( int ) );
+			fin.read( ( char* )&_tSlotThree._spellP2._nIceXP, sizeof( int ) );
+			fin.read( ( char* )&_tSlotThree._spellP2._nIceLevel, sizeof( int ) );
+			fin.read( ( char* )&_tSlotThree._spellP2._nAirXP, sizeof( int ) );
+			fin.read( ( char* )&_tSlotThree._spellP2._nAirLevel, sizeof( int ) );
 		}
 
 		fin.read( ( char* )&_tSlotThree._nPlayerOneScore, sizeof( int ) );
 		fin.read( ( char* )&_tSlotThree._nPlayerTwoScore, sizeof( int ) );
-		
+
 		fin.read( ( char* )&nDataChunkSize, sizeof( int ) ); // return size that can skip the whole next part
 
 		if( _nSlot == 3 )                                    // if it's slot three, skip loading from file cuz it will be changed any way
@@ -542,6 +595,15 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 		_tSlotOne._nPlayerOneScore    = CGameplayState::GetInstance( )->GetPlayerOne( )->GetScore( );
 		_tSlotOne._nPlayerOneHealth   = CGameplayState::GetInstance( )->GetPlayerOne( )->GetHealth( );
 
+		_tSlotOne._spellP1._nAirLevel     = CSpellFactory::GetInstance( )->GetWindLevel( );
+		_tSlotOne._spellP1._nAirXP        = CSpellFactory::GetInstance( )->GetWindXP( );
+		_tSlotOne._spellP1._nEarthLevel   = CSpellFactory::GetInstance( )->GetEarthLevel( );
+		_tSlotOne._spellP1._nEarthXP      = CSpellFactory::GetInstance( )->GetEarthXP( );
+		_tSlotOne._spellP1._nFireLevel    = CSpellFactory::GetInstance( )->GetFireLevel( );
+		_tSlotOne._spellP1._nFireXP       = CSpellFactory::GetInstance( )->GetFireXP( );
+		_tSlotOne._spellP1._nIceLevel     = CSpellFactory::GetInstance( )->GetIceLevel( );
+		_tSlotOne._spellP1._nIceXP        = CSpellFactory::GetInstance( )->GetIceXP( );
+
 		if( 2 == _tSlotOne._nPlayerCount )
 		{
 			_tSlotOne._nPlayerTwoScore    = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetScore( );
@@ -549,20 +611,31 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 
 			_tSlotOne._nPlayerTwoPosX     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosX( ) );
 			_tSlotOne._nPlayerTwoPosY     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosY( ) );
-			
+
 			_tSlotOne._manaP2._nFire      = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetFireEnergy( );
 			_tSlotOne._manaP2._nEarth     = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetEarthEnergy( );
 			_tSlotOne._manaP2._nIce       = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetIceEnergy( );
 			_tSlotOne._manaP2._nAir       = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetWindEnergy( );
+
+			_tSlotOne._spellP2._nAirLevel     = CSpellFactory::GetInstance( )->GetWindLevel( );
+			_tSlotOne._spellP2._nAirXP        = CSpellFactory::GetInstance( )->GetWindXP( );
+			_tSlotOne._spellP2._nEarthLevel   = CSpellFactory::GetInstance( )->GetEarthLevel( );
+			_tSlotOne._spellP2._nEarthXP      = CSpellFactory::GetInstance( )->GetEarthXP( );
+			_tSlotOne._spellP2._nFireLevel    = CSpellFactory::GetInstance( )->GetFireLevel( );
+			_tSlotOne._spellP2._nFireXP       = CSpellFactory::GetInstance( )->GetFireXP( );
+			_tSlotOne._spellP2._nIceLevel     = CSpellFactory::GetInstance( )->GetIceLevel( );
+			_tSlotOne._spellP2._nIceXP        = CSpellFactory::GetInstance( )->GetIceXP( );
 		}
 
 		_tSlotOne._manaP1._nFire      = CGameplayState::GetInstance( )->GetPlayerOne( )->GetFireEnergy( );
 		_tSlotOne._manaP1._nEarth     = CGameplayState::GetInstance( )->GetPlayerOne( )->GetEarthEnergy( );
 		_tSlotOne._manaP1._nIce       = CGameplayState::GetInstance( )->GetPlayerOne( )->GetIceEnergy( );
 		_tSlotOne._manaP1._nAir       = CGameplayState::GetInstance( )->GetPlayerOne( )->GetWindEnergy( );
-		
+
 		// TODO ::
 		//      ^ Probably going to crash...
+
+		CAuxiliaryState::GetInstance( )->UpdateSlotInfo( "resource/data/Lapidem_SlotInfo.bin", 1 );
 	}
 	else if( 2 == _nSlot )
 	{
@@ -576,6 +649,15 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 		_tSlotTwo._nPlayerOneScore    = CGameplayState::GetInstance( )->GetPlayerOne( )->GetScore( );
 		_tSlotTwo._nPlayerOneHealth   = CGameplayState::GetInstance( )->GetPlayerOne( )->GetHealth( );
 
+		_tSlotTwo._spellP1._nAirLevel     = CSpellFactory::GetInstance( )->GetWindLevel( );
+		_tSlotTwo._spellP1._nAirXP        = CSpellFactory::GetInstance( )->GetWindXP( );
+		_tSlotTwo._spellP1._nEarthLevel   = CSpellFactory::GetInstance( )->GetEarthLevel( );
+		_tSlotTwo._spellP1._nEarthXP      = CSpellFactory::GetInstance( )->GetEarthXP( );
+		_tSlotTwo._spellP1._nFireLevel    = CSpellFactory::GetInstance( )->GetFireLevel( );
+		_tSlotTwo._spellP1._nFireXP       = CSpellFactory::GetInstance( )->GetFireXP( );
+		_tSlotTwo._spellP1._nIceLevel     = CSpellFactory::GetInstance( )->GetIceLevel( );
+		_tSlotTwo._spellP1._nIceXP        = CSpellFactory::GetInstance( )->GetIceXP( );
+
 		if( 2 == _tSlotTwo._nPlayerCount )
 		{
 			_tSlotTwo._nPlayerTwoScore    = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetScore( );
@@ -583,17 +665,28 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 
 			_tSlotTwo._nPlayerTwoPosX     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosX( ) );
 			_tSlotTwo._nPlayerTwoPosY     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosY( ) );
-				
+
 			_tSlotTwo._manaP2._nFire      = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetFireEnergy( );
 			_tSlotTwo._manaP2._nEarth     = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetEarthEnergy( );
 			_tSlotTwo._manaP2._nIce       = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetIceEnergy( );
 			_tSlotTwo._manaP2._nAir       = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetWindEnergy( );
+
+			_tSlotTwo._spellP2._nAirLevel     = CSpellFactory::GetInstance( )->GetWindLevel( );
+			_tSlotTwo._spellP2._nAirXP        = CSpellFactory::GetInstance( )->GetWindXP( );
+			_tSlotTwo._spellP2._nEarthLevel   = CSpellFactory::GetInstance( )->GetEarthLevel( );
+			_tSlotTwo._spellP2._nEarthXP      = CSpellFactory::GetInstance( )->GetEarthXP( );
+			_tSlotTwo._spellP2._nFireLevel    = CSpellFactory::GetInstance( )->GetFireLevel( );
+			_tSlotTwo._spellP2._nFireXP       = CSpellFactory::GetInstance( )->GetFireXP( );
+			_tSlotTwo._spellP2._nIceLevel     = CSpellFactory::GetInstance( )->GetIceLevel( );
+			_tSlotTwo._spellP2._nIceXP        = CSpellFactory::GetInstance( )->GetIceXP( );
 		}
 
 		_tSlotTwo._manaP1._nFire      = CGameplayState::GetInstance( )->GetPlayerOne( )->GetFireEnergy( );
 		_tSlotTwo._manaP1._nEarth     = CGameplayState::GetInstance( )->GetPlayerOne( )->GetEarthEnergy( );
 		_tSlotTwo._manaP1._nIce       = CGameplayState::GetInstance( )->GetPlayerOne( )->GetIceEnergy( );
 		_tSlotTwo._manaP1._nAir       = CGameplayState::GetInstance( )->GetPlayerOne( )->GetWindEnergy( );
+
+		CAuxiliaryState::GetInstance( )->UpdateSlotInfo( "resource/data/Lapidem_SlotInfo.bin", 2 );
 	}
 	else if( 3 == _nSlot )
 	{
@@ -607,6 +700,15 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 		_tSlotThree._nPlayerOneScore    = CGameplayState::GetInstance( )->GetPlayerOne( )->GetScore( );
 		_tSlotThree._nPlayerOneHealth   = CGameplayState::GetInstance( )->GetPlayerOne( )->GetHealth( );
 
+		_tSlotThree._spellP1._nAirLevel     = CSpellFactory::GetInstance( )->GetWindLevel( );
+		_tSlotThree._spellP1._nAirXP        = CSpellFactory::GetInstance( )->GetWindXP( );
+		_tSlotThree._spellP1._nEarthLevel   = CSpellFactory::GetInstance( )->GetEarthLevel( );
+		_tSlotThree._spellP1._nEarthXP      = CSpellFactory::GetInstance( )->GetEarthXP( );
+		_tSlotThree._spellP1._nFireLevel    = CSpellFactory::GetInstance( )->GetFireLevel( );
+		_tSlotThree._spellP1._nFireXP       = CSpellFactory::GetInstance( )->GetFireXP( );
+		_tSlotThree._spellP1._nIceLevel     = CSpellFactory::GetInstance( )->GetIceLevel( );
+		_tSlotThree._spellP1._nIceXP        = CSpellFactory::GetInstance( )->GetIceXP( );
+
 		if( 2 == _tSlotThree._nPlayerCount )
 		{
 			_tSlotThree._nPlayerTwoScore    = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetScore( );
@@ -614,17 +716,28 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 
 			_tSlotThree._nPlayerTwoPosX     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosX( ) );
 			_tSlotThree._nPlayerTwoPosY     = int( CGameplayState::GetInstance( )->GetPlayerTwo( )->GetPosY( ) );
-			
+
 			_tSlotThree._manaP2._nFire      = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetFireEnergy( );
 			_tSlotThree._manaP2._nEarth     = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetEarthEnergy( );
 			_tSlotThree._manaP2._nIce       = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetIceEnergy( );
 			_tSlotThree._manaP2._nAir       = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetWindEnergy( );
+
+			_tSlotThree._spellP2._nAirLevel     = CSpellFactory::GetInstance( )->GetWindLevel( );
+			_tSlotThree._spellP2._nAirXP        = CSpellFactory::GetInstance( )->GetWindXP( );
+			_tSlotThree._spellP2._nEarthLevel   = CSpellFactory::GetInstance( )->GetEarthLevel( );
+			_tSlotThree._spellP2._nEarthXP      = CSpellFactory::GetInstance( )->GetEarthXP( );
+			_tSlotThree._spellP2._nFireLevel    = CSpellFactory::GetInstance( )->GetFireLevel( );
+			_tSlotThree._spellP2._nFireXP       = CSpellFactory::GetInstance( )->GetFireXP( );
+			_tSlotThree._spellP2._nIceLevel     = CSpellFactory::GetInstance( )->GetIceLevel( );
+			_tSlotThree._spellP2._nIceXP        = CSpellFactory::GetInstance( )->GetIceXP( );
 		}
 
 		_tSlotThree._manaP1._nFire      = CGameplayState::GetInstance( )->GetPlayerOne( )->GetFireEnergy( );
 		_tSlotThree._manaP1._nEarth     = CGameplayState::GetInstance( )->GetPlayerOne( )->GetEarthEnergy( );
 		_tSlotThree._manaP1._nIce       = CGameplayState::GetInstance( )->GetPlayerOne( )->GetIceEnergy( );
 		_tSlotThree._manaP1._nAir       = CGameplayState::GetInstance( )->GetPlayerOne( )->GetWindEnergy( );
+
+		CAuxiliaryState::GetInstance( )->UpdateSlotInfo( "resource/data/Lapidem_SlotInfo.bin", 3 );
 	}
 
 	// - - - - - - - - - - - - - -
@@ -644,6 +757,15 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 	fout.write( ( char* )&_tSlotOne._manaP1._nIce, sizeof( int ) );
 	fout.write( ( char* )&_tSlotOne._manaP1._nAir, sizeof( int ) );
 
+	fout.write( ( char* )&_tSlotOne._spellP1._nFireXP, sizeof( int ) );
+	fout.write( ( char* )&_tSlotOne._spellP1._nFireLevel, sizeof( int ) );
+	fout.write( ( char* )&_tSlotOne._spellP1._nEarthXP, sizeof( int ) );
+	fout.write( ( char* )&_tSlotOne._spellP1._nEarthLevel, sizeof( int ) );
+	fout.write( ( char* )&_tSlotOne._spellP1._nIceXP, sizeof( int ) );
+	fout.write( ( char* )&_tSlotOne._spellP1._nIceLevel, sizeof( int ) );
+	fout.write( ( char* )&_tSlotOne._spellP1._nAirXP, sizeof( int ) );
+	fout.write( ( char* )&_tSlotOne._spellP1._nAirLevel, sizeof( int ) );
+
 	fout.write( ( char* )&_tSlotOne._nPlayerOneHealth, sizeof( int ) );
 
 	if( 2 == _tSlotOne._nPlayerCount )
@@ -652,11 +774,20 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 
 		fout.write( ( char* )&_tSlotOne._nPlayerTwoPosX, sizeof( int ) );
 		fout.write( ( char* )&_tSlotOne._nPlayerTwoPosY, sizeof( int ) );
-		
+
 		fout.write( ( char* )&_tSlotOne._manaP2._nFire, sizeof( int ) );
 		fout.write( ( char* )&_tSlotOne._manaP2._nEarth, sizeof( int ) );
 		fout.write( ( char* )&_tSlotOne._manaP2._nIce, sizeof( int ) );
 		fout.write( ( char* )&_tSlotOne._manaP2._nAir, sizeof( int ) );
+
+		fout.write( ( char* )&_tSlotOne._spellP2._nFireXP, sizeof( int ) );
+		fout.write( ( char* )&_tSlotOne._spellP2._nFireLevel, sizeof( int ) );
+		fout.write( ( char* )&_tSlotOne._spellP2._nEarthXP, sizeof( int ) );
+		fout.write( ( char* )&_tSlotOne._spellP2._nEarthLevel, sizeof( int ) );
+		fout.write( ( char* )&_tSlotOne._spellP2._nIceXP, sizeof( int ) );
+		fout.write( ( char* )&_tSlotOne._spellP2._nIceLevel, sizeof( int ) );
+		fout.write( ( char* )&_tSlotOne._spellP2._nAirXP, sizeof( int ) );
+		fout.write( ( char* )&_tSlotOne._spellP2._nAirLevel, sizeof( int ) );
 	}
 
 	fout.write( ( char* )&_tSlotOne._nPlayerOneScore, sizeof( int ) );
@@ -679,6 +810,15 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 	fout.write( ( char* )&_tSlotTwo._manaP1._nIce, sizeof( int ) );
 	fout.write( ( char* )&_tSlotTwo._manaP1._nAir, sizeof( int ) );
 
+	fout.write( ( char* )&_tSlotTwo._spellP1._nFireXP, sizeof( int ) );
+	fout.write( ( char* )&_tSlotTwo._spellP1._nFireLevel, sizeof( int ) );
+	fout.write( ( char* )&_tSlotTwo._spellP1._nEarthXP, sizeof( int ) );
+	fout.write( ( char* )&_tSlotTwo._spellP1._nEarthLevel, sizeof( int ) );
+	fout.write( ( char* )&_tSlotTwo._spellP1._nIceXP, sizeof( int ) );
+	fout.write( ( char* )&_tSlotTwo._spellP1._nIceLevel, sizeof( int ) );
+	fout.write( ( char* )&_tSlotTwo._spellP1._nAirXP, sizeof( int ) );
+	fout.write( ( char* )&_tSlotTwo._spellP1._nAirLevel, sizeof( int ) );
+
 	fout.write( ( char* )&_tSlotTwo._nPlayerOneHealth, sizeof( int ) );
 
 	if( 2 == _tSlotTwo._nPlayerCount )
@@ -687,11 +827,20 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 
 		fout.write( ( char* )&_tSlotTwo._nPlayerTwoPosX, sizeof( int ) );
 		fout.write( ( char* )&_tSlotTwo._nPlayerTwoPosY, sizeof( int ) );
-		
+
 		fout.write( ( char* )&_tSlotTwo._manaP2._nFire, sizeof( int ) );
 		fout.write( ( char* )&_tSlotTwo._manaP2._nEarth, sizeof( int ) );
 		fout.write( ( char* )&_tSlotTwo._manaP2._nIce, sizeof( int ) );
 		fout.write( ( char* )&_tSlotTwo._manaP2._nAir, sizeof( int ) );
+
+		fout.write( ( char* )&_tSlotTwo._spellP2._nFireXP, sizeof( int ) );
+		fout.write( ( char* )&_tSlotTwo._spellP2._nFireLevel, sizeof( int ) );
+		fout.write( ( char* )&_tSlotTwo._spellP2._nEarthXP, sizeof( int ) );
+		fout.write( ( char* )&_tSlotTwo._spellP2._nEarthLevel, sizeof( int ) );
+		fout.write( ( char* )&_tSlotTwo._spellP2._nIceXP, sizeof( int ) );
+		fout.write( ( char* )&_tSlotTwo._spellP2._nIceLevel, sizeof( int ) );
+		fout.write( ( char* )&_tSlotTwo._spellP2._nAirXP, sizeof( int ) );
+		fout.write( ( char* )&_tSlotTwo._spellP2._nAirLevel, sizeof( int ) );
 	}
 
 	fout.write( ( char* )&_tSlotTwo._nPlayerOneScore, sizeof( int ) );
@@ -714,6 +863,15 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 	fout.write( ( char* )&_tSlotThree._manaP1._nIce, sizeof( int ) );
 	fout.write( ( char* )&_tSlotThree._manaP1._nAir, sizeof( int ) );
 
+	fout.write( ( char* )&_tSlotThree._spellP1._nFireXP, sizeof( int ) );
+	fout.write( ( char* )&_tSlotThree._spellP1._nFireLevel, sizeof( int ) );
+	fout.write( ( char* )&_tSlotThree._spellP1._nEarthXP, sizeof( int ) );
+	fout.write( ( char* )&_tSlotThree._spellP1._nEarthLevel, sizeof( int ) );
+	fout.write( ( char* )&_tSlotThree._spellP1._nIceXP, sizeof( int ) );
+	fout.write( ( char* )&_tSlotThree._spellP1._nIceLevel, sizeof( int ) );
+	fout.write( ( char* )&_tSlotThree._spellP1._nAirXP, sizeof( int ) );
+	fout.write( ( char* )&_tSlotThree._spellP1._nAirLevel, sizeof( int ) );
+
 	fout.write( ( char* )&_tSlotThree._nPlayerOneHealth, sizeof( int ) );
 
 	if( 2 == _tSlotThree._nPlayerCount )
@@ -722,11 +880,20 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 
 		fout.write( ( char* )&_tSlotThree._nPlayerTwoPosX, sizeof( int ) );
 		fout.write( ( char* )&_tSlotThree._nPlayerTwoPosY, sizeof( int ) );
-		
+
 		fout.write( ( char* )&_tSlotThree._manaP2._nFire, sizeof( int ) );
 		fout.write( ( char* )&_tSlotThree._manaP2._nEarth, sizeof( int ) );
 		fout.write( ( char* )&_tSlotThree._manaP2._nIce, sizeof( int ) );
 		fout.write( ( char* )&_tSlotThree._manaP2._nAir, sizeof( int ) );
+
+		fout.write( ( char* )&_tSlotThree._spellP2._nFireXP, sizeof( int ) );
+		fout.write( ( char* )&_tSlotThree._spellP2._nFireLevel, sizeof( int ) );
+		fout.write( ( char* )&_tSlotThree._spellP2._nEarthXP, sizeof( int ) );
+		fout.write( ( char* )&_tSlotThree._spellP2._nEarthLevel, sizeof( int ) );
+		fout.write( ( char* )&_tSlotThree._spellP2._nIceXP, sizeof( int ) );
+		fout.write( ( char* )&_tSlotThree._spellP2._nIceLevel, sizeof( int ) );
+		fout.write( ( char* )&_tSlotThree._spellP2._nAirXP, sizeof( int ) );
+		fout.write( ( char* )&_tSlotThree._spellP2._nAirLevel, sizeof( int ) );
 	}
 
 	fout.write( ( char* )&_tSlotThree._nPlayerOneScore, sizeof( int ) );

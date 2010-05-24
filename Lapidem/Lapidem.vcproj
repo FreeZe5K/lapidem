@@ -561,6 +561,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\source\CLoading.h"
+					>
+				</File>
+				<File
 					RelativePath=".\source\Corona_EventHandler.h"
 					>
 				</File>
@@ -586,6 +590,10 @@
 				</File>
 				<File
 					RelativePath=".\source\CHighScores.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\source\CLoading.cpp"
 					>
 				</File>
 				<File

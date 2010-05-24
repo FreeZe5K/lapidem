@@ -37,89 +37,89 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 
 	if(!boss)
 	{
-	switch( ElementToBe )
-	{
-	case OBJ_EARTH:
+		switch( ElementToBe )
 		{
-			currState = new AIStateEarth( );
-			SetPosX(initx);
-			SetPosY(inity);
-			SetVelX(25.0f);
-			SetVelY(0.0f);
-			( ( AIStateEarth* )currState )->SetInitPos( int( GetPosX( ) ), int( GetPosY( ) ) );
-			SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/lapidem_lulzenemy.png" ) );
-			SetHeight( 64 );
-			SetWidth( 16 );
-
-			m_nHealth      = 80 + (CSpellFactory::GetInstance()->GetWindLevel() * 10);
-			m_SpellType    = OBJ_EARTH;
-			currDirec      = RIGHT;
-			SetAnimation(OBJ_EARTH +1,0);
-		} break;
-	case OBJ_FIRE:
-		{
-			currState = new AIStateFire( );
-			SetPosX(initx);
-			SetPosY(inity);
-			SetVelX(75.0f);
-			SetVelY(0.0f);
-			SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/lapid_lulzfireenemy.png" ) );
-			SetHeight( 54 );
-			SetWidth ( 16 );
-
-			m_nHealth      = 50 + (CSpellFactory::GetInstance()->GetEarthLevel() * 7);
-			m_SpellType    = OBJ_FIRE;
-			currDirec      = RIGHT;
-			SetAnimation(OBJ_FIRE +1,0);
-
-		} break;
-	case OBJ_ICE:
-		{
-			currState = new AIStateIce( );
-			SetPosX(initx);
-			SetPosY(inity);
-			SetVelX(50.0f);
-			SetVelY(0.0f);
-			SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/lapid_lulziceenemy.png" ) );
-			SetHeight( 64 );
-			SetWidth ( 16 );
-			SetAnimation(1,0);
-			m_nHealth      = 50 + (CSpellFactory::GetInstance()->GetFireLevel() * 7);
-			m_SpellType    = OBJ_ICE;
-			currDirec      = RIGHT;
-			SetAnimation(OBJ_ICE +1,0);
-		} break;
-	case OBJ_WIND:
-		{
-			currState = new AIStateWind();
-			SetPosX(initx);
-			SetPosY(inity);
-			
-			((AIStateWind*)currState)->SetFlock((CFlock*)Flock);
-			SetVelX((float)(rand()%150));
-			SetVelY((float)(rand()%150));
-			if(rand()%2)
+		case OBJ_EARTH:
 			{
+				currState = new AIStateEarth( );
+				SetPosX(initx);
+				SetPosY(inity);
+				SetVelX(25.0f);
+				SetVelY(0.0f);
+				( ( AIStateEarth* )currState )->SetInitPos( int( GetPosX( ) ), int( GetPosY( ) ) );
+				SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/lapidem_lulzenemy.png" ) );
+				SetHeight( 64 );
+				SetWidth( 16 );
+
+				m_nHealth      = 80 + (CSpellFactory::GetInstance()->GetWindLevel() * 10);
+				m_SpellType    = OBJ_EARTH;
+				currDirec      = RIGHT;
+				SetAnimation(OBJ_EARTH +1,0);
+			} break;
+		case OBJ_FIRE:
+			{
+				currState = new AIStateFire( );
+				SetPosX(initx);
+				SetPosY(inity);
+				SetVelX(75.0f);
+				SetVelY(0.0f);
+				SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/lapid_lulzfireenemy.png" ) );
+				SetHeight( 54 );
+				SetWidth ( 16 );
+
+				m_nHealth      = 50 + (CSpellFactory::GetInstance()->GetEarthLevel() * 7);
+				m_SpellType    = OBJ_FIRE;
+				currDirec      = RIGHT;
+				SetAnimation(OBJ_FIRE +1,0);
+
+			} break;
+		case OBJ_ICE:
+			{
+				currState = new AIStateIce( );
+				SetPosX(initx);
+				SetPosY(inity);
+				SetVelX(50.0f);
+				SetVelY(0.0f);
+				SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/lapid_lulziceenemy.png" ) );
+				SetHeight( 64 );
+				SetWidth ( 16 );
+				SetAnimation(1,0);
+				m_nHealth      = 50 + (CSpellFactory::GetInstance()->GetFireLevel() * 7);
+				m_SpellType    = OBJ_ICE;
+				currDirec      = RIGHT;
+				SetAnimation(OBJ_ICE +1,0);
+			} break;
+		case OBJ_WIND:
+			{
+				currState = new AIStateWind();
+				SetPosX(initx);
+				SetPosY(inity);
+
+				((AIStateWind*)currState)->SetFlock((CFlock*)Flock);
 				SetVelX((float)(rand()%150));
 				SetVelY((float)(rand()%150));
-			}
-			else
-			{
-				SetVelX(rand()%150 * -1.0f);
-				SetVelY(rand()%150 * -1.0f);
-			}
-			SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/lapid_lulzwindenemy.png"));
-			SetHeight(16);
-			SetWidth(16);
-			m_nHealth = 25 + CSpellFactory::GetInstance()->GetIceLevel() * 5;
-			m_SpellType = OBJ_WIND;
-			currDirec = RIGHT;
-			
-			SetAnimation(OBJ_WIND +1,0);
-			currAnimation = NULL;
-			break;
-		} 
-	}
+				if(rand()%2)
+				{
+					SetVelX((float)(rand()%150));
+					SetVelY((float)(rand()%150));
+				}
+				else
+				{
+					SetVelX(rand()%150 * -1.0f);
+					SetVelY(rand()%150 * -1.0f);
+				}
+				SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/lapid_lulzwindenemy.png"));
+				SetHeight(16);
+				SetWidth(16);
+				m_nHealth = 25 + CSpellFactory::GetInstance()->GetIceLevel() * 5;
+				m_SpellType = OBJ_WIND;
+				currDirec = RIGHT;
+
+				SetAnimation(OBJ_WIND +1,0);
+				currAnimation = NULL;
+				break;
+			} 
+		}
 	}
 
 
@@ -257,7 +257,7 @@ void CEnemy::Update( float fElapsedTime )
 					m_fShotTimer = 2.0f;
 					animation->Reset();
 					SetAnimation(GetEleType()+1,2);
-					
+
 				}
 			}
 			else
@@ -267,7 +267,7 @@ void CEnemy::Update( float fElapsedTime )
 				if(m_SpellType !=OBJ_WIND)
 					SetPosY( GetPosY( ) + 150.0f * fElapsedTime );
 
-				
+
 				char* pleasework = animation->GetTrigger();
 				if(strcmp(pleasework, "Done") == 0)
 				{	
@@ -281,7 +281,7 @@ void CEnemy::Update( float fElapsedTime )
 					}
 					animation->Reset();
 					SetAnimation(GetEleType()+1,0);
-					
+
 					m_fWaitTimer = 0.0f;
 				}
 
@@ -457,7 +457,7 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 		int spelltype = ((CSpell*)collidingObject)->GetElement();
 		int DamageToTake = ((CSpell*)collidingObject)->GetDamage();
 		int EleType	= GetEleType();
-		
+
 		if( EleType == OBJ_SHIELD)
 			return;
 		else if(EleType == OBJ_NONE)

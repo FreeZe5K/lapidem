@@ -140,12 +140,10 @@ void CAuxiliaryState::Update( float fET )
 		m_pWM->SetVolume( CGame::GetInstance( )->GetTileDestroyedSound( ),
 			CGame::GetInstance( )->GetSoundFXVolume( ) );
 	}
-	else if( m_nState == 1 ) // High Scores
-	{
-	}
-	else if( m_nState == 2 ) // How To Play
-	{
-	}
+	else if( m_nState == 1 )
+	{ /* High Scores */ }
+	else if( m_nState == 2 )
+	{ /* How To Play */ }
 	else if( m_nState == 3 ) // Credits
 	{
 		if( --m_nCreditScroll < -490 )
@@ -300,6 +298,158 @@ bool CAuxiliaryState::SaveConfig( const char* _file )
 
 		ofs.write( ( char* )&nMusicVol, sizeof( int ) );
 		ofs.write( ( char* )&nSFXVol, sizeof( int ) );
+	} ofs.close( );
+
+	return true;
+}
+
+bool CAuxiliaryState::LoadSlotInfo( const char* _file )
+{
+	ifstream ifs( _file, ios_base::in | ios_base::binary );
+
+	if( ifs.is_open( ) )
+	{
+		ifs.read( ( char* )&_tSlotOne._nNumPlayers, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotOne._nCurrentLevel, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotOne._nPlayerOneHealth, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotOne._nPlayerOneScore, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotOne._nPlayerTwoHealth, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotOne._nPlayerTwoScore, sizeof( int ) );
+		
+		ifs.read( ( char* )&_tSlotTwo._nNumPlayers, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotTwo._nCurrentLevel, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotTwo._nPlayerOneHealth, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotTwo._nPlayerOneScore, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotTwo._nPlayerTwoHealth, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotTwo._nPlayerTwoScore, sizeof( int ) );
+		
+		ifs.read( ( char* )&_tSlotThree._nNumPlayers, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotThree._nCurrentLevel, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotThree._nPlayerOneHealth, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotThree._nPlayerOneScore, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotThree._nPlayerTwoHealth, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotThree._nPlayerTwoScore, sizeof( int ) );
+	} ifs.close( );
+
+	return true;
+}
+
+bool CAuxiliaryState::UpdateSlotInfo( const char* _file, int _slot_to_change )
+{
+	ifstream ifs( _file, ios_base::in | ios_base::binary );
+
+	if( ifs.is_open( ) )
+	{
+		ifs.read( ( char* )&_tSlotOne._nNumPlayers, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotOne._nCurrentLevel, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotOne._nPlayerOneHealth, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotOne._nPlayerOneScore, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotOne._nPlayerTwoHealth, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotOne._nPlayerTwoScore, sizeof( int ) );
+		
+		ifs.read( ( char* )&_tSlotTwo._nNumPlayers, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotTwo._nCurrentLevel, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotTwo._nPlayerOneHealth, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotTwo._nPlayerOneScore, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotTwo._nPlayerTwoHealth, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotTwo._nPlayerTwoScore, sizeof( int ) );
+		
+		ifs.read( ( char* )&_tSlotThree._nNumPlayers, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotThree._nCurrentLevel, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotThree._nPlayerOneHealth, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotThree._nPlayerOneScore, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotThree._nPlayerTwoHealth, sizeof( int ) );
+		ifs.read( ( char* )&_tSlotThree._nPlayerTwoScore, sizeof( int ) );
+	} ifs.close( );
+
+	if( _slot_to_change == 1 )
+	{
+		if( CGameplayState::GetInstance( )->GetTwoPlayerMode( ) )
+			_tSlotOne._nNumPlayers       = 2;
+		else _tSlotOne._nNumPlayers      = 1;
+
+		_tSlotOne._nCurrentLevel         = CGameplayState::GetInstance( )->GetCurrentLevel( );
+		_tSlotOne._nPlayerOneHealth      = CGameplayState::GetInstance( )->GetPlayerOne( )->GetHealth( );
+		_tSlotOne._nPlayerOneScore       = CGameplayState::GetInstance( )->GetPlayerOne( )->GetScore( );
+
+		if( _tSlotOne._nNumPlayers == 2 )
+		{
+			_tSlotOne._nPlayerTwoHealth  = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetHealth( );
+			_tSlotOne._nPlayerTwoScore   = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetScore( );
+		}
+		else 
+		{
+			_tSlotOne._nPlayerTwoHealth  = 0;
+			_tSlotOne._nPlayerTwoScore   = 0;
+		}
+	}
+	else if( _slot_to_change == 2 )
+	{		
+		if( CGameplayState::GetInstance( )->GetTwoPlayerMode( ) )
+			_tSlotTwo._nNumPlayers       = 2;
+		else _tSlotTwo._nNumPlayers      = 1;
+
+		_tSlotTwo._nCurrentLevel         = CGameplayState::GetInstance( )->GetCurrentLevel( );
+		_tSlotTwo._nPlayerOneHealth      = CGameplayState::GetInstance( )->GetPlayerOne( )->GetHealth( );
+		_tSlotTwo._nPlayerOneScore       = CGameplayState::GetInstance( )->GetPlayerOne( )->GetScore( );
+
+		if( _tSlotTwo._nNumPlayers == 2 )
+		{
+			_tSlotTwo._nPlayerTwoHealth  = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetHealth( );
+			_tSlotTwo._nPlayerTwoScore   = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetScore( );
+		}
+		else 
+		{
+			_tSlotTwo._nPlayerTwoHealth  = 0;
+			_tSlotTwo._nPlayerTwoScore   = 0;
+		}
+	}
+	else if( _slot_to_change == 3 )
+	{
+		if( CGameplayState::GetInstance( )->GetTwoPlayerMode( ) )
+			_tSlotThree._nNumPlayers     = 2;
+		else _tSlotThree._nNumPlayers    = 1;
+
+		_tSlotThree._nCurrentLevel       = CGameplayState::GetInstance( )->GetCurrentLevel( );
+		_tSlotThree._nPlayerOneHealth    = CGameplayState::GetInstance( )->GetPlayerOne( )->GetHealth( );
+		_tSlotThree._nPlayerOneScore     = CGameplayState::GetInstance( )->GetPlayerOne( )->GetScore( );
+		
+		if( _tSlotThree._nNumPlayers == 2 )
+		{
+			_tSlotThree._nPlayerTwoHealth = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetHealth( );
+			_tSlotThree._nPlayerTwoScore  = CGameplayState::GetInstance( )->GetPlayerTwo( )->GetScore( );
+		}
+		else 
+		{
+			_tSlotThree._nPlayerTwoHealth  = 0;
+			_tSlotThree._nPlayerTwoScore   = 0;
+		}
+	}
+
+	ofstream ofs( _file, ios_base::out | ios::trunc | ios_base::binary );
+
+	if( ofs.is_open( ) )
+	{
+		ofs.write( ( char* )&_tSlotOne._nNumPlayers, sizeof( int ) );
+		ofs.write( ( char* )&_tSlotOne._nCurrentLevel, sizeof( int ) );
+		ofs.write( ( char* )&_tSlotOne._nPlayerOneHealth, sizeof( int ) );
+		ofs.write( ( char* )&_tSlotOne._nPlayerOneScore, sizeof( int ) );
+		ofs.write( ( char* )&_tSlotOne._nPlayerTwoHealth, sizeof( int ) );
+		ofs.write( ( char* )&_tSlotOne._nPlayerTwoScore, sizeof( int ) );
+		
+		ofs.write( ( char* )&_tSlotTwo._nNumPlayers, sizeof( int ) );
+		ofs.write( ( char* )&_tSlotTwo._nCurrentLevel, sizeof( int ) );
+		ofs.write( ( char* )&_tSlotTwo._nPlayerOneHealth, sizeof( int ) );
+		ofs.write( ( char* )&_tSlotTwo._nPlayerOneScore, sizeof( int ) );
+		ofs.write( ( char* )&_tSlotTwo._nPlayerTwoHealth, sizeof( int ) );
+		ofs.write( ( char* )&_tSlotTwo._nPlayerTwoScore, sizeof( int ) );
+		
+		ofs.write( ( char* )&_tSlotThree._nNumPlayers, sizeof( int ) );
+		ofs.write( ( char* )&_tSlotThree._nCurrentLevel, sizeof( int ) );
+		ofs.write( ( char* )&_tSlotThree._nPlayerOneHealth, sizeof( int ) );
+		ofs.write( ( char* )&_tSlotThree._nPlayerOneScore, sizeof( int ) );
+		ofs.write( ( char* )&_tSlotThree._nPlayerTwoHealth, sizeof( int ) );
+		ofs.write( ( char* )&_tSlotThree._nPlayerTwoScore, sizeof( int ) );
 	} ofs.close( );
 
 	return true;

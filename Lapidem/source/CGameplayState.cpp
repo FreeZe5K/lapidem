@@ -18,6 +18,8 @@ CGameplayState* CGameplayState::GetInstance( )
 
 void CGameplayState::Enter( )
 {
+	CGame::GetInstance( )->PushState( CLoading::GetInstance( ) );
+
 	m_bBossSpawned = false;
 	thaBoss        = NULL;
 	m_pPlayerOne   = NULL;
@@ -27,6 +29,8 @@ void CGameplayState::Enter( )
 	m_nPlayerTwoScore      = 0;
 	m_nSinglePlayerScore   = 0;
 	m_nCurrentLevel        = 1;
+
+	CLoading::GetInstance( )->SetProgress( 100 );
 
 	m_pD3D          = CSGD_Direct3D::GetInstance( );
 	m_pTM           = CSGD_TextureManager::GetInstance( );
@@ -40,6 +44,8 @@ void CGameplayState::Enter( )
 
 	m_pPlayerOne	= new CPlayer( );
 	m_pPlayerOne->SetAnimation( 0, 0 );
+
+	CLoading::GetInstance( )->SetProgress( 175 );
 
 	if( m_bLoadedFromFile )
 	{
@@ -69,6 +75,8 @@ void CGameplayState::Enter( )
 		}
 	} else theLevel.LoadNewLevel( "resource/data/level1.laplvl" );	// if not loaded from file
 
+	CLoading::GetInstance( )->SetProgress( 300 );
+
 	CBase* pEntry = theLevel.GetEntryPoint( );
 
 	if( m_bTwoPlayers )
@@ -79,6 +87,8 @@ void CGameplayState::Enter( )
 
 	CCamera::InitCamera( 0.0f, 0.0f, float(CGame::GetInstance( )->GetScreenWidth( ) ),
 		float( CGame::GetInstance( )->GetScreenHeight( ) ), m_pPlayerOne, m_pPlayerTwo  );
+	
+	CLoading::GetInstance( )->SetProgress( 400 );
 
 	m_pCoM			= Corona_ObjectManager::GetInstance( );
 	m_pCoM->SetCamera(CCamera::GetCamera());
@@ -100,9 +110,18 @@ void CGameplayState::Enter( )
 	m_pWM->SetVolume( CGame::GetInstance( )->GetTileDestroyedSound( ), 
 		CGame::GetInstance( )->GetSoundFXVolume( ) );
 
+	CLoading::GetInstance( )->SetProgress( 500 );
+
 	m_pWM->Stop( CGame::GetInstance( )->GetMainMenuMusic( ) );
 
-	if( m_nCurrentLevel == 1 )
+	if( 1 == m_nSlotLoadedFrom )
+		m_nCurrentLevel = CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel;
+	else if( 2 == m_nSlotLoadedFrom )
+		m_nCurrentLevel = CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel;
+	else if( 3 == m_nSlotLoadedFrom )
+		m_nCurrentLevel = CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel;
+
+	if( m_nCurrentLevel == 1 || m_nCurrentLevel < 1 || m_nCurrentLevel > 3 )
 		m_pWM->Play( CGame::GetInstance( )->GetLevelOneMusic( ), DSBPLAY_LOOPING );
 	else if( m_nCurrentLevel == 2 )
 		m_pWM->Play( CGame::GetInstance( )->GetLevelTwoMusic( ), DSBPLAY_LOOPING );
@@ -121,6 +140,8 @@ void CGameplayState::Enter( )
 	m_nImageID[4]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_MMArrow.png" );
 	m_nImageID[5]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_MMComplete.png" );
 	// - - - - - - - - - - - - - -
+
+	CLoading::GetInstance( )->SetProgress( 550 );
 
 	if( m_pPlayerTwo )
 		m_pCoM->AddObject( m_pPlayerTwo );
@@ -238,6 +259,8 @@ void CGameplayState::Enter( )
 		//////////////
 	}
 
+	CLoading::GetInstance( )->SetProgress( 620 );
+
 	m_pCoM->AddObject( m_pPlayerOne );
 
 	if( m_pPlayerTwo )
@@ -248,6 +271,8 @@ void CGameplayState::Enter( )
 	m_tDir._y = -50.0f;
 
 	CGame::GetInstance( )->SetTimeLeft( 600 );
+
+	CLoading::GetInstance( )->SetProgress( 640 );
 }
 
 bool CGameplayState::Input( )
@@ -449,27 +474,36 @@ void CGameplayState::Update( float fET )
 	{
 		if( m_bPlayerReachedEnd )
 		{
+			CGame::GetInstance( )->PushState( CLoading::GetInstance( ) );
 
-			m_pCoM->RemoveAllObjects();
-			m_pCoM->AddObject(m_pPlayerOne);
-			if(m_pPlayerTwo)
+			m_pCoM->RemoveAllObjects( );
+			m_pCoM->AddObject( m_pPlayerOne );
+
+			CLoading::GetInstance( )->SetProgress( 50 );
+
+			if( m_pPlayerTwo )
 			{
-				m_pCoM->AddObject(m_pPlayerTwo);
+				m_pCoM->AddObject( m_pPlayerTwo );
 
-				if(m_pPlayerTwo->GetReticle())
-					m_pCoM->AddObject(m_pPlayerTwo->GetReticle());
+				if( m_pPlayerTwo->GetReticle( ) )
+					m_pCoM->AddObject( m_pPlayerTwo->GetReticle( ) );
 			}
 
-			if(m_pPlayerOne->GetReticle())
-				m_pCoM->AddObject(m_pPlayerOne->GetReticle());
+			if( m_pPlayerOne->GetReticle( ) )
+				m_pCoM->AddObject( m_pPlayerOne->GetReticle( ) );
 
-			theLevel.LoadNextLevel();
+			CLoading::GetInstance( )->SetProgress( 150 );
+
+			theLevel.LoadNextLevel( );
 			++m_nCurrentLevel;
+
+			CLoading::GetInstance( )->SetProgress( 450 );
 
 			CBase* pEntry = theLevel.GetEntryPoint( );
 			m_pPlayerOne->SetPosX( pEntry->GetPosX( ) );
 			m_pPlayerOne->SetPosY( pEntry->GetPosY( ) );
 
+			CLoading::GetInstance( )->SetProgress( 550 );
 
 			////////////////
 			//Bug #12 Fix
@@ -487,6 +521,7 @@ void CGameplayState::Update( float fET )
 			///////////////
 
 			m_bPlayerReachedEnd = false;
+			CLoading::GetInstance( )->SetProgress( 640 );
 		}
 	}
 	else m_bPlayerReachedEnd = false;
