@@ -51,22 +51,14 @@ void CEarth::Update( float fElapsedTime )
 		//////////////////////////
 
 
+	if(GetTier() != 3)
+	{
 	if(GetLifespan() < 0 || ! ( CGameplayState::GetInstance()->GetLevel()->GetTile((int)GetPosX(), (int)GetPosY()) ))
 	{
 		SetActive(false);
 		return;
 	}
-	else
-	{
-		CTerrainBase* pTile = (CTerrainBase*)CGameplayState::GetInstance()->GetLevel()->GetTile((int)GetPosX(), (int)GetPosY());
-
-		if(pTile->GetTypeTerrain() == T_BOUNDARY)
-		{
-				SetActive(false);
-				return;
-		}
 	}
-
 		//////////////////////////
 		// End Bug Fix
 		//
@@ -198,6 +190,8 @@ void Tier3Effect(CBase * pBase, CBase* pSpell)
 
 void CEarth::UpdateTier3( float fElapsedTime )
 { 
+
+	SetPosY(CCamera::GetCamera()->GetYOffset());
 	CSpell::UpdateTier3(fElapsedTime);
 
 	Corona_ObjectManager::GetInstance()->AuxFunction(&Tier3Effect,OBJ_ENEMY,false,this);
