@@ -37,11 +37,11 @@ void CMenuState::Enter( )
 		m_pWM->Play( CGame::GetInstance( )->GetMainMenuMusic( ), DSBPLAY_LOOPING );
 
 	CGameplayState::GetInstance( )->SetPlayerReachedEnd( false );
+	CAuxiliaryState::GetInstance( )->LoadSlotInfo( "resource/data/Lapidem_SlotInfo.bin" );
 }
 
 bool CMenuState::Input( )
 {
-
 	m_fInputTimer += .0167f;
 
 	if(m_pDI->JoystickGetLStickYNormalized())
@@ -51,7 +51,6 @@ bool CMenuState::Input( )
 		else
 			m_fInputTimer = 0.0f;
 	}
-
 
 	if( 0 == m_nState ) // Main menu
 	{
@@ -375,32 +374,248 @@ void CMenuState::Render( )
 		{
 			CGame::GetInstance( ) ->GetFont( )->Draw( ">", 50, 96, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			CGame::GetInstance( ) ->GetFont( )->Draw( "SLOT 1", 80, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel == 0 )
+				CGame::GetInstance( ) ->GetFont( )->Draw( "( SLOT EMPTY )", 210, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			else
+			{
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nNumPlayers == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 1P,", 210, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nNumPlayers == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 2P,", 210, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 1 )", 295, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 2 )", 295, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel == 3 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 3 )", 295, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
 			CGame::GetInstance( ) ->GetFont( )->Draw( "SLOT 2", 70, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel == 0 )
+				CGame::GetInstance( ) ->GetFont( )->Draw( "( SLOT EMPTY )", 210, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			else
+			{
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nNumPlayers == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 1P,", 210, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nNumPlayers == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 2P,", 210, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 1 )", 295, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 2 )", 295, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel == 3 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 3 )", 295, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
 			CGame::GetInstance( ) ->GetFont( )->Draw( "SLOT 3", 70, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel == 0 )
+				CGame::GetInstance( ) ->GetFont( )->Draw( "( SLOT EMPTY )", 210, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			else
+			{
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nNumPlayers == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 1P,", 210, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nNumPlayers == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 2P,", 210, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 1 )", 295, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 2 )", 295, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel == 3 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 3 )", 295, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
 			CGame::GetInstance( ) ->GetFont( )->Draw( "CANCEL", 70, 160, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( m_nChoice == 1 )
 		{
 			CGame::GetInstance( ) ->GetFont( )->Draw( ">", 50, 116, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			CGame::GetInstance( ) ->GetFont( )->Draw( "SLOT 1", 70, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel == 0 )
+				CGame::GetInstance( ) ->GetFont( )->Draw( "( SLOT EMPTY )", 210, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			else
+			{
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nNumPlayers == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 1P,", 210, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nNumPlayers == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 2P,", 210, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 1 )", 295, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 2 )", 295, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel == 3 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 3 )", 295, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
 			CGame::GetInstance( ) ->GetFont( )->Draw( "SLOT 2", 80, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel == 0 )
+				CGame::GetInstance( ) ->GetFont( )->Draw( "( SLOT EMPTY )", 210, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			else
+			{
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nNumPlayers == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 1P,", 210, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nNumPlayers == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 2P,", 210, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 1 )", 295, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 2 )", 295, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel == 3 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 3 )", 295, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
 			CGame::GetInstance( ) ->GetFont( )->Draw( "SLOT 3", 70, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel == 0 )
+				CGame::GetInstance( ) ->GetFont( )->Draw( "( SLOT EMPTY )", 210, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			else
+			{
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nNumPlayers == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 1P,", 210, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nNumPlayers == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 2P,", 210, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 1 )", 295, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 2 )", 295, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel == 3 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 3 )", 295, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
 			CGame::GetInstance( ) ->GetFont( )->Draw( "CANCEL", 70, 160, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( m_nChoice == 2 )
 		{
 			CGame::GetInstance( ) ->GetFont( )->Draw( ">", 50, 136, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			CGame::GetInstance( ) ->GetFont( )->Draw( "SLOT 1", 70, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel == 0 )
+				CGame::GetInstance( ) ->GetFont( )->Draw( "( SLOT EMPTY )", 210, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			else
+			{
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nNumPlayers == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 1P,", 210, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nNumPlayers == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 2P,", 210, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 1 )", 295, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 2 )", 295, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel == 3 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 3 )", 295, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
 			CGame::GetInstance( ) ->GetFont( )->Draw( "SLOT 2", 70, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel == 0 )
+				CGame::GetInstance( ) ->GetFont( )->Draw( "( SLOT EMPTY )", 210, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			else
+			{
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nNumPlayers == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 1P,", 210, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nNumPlayers == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 2P,", 210, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 1 )", 295, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 2 )", 295, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel == 3 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 3 )", 295, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
 			CGame::GetInstance( ) ->GetFont( )->Draw( "SLOT 3", 80, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel == 0 )
+				CGame::GetInstance( ) ->GetFont( )->Draw( "( SLOT EMPTY )", 210, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			else
+			{
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nNumPlayers == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 1P,", 210, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nNumPlayers == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 2P,", 210, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 1 )", 295, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 2 )", 295, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel == 3 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 3 )", 295, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
 			CGame::GetInstance( ) ->GetFont( )->Draw( "CANCEL", 70, 160, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( m_nChoice == 3 )
 		{
 			CGame::GetInstance( ) ->GetFont( )->Draw( ">", 50, 156, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			CGame::GetInstance( ) ->GetFont( )->Draw( "SLOT 1", 70, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel == 0 )
+				CGame::GetInstance( ) ->GetFont( )->Draw( "( SLOT EMPTY )", 210, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			else
+			{
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nNumPlayers == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 1P,", 210, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nNumPlayers == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 2P,", 210, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 1 )", 295, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 2 )", 295, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel == 3 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 3 )", 295, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
 			CGame::GetInstance( ) ->GetFont( )->Draw( "SLOT 2", 70, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel == 0 )
+				CGame::GetInstance( ) ->GetFont( )->Draw( "( SLOT EMPTY )", 210, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			else
+			{
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nNumPlayers == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 1P,", 210, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nNumPlayers == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 2P,", 210, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 1 )", 295, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 2 )", 295, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel == 3 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 3 )", 295, 120, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
 			CGame::GetInstance( ) ->GetFont( )->Draw( "SLOT 3", 70, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel == 0 )
+				CGame::GetInstance( ) ->GetFont( )->Draw( "( SLOT EMPTY )", 210, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			else
+			{
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nNumPlayers == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 1P,", 210, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nNumPlayers == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "( 2P,", 210, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				
+				if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel == 1 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 1 )", 295, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel == 2 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 2 )", 295, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				else if( CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel == 3 )
+					CGame::GetInstance( ) ->GetFont( )->Draw( "LEVEL 3 )", 295, 140, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
 			CGame::GetInstance( ) ->GetFont( )->Draw( "CANCEL", 80, 160, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 	}

@@ -71,8 +71,8 @@ void CPlayer::Update( float fElapsedTime )
 		if(m_pReticle)
 		{
 			m_pReticle->SetActive(false);
-		m_pReticle->Release();
-		m_pReticle = NULL;
+			m_pReticle->Release();
+			m_pReticle = NULL;
 		}	
 		return;
 
@@ -84,7 +84,7 @@ void CPlayer::Update( float fElapsedTime )
 		m_bShielded = false;
 		m_fShieldTimer = 30.0f;
 	}			
-	
+
 	if( animation )
 	{
 		SetWidth( animation->GetFrames( )->DrawRect.right - animation->GetFrames( )->DrawRect.left );
@@ -261,7 +261,7 @@ void CPlayer::Update( float fElapsedTime )
 
 	m_fFireTimer = m_fFireTimer + fElapsedTime;
 
-	
+
 	//******************************************************************************
 	//******************************************************************************
 	//******************************************************************************
@@ -411,7 +411,7 @@ void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 	{
 		return;
 	}
-		
+
 	if( collidingObject->GetType( ) == OBJ_TERRA || ( collidingObject->GetType( ) == 
 		OBJ_SPELL && ( ( CSpell* )collidingObject )->GetElement( ) == OBJ_EARTH ) )
 	{
@@ -441,7 +441,7 @@ void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 				TakeDamage( ( ( CSpell* )collidingObject )->GetDamage( ) ); 
 
 				CSGD_WaveManager::GetInstance( )->Play
-				( CGame::GetInstance( )->GetPlayerHitSound( ) );
+					( CGame::GetInstance( )->GetPlayerHitSound( ) );
 			}
 		}
 
@@ -479,7 +479,7 @@ void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 	else if( collidingObject->GetType( ) == OBJ_SPELL && !( ( CSpell* )collidingObject )->PlayerShot( ) )
 	{
 		CSGD_WaveManager::GetInstance( )->Play
-				( CGame::GetInstance( )->GetPlayerHitSound( ) );
+			( CGame::GetInstance( )->GetPlayerHitSound( ) );
 
 		TakeDamage(( ( CSpell* )collidingObject )->GetDamage( ) );
 	}

@@ -8,6 +8,8 @@
 #include "CGame.h"
 #include "IGameState.h"
 #include "CHighScores.h"
+#include "CPauseMenuState.h"
+#include "CGameplayState.h"
 
 using std::fstream;
 using std::ios;
@@ -19,6 +21,18 @@ class IGameState;
 class CAuxiliaryState : public IGameState
 {
 private:
+	struct tSlotInfo
+	{
+		int _nNumPlayers;
+		int _nCurrentLevel;
+
+		int _nPlayerOneHealth;
+		int _nPlayerOneScore;
+
+		int _nPlayerTwoHealth;
+		int _nPlayerTwoScore;
+	} _tSlotOne, _tSlotTwo, _tSlotThree;
+
 	CSGD_Direct3D           *m_pD3D;
 	CSGD_TextureManager     *m_pTM;
 	CSGD_DirectSound        *m_pDS;
@@ -49,6 +63,13 @@ public:
 
 	bool LoadConfig( const char* );
 	bool SaveConfig( const char* );
+
+	bool LoadSlotInfo( const char* );
+	bool UpdateSlotInfo( const char*, int );
+
+	tSlotInfo GetSlotInfoOne( )     { return _tSlotOne;     }
+	tSlotInfo GetSlotInfoTwo( )     { return _tSlotTwo;     }
+	tSlotInfo GetSlotInfoThree( )   { return _tSlotThree;   }
 
 	void Enter( );
 	bool Input( );

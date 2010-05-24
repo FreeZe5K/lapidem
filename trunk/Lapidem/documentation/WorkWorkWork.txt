@@ -13,7 +13,6 @@ GiantFire Ball :: Tick
 Tier 3 Fire    :: Balance
 Tier 2 Ice     :: Work
 
-
 //Non Critical
 Sound Effects
 Config File
@@ -21,7 +20,7 @@ Sister animations
 Attract Mode
 Water
 
-
 //Critcial
 Crash
 tier 2 ice
+loading a save file

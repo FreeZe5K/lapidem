@@ -219,7 +219,7 @@ void CLevel::LoadNewLevel( char* filename )
 			in.read( ( char* )&ID, sizeof( int ) );
 			//in.read( (char*)&size, sizeof(char));
 			in.read( ( char* )&Type, sizeof( int ) );
-			
+
 			switch ( Type )
 			{
 			case 'a': break;
@@ -290,7 +290,7 @@ void CLevel::LoadNewLevel( char* filename )
 					endPt->SetTileRows( GetTileRow( ) );
 					endPt->SetVelX( 0 );
 					endPt->SetVelY( 0 );
-					
+
 					m_nEndPosX = endPt->GetPosX( );
 					m_nEndPosY = endPt->GetPosY( );
 
@@ -615,9 +615,7 @@ bool CLevel::NextLevelOpen()
 void CLevel::ResetSwitches()
 {
 	for(unsigned index = 0; index < m_pLevelSwitches.size(); ++index)
-	{
 		((CLevelSwitch*)m_pLevelSwitches[index])->Reset();
-	}
 }
 void CLevel::SaveLevelFromMemory(ofstream* fout, char* szFileName, vector<CBase*>* pTerrainTiles, vector<CBase*>* pEventTiles, vector<CBase*>* pSwitches)
 {
@@ -625,16 +623,10 @@ void CLevel::SaveLevelFromMemory(ofstream* fout, char* szFileName, vector<CBase*
 
 	if(!szFileName)
 		nLength = 0;
-	else
-		nLength = strlen(szFileName) + 1;
+	else nLength = strlen(szFileName) + 1;
 
-	//if(!szFileName)
-	//	return;
-
-	//int data;
-	int nTotalSaveSize = // In Bytes
-		//sizeof(int) +
-		(nLength + sizeof(int))/* + (strlen(m_szNextLevelFileName) + 1 + sizeof(int))*/ + 
+	int nTotalSaveSize = 
+		(nLength + sizeof(int)) + 
 		(sizeof(int) + pTerrainTiles->size() * sizeof(int) * 4) + 
 		(sizeof(int) + pEventTiles->size() * sizeof(int) * 4) + 
 		(sizeof(int) + pSwitches->size() * sizeof(bool)); 
@@ -697,19 +689,14 @@ void CLevel::SaveLevelFromMemory(ofstream* fout, char* szFileName, vector<CBase*
 		bool State = pSwitch->GetSwitchState();
 		fout->write((char*)&State, sizeof(bool));
 	}
-
 }
 
 void CLevel::SaveCurrLevelState(ofstream* fout)
 {
-	//char cLevelName[64] = { };
-	int nLength;//, nDataChunkSize = 0;
+	int nLength;
 
-	//int data;
-	int nTotalSaveSize = // In Bytes
-		/*4 * sizeof(int) + */
-		//sizeof(int) + 
-		(strlen(m_szLevelFileName) + 1 + sizeof(int))/* + (strlen(m_szNextLevelFileName) + 1 + sizeof(int))*/ + 
+	int nTotalSaveSize = 
+		(strlen(m_szLevelFileName) + 1 + sizeof(int)) + 
 		(sizeof(int) + m_pTerrainTiles.size() * sizeof(int) * 4) + 
 		(sizeof(int) + m_pEventTiles.size() * sizeof(int) * 4) + 
 		(sizeof(int) + m_pLevelSwitches.size() * sizeof(bool)); 
@@ -722,9 +709,7 @@ void CLevel::SaveCurrLevelState(ofstream* fout)
 	fout->write(m_szLevelFileName, nLength);
 	///// End of Level File Names  //////
 
-
 	// Ready for Big Chunk of Data:
-
 	int nArraySize = m_pTerrainTiles.size();
 	fout->write((char*)&nArraySize, sizeof(int));
 
@@ -768,11 +753,9 @@ void CLevel::SaveCurrLevelState(ofstream* fout)
 	for(int i = 0; i < nArraySize; ++i)
 	{
 		CLevelSwitch* pSwitch = (CLevelSwitch*)m_pLevelSwitches[i];
-
 		bool State = pSwitch->GetSwitchState();
 		fout->write((char*)&State, sizeof(bool));
 	}
-
 }
 
 void CLevel::LoadLevelToMemory(ifstream *fin, char* &szFileName, vector<CBase*>* pTerrainTiles, vector<CBase*>* pEventTiles, vector<CBase*>* pSwitches)
@@ -840,8 +823,7 @@ bool CLevel::LoadLevelFromSave(ifstream* fin)
 	fin->read((char*)&nLength, sizeof(int));
 	if(nLength)
 		fin->read(cFileName, nLength);
-	else
-		return false;
+	else return false;
 
 	LoadNewLevel(cFileName);
 
@@ -868,9 +850,7 @@ bool CLevel::LoadLevelFromSave(ifstream* fin)
 				pTerrain->SetTileID(GetBaseTileID());
 			}
 		}
-	}
-	else
-		return false;
+	} else return false;
 
 	fin->read((char*)&nArraySize, sizeof(int));
 	if(nArraySize == m_pEventTiles.size())
@@ -887,9 +867,7 @@ bool CLevel::LoadLevelFromSave(ifstream* fin)
 			fin->read((char*)&nData, sizeof(int));
 			pEventTile->SetDamage(nData);
 		}
-	}
-	else
-		return false;
+	} else return false;
 
 	fin->read((char*)&nArraySize, sizeof(int));
 	if(nArraySize == m_pLevelSwitches.size())
@@ -901,9 +879,6 @@ bool CLevel::LoadLevelFromSave(ifstream* fin)
 			fin->read((char*)&bIsOn, sizeof(bool));
 			pSwitch->SetSwitchState(bIsOn);
 		}
-	}
-	else
-		return false;
-
+	} else return false;
 	return true;
 }

@@ -25,8 +25,11 @@ private:
 	struct tSlotInfo
 	{
 		int            _nPlayerCount;
+		int            _nCurrentLevel;
+
 		int            _nPositionX;
 		int            _nPositionY;
+
 		int            _nPlayerTwoPosX;
 		int            _nPlayerTwoPosY;
 
@@ -43,6 +46,18 @@ private:
 			int        _nIce;
 			int        _nAir;
 		} _manaP1, _manaP2;
+
+		struct tSpell
+		{
+			int        _nFireXP;
+			int        _nFireLevel;
+			int        _nEarthXP;
+			int        _nEarthLevel;			
+			int        _nIceXP;
+			int        _nIceLevel;
+			int        _nAirXP;
+			int        _nAirLevel;
+		} _spellP1, _spellP2;
 	} _tSlotOne, _tSlotTwo, _tSlotThree;
 
 	struct tLevelInfo
@@ -51,7 +66,7 @@ private:
 		vector<CBase*> pTerrainTiles;
 		vector<CBase*> pEventTiles;
 		vector<CBase*> pSwitches;
-	} m_tLevelInfo[3];	// only 3 slots...hard code
+	} m_tLevelInfo[3];
 	// - - - - - - - - - - -
 
 	int                     m_nState;

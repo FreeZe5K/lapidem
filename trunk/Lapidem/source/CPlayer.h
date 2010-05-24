@@ -44,19 +44,16 @@ public:
 	void HandleCollision(float, CBase* );
 	void HandleEvent(CEvent * pEvent);
 	void SetShielded(bool bShielded) {m_bShielded = bShielded;}
-	int TakeDamage( int nDamage )
+
+	_inline int TakeDamage( int nDamage )
 	{
-		if(!m_bShielded)
-		{
-			m_nHealth -= nDamage;
-		}
+		if( !m_bShielded )
+			m_nHealth = m_nHealth - nDamage;
 		return 0;
 	}
 
-	void ResetJump()
-	{
-		m_bIsJumping = false;
-	}
+	_inline void ResetJump( )
+	{ m_bIsJumping = false; }
 
 	void SetFainted( bool bFainted ) { m_bFainted = bFainted; }
 	bool GetFainted() { return m_bFainted; }

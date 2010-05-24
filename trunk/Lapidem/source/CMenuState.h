@@ -22,8 +22,11 @@ private:
 	struct tSlots
 	{
 		int            nPlayerCount;
+		int            nCurrentLevel;
+
 		int            nPositionX;
 		int            nPositionY;
+
 		int            nPlayerTwoPosX;
 		int            nPlayerTwoPosY;
 
@@ -40,6 +43,18 @@ private:
 			int        nIce;
 			int        nAir;
 		} manaP1, manaP2;
+
+		struct tSpell
+		{
+			int        nFireXP;
+			int        nFireLevel;
+			int        nEarthXP;
+			int        nEarthLevel;			
+			int        nIceXP;
+			int        nIceLevel;
+			int        nAirXP;
+			int        nAirLevel;
+		} spellP1, spellP2;
 	} tSlotOne, tSlotTwo, tSlotThree;
 
 	int                     m_nState;
@@ -58,7 +73,6 @@ private:
 	~CMenuState( ) { /* DO NOTHING */ }
 	CMenuState( const CMenuState& );
 	CMenuState& operator=( const CMenuState& );
-
 
 	float m_fInputTimer;
 
