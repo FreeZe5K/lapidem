@@ -1,4 +1,3 @@
-Loading Game Screen
 Load in game
 Video Options
 	Resolution
