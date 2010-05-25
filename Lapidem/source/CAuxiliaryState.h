@@ -41,6 +41,9 @@ private:
 
 	CHighScores				m_HS;
 
+	int                     m_nBrightness;
+	bool                    m_bFullScreenON;
+
 	int                     m_nState;
 	int                     m_nChoice;
 	int                     m_nImageID[2];
@@ -67,9 +70,15 @@ public:
 	bool LoadSlotInfo( const char* );
 	bool UpdateSlotInfo( const char*, int );
 
-	tSlotInfo GetSlotInfoOne( )     { return _tSlotOne;     }
-	tSlotInfo GetSlotInfoTwo( )     { return _tSlotTwo;     }
-	tSlotInfo GetSlotInfoThree( )   { return _tSlotThree;   }
+	tSlotInfo GetSlotInfoOne( )     { return _tSlotOne;       }
+	tSlotInfo GetSlotInfoTwo( )     { return _tSlotTwo;       }
+	tSlotInfo GetSlotInfoThree( )   { return _tSlotThree;     }
+ 
+	int GetBrightness( )  const     { return m_nBrightness;   }
+	bool GetFS( )         const     { return m_bFullScreenON; }
+
+	void ToggleBrightness( int _i ) { m_nBrightness   = _i;   }
+	void toggleFS( bool _b )        { m_bFullScreenON = _b;   }
 
 	void Enter( );
 	bool Input( );

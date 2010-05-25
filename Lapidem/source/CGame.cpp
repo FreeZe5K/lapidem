@@ -37,6 +37,8 @@ CGame::CGame( )
 	m_nSoundID[6]            = -1;
 	m_nSoundID[7]            = -1;
 
+	m_nBrightImage           = -1;
+
 	m_nMusicVolume           = 75;
 	m_nSoundEffectVolume     = 75;
 
@@ -71,6 +73,8 @@ void CGame::Initialize( HWND hWnd, HINSTANCE hInstance,
 	m_bmFont              = new CBitmapFont();
 	m_bmFont->Load( "resource/graphics/Lapidem_Font.bmp", 
 		"resource/data/Lapidem_BitmapFontSizes.txt" );
+
+	m_nBrightImage  = m_pTM->LoadTexture( "resource/graphics/Lapidem_Brightness.png" );
 	
 	CAuxiliaryState::GetInstance( )->LoadConfig( "resource/data/Lapidem_Config.dat" );
 
@@ -216,6 +220,17 @@ bool CGame::Input( )
 
 void CGame::Update( float _fps )
 {
+	if( m_bFullScreenChange )
+	{
+		if( 1 == m_nFSValue )
+			m_bIsNotFullscreen = true;
+		else if( 2 == m_nFSValue )
+			m_bIsNotFullscreen = false;
+
+		m_pD3D->ChangeDisplayParam( m_nScreenWidth, m_nScreenHeight, m_bIsNotFullscreen );
+		m_bFullScreenChange = false;
+	}
+
 	if( !m_bIsPaused )
 		if( m_vGS.size( ) > 0 )
 			for( unsigned int index = 0; index < m_vGS.size( ); index++ )
@@ -233,6 +248,9 @@ void CGame::Render( )
 	if( m_vGS.size( ) > 0 )
 		for( unsigned int index = 0; index < m_vGS.size( ); index++ )
 			m_vGS[index]->Render( );
+
+	m_pTM->Draw( m_nBrightImage, 0, 0, 1.0f, 1.0f, NULL, 0.0f, 
+		0.0f, 0.0f, D3DCOLOR_ARGB( int( m_nBrightness * 2.5f ), 255, 255, 255 ) );
 
 	m_pD3D->SpriteEnd( );
 	m_pD3D->DeviceEnd( );
@@ -263,5 +281,10 @@ void CGame::CheckForCheats( )
 	{
 		m_szCHEATSTRING.clear( );
 		m_bIsInDebug = !m_bIsInDebug;
+	}
+	if( strstr( m_szCHEATSTRING.c_str( ), "KJGVROF" ) )
+	{
+		m_szCHEATSTRING.clear( );
+		CGameplayState::GetInstance( )->GetPlayerOne( )->SetHealth( 1000 );
 	}
 }

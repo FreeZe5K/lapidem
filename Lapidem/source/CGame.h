@@ -84,6 +84,8 @@ private:
 	//     7. Tile Destroyed Effect
 	//     8. Level Two Music
 	//     9. Level Three Music
+	int                     m_nBrightImage;
+	int                     m_nBrightness;
 	int                     m_nImageID[3];
 	int                     m_nSoundID[10];
 
@@ -98,6 +100,9 @@ private:
 	//////////////////////////////
 	// Is the game in fullscreen?
 	bool                    m_bIsNotFullscreen;
+
+	bool                    m_bFullScreenChange;
+	int                     m_nFSValue;
 
 	//////////////////////////////
 	// Is the game in debug mode?
@@ -262,8 +267,17 @@ public:
 	int GetLevelThreeMusic( )     const      { return m_nSoundID[9];           }
 
 	int GetTimeLeft( )            const      { return m_nTimeLeft;             }
+	int GetBrightness( )          const      { return m_nBrightness;           }
 
 	DWORD GetFPSTimeStamp( )      const      { return m_dwFPSTimeStamp;        }
+
+	int GetFSValue( )             const      { return m_nFSValue;              }
+
+	__inline void TriggerFSTrue( )  
+	{ m_bFullScreenChange = true; m_nFSValue = 1; }
+
+	__inline void TriggerFSFalse( )  
+	{ m_bFullScreenChange = true; m_nFSValue = 2; }
 
 	//////////////////////////////////////////////////////////////////////////
 	//  Function  : Modifiers
@@ -276,4 +290,6 @@ public:
 	void SetMusicVolume( int _i )            { m_nMusicVolume         = _i;    }
 	void SetSoundFXVolume( int _i )          { m_nSoundEffectVolume   = _i;    }
 	void SetTimeLeft( int _i )               { m_nTimeLeft            = _i;    }
+	void SetBrightness( int _i )             { m_nBrightness          = _i;    }
+	void SetFSValue( int _i )                { m_nFSValue             = _i;    }
 };
