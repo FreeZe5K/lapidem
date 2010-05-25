@@ -23,6 +23,7 @@ private:
 	int						m_nPlayerTwoScore;
 	int						m_nSinglePlayerScore;
 	int                     m_nCurrentLevel;
+	int						m_nDifficulty;
 
 	float					m_fP2RespawnTimer;
 	float                   m_fMMCurrentRotation[5];
@@ -75,6 +76,7 @@ public:
 	int     GetPlayerTwoScore( )             { return m_nPlayerTwoScore;      }
 	int     GetSlotLoaded( )                 { return m_nSlotLoadedFrom;      }
 	int     GetCurrentLevel( )               { return m_nCurrentLevel;        }
+	int		GetDifficulty() 				 { return m_nDifficulty;		  }
 
 	bool    GetLoadedFromFile( )             { return m_bLoadedFromFile;      }
 	bool    GetTwoPlayerMode( )              { return m_bTwoPlayers;          }
@@ -84,6 +86,7 @@ public:
 	void    SetPlayerTwoScore( int _i )      { m_nPlayerTwoScore      =  _i;  }
 	void    SetCurrentLevel( int _i )        { m_nCurrentLevel        =  _i;  }
 	void    SetSlotLoaded( int _i )          { m_nSlotLoadedFrom      =  _i; m_bLoadedFromFile = true; }
+	void	SetDifficulty( int _i )			 { m_nDifficulty          =  _i;  }
 
 	void    SetLoadedFromFile( bool _b )     { m_bLoadedFromFile      =  _b;  }
 	void    bTwoPlayerMode( bool _b )        { m_bTwoPlayers          =  _b;  }

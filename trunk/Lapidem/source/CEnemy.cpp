@@ -51,7 +51,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 				SetHeight( 64 );
 				SetWidth( 16 );
 
-				m_nHealth      = 80 + (CSpellFactory::GetInstance()->GetWindLevel() * 10);
+				m_nHealth      = 80 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetWindLevel() * 10);
 				m_SpellType    = OBJ_EARTH;
 				currDirec      = RIGHT;
 				SetAnimation(OBJ_EARTH +1,0);
@@ -67,7 +67,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 				SetHeight( 54 );
 				SetWidth ( 16 );
 
-				m_nHealth      = 50 + (CSpellFactory::GetInstance()->GetEarthLevel() * 7);
+				m_nHealth      = 50 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetEarthLevel() * 7);
 				m_SpellType    = OBJ_FIRE;
 				currDirec      = RIGHT;
 				SetAnimation(OBJ_FIRE +1,0);
@@ -84,7 +84,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 				SetHeight( 64 );
 				SetWidth ( 16 );
 				SetAnimation(1,0);
-				m_nHealth      = 50 + (CSpellFactory::GetInstance()->GetFireLevel() * 7);
+				m_nHealth      = 50 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetFireLevel() * 7);
 				m_SpellType    = OBJ_ICE;
 				currDirec      = RIGHT;
 				SetAnimation(OBJ_ICE +1,0);
@@ -108,10 +108,9 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 					SetVelX(rand()%150 * -1.0f);
 					SetVelY(rand()%150 * -1.0f);
 				}
-				SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/lapid_lulzwindenemy.png"));
-				SetHeight(16);
-				SetWidth(16);
-				m_nHealth = 25 + CSpellFactory::GetInstance()->GetIceLevel() * 5;
+				SetHeight(20);
+				SetWidth(20);
+				m_nHealth = 25 * CGameplayState::GetInstance()->GetDifficulty() + CSpellFactory::GetInstance()->GetIceLevel() * 5;
 				m_SpellType = OBJ_WIND;
 				currDirec = RIGHT;
 
@@ -232,6 +231,10 @@ CEnemy::~CEnemy( )
 
 void CEnemy::Update( float fElapsedTime )
 {
+	if( ! ( CGameplayState::GetInstance()->GetLevel()->GetTile((int)GetPosX(), (int)GetPosY() ) ) )
+	{
+		SetHealth(0);
+	}
 	if(m_nHealth >0)
 	{
 		if(!m_bKnockBack)
@@ -406,19 +409,17 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 			if( nRectHeight > nRectWidth )
 			{
 				if( this->GetPosX( ) > collidingObject->GetPosX( ) )
-					SetPosX( GetPosX( ) + nRectWidth );
+					SetPosX( GetPosX( ) + nRectWidth);
 				else if ( this->GetPosX() < collidingObject->GetPosX( ) )
-					SetPosX( GetPosX( ) - nRectWidth );
+					SetPosX( GetPosX( ) - nRectWidth);
 				SetVelY(-GetVelY());
 			}
 			else
 			{
 				if( this->GetPosY( ) > collidingObject->GetPosY( ) )
-					SetPosY( GetPosY( ) + nRectHeight );
+					SetPosY( GetPosY( ) + nRectHeight);
 				else if(this->GetPosY( ) < collidingObject->GetPosY( ) )
-				{
-					SetPosY( GetPosY( ) - nRectHeight );
-				}
+					SetPosY( GetPosY( ) - nRectHeight);
 				SetVelX(-GetVelX());
 			}
 		}
