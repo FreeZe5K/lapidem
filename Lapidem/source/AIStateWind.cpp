@@ -280,16 +280,32 @@ int AIStateWind::AttackUpdate(CPlayer* pTarget, CEnemy* pEnemy, float fElapsedTi
 
 	if(pEnemy->GetPosX() > pTarget->GetPosX())
 	{
-		pEnemy->SetVelX(enemyvelocity._x);
-		pEnemy->SetVelY(enemyvelocity._y);
+		pEnemy->SetVelX(pEnemy->GetVelX() + enemyvelocity._x * fElapsedTime * 100);
+		pEnemy->SetVelY(pEnemy->GetVelY() + enemyvelocity._y * fElapsedTime * 100);
 	}
 	else
 	{
-		pEnemy->SetVelX(-enemyvelocity._x);
-		pEnemy->SetVelY(enemyvelocity._y);
+		pEnemy->SetVelX(pEnemy->GetVelX() + enemyvelocity._x * fElapsedTime);
+		pEnemy->SetVelY(pEnemy->GetVelY() + enemyvelocity._y * fElapsedTime);
 	}
 
 
+	if(pEnemy->GetVelX() > 150.0f)
+	{
+		pEnemy->SetVelX(150.0f);
+	}
+	else if(pEnemy->GetVelX() < -150.0f)
+	{
+		pEnemy->SetVelX(150.0f);
+	}
+	if(pEnemy->GetVelY() > 150.0f)
+	{
+		pEnemy->SetVelY(150.0f);
+	}
+	else if(pEnemy->GetVelY() < -150.0f)
+	{
+		pEnemy->SetVelY(150.0f);
+	}
 
 	if(pTarget == CGameplayState::GetInstance()->GetPlayerOne())
 	{

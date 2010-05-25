@@ -56,6 +56,7 @@ void CEmitter::Update( float fElapsedTime )
 
 void CEmitter::Render( )
 {
+
 	DWORD nSource, nDestination;
 
 	CSGD_Direct3D::GetInstance( )->GetDirect3DDevice( )->GetRenderState( D3DRS_SRCBLEND, &nSource );
@@ -75,6 +76,7 @@ void CEmitter::Render( )
 
 	CSGD_Direct3D::GetInstance( )->GetDirect3DDevice( )->SetRenderState( D3DRS_SRCBLEND, nSource );
 	CSGD_Direct3D::GetInstance( )->GetDirect3DDevice( )->SetRenderState( D3DRS_DESTBLEND, nDestination );
+
 }
 
 void CEmitter::UpdateParticle( CParticle *_part, f32 fET )

@@ -12,15 +12,18 @@ void CParticle::Update( float fET )
 
 void CParticle::Render( int _id )
 {
-	int m_nWidth( CSGD_TextureManager::GetInstance( )->GetTextureWidth( _id ) );
-	int m_nHeight( CSGD_TextureManager::GetInstance( )->GetTextureHeight( _id ) );
+	if(GetPosX() > 32 && GetPosY() > 32)
+	{
+		int m_nWidth( CSGD_TextureManager::GetInstance( )->GetTextureWidth( _id ) );
+		int m_nHeight( CSGD_TextureManager::GetInstance( )->GetTextureHeight( _id ) );
 
-	RECT rSection;
-	SetRect( &rSection, 0, 0, m_nWidth, m_nHeight );
+		RECT rSection;
+		SetRect( &rSection, 0, 0, m_nWidth, m_nHeight );
 
-	CSGD_TextureManager::GetInstance( )->Draw( _id, 
-		int( ( m_fPosX - CCamera::GetCamera( )->GetXOffset( ) ) /** m_fCurScale*/ ),
-		int( ( m_fPosY - CCamera::GetCamera( )->GetYOffset( ) ) /** m_fCurScale*/ ),
-		m_fCurScale, m_fCurScale, &rSection, 0.0f, 0.0f, 0.0f, 
-		ARGB( m_nAlpha, m_nRed, m_nGreen, m_nBlue ) );
+		CSGD_TextureManager::GetInstance( )->Draw( _id, 
+			int( ( m_fPosX - CCamera::GetCamera( )->GetXOffset( ) ) /** m_fCurScale*/ ),
+			int( ( m_fPosY - CCamera::GetCamera( )->GetYOffset( ) ) /** m_fCurScale*/ ),
+			m_fCurScale, m_fCurScale, &rSection, 0.0f, 0.0f, 0.0f, 
+			ARGB( m_nAlpha, m_nRed, m_nGreen, m_nBlue ) );
+	}
 }
