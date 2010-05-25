@@ -63,7 +63,7 @@ void CIce::UpdateTier1( float fElapsedTime )
 }
 
 void CIce::UpdateTier2( float fElapsedTime )
-{ CSpell::UpdateTier2( fElapsedTime ); }
+{ UpdateTier1( fElapsedTime ); }
 
 void CIce::UpdateTier3( float fElapsedTime)
 { CSpell::UpdateTier3( fElapsedTime ); }
@@ -143,8 +143,8 @@ void CIce::HandleCollision(float fElapsedTime, CBase* pObject )
 	}
 	else if( 2 == GetTier( ) )
 	{
-		if( pObject->GetType( ) == OBJ_PLAYER ) 
-			pObject->MoveOutOf( this, fElapsedTime ); 
+		/*if( pObject->GetType( ) == OBJ_PLAYER ) 
+			pObject->MoveOutOf( this, fElapsedTime ); */
 	}
 	else if( 3 == GetTier( ) )
 	{ /* holy crap everything go splode */ }

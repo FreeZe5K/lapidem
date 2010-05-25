@@ -14,7 +14,7 @@ void StickyNumbers::Update(float fElapsedTime)
 
 	m_nAlpha = (int)((m_fTimer / m_fTimeStart) * 255);
 
-	SetWidth(15);
+	SetWidth(10);
 	SetHeight(15);
 }
 
@@ -38,7 +38,7 @@ void StickyNumbers::HandleCollision(float fElapsedTime, CBase* collidingObject)
 {
 	if(collidingObject->GetType() == -1)
 	{
-		MoveOutOf(collidingObject, fElapsedTime);
-
+		if(GetPosY() >= collidingObject->GetPosY() )
+			SetPosY(GetPosY() + GetHeight());
 	}
 }
