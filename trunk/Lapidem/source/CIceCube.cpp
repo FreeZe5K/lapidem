@@ -114,6 +114,7 @@ void CIceCube::CreateSparks(float fDirRotation)
 	newfire->SetActive(true);
 	newfire->SetTier(1);
 	newfire->ShotBy(true);
+	newfire->SetElement(OBJ_ICE);
 	//newfire->SetEmitter(pEmitter);
 
 	newfire->SetWidth(32);
