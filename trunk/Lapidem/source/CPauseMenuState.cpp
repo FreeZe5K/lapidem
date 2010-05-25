@@ -229,21 +229,18 @@ bool CPauseMenuState::Input( )
 				CMenuState::GetInstance( )->Load( 1 );
 				CGameplayState::GetInstance( )->SetSlotLoaded( 1 );
 				CGame::GetInstance( )->SetPaused( false );
-				m_nState = 0;
 			}
 			else if( m_nChoice == 1 ) // Load slot 2
 			{
 				CMenuState::GetInstance( )->Load( 2 );
 				CGameplayState::GetInstance( )->SetSlotLoaded( 2 );
 				CGame::GetInstance( )->SetPaused( false );
-				m_nState = 0;
 			}
 			else if( m_nChoice == 2 ) // Load slot 3
 			{
 				CMenuState::GetInstance( )->Load( 3 );
 				CGameplayState::GetInstance( )->SetSlotLoaded( 3 );
 				CGame::GetInstance( )->SetPaused( false );
-				m_nState = 0;
 			} 
 			else 
 			{
