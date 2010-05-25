@@ -321,7 +321,7 @@ void CMenuState::Render( )
 	}
 	else if( 1 == m_nState ) // New or load
 	{
-		if( m_nChoice == 0 ) 
+		if( m_nChoice == 0 )
 		{
 			CGame::GetInstance( ) ->GetFont( )->Draw( ">", 50, 96, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			CGame::GetInstance( ) ->GetFont( )->Draw( "NEW GAME", 80, 100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );

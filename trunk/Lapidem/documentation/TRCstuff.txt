@@ -1,8 +1,3 @@
-Load in game
-Video Options
-	Resolution
-	Brightness
-	Windowed Mode
 Control Options
 	Keybinding?
 	Reverse Axis

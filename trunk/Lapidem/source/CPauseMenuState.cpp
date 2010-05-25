@@ -81,16 +81,105 @@ bool CPauseMenuState::Input( )
 	}
 	else if( 1 == m_nState ) // Options
 	{
-		if( CGame::GetInstance( )->GetMusicVolume( ) > 100 )
-			CGame::GetInstance( )->SetMusicVolume( 100 );
-		else if( CGame::GetInstance( )->GetMusicVolume( ) < 0 )
-			CGame::GetInstance( )->SetMusicVolume( 0 );
+		if(m_pDI->KeyPressed( DIK_UP ) || m_pDI->JoystickDPadPressed( 2 ) )
+		{
+			if( --m_nChoice < 0 ) 
+				m_nChoice = 5;
+		}
 
-		if( CGame::GetInstance( )->GetSoundFXVolume( ) > 100 )
-			CGame::GetInstance( )->SetSoundFXVolume( 100 );
-		else if( CGame::GetInstance( )->GetSoundFXVolume( ) < 0 )
-			CGame::GetInstance( )->SetSoundFXVolume( 0 );
+		if(m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed( 3 ) )
+		{
+			if( ++m_nChoice > 5 )
+				m_nChoice = 0;
+		}
 
+		if(m_pDI->KeyDown( DIK_LEFT ) || m_pDI->JoystickDPadDown( 0 ) )
+		{
+			// Music
+			if( m_nChoice == 0 )
+			{
+				if( CGame::GetInstance( )->GetMusicVolume( ) < 0 )
+					CGame::GetInstance( )->SetMusicVolume( 0 );
+				else CGame::GetInstance( )->SetMusicVolume( 
+				CGame::GetInstance( )->GetMusicVolume( ) - 1 );
+			}
+
+			// Sound FX
+			else if( m_nChoice == 1 )
+			{
+				if( CGame::GetInstance( )->GetSoundFXVolume( ) < 0 )
+					CGame::GetInstance( )->SetSoundFXVolume( 0 );
+				else CGame::GetInstance( )->SetSoundFXVolume( 
+				CGame::GetInstance( )->GetSoundFXVolume( ) - 1 );
+			}
+
+			// Resolution
+			else if( m_nChoice == 2 )
+			{ /* TODO */ }
+
+			// Brightness
+			else if( m_nChoice == 3 )
+			{
+				if( CAuxiliaryState::GetInstance( )->GetBrightness( ) - 1 < 0 )
+					CAuxiliaryState::GetInstance( )->ToggleBrightness( 0 );
+				else CAuxiliaryState::GetInstance( )->ToggleBrightness( 
+					CAuxiliaryState::GetInstance( )->GetBrightness( ) - 1 );
+			}
+
+			// Windowed
+			else if( m_nChoice == 4 )
+			{ CGame::GetInstance( )->TriggerFSTrue( ); }
+		}
+
+		if( m_pDI->KeyDown( DIK_RIGHT ) || m_pDI->JoystickDPadDown(1) )
+		{
+			// Music
+			if( m_nChoice == 0 )
+			{
+				if( CGame::GetInstance( )->GetMusicVolume( ) > 100 )
+					CGame::GetInstance( )->SetMusicVolume( 100 );
+				else CGame::GetInstance( )->SetMusicVolume( 
+				CGame::GetInstance( )->GetMusicVolume( ) + 1 );
+			}
+
+			// Sound FX
+			else if( m_nChoice == 1 )
+			{
+				if( CGame::GetInstance( )->GetSoundFXVolume( ) > 100 )
+					CGame::GetInstance( )->SetSoundFXVolume( 100 );
+				else CGame::GetInstance( )->SetSoundFXVolume( 
+				CGame::GetInstance( )->GetSoundFXVolume( ) + 1 );
+			}
+
+			// Resolution
+			else if( m_nChoice == 2 )
+			{ /* TODO */ }
+
+			// Brightness
+			else if( m_nChoice == 3 )
+			{ 
+				if( CAuxiliaryState::GetInstance( )->GetBrightness( ) + 1 > 100 )
+					CAuxiliaryState::GetInstance( )->ToggleBrightness( 100 );
+				else CAuxiliaryState::GetInstance( )->ToggleBrightness( 
+					CAuxiliaryState::GetInstance( )->GetBrightness( ) + 1 );
+			}
+
+			// Windowed
+			else if( m_nChoice == 4 )
+			{ CGame::GetInstance( )->TriggerFSFalse( ); }
+		}
+
+		if( m_pDI->KeyPressed( DIK_RETURN ) || m_pDI->JoystickButtonPressed(1) )
+		{
+			if( m_nChoice == 5 )
+			{
+				CAuxiliaryState::GetInstance( )->SaveConfig
+					( "resource/data/Lapidem_Config.dat" );
+				m_nState   = 0;
+				m_nChoice  = 0;
+			}
+		}
+		
 		// - - - - - - - - - - - -
 		// Music volume(s)
 		// - - - - - - - - - - - -
@@ -119,50 +208,7 @@ bool CPauseMenuState::Input( )
 		m_pWM->SetVolume( CGame::GetInstance( )->GetTileDestroyedSound( ),
 			CGame::GetInstance( )->GetSoundFXVolume( ) );
 
-		if(m_pDI->KeyPressed( DIK_UP ) || m_pDI->JoystickDPadPressed( 2 ) )
-		{
-			if( --m_nChoice < 0 ) 
-				m_nChoice = 2;
-		}
-
-		if(m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed( 3 ) )
-		{
-			if( ++m_nChoice > 2 )
-				m_nChoice = 0;
-		}
-
-		if(m_pDI->KeyDown( DIK_LEFT ) || m_pDI->JoystickDPadDown( 0 ) )
-		{
-			if( m_nChoice == 0 )
-				CGame::GetInstance( )->SetMusicVolume( 
-				CGame::GetInstance( )->GetMusicVolume( ) - 1 );
-
-			else if( m_nChoice == 1 )
-				CGame::GetInstance( )->SetSoundFXVolume( 
-				CGame::GetInstance( )->GetSoundFXVolume( ) - 1 );
-		}
-
-		if( m_pDI->KeyDown( DIK_RIGHT ) || m_pDI->JoystickDPadDown(1) )
-		{
-			if( m_nChoice == 0 )
-				CGame::GetInstance( )->SetMusicVolume( 
-				CGame::GetInstance( )->GetMusicVolume( ) + 1 );
-
-			else if( m_nChoice == 1 )
-				CGame::GetInstance( )->SetSoundFXVolume( 
-				CGame::GetInstance( )->GetSoundFXVolume( ) + 1 );
-		}
-
-		if( m_pDI->KeyPressed( DIK_RETURN ) || m_pDI->JoystickButtonPressed(1) )
-		{
-			if( m_nChoice == 2 )
-			{
-				CAuxiliaryState::GetInstance( )->SaveConfig
-					( "resource/data/Lapidem_Config.dat" );
-				m_nState   = 0; // Done
-				m_nChoice  = 0;
-			}
-		}
+		CGame::GetInstance( )->SetBrightness( CAuxiliaryState::GetInstance( )->GetBrightness( ) );
 	}
 	else if( 2 == m_nState ) // Save game
 	{
@@ -350,59 +396,278 @@ void CPauseMenuState::Render( )
 
 		if( m_nChoice == 0 )
 		{
-			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 196, 
-				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "MUSIC", 280, 200, 
-				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 50, 
+				116, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "MUSIC VOL", 70, 
+				100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetMusicVolume( ) );
-			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 450, 200, 
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 120, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-			CGame::GetInstance( )->GetFont( )->Draw( "SOUND FX", 270, 220, 
-				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "SOUND FX VOL", 70, 
+				150, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetSoundFXVolume( ) );
-			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 450, 220, 
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 170, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-			CGame::GetInstance( )->GetFont( )->Draw( "DONE", 270, 240, 
+			CGame::GetInstance( )->GetFont( )->Draw( "RESOLUTION", 70, 
+				200, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			CGame::GetInstance( )->GetFont( )->Draw( "DARKNESS", 70, 
+				250, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetBrightness( ) );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 270, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			CGame::GetInstance( )->GetFont( )->Draw( "WINDOWED MODE", 70, 
+				300, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( 1 == CGame::GetInstance( )->GetFSValue( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "ON", 100, 
+					320, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "OFF", 170, 
+					320, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else 
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "ON", 100, 
+					320, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "OFF", 170, 
+					320, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
+			CGame::GetInstance( )->GetFont( )->Draw( "DONE", 70, 370, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( m_nChoice == 1 )
 		{
-			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 216, 
-				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "MUSIC", 270, 200, 
-				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 50, 
+				166, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "MUSIC VOL", 70, 
+				100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetMusicVolume( ) );
-			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 450, 200, 
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 120, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-			CGame::GetInstance( )->GetFont( )->Draw( "SOUND FX", 280, 220, 
-				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "SOUND FX VOL", 70, 
+				150, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetSoundFXVolume( ) );
-			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 450, 220, 
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 170, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-			CGame::GetInstance( )->GetFont( )->Draw( "DONE", 270, 240, 
+			CGame::GetInstance( )->GetFont( )->Draw( "RESOLUTION", 70, 
+				200, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			CGame::GetInstance( )->GetFont( )->Draw( "DARKNESS", 70, 
+				250, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetBrightness( ) );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 270, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			CGame::GetInstance( )->GetFont( )->Draw( "WINDOWED MODE", 70, 
+				300, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( 1 == CGame::GetInstance( )->GetFSValue( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "ON", 100, 
+					320, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "OFF", 170, 
+					320, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else 
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "ON", 100, 
+					320, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "OFF", 170, 
+					320, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
+			CGame::GetInstance( )->GetFont( )->Draw( "DONE", 70, 370, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( m_nChoice == 2 )
 		{
-			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 236, 
-				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "MUSIC", 270, 200, 
-				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 50, 
+				216, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "MUSIC VOL", 70, 
+				100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetMusicVolume( ) );
-			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 450, 200, 
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 120, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-			CGame::GetInstance( )->GetFont( )->Draw( "SOUND FX", 270, 220, 
-				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "SOUND FX VOL", 70, 
+				150, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetSoundFXVolume( ) );
-			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 450, 220, 
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 170, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			CGame::GetInstance( )->GetFont( )->Draw( "RESOLUTION", 70, 
+				200, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			CGame::GetInstance( )->GetFont( )->Draw( "DARKNESS", 70, 
+				250, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetBrightness( ) );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 270, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-			CGame::GetInstance( )->GetFont( )->Draw( "DONE", 280, 240, 
+			CGame::GetInstance( )->GetFont( )->Draw( "WINDOWED MODE", 70, 
+				300, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( 1 == CGame::GetInstance( )->GetFSValue( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "ON", 100, 
+					320, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "OFF", 170, 
+					320, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else 
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "ON", 100, 
+					320, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "OFF", 170, 
+					320, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
+			CGame::GetInstance( )->GetFont( )->Draw( "DONE", 70, 370, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		}
+		else if( m_nChoice == 3 )
+		{
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 50, 
+				266, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "MUSIC VOL", 70, 
+				100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetMusicVolume( ) );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 120, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			CGame::GetInstance( )->GetFont( )->Draw( "SOUND FX VOL", 70, 
+				150, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetSoundFXVolume( ) );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 170, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			CGame::GetInstance( )->GetFont( )->Draw( "RESOLUTION", 70, 
+				200, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			CGame::GetInstance( )->GetFont( )->Draw( "DARKNESS", 70, 
+				250, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetBrightness( ) );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 270, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			CGame::GetInstance( )->GetFont( )->Draw( "WINDOWED MODE", 70, 
+				300, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			if( 1 == CGame::GetInstance( )->GetFSValue( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "ON", 100, 
+					320, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "OFF", 170, 
+					320, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else 
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "ON", 100, 
+					320, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "OFF", 170, 
+					320, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
+			CGame::GetInstance( )->GetFont( )->Draw( "DONE", 70, 370, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		}
+		else if( m_nChoice == 4 )
+		{
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 50, 
+				316, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "MUSIC VOL", 70, 
+				100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetMusicVolume( ) );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 120, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			CGame::GetInstance( )->GetFont( )->Draw( "SOUND FX VOL", 70, 
+				150, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetSoundFXVolume( ) );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 170, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			CGame::GetInstance( )->GetFont( )->Draw( "RESOLUTION", 70, 
+				200, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			CGame::GetInstance( )->GetFont( )->Draw( "DARKNESS", 70, 
+				250, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetBrightness( ) );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 270, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			CGame::GetInstance( )->GetFont( )->Draw( "WINDOWED MODE", 70, 
+				300, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( 1 == CGame::GetInstance( )->GetFSValue( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "ON", 100, 
+					320, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "OFF", 170, 
+					320, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else 
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "ON", 100, 
+					320, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "OFF", 170, 
+					320, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
+			CGame::GetInstance( )->GetFont( )->Draw( "DONE", 70, 370, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		}
+		else if( m_nChoice == 5 )
+		{
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 50, 
+				366, 1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "MUSIC VOL", 70, 
+				100, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetMusicVolume( ) );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 120, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			CGame::GetInstance( )->GetFont( )->Draw( "SOUND FX VOL", 70, 
+				150, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetSoundFXVolume( ) );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 170, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			CGame::GetInstance( )->GetFont( )->Draw( "RESOLUTION", 70, 
+				200, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			CGame::GetInstance( )->GetFont( )->Draw( "DARKNESS", 70, 
+				250, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetBrightness( ) );
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 270, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			CGame::GetInstance( )->GetFont( )->Draw( "WINDOWED MODE", 70, 
+				300, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			
+			if( 1 == CGame::GetInstance( )->GetFSValue( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "ON", 100, 
+					320, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "OFF", 170, 
+					320, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else 
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "ON", 100, 
+					320, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "OFF", 170, 
+					320, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
+
+			CGame::GetInstance( )->GetFont( )->Draw( "DONE", 80, 370, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 	}
