@@ -764,6 +764,14 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 				else
 				{
 					DIRECTION wheretoshoot = pShooter->GetDirection();
+					//////////////////
+					// Bug #2 Fix
+					//	Decided to only let the player shoot the wind2 down, theres no reason to do it otherwise
+					//
+					//	Pablo
+					//////////////////
+
+					/*
 					switch(wheretoshoot)
 					{
 					case 0:
@@ -786,9 +794,11 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 						}
 					case 3:
 						{
+						*/
 							newwind->SetVelX(0);
 							newwind->SetVelY(300);
 							break;
+							/*
 						}
 					case 4:
 						{
@@ -815,6 +825,11 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 							break;
 						}
 					}
+					*/
+
+							/////////////////
+							// End bug fix
+							/////////////////////
 				}
 
 				newwind->SetActive(true);
