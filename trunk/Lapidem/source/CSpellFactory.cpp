@@ -717,7 +717,7 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 			newice->SetWidth( 16);
 			newice->SetHeight( 8 );
 			newice->SetActive( true );
-			newice->SetLifespan( 1.5f );
+			newice->SetLifespan( 2.f );
 			newice->ShotBy(true);
 			newice->SetEmitter( NULL );
 			newice->SetTier( nTier );
