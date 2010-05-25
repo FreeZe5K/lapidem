@@ -87,6 +87,8 @@ void CWind::UpdateTier2( float fElapsedTime )
 	{
 		m_pCaster->SetVelY(-100);
 	}
+	m_pCaster->SetVelX(  -1 * GetVelX());
+	m_pCaster->SetVelY(  -1 * GetVelY());
 	CSpell::UpdateTier2(fElapsedTime);
 }
 
