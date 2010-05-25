@@ -430,6 +430,8 @@ void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 				}
 				return;
 			}
+
+			
 		}
 
 		if( collidingObject->GetType( ) == OBJ_SPELL)

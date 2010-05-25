@@ -188,8 +188,8 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 				if(pTile)
 				{
 					if(pTile->GetTypeTerrain() != T_EMPTY 
-									&& newearth->GetPosX() > pTile->GetPosX() - 3 && newearth->GetPosX() < pTile->GetPosX() + 7 
-									&& newearth->GetPosY() > pTile->GetPosY() - 3 && newearth->GetPosY() < pTile->GetPosY() + 16 )
+						&& newearth->GetPosX() > pTile->GetPosX() - 3 && newearth->GetPosX() < pTile->GetPosX() + 7 
+						&& newearth->GetPosY() > pTile->GetPosY() - 3 && newearth->GetPosY() < pTile->GetPosY() + 16 )
 					{
 						newearth->Release();
 						return;
@@ -764,14 +764,7 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 				else
 				{
 					DIRECTION wheretoshoot = pShooter->GetDirection();
-					//////////////////
-					// Bug #2 Fix
-					//	Decided to only let the player shoot the wind2 down, theres no reason to do it otherwise
-					//
-					//	Pablo
-					//////////////////
 
-					/*
 					switch(wheretoshoot)
 					{
 					case 0:
@@ -794,11 +787,11 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 						}
 					case 3:
 						{
-						*/
+
 							newwind->SetVelX(0);
 							newwind->SetVelY(300);
 							break;
-							/*
+
 						}
 					case 4:
 						{
@@ -825,11 +818,7 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 							break;
 						}
 					}
-					*/
 
-							/////////////////
-							// End bug fix
-							/////////////////////
 				}
 
 				newwind->SetActive(true);
@@ -859,87 +848,103 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 				newwind->SetPosX(pShooter->GetPosX());
 				newwind->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
 				newwind->SetCaster((CPlayer*)pShooter);
+
+				///////////////////////////////
+				//	Bug Fix # 2
+				//Pablo Leon
+				//////////////////////////////
+
+				
 				if(pShooter->GetType() == OBJ_PLAYER && ((CPlayer*)pShooter)->GetReticle())
 				{
-					CBase* tempRet = ((CPlayer*)pShooter)->GetReticle();
+				CBase* tempRet = ((CPlayer*)pShooter)->GetReticle();
 
 
-					///////////
-					//Bug 6 fix't
-					///////////
+				///////////
+				//Bug 6 fix't
+				///////////
 
-					//float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
-					//float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
+				//float speedx = (tempRet->GetPosX() - pShooter->GetPosX()) / 100;
+				//float speedy = (tempRet->GetPosY() - pShooter->GetPosY()) / 100;
 
-					//newwind->SetVelX(250 * speedx);
-					//newwind->SetVelY(250 * speedy);
+				//newwind->SetVelX(250 * speedx);
+				//newwind->SetVelY(250 * speedy);
 
-					float xComp = (tempRet->GetPosX() + tempRet->GetWidth()  * .5f) - newwind->GetPosX();
-					float yComp = (tempRet->GetPosY() + tempRet->GetHeight() * .5f) - newwind->GetPosY();
+				float xComp = (tempRet->GetPosX() + tempRet->GetWidth()  * .5f) - newwind->GetPosX();
+				float yComp = (tempRet->GetPosY() + tempRet->GetHeight() * .5f) - newwind->GetPosY();
 
-					newwind->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 150);
-					newwind->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 150);
+				newwind->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 150);
+				newwind->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 150);
 
-					//End Fix't
+				//End Fix't
 
 
 				}
 				else
 				{
-					DIRECTION wheretoshoot = pShooter->GetDirection();
-					switch(wheretoshoot)
-					{
-					case 0:
-						{
-							newwind->SetVelX(-150);
-							newwind->SetVelY(0);
-							break;
-						}
-					case 1:
-						{
-							newwind->SetVelX(150);
-							newwind->SetVelY(0);
-							break;
-						}
-					case 2:
-						{
-							newwind->SetVelX(0);
-							newwind->SetVelY(-150);
-							break;
-						}
-					case 3:
-						{
-							newwind->SetVelX(0);
-							newwind->SetVelY(150);
-							break;
-						}
-					case 4:
-						{
-							newwind->SetVelX(-75);
-							newwind->SetVelY(-75);
-							break;
-						}
-					case 5:
-						{
-							newwind->SetVelX(-75);
-							newwind->SetVelY(75);
-							break;
-						}
-					case 6:
-						{
-							newwind->SetVelX(75);
-							newwind->SetVelY(-75);
-							break;
-						}
-					case 7:
-						{
-							newwind->SetVelX(75);
-							newwind->SetVelY(75);
-							break;
-						}
-					}
+				DIRECTION wheretoshoot = pShooter->GetDirection();
+				switch(wheretoshoot)
+				{
+				case 0:
+				{
+				newwind->SetVelX(-150);
+				newwind->SetVelY(0);
+				break;
 				}
+				case 1:
+				{
+				newwind->SetVelX(150);
+				newwind->SetVelY(0);
+				break;
+				}
+				case 2:
+				{
+				newwind->SetVelX(0);
+				newwind->SetVelY(-150);
+				break;
+				}
+				case 3:
+				{
+				newwind->SetVelX(0);
+				newwind->SetVelY(150);
+				break;
+				}
+				case 4:
+				{
+				newwind->SetVelX(-75);
+				newwind->SetVelY(-75);
+				break;
+				}
+				case 5:
+				{
+				newwind->SetVelX(-75);
+				newwind->SetVelY(75);
+				break;
+				}
+				case 6:
+				{
+				newwind->SetVelX(75);
+				newwind->SetVelY(-75);
+				break;
+				}
+				case 7:
+				{
+				newwind->SetVelX(75);
+				newwind->SetVelY(75);
+				break;
+				}
+				}
+				}
+				
 
+
+
+				newwind->SetVelX(0);
+				newwind->SetVelY(150);
+
+				////////////////
+				//end bug fix
+				/////////////////
 				newwind->SetActive(true);
 				newwind->SetElement(OBJ_WIND);
 				newwind->SetDamage(10 + m_nWindLVL);
