@@ -693,16 +693,54 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 			newice->SetHeight( 16 );
 			newice->SetActive( true );
 			newice->SetLifespan( 7.5f );
-
-			if( pShooter->GetType( ) == OBJ_PLAYER )
-				newice->ShotBy( true );
-			else newice->ShotBy( false ); 
+			newice->ShotBy( true );
 
 			newice->SetTier( nTier );
+
+			Corona_ObjectManager::GetInstance( )->AddObject( newice );
+
+			CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/iceSpell.lapipt",0,0);
+			newice->SetEmitter(hahaiworknow);
+			CParticleManager::GetInstance()->AddEmitter(newice->GetEmitter());
+
+
 			break;
 		}
 	case 2:
 		{
+			newice->SetPosX( pShooter->GetPosX( ) + pShooter->GetWidth() - 15);
+			newice->SetPosY( pShooter->GetPosY( ) + pShooter->GetHeight( ) * .25f);
+			newice->SetVelX( 50 );
+			newice->SetVelY( 0 );
+			newice->SetDamage( 5 + 2 * m_nIceLVL );
+			newice->SetSlow( 75.0f + 2.0f * m_nIceLVL );
+			newice->SetWidth( 16);
+			newice->SetHeight( 8 );
+			newice->SetActive( true );
+			newice->SetLifespan( 1.5f );
+			newice->ShotBy(true);
+			newice->SetEmitter( NULL );
+			newice->SetTier( nTier );
+			newice->SetElement(OBJ_ICE);
+
+			CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/iceSpellT2.lapipt",0,0);
+			CEmitter* hahaialsowork = CParticleManager::GetInstance()->LoadEmitter("resource/data/iceSpellT2two.lapipt",0,0);
+
+			CIce * secondice = new CIce();
+			*secondice = *newice;
+			secondice->SetVelX( -50 );
+			secondice->SetPosX( pShooter->GetPosX() );
+
+			newice->SetEmitter(hahaiworknow);
+			secondice->SetEmitter(hahaialsowork);
+			CParticleManager::GetInstance()->AddEmitter(newice->GetEmitter());
+			CParticleManager::GetInstance()->AddEmitter(secondice->GetEmitter());
+
+			Corona_ObjectManager::GetInstance()->AddObject(newice);
+			Corona_ObjectManager::GetInstance()->AddObject(secondice);
+			secondice->Release();
+
+
 			break;
 		}
 	case 3:
@@ -713,12 +751,7 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 		}
 	}	
 
-	Corona_ObjectManager::GetInstance( )->AddObject( newice );
-
-	CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/iceSpell.lapipt",0,0);
-	newice->SetEmitter(hahaiworknow);
-	CParticleManager::GetInstance()->AddEmitter(newice->GetEmitter());
-
+	
 	newice->Release( );
 }
 
