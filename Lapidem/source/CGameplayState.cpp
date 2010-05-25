@@ -29,6 +29,7 @@ void CGameplayState::Enter( )
 	m_nPlayerTwoScore      = 0;
 	m_nSinglePlayerScore   = 0;
 	m_nCurrentLevel        = 1;
+	m_nDifficulty		   = 1;
 
 	CLoading::GetInstance( )->SetProgress( 100 );
 
