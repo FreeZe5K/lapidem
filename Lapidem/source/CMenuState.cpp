@@ -23,8 +23,7 @@ void CMenuState::Enter( )
 	m_nChoice       = 0;
 	m_nAttractTimer = 0;
 	m_nPlayerCount  = 1;
-
-	m_fInputTimer = 0.0f;
+	m_fInputTimer   = 0.0f;
 
 	m_nImageID      = m_pTM->LoadTexture( "resource/graphics/Lapidem_MainMenuBG.png" );
 
@@ -42,14 +41,13 @@ void CMenuState::Enter( )
 
 bool CMenuState::Input( )
 {
-	m_fInputTimer += .0167f;
+	m_fInputTimer = m_fInputTimer + 0.0167f;
 
-	if(m_pDI->JoystickGetLStickYNormalized())
+	if( m_pDI->JoystickGetLStickYNormalized( ) )
 	{
-		if(m_fInputTimer < .15)
+		if( m_fInputTimer < 0.15f )
 			return true;
-		else
-			m_fInputTimer = 0.0f;
+		else m_fInputTimer = 0.0f;
 	}
 
 	if( 0 == m_nState ) // Main menu
@@ -131,10 +129,10 @@ bool CMenuState::Input( )
 				m_nChoice = 0;
 				m_nState = 2;
 			}
-			else if( m_nChoice == 1 ) // Load Game
+			else if( m_nChoice == 1 ) // Load Game ( which slot )
 			{
 				m_nChoice = 0;
-				m_nState = 3;         // - Which Slot
+				m_nState = 3;
 			}
 			else if( m_nChoice == 2 ) // Cancel
 			{
@@ -210,30 +208,33 @@ bool CMenuState::Input( )
 			m_nAttractTimer = 0;
 
 			if( 0 == m_nChoice ) // Load Slot 1
-			{ /* TODO :: LOAD SLOT 1 */ 
-				if(!Load( 1 ))
+			{ 
+				if( !Load( 1 ) )
 					return true;
+
 				CGameplayState::GetInstance( )->SetSlotLoaded( 1 );
 				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
 			}
 			else if( 1 == m_nChoice ) // Load Slot 2
-			{ /* TODO :: LOAD SLOT 1 */ 
-				if(!Load( 2 ))
+			{ 
+				if( !Load( 2 ) )
 					return true;
+
 				CGameplayState::GetInstance( )->SetSlotLoaded( 2 );
 				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
 			}
 			else if( 2 == m_nChoice ) // Load Slot 3
-			{ /* TODO :: LOAD SLOT 1 */ 
-				if(!Load( 3 ))
+			{ 
+				if( !Load( 3 ) )
 					return true;
+				
 				CGameplayState::GetInstance( )->SetSlotLoaded( 3 );
 				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
 			}			
 			else if( 3 == m_nChoice ) // Cancel
 			{
-				m_nChoice = 0;
-				m_nState = 1;
+				m_nChoice  = 0;
+				m_nState   = 1;
 			}
 		}
 	}
@@ -243,9 +244,7 @@ bool CMenuState::Input( )
 
 void CMenuState::Update( float fET )
 {
-	// If 10 seconds have passed without input,
-	// attract the user to play!
-	if( m_nAttractTimer > 1000 )
+	if( m_nAttractTimer > 15000 ) // 1000
 	{
 		m_nAttractTimer = 0;
 		CGame::GetInstance( )->PushState( CAttractState::GetInstance( ) );
@@ -642,6 +641,15 @@ bool CMenuState::Load( int _nSlot )
 		fin.read( ( char* )&tSlotOne.manaP1.nEarth, sizeof( int ) );
 		fin.read( ( char* )&tSlotOne.manaP1.nIce, sizeof( int ) );
 		fin.read( ( char* )&tSlotOne.manaP1.nAir, sizeof( int ) );
+		
+		fin.read( ( char* )&tSlotOne.spellP1.nFireXP, sizeof( int ) );
+		fin.read( ( char* )&tSlotOne.spellP1.nFireLevel, sizeof( int ) );
+		fin.read( ( char* )&tSlotOne.spellP1.nEarthXP, sizeof( int ) );
+		fin.read( ( char* )&tSlotOne.spellP1.nEarthLevel, sizeof( int ) );
+		fin.read( ( char* )&tSlotOne.spellP1.nIceXP, sizeof( int ) );
+		fin.read( ( char* )&tSlotOne.spellP1.nIceLevel, sizeof( int ) );
+		fin.read( ( char* )&tSlotOne.spellP1.nAirXP, sizeof( int ) );
+		fin.read( ( char* )&tSlotOne.spellP1.nAirLevel, sizeof( int ) );
 
 		fin.read( ( char* )&tSlotOne.nPlayerOneHealth, sizeof( int ) );
 
@@ -656,6 +664,15 @@ bool CMenuState::Load( int _nSlot )
 			fin.read( ( char* )&tSlotOne.manaP2.nEarth, sizeof( int ) );
 			fin.read( ( char* )&tSlotOne.manaP2.nIce, sizeof( int ) );
 			fin.read( ( char* )&tSlotOne.manaP2.nAir, sizeof( int ) );
+			
+			fin.read( ( char* )&tSlotOne.spellP2.nFireXP, sizeof( int ) );
+			fin.read( ( char* )&tSlotOne.spellP2.nFireLevel, sizeof( int ) );
+			fin.read( ( char* )&tSlotOne.spellP2.nEarthXP, sizeof( int ) );
+			fin.read( ( char* )&tSlotOne.spellP2.nEarthLevel, sizeof( int ) );
+			fin.read( ( char* )&tSlotOne.spellP2.nIceXP, sizeof( int ) );
+			fin.read( ( char* )&tSlotOne.spellP2.nIceLevel, sizeof( int ) );
+			fin.read( ( char* )&tSlotOne.spellP2.nAirXP, sizeof( int ) );
+			fin.read( ( char* )&tSlotOne.spellP2.nAirLevel, sizeof( int ) );
 		}
 
 		fin.read( ( char* )&tSlotOne.nPlayerOneScore, sizeof( int ) );
@@ -684,6 +701,15 @@ bool CMenuState::Load( int _nSlot )
 		fin.read( ( char* )&tSlotTwo.manaP1.nIce, sizeof( int ) );
 		fin.read( ( char* )&tSlotTwo.manaP1.nAir, sizeof( int ) );
 
+		fin.read( ( char* )&tSlotTwo.spellP1.nFireXP, sizeof( int ) );
+		fin.read( ( char* )&tSlotTwo.spellP1.nFireLevel, sizeof( int ) );
+		fin.read( ( char* )&tSlotTwo.spellP1.nEarthXP, sizeof( int ) );
+		fin.read( ( char* )&tSlotTwo.spellP1.nEarthLevel, sizeof( int ) );
+		fin.read( ( char* )&tSlotTwo.spellP1.nIceXP, sizeof( int ) );
+		fin.read( ( char* )&tSlotTwo.spellP1.nIceLevel, sizeof( int ) );
+		fin.read( ( char* )&tSlotTwo.spellP1.nAirXP, sizeof( int ) );
+		fin.read( ( char* )&tSlotTwo.spellP1.nAirLevel, sizeof( int ) );
+
 		fin.read( ( char* )&tSlotTwo.nPlayerOneHealth, sizeof( int ) );
 
 		if( 2 == tSlotTwo.nPlayerCount )
@@ -697,6 +723,15 @@ bool CMenuState::Load( int _nSlot )
 			fin.read( ( char* )&tSlotTwo.manaP2.nEarth, sizeof( int ) );
 			fin.read( ( char* )&tSlotTwo.manaP2.nIce, sizeof( int ) );
 			fin.read( ( char* )&tSlotTwo.manaP2.nAir, sizeof( int ) );
+			
+			fin.read( ( char* )&tSlotTwo.spellP2.nFireXP, sizeof( int ) );
+			fin.read( ( char* )&tSlotTwo.spellP2.nFireLevel, sizeof( int ) );
+			fin.read( ( char* )&tSlotTwo.spellP2.nEarthXP, sizeof( int ) );
+			fin.read( ( char* )&tSlotTwo.spellP2.nEarthLevel, sizeof( int ) );
+			fin.read( ( char* )&tSlotTwo.spellP2.nIceXP, sizeof( int ) );
+			fin.read( ( char* )&tSlotTwo.spellP2.nIceLevel, sizeof( int ) );
+			fin.read( ( char* )&tSlotTwo.spellP2.nAirXP, sizeof( int ) );
+			fin.read( ( char* )&tSlotTwo.spellP2.nAirLevel, sizeof( int ) );
 		}
 
 		fin.read( ( char* )&tSlotTwo.nPlayerOneScore, sizeof( int ) );
@@ -725,6 +760,15 @@ bool CMenuState::Load( int _nSlot )
 		fin.read( ( char* )&tSlotThree.manaP1.nIce, sizeof( int ) );
 		fin.read( ( char* )&tSlotThree.manaP1.nAir, sizeof( int ) );
 
+		fin.read( ( char* )&tSlotThree.spellP1.nFireXP, sizeof( int ) );
+		fin.read( ( char* )&tSlotThree.spellP1.nFireLevel, sizeof( int ) );
+		fin.read( ( char* )&tSlotThree.spellP1.nEarthXP, sizeof( int ) );
+		fin.read( ( char* )&tSlotThree.spellP1.nEarthLevel, sizeof( int ) );
+		fin.read( ( char* )&tSlotThree.spellP1.nIceXP, sizeof( int ) );
+		fin.read( ( char* )&tSlotThree.spellP1.nIceLevel, sizeof( int ) );
+		fin.read( ( char* )&tSlotThree.spellP1.nAirXP, sizeof( int ) );
+		fin.read( ( char* )&tSlotThree.spellP1.nAirLevel, sizeof( int ) );
+
 		fin.read( ( char* )&tSlotThree.nPlayerOneHealth, sizeof( int ) );
 
 		if( 2 == tSlotThree.nPlayerCount )
@@ -738,6 +782,15 @@ bool CMenuState::Load( int _nSlot )
 			fin.read( ( char* )&tSlotThree.manaP2.nEarth, sizeof( int ) );
 			fin.read( ( char* )&tSlotThree.manaP2.nIce, sizeof( int ) );
 			fin.read( ( char* )&tSlotThree.manaP2.nAir, sizeof( int ) );
+			
+			fin.read( ( char* )&tSlotThree.spellP2.nFireXP, sizeof( int ) );
+			fin.read( ( char* )&tSlotThree.spellP2.nFireLevel, sizeof( int ) );
+			fin.read( ( char* )&tSlotThree.spellP2.nEarthXP, sizeof( int ) );
+			fin.read( ( char* )&tSlotThree.spellP2.nEarthLevel, sizeof( int ) );
+			fin.read( ( char* )&tSlotThree.spellP2.nIceXP, sizeof( int ) );
+			fin.read( ( char* )&tSlotThree.spellP2.nIceLevel, sizeof( int ) );
+			fin.read( ( char* )&tSlotThree.spellP2.nAirXP, sizeof( int ) );
+			fin.read( ( char* )&tSlotThree.spellP2.nAirLevel, sizeof( int ) );
 		}
 
 		fin.read( ( char* )&tSlotThree.nPlayerOneScore, sizeof( int ) );
