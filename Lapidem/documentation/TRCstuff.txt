@@ -7,6 +7,4 @@ Control Options
 	Keybinding?
 	Reverse Axis
 	Speed of Motion
-GamePlay Options
-	Difficulty
 How to Play
