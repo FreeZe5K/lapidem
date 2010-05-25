@@ -35,12 +35,12 @@ bool CPauseMenuState::Input( )
 		if( m_pDI->KeyPressed( DIK_UP ) || m_pDI->JoystickDPadPressed(2) )
 		{
 			if( --m_nChoice < 0 ) 
-				m_nChoice = 3;
+				m_nChoice = 4;
 		}
 
 		if( m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed(3) )
 		{
-			if( ++m_nChoice > 3 )
+			if( ++m_nChoice > 4 )
 				m_nChoice = 0;
 		}
 
@@ -66,6 +66,11 @@ bool CPauseMenuState::Input( )
 			{
 				m_nChoice  = 0;
 				m_nState   = 2;
+			}
+			else if( m_nChoice == 3 ) // Save and quit
+			{
+				m_nChoice  = 0;
+				m_nState   = 3;
 			}
 			else // Main menu (or other...)
 			{
@@ -203,6 +208,50 @@ bool CPauseMenuState::Input( )
 			}
 		}
 	}
+	else if( 3 == m_nState ) // Load game
+	{
+		if(m_pDI->KeyPressed( DIK_UP ) || m_pDI->JoystickDPadPressed( 2 ) )
+		{
+			if( --m_nChoice < 0 ) 
+				m_nChoice = 3;
+		}
+
+		if(m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed( 3 ) )
+		{
+			if( ++m_nChoice > 3 )
+				m_nChoice = 0;
+		}
+
+		if( m_pDI->KeyPressed( DIK_RETURN ) || m_pDI->JoystickButtonPressed( 1 ) )
+		{
+			if( m_nChoice == 0 ) // Load slot 1
+			{
+				CMenuState::GetInstance( )->Load( 1 );
+				CGameplayState::GetInstance( )->SetSlotLoaded( 1 );
+				CGame::GetInstance( )->SetPaused( false );
+				m_nState = 0;
+			}
+			else if( m_nChoice == 1 ) // Load slot 2
+			{
+				CMenuState::GetInstance( )->Load( 2 );
+				CGameplayState::GetInstance( )->SetSlotLoaded( 2 );
+				CGame::GetInstance( )->SetPaused( false );
+				m_nState = 0;
+			}
+			else if( m_nChoice == 2 ) // Load slot 3
+			{
+				CMenuState::GetInstance( )->Load( 3 );
+				CGameplayState::GetInstance( )->SetSlotLoaded( 3 );
+				CGame::GetInstance( )->SetPaused( false );
+				m_nState = 0;
+			} 
+			else 
+			{
+				m_nState   = 0; // Back
+				m_nChoice  = 0;
+			}
+		}
+	}
 
 	return true;
 }
@@ -221,54 +270,77 @@ void CPauseMenuState::Render( )
 	{
 		if( m_nChoice == 0 )
 		{
-			CGame::GetInstance( )->GetFont( )->Draw( ">", 150, 96, 
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 196, 
 				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "RESUME", 180, 100, 
+			CGame::GetInstance( )->GetFont( )->Draw( "RESUME", 280, 200, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "OPTIONS", 170, 120, 
+			CGame::GetInstance( )->GetFont( )->Draw( "OPTIONS", 270, 220, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "SAVE AND QUIT", 170, 140, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SAVE AND QUIT", 270, 240, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "RAGE QUIT", 170, 160, 
+			CGame::GetInstance( )->GetFont( )->Draw( "LOAD SLOT", 270, 260, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "RAGE QUIT", 270, 280, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( m_nChoice == 1 )
 		{
-			CGame::GetInstance( )->GetFont( )->Draw( ">", 150, 116, 
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 216, 
 				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "RESUME", 170, 100, 
+			CGame::GetInstance( )->GetFont( )->Draw( "RESUME", 270, 200, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "OPTIONS", 180, 120, 
+			CGame::GetInstance( )->GetFont( )->Draw( "OPTIONS", 280, 220, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "SAVE AND QUIT", 170, 140, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SAVE AND QUIT", 270, 240, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "RAGE QUIT", 170, 160, 
+			CGame::GetInstance( )->GetFont( )->Draw( "LOAD SLOT", 270, 260, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "RAGE QUIT", 270, 280, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( m_nChoice == 2 )
 		{
-			CGame::GetInstance( )->GetFont( )->Draw( ">", 150, 136, 
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 236, 
 				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "RESUME", 170, 100, 
+			CGame::GetInstance( )->GetFont( )->Draw( "RESUME", 270, 200, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "OPTIONS", 170, 120, 
+			CGame::GetInstance( )->GetFont( )->Draw( "OPTIONS", 270, 220, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "SAVE AND QUIT", 180, 140, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SAVE AND QUIT", 280, 240, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "RAGE QUIT", 170, 160, 
+			CGame::GetInstance( )->GetFont( )->Draw( "LOAD SLOT", 270, 260, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "RAGE QUIT", 270, 280, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( m_nChoice == 3 )
 		{
-			CGame::GetInstance( )->GetFont( )->Draw( ">", 150, 156, 
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 256, 
 				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "RESUME", 170, 100, 
+			CGame::GetInstance( )->GetFont( )->Draw( "RESUME", 270, 200, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "OPTIONS", 170, 120, 
+			CGame::GetInstance( )->GetFont( )->Draw( "OPTIONS", 270, 220, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "SAVE AND QUIT", 170, 140, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SAVE AND QUIT", 270, 240, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "RAGE QUIT", 180, 160, 
+			CGame::GetInstance( )->GetFont( )->Draw( "LOAD SLOT", 280, 260, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "RAGE QUIT", 270, 280, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		}
+		else if( m_nChoice == 4 )
+		{
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 276, 
+				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "RESUME", 270, 200, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "OPTIONS", 270, 220, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "SAVE AND QUIT", 270, 240, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "LOAD SLOT", 270, 260, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "RAGE QUIT", 280, 280, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 	}
@@ -281,59 +353,59 @@ void CPauseMenuState::Render( )
 
 		if( m_nChoice == 0 )
 		{
-			CGame::GetInstance( )->GetFont( )->Draw( ">", 150, 96, 
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 196, 
 				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "MUSIC", 180, 100, 
+			CGame::GetInstance( )->GetFont( )->Draw( "MUSIC", 280, 200, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetMusicVolume( ) );
-			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 350, 100, 
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 450, 200, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-			CGame::GetInstance( )->GetFont( )->Draw( "SOUND FX", 170, 120, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SOUND FX", 270, 220, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetSoundFXVolume( ) );
-			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 350, 120, 
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 450, 220, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-			CGame::GetInstance( )->GetFont( )->Draw( "DONE", 170, 140, 
+			CGame::GetInstance( )->GetFont( )->Draw( "DONE", 270, 240, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( m_nChoice == 1 )
 		{
-			CGame::GetInstance( )->GetFont( )->Draw( ">", 150, 116, 
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 216, 
 				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "MUSIC", 170, 100, 
+			CGame::GetInstance( )->GetFont( )->Draw( "MUSIC", 270, 200, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetMusicVolume( ) );
-			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 350, 100, 
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 450, 200, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-			CGame::GetInstance( )->GetFont( )->Draw( "SOUND FX", 180, 120, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SOUND FX", 280, 220, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetSoundFXVolume( ) );
-			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 350, 120, 
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 450, 220, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-			CGame::GetInstance( )->GetFont( )->Draw( "DONE", 170, 140, 
+			CGame::GetInstance( )->GetFont( )->Draw( "DONE", 270, 240, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( m_nChoice == 2 )
 		{
-			CGame::GetInstance( )->GetFont( )->Draw( ">", 150, 136, 
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 236, 
 				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "MUSIC", 170, 100, 
+			CGame::GetInstance( )->GetFont( )->Draw( "MUSIC", 270, 200, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetMusicVolume( ) );
-			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 350, 100, 
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 450, 200, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-			CGame::GetInstance( )->GetFont( )->Draw( "SOUND FX", 170, 120, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SOUND FX", 270, 220, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			sprintf_s( cBuffer, "%i", CGame::GetInstance( )->GetSoundFXVolume( ) );
-			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 350, 120, 
+			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 450, 220, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-			CGame::GetInstance( )->GetFont( )->Draw( "DONE", 180, 140, 
+			CGame::GetInstance( )->GetFont( )->Draw( "DONE", 280, 240, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 	}
@@ -344,54 +416,112 @@ void CPauseMenuState::Render( )
 	{
 		if( m_nChoice == 0 )
 		{
-			CGame::GetInstance( )->GetFont( )->Draw( ">", 150, 96, 
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 196, 
 				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 1", 180, 100, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 1", 280, 200, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 2", 170, 120, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 2", 270, 220, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 3", 170, 140, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 3", 270, 240, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "BACK", 170, 160, 
+			CGame::GetInstance( )->GetFont( )->Draw( "BACK", 270, 260, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( m_nChoice == 1 )
 		{
-			CGame::GetInstance( )->GetFont( )->Draw( ">", 150, 116, 
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 216, 
 				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 1", 170, 100, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 1", 270, 200, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 2", 180, 120, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 2", 280, 220, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 3", 170, 140, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 3", 270, 240, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "BACK", 170, 160, 
+			CGame::GetInstance( )->GetFont( )->Draw( "BACK", 270, 260, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( m_nChoice == 2 )
 		{
-			CGame::GetInstance( )->GetFont( )->Draw( ">", 150, 136, 
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 236, 
 				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 1", 170, 100, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 1", 270, 200, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 2", 170, 120, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 2", 270, 220, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 3", 180, 140, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 3", 280, 240, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "BACK", 170, 160, 
+			CGame::GetInstance( )->GetFont( )->Draw( "BACK", 270, 260, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 		else if( m_nChoice == 3 )
 		{
-			CGame::GetInstance( )->GetFont( )->Draw( ">", 150, 156, 
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 256, 
 				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 1", 170, 100, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 1", 270, 200, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 2", 170, 120, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 2", 270, 220, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 3", 170, 140, 
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 3", 270, 240, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-			CGame::GetInstance( )->GetFont( )->Draw( "BACK", 180, 160, 
+			CGame::GetInstance( )->GetFont( )->Draw( "BACK", 280, 260, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		}
+	}
+	// - - - - - - - - - - - - - - - -
+	// Load slots
+	// - - - - - - - - - - - - - - - -
+	else if( m_nState == 3 ) 
+	{
+		if( m_nChoice == 0 )
+		{
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 196, 
+				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 1", 280, 200, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 2", 270, 220, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 3", 270, 240, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "BACK", 270, 260, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		}
+		else if( m_nChoice == 1 )
+		{
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 216, 
+				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 1", 270, 200, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 2", 280, 220, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 3", 270, 240, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "BACK", 270, 260, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		}
+		else if( m_nChoice == 2 )
+		{
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 236, 
+				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 1", 270, 200, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 2", 270, 220, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 3", 280, 240, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "BACK", 270, 260, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		}
+		else if( m_nChoice == 3 )
+		{
+			CGame::GetInstance( )->GetFont( )->Draw( ">", 250, 256, 
+				1.0f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 1", 270, 200, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 2", 270, 220, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "SLOT 3", 270, 240, 
+				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			CGame::GetInstance( )->GetFont( )->Draw( "BACK", 280, 260, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		}
 	}

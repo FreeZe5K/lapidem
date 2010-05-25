@@ -15,7 +15,6 @@ class CSGD_DirectSound;
 class CSGD_WaveManager;
 class CSGD_DirectInput;
 
-
 class CPauseMenuState : public IGameState
 {
 private:
