@@ -38,7 +38,7 @@ void CLoading::Update( float fDT )
 void CLoading::Render( )
 {
 	m_pTM->Draw( m_nBackgroundID, 0, 0 );
-	m_pTM->Draw( m_nProgressID, m_nCurrentProgress - 640, 0 );
+	m_pTM->Draw( m_nProgressID, m_nCurrentProgress - 640, 0, 1, 1, 0, 0, 0, 0, D3DCOLOR_XRGB(50, 75, 255) );
 }
 
 void CLoading::Exit( )

@@ -502,7 +502,8 @@ void CGameplayState::Update( float fET )
 
 			CBase* pEntry = theLevel.GetEntryPoint( );
 			m_pPlayerOne->SetPosX( pEntry->GetPosX( ) );
-			m_pPlayerOne->SetPosY( pEntry->GetPosY( ) );
+			m_pPlayerOne->SetPosY( pEntry->GetPosY( ) - m_pPlayerOne->GetHeight() );
+			m_pPlayerOne->SetVelX( 0.0f);
 
 			CLoading::GetInstance( )->SetProgress( 550 );
 
@@ -514,7 +515,8 @@ void CGameplayState::Update( float fET )
 			if(m_pPlayerTwo)
 			{
 				m_pPlayerTwo->SetPosX( pEntry->GetPosX( ) );
-				m_pPlayerTwo->SetPosY( pEntry->GetPosY( ) );
+				m_pPlayerTwo->SetPosY( pEntry->GetPosY( ) - m_pPlayerTwo->GetHeight() );
+				m_pPlayerTwo->SetVelX( 0.0f );
 			}
 
 			///////////////
