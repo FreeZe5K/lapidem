@@ -36,6 +36,6 @@ void CIceSpear::Update(float fElapsedTime)
 
 void CIceSpear::Render()
 {
-	CCamera* pCamera = CCamera::GetCamera();
-	CSGD_TextureManager::GetInstance()->Draw(this->GetImage(), (int)(this->GetPosX() - pCamera->GetXOffset()), (int)(this->GetPosY() - pCamera->GetYOffset()));
+	//CCamera* pCamera = CCamera::GetCamera();
+	//CSGD_TextureManager::GetInstance()->Draw(this->GetImage(), (int)(this->GetPosX() - pCamera->GetXOffset()), (int)(this->GetPosY() - pCamera->GetYOffset()));
 }

@@ -1,12 +1,29 @@
 #include "CTAirCurrent.h"
 #include "CSpell.h"
 #include "CEarth.h"
+#include "CParticleManager.h"
+
+
+CTAirCurrent::CTAirCurrent()
+{
+	m_emitter = CParticleManager::GetInstance()->LoadEmitter("resource/data/aircurrent.lapipt",0,0);
+CParticleManager::GetInstance()->AddEmitter( m_emitter );
+	m_fDelay = 0.0f;
+
+}
+CTAirCurrent::~CTAirCurrent()
+{
+	CParticleManager::GetInstance()->RemoveEmitter(m_emitter);
+}
+
 
 void CTAirCurrent::SetDirection(int DirectionInDegrees)
 {
 
 	if(DirectionInDegrees > 360)
 		DirectionInDegrees -= 360;
+
+	m_nDirecionDeg = DirectionInDegrees;
 
 	if(DirectionInDegrees == 0 || DirectionInDegrees == 360)
 		shotDirect = RIGHT;
@@ -27,6 +44,7 @@ void CTAirCurrent::SetDirection(int DirectionInDegrees)
 
 	old_Direct = shotDirect;
 
+	
 }
 
 void CTAirCurrent::HandleCollision(CBase * collidingObject)
@@ -50,4 +68,21 @@ void CTAirCurrent::Update(float fElapsedTime)
 
 	m_fTransformTimer -= fElapsedTime;
 
+	if( m_fDelay >= 2.0f )
+	{
+		m_fDelay = 0.0f;
+			m_emitter->SetPosX(GetPosX());
+			m_emitter->SetPosY(GetPosY());
+	}
+		float fVelX = 100* (float)sin( m_nDirecionDeg * 3.14 / 180 );
+		float fVelY = -100* (float)cos( m_nDirecionDeg * 3.14 / 180 );
+
+		m_emitter->SetParticleVelX( fVelX );
+		m_emitter->SetParticleVelX( fVelY );
+
+		m_fDelay += fElapsedTime;/*
+		m_emitter->SetPosX( m_emitter->GetPosX() + fVelX*fElapsedTime);
+		m_emitter->SetPosY( m_emitter->GetPosY() + fVelY*fElapsedTime);*/
+
+	
 }
