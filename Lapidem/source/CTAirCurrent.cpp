@@ -7,7 +7,7 @@
 CTAirCurrent::CTAirCurrent()
 {
 	m_emitter = CParticleManager::GetInstance()->LoadEmitter("resource/data/aircurrent.lapipt",0,0);
-CParticleManager::GetInstance()->AddEmitter( m_emitter );
+	CParticleManager::GetInstance()->AddEmitter( m_emitter );
 	m_fDelay = 0.0f;
 
 }
@@ -44,7 +44,7 @@ void CTAirCurrent::SetDirection(int DirectionInDegrees)
 
 	old_Direct = shotDirect;
 
-	
+
 }
 
 void CTAirCurrent::HandleCollision(CBase * collidingObject)
@@ -56,7 +56,7 @@ void CTAirCurrent::HandleCollision(CBase * collidingObject)
 	if(collidingObject->GetType() == OBJ_SPELL && ((CSpell*)collidingObject)->GetElement() == OBJ_EARTH)
 		m_fTransformTimer = 3.0f;
 	SetCollided( false );
-	
+
 }
 
 void CTAirCurrent::Update(float fElapsedTime)
@@ -66,23 +66,29 @@ void CTAirCurrent::Update(float fElapsedTime)
 	else
 		shotDirect = old_Direct;
 
+	if( shotDirect == NO_DIRECTION )
+		m_emitter->SetLooping(false);
+	else
+		m_emitter->SetLooping(true);
+
 	m_fTransformTimer -= fElapsedTime;
 
 	if( m_fDelay >= 2.0f )
 	{
 		m_fDelay = 0.0f;
-			m_emitter->SetPosX(GetPosX());
-			m_emitter->SetPosY(GetPosY());
+		m_emitter->SetPosX(GetPosX());
+		m_emitter->SetPosY(GetPosY());
 	}
-		float fVelX = 100* (float)sin( m_nDirecionDeg * 3.14 / 180 );
-		float fVelY = -100* (float)cos( m_nDirecionDeg * 3.14 / 180 );
 
-		m_emitter->SetParticleVelX( fVelX );
-		m_emitter->SetParticleVelX( fVelY );
+	float fVelX = 500* (float)cos( m_nDirecionDeg * 3.14 / 180 );
+	float fVelY = -1000* (float)sin( m_nDirecionDeg * 3.14 / 180 );
 
-		m_fDelay += fElapsedTime;/*
-		m_emitter->SetPosX( m_emitter->GetPosX() + fVelX*fElapsedTime);
-		m_emitter->SetPosY( m_emitter->GetPosY() + fVelY*fElapsedTime);*/
+	m_emitter->SetParticleVelX( fVelX );
+	m_emitter->SetParticleVelY( fVelY );
 
-	
+	m_fDelay += fElapsedTime;
+	//m_emitter->SetPosX( m_emitter->GetPosX() + fVelX*fElapsedTime);
+	//m_emitter->SetPosY( m_emitter->GetPosY() + fVelY*fElapsedTime);
+
+
 }

@@ -20,7 +20,7 @@ void CEnemySpawner::Update(float fElapsedTime)
 	else
 		m_bIsOnScreen = false;
 
-	if(m_bIsReadyToSpawn && !m_bIsOnScreen)
+	if(0)//m_bIsReadyToSpawn && !m_bIsOnScreen)
 	{
 		int typetospawn = (rand() % 4);
 

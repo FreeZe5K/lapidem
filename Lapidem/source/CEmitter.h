@@ -85,7 +85,7 @@ public:
 	float GetGravityVelX( )                   { return m_fGravityVelX;         }
 	float GetGravityVelY( )                   { return m_fGravityVelY;         }
 	float GetParticleVelX( )                  { return m_fParticleVelX;        }
-	float GetParticleVelY( )                  { return m_fParticleVelX;        }
+	float GetParticleVelY( )                  { return m_fParticleVelY;        }
 	float GetVelX( )                          { return m_fVelX;                }
 	float GetVelY( )                          { return m_fVelY;                }
 	float GetAccX( )                          { return m_fAccX;                }

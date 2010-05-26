@@ -41,6 +41,11 @@ void CEmitter::Update( float fElapsedTime )
 
 	for( u32 i = 0; i < m_vLiveParticles.size( ); i++ )
 	{
+		if( GetParticleVelX() )
+		m_vLiveParticles[i]->SetVelX( GetParticleVelX());
+		if( GetParticleVelY() )
+		m_vLiveParticles[i]->SetVelY( GetParticleVelY());
+
 		m_vLiveParticles[i]->Update( fElapsedTime );
 
 		if( m_vLiveParticles[i]->GetAge( ) >= m_fLifeSpan )
