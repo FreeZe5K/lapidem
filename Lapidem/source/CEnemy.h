@@ -19,11 +19,15 @@ private:
 	bool	   m_bKnockBack;
 	bool	   m_bBurning;
 	bool       m_bIsFrozen;
+	int		   m_nAnimation;
 
 public:
+
+
 	CEnemy( EleType, float, float, int boss = 0, CFlock* Flock = NULL ); 
 	~CEnemy();
 	void Render(void);
+	RECT GetCollisionRect(float fElapsedTime);
 	void Update( float );
 	void HandleCollision(float, CBase* );
 	void SetWait( float _f )          { m_fWaitTimer = _f;}
