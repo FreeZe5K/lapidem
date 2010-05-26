@@ -19,14 +19,9 @@ void CAnimation::Update(float fElapsedTime)
 	{
 		m_nFrame++;
 		m_fTimeWaited =0.0f;
-		if(m_nFrame == m_vFrames.size() && m_bIsLooping)
+		if(m_nFrame == m_vFrames.size())
 		{
 			m_nFrame =0;
-		}
-		else if(!m_bIsLooping)
-		{
-			m_nFrame = 0;
-			m_bIsPlaying = false;
 		}
 	}
 }

@@ -13,6 +13,8 @@ int CPlayer::PlayerCount = 0;
 #define Jump_Value 175
 #define X_Diag 150
 #define Y_Diag 175
+#define CHANGE_ANIM if(currAnimation != 2 && currAnimation != 1)
+
 
 CPlayer::CPlayer( )
 {
@@ -25,6 +27,7 @@ CPlayer::CPlayer( )
 	m_nWindEnergy	   = 0;
 	m_nWaterEnergy	   = 0;
 	m_nScore		   = 0;
+	m_nAttack		   = 0;
 	m_nTierThree	   = 0;
 	m_bIsJumping       = false;
 	Tossed			   = false;
@@ -38,6 +41,7 @@ CPlayer::CPlayer( )
 	m_pReticle		   = NULL;
 
 	SetPlayerID( ++PlayerCount );
+	SetAnimation(0,0);
 
 	if( GetPlayerID( ) == 1 )
 		m_SpellType = OBJ_ICE;
@@ -57,11 +61,16 @@ CPlayer::~CPlayer( )
 	Corona_EventHandler::GetInstance( )->UnregisterClient( "EnemyDied", this );
 }
 
-
+char* CPlayer::GetTrigger()
+{
+	return animation->GetTrigger();
+}
 void CPlayer::Update( float fElapsedTime )
 {
 	if( GetHealth() < 0 )
+	{
 		SetHealth( 0 );
+	}
 
 
 	if( GetFainted() )
@@ -130,6 +139,8 @@ void CPlayer::Update( float fElapsedTime )
 		CCharacter::Update( fElapsedTime );
 
 
+
+
 	CSGD_DirectInput * DI = ( CSGD_DirectInput::GetInstance( ) );
 
 	if( DI->JoystickButtonPressed(11, GetPlayerID() - 1) )
@@ -139,7 +150,10 @@ void CPlayer::Update( float fElapsedTime )
 		DI->JoystickDPadDown( 1 ) ) ) || ( GetPlayerID( ) == 2 && 
 		( DI->KeyDown( DIK_RIGHT ) || DI->JoystickDPadDown( 1, 1 ) ) ) )
 	{
-		SetAnimation( 0, 1 );
+		CHANGE_ANIM
+		{
+			SetAnimation( 0, 0 );
+		}
 
 		if( DI->KeyDown( DIK_W ) || DI->KeyDown( DIK_UP ) || 
 			DI->JoystickDPadDown( 2, GetPlayerID( ) - 1 ) )
@@ -155,7 +169,10 @@ void CPlayer::Update( float fElapsedTime )
 		DI->JoystickDPadDown( 0 ) ) ) || ( GetPlayerID( ) == 2 && 
 		( DI->KeyDown( DIK_LEFT ) || DI->JoystickDPadDown( 0, 1 ) ) ) )
 	{
-		SetAnimation( 0, 1 );
+		CHANGE_ANIM
+		{
+			SetAnimation( 0,0 );
+		}
 
 		if( DI->KeyDown( DIK_W ) || DI->KeyDown( DIK_UP ) || 
 			DI->JoystickDPadDown( 2, GetPlayerID( ) - 1 ) )
@@ -173,11 +190,20 @@ void CPlayer::Update( float fElapsedTime )
 		( GetPlayerID( ) == 2 && DI->KeyDown( DIK_UP ) ) || 
 		DI->JoystickDPadDown( 2, GetPlayerID( ) - 1 ) )
 		currDirec = UP;
-	else SetAnimation( 0, 0 );
+	else 
+	{
+		CHANGE_ANIM
+		{
+			SetAnimation( 0, 4 );
+		}
+	}
 
 	if(DI->JoystickGetLStickXNormalized( GetPlayerID() - 1) < 0)
 	{
-		SetAnimation(0, 1);
+		CHANGE_ANIM
+		{
+			SetAnimation(0,4);
+		}
 
 		if(DI->JoystickGetLStickYNormalized(GetPlayerID() - 1) < 0)
 			currDirec = LEFT_UP;
@@ -188,7 +214,10 @@ void CPlayer::Update( float fElapsedTime )
 	}
 	else if (DI->JoystickGetLStickXNormalized( GetPlayerID() - 1 ) > 0 )
 	{
-		SetAnimation(0 , 1);
+		CHANGE_ANIM
+		{
+			SetAnimation(0 , 0);
+		}
 
 		if(DI->JoystickGetLStickYNormalized(GetPlayerID() - 1) < 0)
 			currDirec = RIGHT_UP;
@@ -235,8 +264,24 @@ void CPlayer::Update( float fElapsedTime )
 	//******************************************************************************
 	//******************************************************************************
 
-	if(m_bIsJumping)
-		SetAnimation(0,0);
+	//if(m_bIsJumping)
+	//{
+	//	if(currAnimation != 3)
+	//	{
+	//		CHANGE_ANIM
+	//		{
+	//			SetAnimation(0,3);
+	//		}
+	//	}
+	//}
+
+/*	if(currAnimation ==3 && !m_bIsJumping)
+	{
+		CHANGE_ANIM
+		{
+			SetAnimation(0,4);
+		}
+	}*/	
 
 	//////////////////////////////
 	// Bug #1 Fix
@@ -290,6 +335,39 @@ void CPlayer::Update( float fElapsedTime )
 			}
 		}
 	}
+
+	animation->Update(fElapsedTime);
+}
+RECT CPlayer::GetCollisionRect(float fElapsedTime)
+{
+	RECT temp = animation->GetFrames()->CollisionRect;
+	RECT draw = animation->GetFrames()->DrawRect;
+	
+	RECT pleasework;
+	if(IsRotated)
+	{
+		pleasework.left =  temp.left- draw.left;
+		pleasework.right = pleasework.left + (temp.right - temp.left);
+		pleasework.top =  temp.top- draw.top;
+		pleasework.bottom = pleasework.top + (temp.bottom- temp.top);
+	}
+	else
+	{
+		POINT anchor = animation->GetFrames()->AnchorPoint;
+		pleasework.left = temp.left -draw.left  - (temp.left - anchor.x);
+		pleasework.right = pleasework.left + (temp.right - temp.left);
+		pleasework.top = temp.top -draw.top ;
+		pleasework.bottom = pleasework.top + (temp.bottom - temp.top);
+	}
+
+	
+	pleasework.left += GetPosX();
+	pleasework.right +=  GetPosX();
+	pleasework.top += GetPosY();
+	pleasework.bottom += GetPosY();
+
+
+	return pleasework;
 }
 
 void CPlayer::Render(void)
@@ -298,12 +376,12 @@ void CPlayer::Render(void)
 	{
 		if(PlayerID ==1)
 		{
-			if( animation->GetImageID( ) != -1 && !IsRotated )
+			if( animation->GetImageID( ) != -1 && IsRotated )
 				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
 				int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ),
 				int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
 				1.0f, 1.0f, &animation->GetFrames( )->DrawRect);
-			else if( animation->GetImageID( ) != -1 && IsRotated )
+			else if( animation->GetImageID( ) != -1 && !IsRotated )
 			{
 				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
 					int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) + GetWidth( ) ), 
@@ -313,12 +391,12 @@ void CPlayer::Render(void)
 		}
 		else
 		{
-			if( animation->GetImageID( ) != -1 && !IsRotated )
+			if( animation->GetImageID( ) != -1 && IsRotated )
 				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
 				int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ),
 				int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
 				1.0f, 1.0f, &animation->GetFrames( )->DrawRect,0,0,0,D3DCOLOR_XRGB(0,255,0));
-			else if( animation->GetImageID( ) != -1 && IsRotated )
+			else if( animation->GetImageID( ) != -1 && !IsRotated )
 			{
 				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
 					int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) + GetWidth( ) ), 
@@ -403,6 +481,8 @@ void CPlayer::Jump( )
 
 	SetVelY( -Jump_Value );
 	m_bIsJumping = true;
+	SetAnimation(0,3);
+	animation->Reset();
 }
 
 void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
@@ -430,8 +510,6 @@ void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 				}
 				return;
 			}
-
-			
 		}
 
 		if( collidingObject->GetType( ) == OBJ_SPELL)
@@ -538,7 +616,10 @@ void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 				SetVelX(GetVelX());
 				SetVelY(GetVelY());
 			}
-			SetAnimation(0,0);
+			CHANGE_ANIM
+			{
+				SetAnimation(0,0);
+			}
 		}
 	}
 	else if( collidingObject->GetType( ) == OBJ_ENERGY )

@@ -3,6 +3,7 @@
 #include "CEnemy.h"
 #include "CGameOver.h"
 #include "CProfiler.h"
+#include "CAnimation.h"
 #include "CAnimationWarehouse.h"
 
 #ifdef _DEBUG
@@ -289,7 +290,7 @@ bool CGameplayState::Input( )
 		CGame::GetInstance( )->SetPaused( true );
 	}
 
-	if(!m_pPlayerOne->GetTossed())
+	if(!m_pPlayerOne->GetTossed() && m_pPlayerOne->GetAnimationType() != 1)
 	{
 		if( m_pDI->KeyDown( DIK_D ) || m_pDI->JoystickDPadDown( 1 ) )
 			m_pPlayerOne->SetVelX( PLAYER_SPEED );
@@ -303,14 +304,35 @@ bool CGameplayState::Input( )
 	}
 	if( m_pDI->KeyDown( DIK_F ) || m_pDI->JoystickButtonDown( 0 ) || 
 		m_pDI->JoystickButtonDown( 7 ) )
-		m_pPlayerOne->Attack( 1 );
+	{
+		//m_pPlayerOne->Attack( 1 );
+		if(m_pPlayerOne->GetAnimationType() != 1)
+		{	
+			m_pPlayerOne->SetAttack(1);
+			m_pPlayerOne->SetAnimation(0,2);
+		}
+	}
 
 	if( m_pDI->KeyDown( DIK_R ) || m_pDI->JoystickButtonDown( 1 ) || 
 		m_pDI->JoystickButtonDown( 6 ) )
-		m_pPlayerOne->Attack( 2 );
+	{
+		if(m_pPlayerOne->GetAnimationType() != 1)
+		{
+			//m_pPlayerOne->Attack( 2 );
+			m_pPlayerOne->SetAttack(2);
+			m_pPlayerOne->SetAnimation(0,2);
+		}
+	}
 
 	if( m_pDI->KeyPressed( DIK_T ) || m_pDI->JoystickButtonDown( 2 ))
-		m_pPlayerOne->Attack( 3 );
+	{	
+		if(m_pPlayerOne->GetAnimationType() != 1)
+		{
+			m_pPlayerOne->SetAttack(3);
+			m_pPlayerOne->SetAnimation(0,2);
+			//m_pPlayerOne->Attack( 3 );
+		}
+	}
 
 	if( m_pDI->KeyPressed( DIK_1 ) )
 		m_pPlayerOne->SetEleType( OBJ_ICE  );
@@ -602,15 +624,24 @@ void CGameplayState::Update( float fET )
 	theLevel.Update( fET );
 	m_pCeH->ProcessEvents( );
 
+
+	//TODO IF trigger = dead do this junk
 	if( m_pPlayerOne->GetHealth( ) <= 0 )
 	{
-		m_pPlayerOne->SetFainted(true);
+		m_pPlayerOne->SetAnimation(0,1);
+		if(strcmp(m_pPlayerOne->GetTrigger(),"Dead") ==0)
+		{
+			m_pPlayerOne->SetFainted(true);
+		}
 	}
 	if( m_pPlayerTwo)
 	{
 		if( m_pPlayerTwo->GetHealth( ) <= 0 )
 		{
-			m_pPlayerTwo->SetFainted(true);
+			if(strcmp(m_pPlayerTwo->GetTrigger(), "Dead") == 0)
+			{
+				m_pPlayerTwo->SetFainted(true);
+			}
 		}
 	}
 
@@ -629,6 +660,20 @@ void CGameplayState::Update( float fET )
 		}
 	}
 
+	if(m_pPlayerOne->GetAnimationType() ==2)
+	{
+		if(strcmp(m_pPlayerOne->GetTrigger(),"Attack") ==0)
+		{
+			m_pPlayerOne->Attack( m_pPlayerOne->GetAttackType() );	
+		}
+		
+		if(strcmp(m_pPlayerOne->GetTrigger(),"Done") ==0)
+		{
+			
+			m_pPlayerOne->SetAnimation(0,0);
+			
+		}
+	}
 #ifdef _DEBUG
 	CProfiler::GetInstance( )->Start( "Profiler End" );
 	CProfiler::GetInstance( )->End( "CGameplay Update" );

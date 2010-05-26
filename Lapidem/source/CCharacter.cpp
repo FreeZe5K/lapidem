@@ -59,6 +59,7 @@ void CCharacter::SetAnimation( int object, int animation, int frame )
 	currAnimation = animation;
 }
 
+
 void CCharacter::SetEleType( EleType newType )
 {
 	if( GetType() == OBJ_ENEMY)
