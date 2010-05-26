@@ -37,88 +37,87 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 
 	if(!boss)
 	{
-		switch( ElementToBe )
+	switch( ElementToBe )
+	{
+	case OBJ_EARTH:
 		{
-		case OBJ_EARTH:
-			{
-				currState = new AIStateEarth( );
-				SetPosX(initx);
-				SetPosY(inity);
-				SetVelX(25.0f);
-				SetVelY(0.0f);
-				( ( AIStateEarth* )currState )->SetInitPos( int( GetPosX( ) ), int( GetPosY( ) ) );
-				SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/lapidem_lulzenemy.png" ) );
-				SetHeight( 64 );
-				SetWidth( 16 );
+			currState = new AIStateEarth( );
+			SetPosX(initx);
+			SetPosY(inity);
+			SetVelX(25.0f);
+			SetVelY(0.0f);
+			( ( AIStateEarth* )currState )->SetInitPos( int( GetPosX( ) ), int( GetPosY( ) ) );
+			SetHeight( 100 );
+			SetWidth( 135 );
+			m_nHealth      = 80 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetWindLevel() * 10);
+			m_SpellType    = OBJ_EARTH;
+			currDirec      = RIGHT;
+			m_nAnimation = m_SpellType +1;
+			SetAnimation(OBJ_EARTH +1,0);
+		} break;
+	case OBJ_FIRE:
+		{
+			currState = new AIStateFire( );
+			SetPosX(initx);
+			SetPosY(inity);
+			SetVelX(75.0f);
+			SetVelY(0.0f);
+			SetHeight( 54 );
+			SetWidth ( 16 );
+			m_nHealth      = 50 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetEarthLevel() * 7);
+			m_SpellType    = OBJ_FIRE;
+			currDirec      = RIGHT;
+			m_nAnimation = m_SpellType +1;
+			SetAnimation(OBJ_FIRE +1,0);
 
-				m_nHealth      = 80 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetWindLevel() * 10);
-				m_SpellType    = OBJ_EARTH;
-				currDirec      = RIGHT;
-				SetAnimation(OBJ_EARTH +1,0);
-			} break;
-		case OBJ_FIRE:
+		} break;
+	case OBJ_ICE:
+		{
+			currState = new AIStateIce( );
+			SetPosX(initx);
+			SetPosY(inity);
+			SetVelX(50.0f);
+			SetVelY(0.0f);
+			SetHeight( 64 );
+			SetWidth ( 64 );
+			SetAnimation(1,0);
+			m_nHealth      = 50 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetFireLevel() * 7);
+			m_SpellType    = OBJ_ICE;
+			currDirec      = RIGHT;
+			m_nAnimation = m_SpellType +1;
+			SetAnimation(OBJ_ICE +1,0);
+		} break;
+	case OBJ_WIND:
+		{
+			currState = new AIStateWind();
+			SetPosX(initx);
+			SetPosY(inity);
+			
+			((AIStateWind*)currState)->SetFlock((CFlock*)Flock);
+			SetVelX((float)(rand()%150));
+			SetVelY((float)(rand()%150));
+			if(rand()%2)
 			{
-				currState = new AIStateFire( );
-				SetPosX(initx);
-				SetPosY(inity);
-				SetVelX(75.0f);
-				SetVelY(0.0f);
-				SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/lapid_lulzfireenemy.png" ) );
-				SetHeight( 54 );
-				SetWidth ( 16 );
-
-				m_nHealth      = 50 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetEarthLevel() * 7);
-				m_SpellType    = OBJ_FIRE;
-				currDirec      = RIGHT;
-				SetAnimation(OBJ_FIRE +1,0);
-
-			} break;
-		case OBJ_ICE:
-			{
-				currState = new AIStateIce( );
-				SetPosX(initx);
-				SetPosY(inity);
-				SetVelX(50.0f);
-				SetVelY(0.0f);
-				SetImage( CSGD_TextureManager::GetInstance( )->LoadTexture( "resource/graphics/lapid_lulziceenemy.png" ) );
-				SetHeight( 64 );
-				SetWidth ( 16 );
-				SetAnimation(1,0);
-				m_nHealth      = 50 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetFireLevel() * 7);
-				m_SpellType    = OBJ_ICE;
-				currDirec      = RIGHT;
-				SetAnimation(OBJ_ICE +1,0);
-			} break;
-		case OBJ_WIND:
-			{
-				currState = new AIStateWind();
-				SetPosX(initx);
-				SetPosY(inity);
-
-				((AIStateWind*)currState)->SetFlock((CFlock*)Flock);
 				SetVelX((float)(rand()%150));
 				SetVelY((float)(rand()%150));
-				if(rand()%2)
-				{
-					SetVelX((float)(rand()%150));
-					SetVelY((float)(rand()%150));
-				}
-				else
-				{
-					SetVelX(rand()%150 * -1.0f);
-					SetVelY(rand()%150 * -1.0f);
-				}
-				SetHeight(20);
-				SetWidth(20);
-				m_nHealth = 25 * CGameplayState::GetInstance()->GetDifficulty() + CSpellFactory::GetInstance()->GetIceLevel() * 5;
-				m_SpellType = OBJ_WIND;
-				currDirec = RIGHT;
-
-				SetAnimation(OBJ_WIND +1,0);
-				currAnimation = NULL;
-				break;
-			} 
-		}
+			}
+			else
+			{
+				SetVelX(rand()%150 * -1.0f);
+				SetVelY(rand()%150 * -1.0f);
+			}
+			
+			SetHeight(16);
+			SetWidth(16);
+			m_nHealth = 25 * CGameplayState::GetInstance()->GetDifficulty() + CSpellFactory::GetInstance()->GetIceLevel() * 5;
+			m_SpellType = OBJ_WIND;
+			currDirec = RIGHT;
+			m_nAnimation = m_SpellType +1;
+			SetAnimation(OBJ_WIND +1,0);
+			currAnimation = NULL;
+			break;
+		} 
+	}
 	}
 
 
@@ -132,11 +131,12 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 		SetVelY(0.0f);
 		SetHeight(64);
 		SetWidth(40);
+		m_nAnimation = 5;
 		SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Doctorboss.png"));
 		m_nHealth = 1500 + (CSpellFactory::GetInstance()->GetIceLevel() + CSpellFactory::GetInstance()->GetWindLevel() + CSpellFactory::GetInstance()->GetEarthLevel() + CSpellFactory::GetInstance()->GetFireLevel()) * 15;
 		m_SpellType = OBJ_SHIELD;
 		currDirec = RIGHT;
-		currAnimation = NULL;
+		SetAnimation(5,0);
 	}
 	else if(boss >= 2)
 	{
@@ -152,7 +152,8 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 		m_nHealth = 1500;
 		m_SpellType = OBJ_EARTH;
 		currDirec = RIGHT;
-		currAnimation = NULL;
+		m_nAnimation = 6;
+		SetAnimation(6,0);
 	}
 
 	m_fShotTimer   = 3.0f;
@@ -259,8 +260,8 @@ void CEnemy::Update( float fElapsedTime )
 					m_fWaitTimer += fElapsedTime;
 					m_fShotTimer = 2.0f;
 					animation->Reset();
-					SetAnimation(GetEleType()+1,2);
-
+					SetAnimation(m_nAnimation,2);
+					
 				}
 			}
 			else
@@ -270,7 +271,7 @@ void CEnemy::Update( float fElapsedTime )
 				if(m_SpellType !=OBJ_WIND)
 					SetPosY( GetPosY( ) + 150.0f * fElapsedTime );
 
-
+				
 				char* pleasework = animation->GetTrigger();
 				if(strcmp(pleasework, "Done") == 0)
 				{	
@@ -283,8 +284,8 @@ void CEnemy::Update( float fElapsedTime )
 						currState->Attack( CGameplayState::GetInstance( )->GetPlayerTwo( ), this );
 					}
 					animation->Reset();
-					SetAnimation(GetEleType()+1,0);
-
+					SetAnimation(m_nAnimation,0);
+					
 					m_fWaitTimer = 0.0f;
 				}
 
@@ -345,7 +346,7 @@ void CEnemy::Update( float fElapsedTime )
 		if(currAnimation != 1)
 		{
 			animation->Reset();
-			SetAnimation(GetEleType() +1,1);
+			SetAnimation(m_nAnimation,1);
 		}
 		char* pleasework = animation->GetTrigger();
 		if(strcmp(pleasework,"Dead") ==0)
@@ -385,10 +386,76 @@ void CEnemy::Render()
 			}
 		} else CBase::Render( );
 	}
+	else if(m_SpellType == OBJ_ICE && dynamic_cast<AIStateIce*>(currState))
+	{
+		if( animation )
+		{
+			if( animation->GetImageID( ) != -1 && IsRotated )
+				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
+				int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ),
+				int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
+				0.60f, 0.60f, &animation->GetFrames( )->DrawRect );
+			else if( animation->GetImageID( ) != -1 && !IsRotated )
+			{
+				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
+					int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) + GetWidth( ) ), 
+					int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
+					-0.60f, 0.60f, &animation->GetFrames( )->DrawRect );
+			}
+		} else CBase::Render( );
+	}
+	else if(m_SpellType == OBJ_EARTH && dynamic_cast<AIStateEarth*>(currState))
+	{
+		if( animation )
+		{
+			if( animation->GetImageID( ) != -1 && !IsRotated )
+				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
+				int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ),
+				int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
+				1.0f, 1.0f, &animation->GetFrames( )->DrawRect );
+			else if( animation->GetImageID( ) != -1 && IsRotated )
+			{
+				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
+					int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) + GetWidth( ) ), 
+					int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
+					-1.0f, 1.0f, &animation->GetFrames( )->DrawRect );
+			}
+		} else CBase::Render( );
+	}
 	else
 	{
 		CCharacter::Render();
 	}
+}
+RECT CEnemy::GetCollisionRect(float fElapsedTime)
+{
+	RECT temp = animation->GetFrames()->CollisionRect;
+	RECT draw = animation->GetFrames()->DrawRect;
+	
+	RECT pleasework;
+	if(IsRotated)
+	{
+		pleasework.left =  temp.left- draw.left;
+		pleasework.right = pleasework.left + (temp.right - temp.left);
+		pleasework.top =  temp.top- draw.top;
+		pleasework.bottom = pleasework.top + (temp.bottom- temp.top);
+	}
+	else
+	{
+		POINT anchor = animation->GetFrames()->AnchorPoint;
+		pleasework.left = temp.left -draw.left  - (temp.left - anchor.x);
+		pleasework.right = pleasework.left + (temp.right - temp.left);
+		pleasework.top = temp.top -draw.top ;
+		pleasework.bottom = pleasework.top + (temp.bottom - temp.top);
+	}
+
+	
+	pleasework.left += GetPosX();
+	pleasework.right +=  GetPosX();
+	pleasework.top += GetPosY();
+	pleasework.bottom += GetPosY();
+
+	return pleasework;
 }
 void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 {
@@ -409,17 +476,19 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 			if( nRectHeight > nRectWidth )
 			{
 				if( this->GetPosX( ) > collidingObject->GetPosX( ) )
-					SetPosX( GetPosX( ) + nRectWidth);
+					SetPosX( GetPosX( ) + nRectWidth );
 				else if ( this->GetPosX() < collidingObject->GetPosX( ) )
-					SetPosX( GetPosX( ) - nRectWidth);
+					SetPosX( GetPosX( ) - nRectWidth );
 				SetVelY(-GetVelY());
 			}
 			else
 			{
 				if( this->GetPosY( ) > collidingObject->GetPosY( ) )
-					SetPosY( GetPosY( ) + nRectHeight);
+					SetPosY( GetPosY( ) + nRectHeight );
 				else if(this->GetPosY( ) < collidingObject->GetPosY( ) )
-					SetPosY( GetPosY( ) - nRectHeight);
+				{
+					SetPosY( GetPosY( ) - nRectHeight );
+				}
 				SetVelX(-GetVelX());
 			}
 		}
@@ -458,7 +527,7 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 		int spelltype = ((CSpell*)collidingObject)->GetElement();
 		int DamageToTake = ((CSpell*)collidingObject)->GetDamage();
 		int EleType	= GetEleType();
-
+		
 		if( EleType == OBJ_SHIELD)
 			return;
 		else if(EleType == OBJ_NONE)
