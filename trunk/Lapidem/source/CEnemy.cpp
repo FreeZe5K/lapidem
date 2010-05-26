@@ -449,11 +449,10 @@ RECT CEnemy::GetCollisionRect(float fElapsedTime)
 		pleasework.bottom = pleasework.top + (temp.bottom - temp.top);
 	}
 
-	
-	pleasework.left += GetPosX();
-	pleasework.right +=  GetPosX();
-	pleasework.top += GetPosY();
-	pleasework.bottom += GetPosY();
+	pleasework.left += LONG( GetPosX( ) );
+	pleasework.right += LONG( GetPosX( ) );
+	pleasework.top += LONG( GetPosY( ) );
+	pleasework.bottom += LONG( GetPosY( ) );
 
 	return pleasework;
 }
