@@ -1154,6 +1154,8 @@ void CSpellFactory::CreateIceCube(CSpell* pIce, CSpell* pEarth)
 	pSpell->SetWidth(32);
 	pSpell->SetImage(pEarth->GetImage());
 	pSpell->ShotBy(true);
+	pSpell->SetElement(OBJ_ICE);
+	
 
 	pSpell->SetSound(pIce->GetSound());
 

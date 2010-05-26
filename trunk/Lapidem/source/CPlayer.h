@@ -18,6 +18,7 @@ class CPlayer : public CCharacter, public CLDevice
 	int m_nWindEnergy;
 	int m_nEarthEnergy;
 	int m_nScore;
+	int m_nAttack;
 	int m_nTierThree;
 	bool m_bShielded;
 	bool m_bIsTouching;
@@ -55,10 +56,16 @@ public:
 	_inline void ResetJump( )
 	{ m_bIsJumping = false; }
 
+	RECT GetCollisionRect(float fElapsedTime);
+
 	void SetFainted( bool bFainted ) { m_bFainted = bFainted; }
 	bool GetFainted() { return m_bFainted; }
 
 	int GetPlayerCount( )    { return PlayerCount;    }
+	int GetAttackType()		 { return m_nAttack;	  }
+	CAnimation* GetAnimation(){return animation;	  }
+	int GetAnimationType()	 { return currAnimation;  }
+	char* GetTrigger();
 	int GetPlayerID( )       { return PlayerID;       }
 	int GetScore( )			 { return m_nScore;		  }
 	int GetWindEnergy( )     { return m_nWindEnergy;  }
@@ -73,4 +80,6 @@ public:
 	void setFireEnergy( int _i )  { m_nFireEnergy   = _i; }
 	void setEarthEnergy( int _i ) { m_nEarthEnergy  = _i; }
 	void setIceEnergy( int _i )   { m_nWaterEnergy  = _i; }
+	void SetAttack( int _i )	  { m_nAttack  = _i;	  }
+
 };

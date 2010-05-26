@@ -30,7 +30,7 @@ public:
 	void Render( ); 
 	void SetEleType( EleType );
 	void Update( float );
-	void SetAnimation( int, int, int frame = 0 );
+	void SetAnimation( int, int, int frame = -1 );
 
 	int GetHealth( )                    { return m_nHealth;     }
 	DIRECTION GetDirection( )           { return currDirec;     }

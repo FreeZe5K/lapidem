@@ -537,6 +537,10 @@
 		<Filter
 			Name="Misc"
 			>
+			<File
+				RelativePath=".\source\CLoading.cpp"
+				>
+			</File>
 			<Filter
 				Name="Header Files"
 				>
@@ -558,10 +562,6 @@
 				</File>
 				<File
 					RelativePath=".\source\CLDevice.h"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CLoading.h"
 					>
 				</File>
 				<File
@@ -590,10 +590,6 @@
 				</File>
 				<File
 					RelativePath=".\source\CHighScores.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\source\CLoading.cpp"
 					>
 				</File>
 				<File
