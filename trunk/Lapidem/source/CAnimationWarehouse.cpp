@@ -135,9 +135,9 @@ void CAnimationWarehouse::Init(void)
 	LoadAnimationSet("resource/Jack.Anim", D3DCOLOR_XRGB(255, 255, 255),"resource/graphics/jack_96.png");
 
 	LoadAnimationSet("resource/fireEnemy.Anim", D3DCOLOR_XRGB(255, 255, 255),"resource/graphics/Lapid_lulzfireenemy.png");
-	LoadAnimationSet("resource/iceEnemy.Anim", D3DCOLOR_XRGB(127, 127, 127),"resource/graphics/ice_128.png");
+	LoadAnimationSet("resource/iceEnemy.Anim", D3DCOLOR_XRGB(127, 127, 127),"resource/graphics/ice_128.bmp");
 	LoadAnimationSet("resource/windEnemy.Anim", D3DCOLOR_XRGB(195, 195, 195),"resource/graphics/bird.png");
-	LoadAnimationSet("resource/Enemy.Anim", NULL ,"resource/graphics/rock_128.png");
+	LoadAnimationSet("resource/earthEnemy.Anim", NULL ,"resource/graphics/Lapidem_lulzenemy.png");
 	LoadAnimationSet("resource/docEnemy.Anim",D3DCOLOR_XRGB(255, 255, 255) ,"resource/graphics/DoctorBoss.png");
 
 	LoadAnimationSet("resource/sisEnemy.Anim",D3DCOLOR_XRGB(0, 0, 0) ,"resource/graphics/Lapidem_WomanBoss.png");
