@@ -17,16 +17,6 @@
 
 
 
-
-// 0 character 1
-// 1 wind enemy
-// 2 ice enemy
-
-
-//0 walking// idle for char 1/2
-//1 death/ walking for char1
-//2 is attacking
-
 CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock* Flock )
 {
 	m_nType         = OBJ_ENEMY;
@@ -53,6 +43,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			m_SpellType    = OBJ_EARTH;
 			currDirec      = RIGHT;
 			m_nAnimation = m_SpellType +1;
+			m_fScale = 1.0f;
 			SetAnimation(OBJ_EARTH +1,0);
 		} break;
 	case OBJ_FIRE:
@@ -67,6 +58,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			m_nHealth      = 50 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetEarthLevel() * 7);
 			m_SpellType    = OBJ_FIRE;
 			currDirec      = RIGHT;
+			m_fScale = 0.8f;
 			m_nAnimation = m_SpellType +1;
 			SetAnimation(OBJ_FIRE +1,0);
 
@@ -83,6 +75,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			SetAnimation(1,0);
 			m_nHealth      = 50 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetFireLevel() * 7);
 			m_SpellType    = OBJ_ICE;
+			m_fScale = 0.6f;
 			currDirec      = RIGHT;
 			m_nAnimation = m_SpellType +1;
 			SetAnimation(OBJ_ICE +1,0);
@@ -92,6 +85,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			currState = new AIStateWind();
 			SetPosX(initx);
 			SetPosY(inity);
+			m_fScale = 0.4f;
 			
 			((AIStateWind*)currState)->SetFlock((CFlock*)Flock);
 			SetVelX((float)(rand()%150));
@@ -368,25 +362,7 @@ void CEnemy::Update( float fElapsedTime )
 
 void CEnemy::Render()
 {
-	if(m_SpellType == OBJ_WIND && dynamic_cast<AIStateWind*>(currState))
-	{
-		if( animation )
-		{
-			if( animation->GetImageID( ) != -1 && !IsRotated )
-				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
-				int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ),
-				int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
-				0.40f, 0.40f, &animation->GetFrames( )->DrawRect );
-			else if( animation->GetImageID( ) != -1 && IsRotated )
-			{
-				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
-					int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) + GetWidth( ) ), 
-					int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
-					-0.40f, 0.40f, &animation->GetFrames( )->DrawRect );
-			}
-		} else CBase::Render( );
-	}
-	else if(m_SpellType == OBJ_ICE && dynamic_cast<AIStateIce*>(currState))
+	if(dynamic_cast<AIStateWind*>(currState))
 	{
 		if( animation )
 		{
@@ -394,17 +370,19 @@ void CEnemy::Render()
 				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
 				int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ),
 				int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
-				0.60f, 0.60f, &animation->GetFrames( )->DrawRect );
+				m_fScale, m_fScale, &animation->GetFrames( )->DrawRect );
 			else if( animation->GetImageID( ) != -1 && !IsRotated )
 			{
 				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
 					int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) + GetWidth( ) ), 
 					int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
-					-0.60f, 0.60f, &animation->GetFrames( )->DrawRect );
+					-m_fScale, m_fScale, &animation->GetFrames( )->DrawRect );
 			}
-		} else CBase::Render( );
+			else CBase::Render( );
+
+		} 
 	}
-	else if(m_SpellType == OBJ_EARTH && dynamic_cast<AIStateEarth*>(currState))
+	else
 	{
 		if( animation )
 		{
@@ -412,21 +390,20 @@ void CEnemy::Render()
 				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
 				int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ),
 				int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
-				1.0f, 1.0f, &animation->GetFrames( )->DrawRect );
+				m_fScale, m_fScale, &animation->GetFrames( )->DrawRect );
 			else if( animation->GetImageID( ) != -1 && IsRotated )
 			{
 				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
 					int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) + GetWidth( ) ), 
 					int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
-					-1.0f, 1.0f, &animation->GetFrames( )->DrawRect );
+					-m_fScale, m_fScale, &animation->GetFrames( )->DrawRect );
 			}
-		} else CBase::Render( );
+			else CBase::Render( );
+		} 
 	}
-	else
-	{
-		CCharacter::Render();
-	}
+	
 }
+
 RECT CEnemy::GetCollisionRect(float fElapsedTime)
 {
 	RECT temp = animation->GetFrames()->CollisionRect;
@@ -435,27 +412,32 @@ RECT CEnemy::GetCollisionRect(float fElapsedTime)
 	RECT pleasework;
 	if(IsRotated)
 	{
-		pleasework.left =  temp.left- draw.left;
-		pleasework.right = pleasework.left + (temp.right - temp.left);
-		pleasework.top =  temp.top- draw.top;
-		pleasework.bottom = pleasework.top + (temp.bottom- temp.top);
+		pleasework.left =  ((temp.left- draw.left)* m_fScale);
+		pleasework.right = pleasework.left + ((temp.right - temp.left) * m_fScale);
+		pleasework.top =  ((temp.top- draw.top) * m_fScale);
+		pleasework.bottom = pleasework.top + ((temp.bottom- temp.top) * m_fScale);
 	}
 	else
 	{
 		POINT anchor = animation->GetFrames()->AnchorPoint;
-		pleasework.left = temp.left -draw.left  - (temp.left - anchor.x);
-		pleasework.right = pleasework.left + (temp.right - temp.left);
-		pleasework.top = temp.top -draw.top ;
-		pleasework.bottom = pleasework.top + (temp.bottom - temp.top);
+
+		pleasework.left = ((temp.left - draw.left) * m_fScale)  - ((temp.left - anchor.x) * m_fScale);
+		pleasework.right = pleasework.left + ((temp.right - temp.left) * m_fScale);
+		pleasework.top = ((temp.top - draw.top) * m_fScale);
+		pleasework.bottom = pleasework.top + ((temp.bottom - temp.top) *m_fScale);
 	}
 
-	pleasework.left += LONG( GetPosX( ) );
-	pleasework.right += LONG( GetPosX( ) );
-	pleasework.top += LONG( GetPosY( ) );
-	pleasework.bottom += LONG( GetPosY( ) );
+	pleasework.left += LONG( GetPosX( ) + GetVelX() * fElapsedTime);
+	pleasework.right += LONG( GetPosX( ) + GetVelX() * fElapsedTime);
+	pleasework.top += LONG( GetPosY( ) + GetVelY() * fElapsedTime);
+	pleasework.bottom += LONG( GetPosY( ) + GetVelY() * fElapsedTime);
+
+	SetWidth(pleasework.right - pleasework.left);
+	SetHeight((pleasework.bottom - pleasework.top) + (temp.top - draw.top));
 
 	return pleasework;
 }
+
 void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 {
 

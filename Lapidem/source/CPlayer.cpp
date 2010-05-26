@@ -365,6 +365,7 @@ RECT CPlayer::GetCollisionRect(float fElapsedTime)
 	pleasework.top += LONG( GetPosY() );
 	pleasework.bottom += LONG( GetPosY() );
 
+
 	return pleasework;
 }
 

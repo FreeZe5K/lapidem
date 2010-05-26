@@ -20,6 +20,7 @@ private:
 	bool	   m_bBurning;
 	bool       m_bIsFrozen;
 	int		   m_nAnimation;
+	float	   m_fScale;
 
 public:
 
