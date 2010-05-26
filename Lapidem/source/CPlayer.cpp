@@ -360,7 +360,6 @@ RECT CPlayer::GetCollisionRect(float fElapsedTime)
 		pleasework.bottom = pleasework.top + (temp.bottom - temp.top);
 	}
 
-	
 	pleasework.left += LONG( GetPosX() );
 	pleasework.right +=  LONG( GetPosX() );
 	pleasework.top += LONG( GetPosY() );
