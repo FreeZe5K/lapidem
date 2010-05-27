@@ -41,7 +41,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			SetVelX(25.0f);
 			SetVelY(0.0f);
 			( ( AIStateEarth* )currState )->SetInitPos( int( GetPosX( ) ), int( GetPosY( ) ) );
-			SetHeight( 100 );
+			SetHeight( 80 );
 			SetWidth( 135 );
 			m_nHealth      = 80 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetWindLevel() * 10);
 			m_SpellType    = OBJ_EARTH;
@@ -58,7 +58,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			SetVelX(75.0f);
 			SetVelY(0.0f);
 			SetHeight( 54 );
-			SetWidth ( 16 );
+			SetWidth ( 32 );
 			m_nHealth      = 50 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetEarthLevel() * 7);
 			m_SpellType    = OBJ_FIRE;
 			currDirec      = RIGHT;
@@ -441,10 +441,11 @@ RECT CEnemy::GetCollisionRect(float fElapsedTime)
 	pleasework.right       += LONG( GetPosX( ) + GetVelX( ) * fElapsedTime );
 	pleasework.top         += LONG( GetPosY( ) + GetVelY( ) * fElapsedTime );
 	pleasework.bottom      += LONG( GetPosY( ) + GetVelY( ) * fElapsedTime );
-
-	SetWidth(pleasework.right - pleasework.left + temp.left- draw.left);
-	SetHeight(draw.bottom- draw.top+ temp.top - draw.top);
-
+	if(!dynamic_cast<AIStateWind*>(currState))
+	{
+		SetWidth(draw.right - draw.left);
+		SetHeight(draw.bottom- draw.top);
+	}
 	return pleasework;
 }
 
