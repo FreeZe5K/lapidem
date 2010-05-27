@@ -244,11 +244,10 @@ bool CMenuState::Input( )
 
 void CMenuState::Update( float fET )
 {
-	if( m_nAttractTimer > 15000 ) // 1000
-	{
-		m_nAttractTimer = 0;
+	m_nAttractTimer++;
+
+	if( m_nAttractTimer > 800 && m_nAttractTimer < 802 )
 		CGame::GetInstance( )->PushState( CAttractState::GetInstance( ) );
-	} else ++m_nAttractTimer;
 }
 
 void CMenuState::Render( )

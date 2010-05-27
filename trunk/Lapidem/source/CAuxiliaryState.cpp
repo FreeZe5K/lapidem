@@ -21,9 +21,11 @@ void CAuxiliaryState::Enter( )
 
 	m_nChoice       = 0;
 	m_nCreditScroll = 500;
+	m_nHowToAlpha   = 215;
 
 	m_nImageID[0]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_MainMenuBG.png" );
-	m_nImageID[1]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_HowToPlay.png" );
+	m_nImageID[1]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_HowToPlayOne.png" );
+	m_nImageID[2]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_PressAnyKey.png" );
 
 	CGameplayState::GetInstance( )->SetPlayerReachedEnd( false );
 	m_HS.Load( "resource/data/scores.bin" );
@@ -175,7 +177,11 @@ void CAuxiliaryState::Update( float fET )
 	else if( m_nState == 1 )
 	{ /* High Scores */ }
 	else if( m_nState == 2 )
-	{ /* How To Play */ }
+	{ 
+		if( m_nHowToAlpha < 180 )
+			m_nHowToAlpha = 255;
+		else --m_nHowToAlpha;
+	}
 	else if( m_nState == 3 ) // Credits
 	{
 		if( --m_nCreditScroll < -490 )
@@ -186,8 +192,13 @@ void CAuxiliaryState::Update( float fET )
 void CAuxiliaryState::Render( )
 {
 	if( m_nState == 2 )
+	{
 		m_pTM->Draw( m_nImageID[1], 0, 0, 1.0f, 1.0f, 
 		NULL, 0.0f, 0.0f, 0.0f, ARGB( 200, 255, 255, 255 ) );
+		
+		m_pTM->Draw( m_nImageID[2], 0, 0, 1.0f, 1.0f, 
+		NULL, 0.0f, 0.0f, 0.0f, ARGB( m_nHowToAlpha, 255, 255, 255 ) );
+	}
 	else
 		m_pTM->Draw( m_nImageID[0], 0, 0, 1.0f, 1.0f, 
 		NULL, 0.0f, 0.0f, 0.0f, ARGB( 200, 255, 255, 255 ) );
@@ -482,8 +493,6 @@ void CAuxiliaryState::Render( )
 	}
 	else if( m_nState == 2 ) // How To Play
 	{
-		CGame::GetInstance( )->GetFont( )->Draw( "PRESS ANY KEY TO CONTINUE", 45, 
-			450, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 	}
 	else if( m_nState == 3 ) // Credits
 	{
@@ -752,6 +761,7 @@ void CAuxiliaryState::Exit( )
 		m_pWM->Reset( CGame::GetInstance( )->GetLostMusic( ) );
 	}
 
+	m_pTM->UnloadTexture( m_nImageID[2] );
 	m_pTM->UnloadTexture( m_nImageID[1] );
 	m_pTM->UnloadTexture( m_nImageID[0] );
 }

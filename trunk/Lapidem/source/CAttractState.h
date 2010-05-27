@@ -1,8 +1,4 @@
 #pragma once
-#pragma comment(lib, "strmiids.lib")
-
-#define WM_GRAPHNOTIFY      WM_APP + 1
-
 #include "IGameState.h"
 #include "CGame.h"
 #include <DShow.h>
@@ -17,12 +13,11 @@ class CSGD_DirectInput;
 class CAttractState : public IGameState
 {
 private:
-	HWND                    main_hwnd;
-
-	IGraphBuilder           *m_pGraphBuilder;
-	IMediaControl           *m_pMediaControl;
-	IVideoWindow            *m_pVideoWindow;
-	IMediaEventEx           *m_pMediaEvent;
+	int                     m_nSSImageID[5];
+	int	                    m_nCurrentPosition;
+	int                     m_nTimer;
+	bool                    m_bSecond;
+	bool                    m_bAllowedToPlay;
 
 	CSGD_Direct3D           *m_pD3D;
 	CSGD_DirectInput        *m_pDI;
@@ -38,11 +33,8 @@ private:
 public:
 	static CAttractState* GetInstance( );
 
-	void SetHWND( HWND _h )      { main_hwnd = _h;     }
-	HWND GetHWND( )              { return main_hwnd;   }
-
-	void PlayFile( );
-	void HandlePlayEvent( );
+	bool GetOneSecond( )     { return m_bSecond; }
+	void SetOneSecond( )     { m_bSecond = true; }
 
 	void Enter( );
 	bool Input( );

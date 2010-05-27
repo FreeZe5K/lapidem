@@ -194,6 +194,9 @@ bool CGame::Main( )
 		m_nFrameCount       = 0;
 		m_dwFPSTimeStamp    = GetTickCount( );
 
+		if( !CAttractState::GetInstance( )->GetOneSecond( ) )
+			CAttractState::GetInstance( )->SetOneSecond( );
+
 		if( !m_bIsPaused ) --m_nTimeLeft;
 	}
 

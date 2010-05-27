@@ -350,14 +350,9 @@ void CEnemy::Update( float fElapsedTime )
 		}
 	}
 	animation->Update(fElapsedTime);
-	if(GetVelX() <0)
-	{
+	if( GetVelX( ) < 0 )
 		IsRotated = true;
-	}
-	else
-	{
-		IsRotated = false;
-	}
+	else IsRotated = false; 
 }
 
 void CEnemy::Render()
@@ -377,9 +372,7 @@ void CEnemy::Render()
 					int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) + GetWidth( ) ), 
 					int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
 					-m_fScale, m_fScale, &animation->GetFrames( )->DrawRect );
-			}
-			else CBase::Render( );
-
+			} else CBase::Render( );
 		} 
 	}
 	else
@@ -397,40 +390,38 @@ void CEnemy::Render()
 					int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) + GetWidth( ) ), 
 					int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
 					-m_fScale, m_fScale, &animation->GetFrames( )->DrawRect );
-			}
-			else CBase::Render( );
+			} else CBase::Render( );
 		} 
 	}
-	
 }
 
 RECT CEnemy::GetCollisionRect(float fElapsedTime)
 {
 	RECT temp = animation->GetFrames()->CollisionRect;
 	RECT draw = animation->GetFrames()->DrawRect;
-	
 	RECT pleasework;
+
 	if(IsRotated)
 	{
-		pleasework.left =  ((temp.left- draw.left)* m_fScale);
-		pleasework.right = pleasework.left + ((temp.right - temp.left) * m_fScale);
-		pleasework.top =  ((temp.top- draw.top) * m_fScale);
-		pleasework.bottom = pleasework.top + ((temp.bottom- temp.top) * m_fScale);
+		pleasework.left    = LONG( ( temp.left - draw.left )* m_fScale );
+		pleasework.right   = LONG( pleasework.left + ( ( temp.right - temp.left) * m_fScale) );
+		pleasework.top     = LONG( ( temp.top - draw.top ) * m_fScale );
+		pleasework.bottom  = LONG( pleasework.top + ( ( temp.bottom - temp.top ) * m_fScale ) );
 	}
 	else
 	{
 		POINT anchor = animation->GetFrames()->AnchorPoint;
 
-		pleasework.left = ((temp.left - draw.left) * m_fScale)  - ((temp.left - anchor.x) * m_fScale);
-		pleasework.right = pleasework.left + ((temp.right - temp.left) * m_fScale);
-		pleasework.top = ((temp.top - draw.top) * m_fScale);
-		pleasework.bottom = pleasework.top + ((temp.bottom - temp.top) *m_fScale);
+		pleasework.left    = LONG( ( ( temp.left - draw.left ) * m_fScale )  - ( ( temp.left - anchor.x ) * m_fScale ) );
+		pleasework.right   = LONG( pleasework.left + ( ( temp.right - temp.left ) * m_fScale ) );
+		pleasework.top     = LONG( ( temp.top - draw.top ) * m_fScale );
+		pleasework.bottom  = LONG( pleasework.top + ( ( temp.bottom - temp.top ) *m_fScale ) );
 	}
 
-	pleasework.left += LONG( GetPosX( ) + GetVelX() * fElapsedTime);
-	pleasework.right += LONG( GetPosX( ) + GetVelX() * fElapsedTime);
-	pleasework.top += LONG( GetPosY( ) + GetVelY() * fElapsedTime);
-	pleasework.bottom += LONG( GetPosY( ) + GetVelY() * fElapsedTime);
+	pleasework.left        += LONG( GetPosX( ) + GetVelX( ) * fElapsedTime );
+	pleasework.right       += LONG( GetPosX( ) + GetVelX( ) * fElapsedTime );
+	pleasework.top         += LONG( GetPosY( ) + GetVelY( ) * fElapsedTime );
+	pleasework.bottom      += LONG( GetPosY( ) + GetVelY( ) * fElapsedTime );
 
 	SetWidth(pleasework.right - pleasework.left);
 	SetHeight(draw.bottom- draw.top);
