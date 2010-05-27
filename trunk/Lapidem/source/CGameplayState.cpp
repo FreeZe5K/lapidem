@@ -418,7 +418,7 @@ void CGameplayState::Update( float fET )
 	{
 		int GameTime( CGame::GetInstance( )->GetTimeLeft( ) );
 
-		if( GameTime <  180)
+		if(GameTime <  180)
 			GameTime = 2;
 		else GameTime = 1;
 
@@ -458,7 +458,7 @@ void CGameplayState::Update( float fET )
 			m_pWM->Play( CGame::GetInstance( )->GetLevelThreeMusic( ), DSBPLAY_LOOPING );
 	}
 
-	if(m_bBossSpawned && thaBoss->GetHealth() <= 0)
+	if(m_bBossSpawned && thaBoss->GetHealth() <= 0 && strcmp(thaBoss->GetAnimation()->GetTrigger(),"Dead") ==0)
 	{
 		CGameOver::GetInstance( )->SetState( 2 );
 		CGameOver::GetInstance( )->SetCondition( 1 );

@@ -37,7 +37,7 @@ void CFlock::RemoveMember(CEnemy* removeme)
 	if(removeme == NULL)
 		return;
 
-	if(m_vFlock.size()> 0)
+	if(m_vFlock.size() > 0)
 	{
 		vector<CEnemy*>::iterator iter = m_vFlock.begin();
 
