@@ -43,7 +43,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			m_SpellType    = OBJ_EARTH;
 			currDirec      = RIGHT;
 			m_nAnimation = m_SpellType +1;
-			m_fScale = 1.0f;
+			m_fScale = .8f;
 			SetAnimation(OBJ_EARTH +1,0);
 		} break;
 	case OBJ_FIRE:
@@ -58,7 +58,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			m_nHealth      = 50 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetEarthLevel() * 7);
 			m_SpellType    = OBJ_FIRE;
 			currDirec      = RIGHT;
-			m_fScale = 0.8f;
+			m_fScale = 0.5f;
 			m_nAnimation = m_SpellType +1;
 			SetAnimation(OBJ_FIRE +1,0);
 
@@ -75,7 +75,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			SetAnimation(1,0);
 			m_nHealth      = 50 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetFireLevel() * 7);
 			m_SpellType    = OBJ_ICE;
-			m_fScale = 0.6f;
+			m_fScale = 0.5f;
 			currDirec      = RIGHT;
 			m_nAnimation = m_SpellType +1;
 			SetAnimation(OBJ_ICE +1,0);
@@ -386,12 +386,12 @@ void CEnemy::Render()
 	{
 		if( animation )
 		{
-			if( animation->GetImageID( ) != -1 && !IsRotated )
+			if( animation->GetImageID( ) != -1 && IsRotated )
 				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
 				int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) ),
 				int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
 				m_fScale, m_fScale, &animation->GetFrames( )->DrawRect );
-			else if( animation->GetImageID( ) != -1 && IsRotated )
+			else if( animation->GetImageID( ) != -1 && !IsRotated )
 			{
 				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
 					int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) + GetWidth( ) ), 
@@ -433,7 +433,7 @@ RECT CEnemy::GetCollisionRect(float fElapsedTime)
 	pleasework.bottom += LONG( GetPosY( ) + GetVelY() * fElapsedTime);
 
 	SetWidth(pleasework.right - pleasework.left);
-	SetHeight((pleasework.bottom - pleasework.top) + (temp.top - draw.top));
+	SetHeight(draw.bottom- draw.top);
 
 	return pleasework;
 }
