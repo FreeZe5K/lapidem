@@ -32,59 +32,77 @@ int AIStateFire::Update( float fElapsedTime, CEnemy* theEnemy )
 	posx = posx - theEnemy->GetPosX( );
 	posy = posy - theEnemy->GetPosY( );
 
-	posx = posx * posx;
-	posy = posy * posy;
-
-	posx = posx + posy;
+	/*posx = posx + posy*/;
 
 	CPlayer* two = CGameplayState::GetInstance( )->GetPlayerTwo( );
-	float dist2( 1000 );
 
-	if( two )
+	if(two)
 	{
-		float posx2 = two->GetPosX() - theEnemy->GetPosX();
-		float posy2 = two->GetPosY() - theEnemy->GetPosY();
+		float posx2, posy2;
+		posx2 = two->GetPosX() - theEnemy->GetPosX();
+		posy2 = two->GetPosY() - theEnemy->GetPosY();
 
-		posy2 = posy2 * posy2;
-		posx2 = posx2 * posx2;
-
-		posx2 += posy2;
-
-		dist2 = sqrt(posx2);
+		if (posx2 < posx)
+			if(posx2 < 300 && posx2 > -300)
+				if(posy2 < 200 && posy2 > -200)
+					return 2;
 	}
 
-	float dist = sqrt( posx );
+	if(posx < 150 && posx > -150)
+		if(posy < 200 && posy > -200)
+			return 1;
+	//float dist2( 1000 );
 
-	if( dist2 < dist && dist2 < 300 )
-	{
-		if( dist2 < 100 )
-		{
-			if( two->GetPosX( ) > theEnemy->GetPosX( ) )
-				theEnemy->SetVelX( -150.0f );
-			else if( two->GetPosX( ) > theEnemy->GetPosX( ) )
-				theEnemy->SetVelX( 150.0f );
-		}
+	//if( two )
+	//{
+	//	float posx2 = two->GetPosX() - theEnemy->GetPosX();
+	//	float posy2 = two->GetPosY() - theEnemy->GetPosY();
 
-		theEnemy->SetVelX( 0 );
-		return 2;
-	}
-	else if( dist < 300 )
-	{
-		CPlayer* one = CGameplayState::GetInstance( )->GetPlayerOne( );
-		if( dist < 100 )
-		{
-			if( one->GetPosX( ) > theEnemy->GetPosX( ) )
-				theEnemy->SetVelX( -150.0f );
-			else if( one->GetPosX( ) > theEnemy->GetPosX( ) )
-				theEnemy->SetVelX( 150.0f );
-		} 
-		return 1;
-	}
+	//	posy2 = posy2 * posy2;
+	//	posx2 = posx2 * posx2;
+
+	//	posx2 += posy2;
+
+	//	dist2 = sqrt(posx2);
+	//}
+
+	//float dist = sqrt( posx );
+
+	//if( dist2 < dist && dist2 < 300 )
+	//{
+	//	if( dist2 < 100 )
+	//	{
+	//		if( two->GetPosX( ) > theEnemy->GetPosX( ) )
+	//			theEnemy->SetVelX( -150.0f );
+	//		else if( two->GetPosX( ) > theEnemy->GetPosX( ) )
+	//			theEnemy->SetVelX( 150.0f );
+	//	}
+
+	//	theEnemy->SetVelX( 0 );
+	//	return 2;
+	//}
+	//else if( dist < 300 )
+	//{
+	//	CPlayer* one = CGameplayState::GetInstance( )->GetPlayerOne( );
+	//	if( dist < 100 )
+	//	{
+	//		if( one->GetPosX( ) > theEnemy->GetPosX( ) )
+	//			theEnemy->SetVelX( -150.0f );
+	//		else if( one->GetPosX( ) > theEnemy->GetPosX( ) )
+	//			theEnemy->SetVelX( 150.0f );
+	//	} 
+	//	return 1;
+	//}
 		pTerrain = (CTerrainBase*)CheckPassable(pLevel, theEnemy, fElapsedTime);
 		if(pTerrain && fireTimer <= 0.0f)
 		{
+			if(pTerrain->GetTypeTerrain() == T_BOUNDARY)
+				theEnemy->SetVelX( -theEnemy->GetVelX() );
+			else
+			{
 			CSpellFactory::GetInstance()->CreateEnemyFire(theEnemy, pTerrain);
 			fireTimer = 1.0f;
+			}
 		}
 
 
@@ -93,9 +111,8 @@ int AIStateFire::Update( float fElapsedTime, CEnemy* theEnemy )
 
 void AIStateFire::Attack( CCharacter* pTarget, CCharacter* pShooter )
 {
-	if( pTarget && fireTimer <= 0.0f)
+	if( pTarget )
 	{
-		fireTimer = 2.0f;
 		CSpellFactory::GetInstance()->CreateEnemyFire(pShooter, pTarget);
 	}
 }

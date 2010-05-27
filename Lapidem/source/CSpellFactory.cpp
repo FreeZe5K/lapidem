@@ -361,8 +361,8 @@ void CSpellFactory::CreateEnemyFire(CCharacter * pShooter, CBase * pTarget)
 
 	newfire->ShotBy(false);
 
-	newfire->SetPosX(pShooter->GetPosX() + pShooter->GetWidth());
-	newfire->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
+	newfire->SetPosX(pShooter->GetPosX() + pShooter->GetWidth() * .5);
+	newfire->SetPosY(pShooter->GetPosY() - 2);
 
 
 	//////////////////////////////
@@ -388,7 +388,7 @@ void CSpellFactory::CreateEnemyFire(CCharacter * pShooter, CBase * pTarget)
 	//
 	//////////////////////////
 
-	newfire->SetDamage(20);
+	newfire->SetDamage(10 * CGameplayState::GetInstance()->GetDifficulty());
 	newfire->SetDOT(0);
 	newfire->SetLifespan(5.0f);
 	newfire->SetActive(true);
@@ -1215,7 +1215,7 @@ void CSpellFactory::CreateEnemyWind(CCharacter * pShooter, CBase * pTarget)
 	// End Bug Fix
 	//
 	//////////////////////////
-	newWind->SetDamage(3);
+	newWind->SetDamage(CGameplayState::GetInstance()->GetDifficulty() + 1);
 	newWind->SetLifespan(5.0f);
 	newWind->SetActive(true);
 	newWind->SetTier(1);
@@ -1263,7 +1263,7 @@ void CSpellFactory::CreateEnemyIce(CCharacter * pShooter, CBase * pTarget)
 	//
 	//////////////////////////
 
-	newIce->SetDamage(10);
+	newIce->SetDamage(10 * CGameplayState::GetInstance()->GetDifficulty());
 	newIce->SetLifespan(5.0f);
 	newIce->SetActive(true);
 	newIce->SetTier(1);
