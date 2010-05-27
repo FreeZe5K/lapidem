@@ -80,6 +80,8 @@ public:
 	void setFireEnergy( int _i )  { m_nFireEnergy   = _i; }
 	void setEarthEnergy( int _i ) { m_nEarthEnergy  = _i; }
 	void setIceEnergy( int _i )   { m_nWaterEnergy  = _i; }
-	void SetAttack( int _i )	  { m_nAttack  = _i;	  }
+	void SetAttack( int _i);
+	///Animation Protection
+	///Energy Level consideration;
 
 };

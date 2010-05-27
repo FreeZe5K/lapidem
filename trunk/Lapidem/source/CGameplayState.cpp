@@ -306,32 +306,22 @@ bool CGameplayState::Input( )
 		m_pDI->JoystickButtonDown( 7 ) )
 	{
 		//m_pPlayerOne->Attack( 1 );
-		if(m_pPlayerOne->GetAnimationType() != 1)
-		{	
+			
 			m_pPlayerOne->SetAttack(1);
-			m_pPlayerOne->SetAnimation(0,2);
-		}
+		
 	}
 
 	if( m_pDI->KeyDown( DIK_R ) || m_pDI->JoystickButtonDown( 1 ) || 
 		m_pDI->JoystickButtonDown( 6 ) )
 	{
-		if(m_pPlayerOne->GetAnimationType() != 1)
-		{
 			//m_pPlayerOne->Attack( 2 );
 			m_pPlayerOne->SetAttack(2);
-			m_pPlayerOne->SetAnimation(0,2);
-		}
 	}
 
 	if( m_pDI->KeyPressed( DIK_T ) || m_pDI->JoystickButtonDown( 2 ))
 	{	
-		if(m_pPlayerOne->GetAnimationType() != 1)
-		{
 			m_pPlayerOne->SetAttack(3);
-			m_pPlayerOne->SetAnimation(0,2);
 			//m_pPlayerOne->Attack( 3 );
-		}
 	}
 
 	if( m_pDI->KeyPressed( DIK_1 ) )
@@ -378,16 +368,16 @@ bool CGameplayState::Input( )
 
 		if(m_pDI->KeyDown( DIK_RSHIFT ) || m_pDI->JoystickButtonDown( 0, 1 ) || 
 			m_pDI->JoystickButtonDown( 7, 1 ) )
-			m_pPlayerTwo->Attack( 1 );
+			m_pPlayerTwo->SetAttack( 1 );
 
 		if(m_pDI->KeyDown( DIK_NUMPAD0 ) || m_pDI->JoystickButtonDown( 1, 1 ) ||
 			m_pDI->JoystickButtonDown( 6, 1 ) )
-			m_pPlayerTwo->Attack( 2 );
+			m_pPlayerTwo->SetAttack( 2 );
 
 		if(m_pDI->KeyDown( DIK_NUMPADENTER ) || m_pDI->JoystickButtonDown( 2, 1 ) )
-			m_pPlayerTwo->Attack( 3 );
+			m_pPlayerTwo->SetAttack( 3 );
 
-		if(m_pDI->KeyDown( DIK_NUMPAD1 ))
+		if(m_pDI->KeyPressed( DIK_NUMPAD1 ))
 		{
 			if(m_pPlayerTwo->GetEleType() == OBJ_WIND )
 				m_pPlayerTwo->SetEleType( OBJ_EARTH );
@@ -395,9 +385,15 @@ bool CGameplayState::Input( )
 		}
 
 		if( m_pDI->JoystickButtonPressed( 4, 1 ) )
-			m_pPlayerTwo->SetEleType( OBJ_WIND );
+			if(m_pPlayerTwo->GetEleType() == OBJ_EARTH)
+				m_pPlayerTwo->SetEleType( OBJ_WIND );
+			else
+				m_pPlayerTwo->SetEleType( OBJ_EARTH);
 		else if( m_pDI->JoystickButtonPressed( 5, 1 ) )
-			m_pPlayerTwo->SetEleType( OBJ_EARTH );
+			if(m_pPlayerTwo->GetEleType() == OBJ_WIND)
+				m_pPlayerTwo->SetEleType( OBJ_EARTH );
+			else
+				m_pPlayerTwo->SetEleType( OBJ_WIND ) ;
 	}
 
 	if( m_pDI->KeyPressed( DIK_M ) ) m_bMapActive = !m_bMapActive;

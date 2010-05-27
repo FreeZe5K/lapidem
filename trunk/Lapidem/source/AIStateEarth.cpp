@@ -31,54 +31,67 @@ int AIStateEarth::Update( float fElapsedTime, CEnemy* theEnemy )
 	posx = posx - theEnemy->GetPosX( );
 	posy = posy - theEnemy->GetPosY( );
 
-	posx = posx * posx;
-	posy = posy * posy;
-
-	posx = posx + posy;
+	/*posx = posx + posy*/;
 
 	CPlayer* two = CGameplayState::GetInstance( )->GetPlayerTwo( );
-	float dist2( 1000 );
 
-	if( two )
+	if(two)
 	{
-		float posx2 = two->GetPosX() - theEnemy->GetPosX();
-		float posy2 = two->GetPosY() - theEnemy->GetPosY();
+		float posx2, posy2;
+		posx2 = two->GetPosX() - theEnemy->GetPosX();
+		posy2 = two->GetPosY() - theEnemy->GetPosY();
 
-		posy2 = posy2 * posy2;
-		posx2 = posx2 * posx2;
-
-		posx2 += posy2;
-
-		dist2 = sqrt(posx2);
+		if (posx2 < posx)
+			if(posx2 < 200 && posx2 > -200)
+				if(posy2 < 150 && posy2 > -150)
+					return 2;
 	}
 
-	float dist = sqrt( posx );
+	if(posx < 200 && posx > -200)
+		if(posy < 150 && posy > -150)
+			return 1;
+	//float dist2( 1000 );
 
-	if( dist2 < dist && dist2 < 300 )
-	{
-		if( dist2 < 100 )
-		{
-			if( two->GetPosX( ) > theEnemy->GetPosX( ) )
-				theEnemy->SetVelX( -150.0f );
-			else if( two->GetPosX( ) > theEnemy->GetPosX( ) )
-				theEnemy->SetVelX( 150.0f );
-		}
+	//if( two )
+	//{
+	//	float posx2 = two->GetPosX() - theEnemy->GetPosX();
+	//	float posy2 = two->GetPosY() - theEnemy->GetPosY();
 
-		theEnemy->SetVelX( 0 );
-		return 2;
-	}
-	else if( dist < 300 )
-	{
-		CPlayer* one = CGameplayState::GetInstance( )->GetPlayerOne( );
-		if( dist < 100 )
-		{
-			if( one->GetPosX( ) > theEnemy->GetPosX( ) )
-				theEnemy->SetVelX( -150.0f );
-			else if( one->GetPosX( ) > theEnemy->GetPosX( ) )
-				theEnemy->SetVelX( 150.0f );
-		} 
-		return 1;
-	}
+	//	posy2 = posy2 * posy2;
+	//	posx2 = posx2 * posx2;
+
+	//	posx2 += posy2;
+
+	//	dist2 = sqrt(posx2);
+	//}
+
+	//float dist = sqrt( posx );
+
+	//if( dist2 < dist && dist2 < 300 )
+	//{
+	//	if( dist2 < 100 )
+	//	{
+	//		if( two->GetPosX( ) > theEnemy->GetPosX( ) )
+	//			theEnemy->SetVelX( -150.0f );
+	//		else if( two->GetPosX( ) > theEnemy->GetPosX( ) )
+	//			theEnemy->SetVelX( 150.0f );
+	//	}
+
+	//	theEnemy->SetVelX( 0 );
+	//	return 2;
+	//}
+	//else if( dist < 300 )
+	//{
+	//	CPlayer* one = CGameplayState::GetInstance( )->GetPlayerOne( );
+	//	if( dist < 100 )
+	//	{
+	//		if( one->GetPosX( ) > theEnemy->GetPosX( ) )
+	//			theEnemy->SetVelX( -150.0f );
+	//		else if( one->GetPosX( ) > theEnemy->GetPosX( ) )
+	//			theEnemy->SetVelX( 150.0f );
+	//	} 
+	//	return 1;
+	//}
 
 	return 0;
 }

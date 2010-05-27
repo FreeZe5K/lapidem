@@ -282,9 +282,12 @@ void CPlayer::Update( float fElapsedTime )
 
 	if(GetVelY() > 100)
 	{
-		SetAnimation(0,3);
-		animation->SetFrameNum(3);
-		m_bIsJumping = true;
+		CHANGE_ANIM
+		{
+			SetAnimation(0,3);
+			animation->SetFrameNum(3);
+			m_bIsJumping = true;
+		}
 	}
 	else if(GetVelX() == 0 && !m_bIsJumping)
 	{
@@ -376,6 +379,38 @@ RECT CPlayer::GetCollisionRect(float fElapsedTime)
 
 
 	return pleasework;
+
+}
+
+void CPlayer::SetAttack(int _i)
+{
+	m_nAttack  = _i; 
+	
+	if(_i == 3 && GetT3Count() <= 0)
+		return;
+
+	if(_i == 2)
+	switch(GetEleType())
+	{
+	case OBJ_FIRE:
+		if(GetFireEnergy() <= 0)
+			return;
+		break;
+	case OBJ_WIND:
+		if(GetWindEnergy() <= 0)
+			return;
+		break;
+	case OBJ_EARTH:
+		if(GetEarthEnergy() <= 0)
+			return;
+		break;
+	case OBJ_ICE:
+		if(GetIceEnergy() <=0)
+			return;
+		break;
+	}
+	CHANGE_ANIM
+		SetAnimation(0, 2);
 }
 
 void CPlayer::Render(void)
