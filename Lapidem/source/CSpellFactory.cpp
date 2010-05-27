@@ -361,7 +361,7 @@ void CSpellFactory::CreateEnemyFire(CCharacter * pShooter, CBase * pTarget)
 
 	newfire->ShotBy(false);
 
-	newfire->SetPosX(pShooter->GetPosX() + pShooter->GetWidth()  * .5f);
+	newfire->SetPosX(pShooter->GetPosX() + pShooter->GetWidth());
 	newfire->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
 
 
@@ -441,6 +441,9 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 				newfire->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 250);
 				newfire->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 250);
 
+				if(newfire->GetVelX() > 0)
+					newfire->SetPosX(pShooter->GetPosX() + pShooter->GetWidth());
+
 
 				/////////////////
 				// End Bug Fix
@@ -453,6 +456,9 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 			else
 			{
 				DIRECTION wheretoshoot = pShooter->GetDirection();
+
+				if( wheretoshoot == RIGHT || wheretoshoot == RIGHT_UP || wheretoshoot == RIGHT_DOWN)
+					newfire->SetPosX(pShooter->GetPosX() + pShooter->GetWidth());
 				switch(wheretoshoot)
 				{
 				case 0:
@@ -633,6 +639,8 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 				newice->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 200);
 				newice->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 200);
 
+				if(newice->GetVelX() > 0)
+					newice->SetPosX( pShooter->GetPosX() + pShooter->GetWidth() );
 
 				/////////////
 				//End Bug Fix
@@ -641,6 +649,8 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 			else
 			{
 				DIRECTION wheretoshoot = pShooter->GetDirection( );
+				if( wheretoshoot == RIGHT || wheretoshoot == RIGHT_UP || wheretoshoot == RIGHT_DOWN)
+					newice->SetPosX(pShooter->GetPosX() + pShooter->GetWidth());
 				switch( wheretoshoot )
 				{
 				case 0:
@@ -795,6 +805,9 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 					newwind->SetVelX( xComp / sqrt(( xComp * xComp + yComp * yComp )) * 300);
 					newwind->SetVelY( yComp / sqrt(( xComp * xComp + yComp * yComp )) * 300);
 
+					if(newwind->GetVelX() > 0)
+						newwind->SetPosX(pShooter->GetPosX() + pShooter->GetWidth());
+
 
 					/////////////////
 					// End Bug Fix
@@ -804,6 +817,8 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 				else
 				{
 					DIRECTION wheretoshoot = pShooter->GetDirection();
+					if( wheretoshoot == RIGHT || wheretoshoot == RIGHT_UP || wheretoshoot == RIGHT_DOWN)
+						newwind->SetPosX(pShooter->GetPosX() + pShooter->GetWidth());
 
 					switch(wheretoshoot)
 					{
