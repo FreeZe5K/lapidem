@@ -23,7 +23,7 @@ void StickyNumbers::Render()
 	if(strcmp(m_szText, "0"))
 	CGame::GetInstance()->GetFont()->Draw(m_szText,  (int)(GetPosX() - CCamera::GetCamera()->GetXOffset()),
 													 (int)(GetPosY() - CCamera::GetCamera()->GetYOffset()),
-													 .75f, D3DCOLOR_ARGB(m_nAlpha, 255, 255, 255));
+													 .9f, D3DCOLOR_ARGB(m_nAlpha, 255, 255, 255));
 }
 
 void StickyNumbers::SetText(const char *text)
