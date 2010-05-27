@@ -34,8 +34,10 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 	case OBJ_EARTH:
 		{
 			currState = new AIStateEarth( );
+			SetHeight( 100 );
+			SetWidth( 135 );
 			SetPosX(initx);
-			SetPosY(inity);
+			SetPosY(inity - GetHeight());
 			SetVelX(25.0f);
 			SetVelY(0.0f);
 			( ( AIStateEarth* )currState )->SetInitPos( int( GetPosX( ) ), int( GetPosY( ) ) );
@@ -52,7 +54,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 		{
 			currState = new AIStateFire( );
 			SetPosX(initx);
-			SetPosY(inity);
+			SetPosY(inity - 55);
 			SetVelX(75.0f);
 			SetVelY(0.0f);
 			SetHeight( 54 );
@@ -69,7 +71,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 		{
 			currState = new AIStateIce( );
 			SetPosX(initx);
-			SetPosY(inity);
+			SetPosY(inity - 55);
 			SetVelX(50.0f);
 			SetVelY(0.0f);
 			SetHeight( 64 );
@@ -449,7 +451,7 @@ RECT CEnemy::GetCollisionRect(float fElapsedTime)
 void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 {
 
-	if(collidingObject->GetType() < 0)
+	if(collidingObject->GetType() < 0 || GetHealth() <= 0)
 		return;
 
 	if( collidingObject->GetType() == OBJ_TERRA )
