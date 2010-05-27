@@ -25,6 +25,8 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 	m_fFrozenSpeed  = 0.5f;
 	m_fFreezeTimer  = 0.0f;
 	m_fChangeAnimationTimer = 0.76f;
+	LastFrame = NULL;
+	m_fLastPosition = inity;
 
 
 	if(!boss)
@@ -238,6 +240,26 @@ void CEnemy::Update( float fElapsedTime )
 	}
 	if(m_nHealth >0)
 	{
+		
+		Frame * currFrame = (animation->GetAllFrames())[animation->GetFrame()];
+
+		if(LastFrame && currAnimation == 2 || currAnimation == 1)
+		{
+			float oldheight = m_fLastPosition + (LastFrame->DrawRect.bottom - LastFrame->DrawRect.top) * m_fScale;
+
+			while(oldheight < GetPosY() + (currFrame->DrawRect.bottom - currFrame->DrawRect.top) * m_fScale)
+			{
+				SetPosY(GetPosY() - 1);
+			}
+			while(oldheight > GetPosY() + (currFrame->DrawRect.bottom - currFrame->DrawRect.top) * m_fScale)
+			{
+				SetPosY(GetPosY() + 1);
+			}
+		}
+
+		LastFrame = currFrame;
+		m_fLastPosition = GetPosY();
+
 		if(!m_bKnockBack)
 		{
 			m_fShotTimer = m_fShotTimer - fElapsedTime;
@@ -318,7 +340,7 @@ void CEnemy::Update( float fElapsedTime )
 			{
 				m_fBurnTimer -= 1.0f;
 				StickyNumbers* SN = new StickyNumbers();
-				SN->SetTimer(5.0f);
+				SN->SetTimer(2.5f);
 				SN->SetPosX( GetPosX());
 				SN->SetPosY( GetPosY() - 24);
 				char buffer[16];
@@ -526,7 +548,7 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 			if(spelltype != OBJ_EARTH)
 			{
 				StickyNumbers* SN = new StickyNumbers();
-				SN->SetTimer(20.0f);
+				SN->SetTimer(2.5);
 				SN->SetPosX( GetPosX());
 				SN->SetPosY( GetPosY() - 24);
 
@@ -548,7 +570,7 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 			( spelltype == OBJ_WIND && EleType == OBJ_EARTH ) )
 		{
 			StickyNumbers* SN = new StickyNumbers();
-			SN->SetTimer(20.0f);
+			SN->SetTimer(2.5);
 			SN->SetPosX( GetPosX());
 			SN->SetPosY( GetPosY() - 24);
 
@@ -567,7 +589,7 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 			(spelltype == OBJ_WIND && EleType == OBJ_ICE) )
 		{
 			StickyNumbers* SN = new StickyNumbers();
-			SN->SetTimer(5.0f);
+			SN->SetTimer(2.5f);
 			SN->SetPosX( GetPosX());
 			SN->SetPosY( GetPosY() - 24);
 
@@ -584,7 +606,7 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 		else if(spelltype != EleType)
 		{
 			StickyNumbers* SN = new StickyNumbers();
-			SN->SetTimer(10.0f);
+			SN->SetTimer(2.5);
 			SN->SetPosX( GetPosX());
 			SN->SetPosY( GetPosY() - 24);
 

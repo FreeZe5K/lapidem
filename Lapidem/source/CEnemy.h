@@ -3,6 +3,7 @@
 
 class IAIState;
 
+struct Frame;
 class CFlock;
 class CEnemy : public CCharacter
 {
@@ -22,6 +23,8 @@ private:
 	bool       m_bIsFrozen;
 	int		   m_nAnimation;
 	float	   m_fScale;
+	Frame*     LastFrame;
+	float      m_fLastPosition;
 
 public:
 
