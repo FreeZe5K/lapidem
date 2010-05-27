@@ -15,12 +15,10 @@
 
 #define VLD_AGGREGATE_DUPLICATES         //  Don't report same leak.
 #define VLD_MAX_DATA_DUMP   0            //  Don't show the hex I can't read.
-#define WM_GRAPHNOTIFY      WM_APP + 1
 
 //#include <vld.h>                         //  For memory leak detection.
 #include "CGame.h"                       //  This is our game,
 #include "resource.h"                    //  Our icon.
-#include "CAttractState.h"
 
 const char* g_szWINDOW_CLASS_NAME   = "LAPIDEM_CLASS";          //  Window Class Name.
 const char* g_szWINDOW_TITLE        = "Lapidem";                //  Window Title.
@@ -55,11 +53,6 @@ LRESULT CALLBACK WindowProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam )
 		{
 			// Sends us a WM_DESTROY
 			DestroyWindow( hWnd );			
-		} break;
-
-	case WM_GRAPHNOTIFY:
-		{
-			CAttractState::GetInstance( )->HandlePlayEvent( );
 		} break;
 
 		//	and lose/gain focus
@@ -234,8 +227,6 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	if ( !hWnd )
 		return 0;
 
-	CAttractState::GetInstance( )->SetHWND( hWnd );
-
 	ShowWindow( hWnd, nCmdShow );
 	UpdateWindow( hWnd );
 
@@ -260,8 +251,6 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 			//	Send the message to the window proc
 			DispatchMessage( &msg );
 		}
-
-		//hWnd = CAttractState::GetInstance( )->GetHWND( );
 
 		//////////////////////////////////
 		//	Put Game Logic Here

@@ -614,10 +614,6 @@ void CGameplayState::Update( float fET )
 
 		m_fMMCurrentRotation[4] = Lapidem_Math::GetInstance( )->
 			AngleBetweenVectors( m_tDir, _end );
-
-		// Internal bug fix
-		//if( theLevel.GetLevelEndX( ) < m_pPlayerOne->GetPosX( ) )
-		//	m_fMMCurrentRotation[4] *= -1;
 	}
 
 	m_pCoM->UpdateObjects( CGame::GetInstance( )->GetElapsedTime( ) );

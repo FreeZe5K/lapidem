@@ -46,7 +46,8 @@ private:
 
 	int                     m_nState;
 	int                     m_nChoice;
-	int                     m_nImageID[2];
+	int                     m_nHowToAlpha;
+	int                     m_nImageID[3];
 	int                     m_nCreditScroll;
 
 	/////////////////////////
