@@ -150,7 +150,6 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 		SetHeight(60);
 		m_fScale = 1.0f;
 		SetWidth(50);
-		SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapidem_WomanBoss.png", D3DCOLOR_XRGB(0, 0, 0)));
 		m_nHealth = 1500;
 		m_SpellType = OBJ_EARTH;
 		currDirec = RIGHT;
