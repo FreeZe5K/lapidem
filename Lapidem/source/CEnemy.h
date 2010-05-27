@@ -31,6 +31,7 @@ public:
 
 	CEnemy( EleType, float, float, int boss = 0, CFlock* Flock = NULL ); 
 	~CEnemy();
+	CAnimation* GetAnimation(void) {return animation;}
 	void Render(void);
 	RECT GetCollisionRect(float fElapsedTime);
 	void Update( float );

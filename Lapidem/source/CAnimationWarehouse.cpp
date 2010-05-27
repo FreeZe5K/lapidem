@@ -110,5 +110,10 @@ void CAnimationWarehouse::Init(void)
 	LoadAnimationSet("resource/data/windEnemy2.Anim", D3DCOLOR_XRGB(255, 255, 255),"resource/graphics/bird.png");
 	LoadAnimationSet("resource/data/Enemy.anim", D3DCOLOR_XRGB(255, 255, 255) ,"resource/graphics/rock_128.png");
 
+	LoadAnimationSet("resource/data/docEnemy.Anim",D3DCOLOR_XRGB(255, 255, 255) ,"resource/graphics/DoctorBoss.png");
 	LoadAnimationSet("resource/data/sisEnemy.Anim",D3DCOLOR_XRGB(128, 128, 255) ,"resource/graphics/MiH_BlondeBarbie.png");
+	LoadAnimationSet("resource/sisEnemy.Anim",D3DCOLOR_XRGB(128, 128, 255) ,"resource/graphics/MiH_BlondeBarbie.png");
+
+
+
 }
