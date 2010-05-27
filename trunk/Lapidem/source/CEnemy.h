@@ -13,6 +13,7 @@ private:
 	float	   m_fKnockBack;
 	float      m_fBurnTimer;
 	float      m_fFreezeTimer;
+	float	   m_fChangeAnimationTimer;
 	float      m_fFrozenSpeed;
 	int        m_nAttackWho;
 	int		   m_nBurnDamage;
