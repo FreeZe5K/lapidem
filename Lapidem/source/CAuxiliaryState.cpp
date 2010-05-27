@@ -51,6 +51,32 @@ bool CAuxiliaryState::Input( )
 				m_nChoice = 0;
 		}
 
+		if( m_pDI->KeyPressed( DIK_LEFT ) )
+		{
+			if( m_nChoice == 2 )
+			{ 
+				if( 1 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+				{ /* DO NOTHING */ }
+				else if( 2 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+					CGameplayState::GetInstance( )->SetDifficulty( 1 );
+				else if( 3 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+					CGameplayState::GetInstance( )->SetDifficulty( 2 );
+			}
+		}
+
+		if( m_pDI->KeyPressed( DIK_RIGHT ) )
+		{
+			if( m_nChoice == 2 )
+			{ 
+				if( 1 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+				CGameplayState::GetInstance( )->SetDifficulty( 2 );
+				else if( 2 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+					CGameplayState::GetInstance( )->SetDifficulty( 3 );
+				else if( 3 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+				{ /* DO NOTHING */ }
+			}
+		}
+
 		if( m_pDI->KeyDown( DIK_LEFT ) || m_pDI->JoystickDPadDown( 0 ) || m_pDI->JoystickGetLStickXNormalized() < 0 )
 		{
 			// Music Volume
@@ -62,10 +88,6 @@ bool CAuxiliaryState::Input( )
 			else if( m_nChoice == 1 )
 				CGame::GetInstance( )->SetSoundFXVolume( 
 				CGame::GetInstance( )->GetSoundFXVolume( ) - 1 );
-
-			// Resolution
-			else if( m_nChoice == 2 )
-			{ /* TODO */ }
 
 			// Brightness
 			else if( m_nChoice == 3 )
@@ -90,10 +112,6 @@ bool CAuxiliaryState::Input( )
 			else if( m_nChoice == 1 )
 				CGame::GetInstance( )->SetSoundFXVolume( 
 				CGame::GetInstance( )->GetSoundFXVolume( ) + 1 );
-
-			// Resolution 
-			else if( m_nChoice == 2 )
-			{ /* TODO */ }
 
 			// Brightness
 			else if( m_nChoice == 3 )
@@ -223,8 +241,36 @@ void CAuxiliaryState::Render( )
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 170, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-			CGame::GetInstance( )->GetFont( )->Draw( "RESOLUTION", 70, 
+			CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULTY", 70, 
 				200, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			if( 1 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else if( 2 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else if( 3 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
 			
 			CGame::GetInstance( )->GetFont( )->Draw( "DARKNESS", 70, 
 				250, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
@@ -269,8 +315,36 @@ void CAuxiliaryState::Render( )
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 170, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 
-			CGame::GetInstance( )->GetFont( )->Draw( "RESOLUTION", 70, 
+			CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULTY", 70, 
 				200, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			if( 1 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else if( 2 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else if( 3 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
 			
 			CGame::GetInstance( )->GetFont( )->Draw( "DARKNESS", 70, 
 				250, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
@@ -315,8 +389,36 @@ void CAuxiliaryState::Render( )
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 170, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			
-			CGame::GetInstance( )->GetFont( )->Draw( "RESOLUTION", 70, 
+			CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULTY", 70, 
 				200, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			if( 1 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else if( 2 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else if( 3 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
 			
 			CGame::GetInstance( )->GetFont( )->Draw( "DARKNESS", 70, 
 				250, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
@@ -361,8 +463,36 @@ void CAuxiliaryState::Render( )
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 170, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			
-			CGame::GetInstance( )->GetFont( )->Draw( "RESOLUTION", 70, 
+			CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULTY", 70, 
 				200, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			if( 1 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else if( 2 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else if( 3 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
 			
 			CGame::GetInstance( )->GetFont( )->Draw( "DARKNESS", 70, 
 				250, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
@@ -407,8 +537,36 @@ void CAuxiliaryState::Render( )
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 170, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			
-			CGame::GetInstance( )->GetFont( )->Draw( "RESOLUTION", 70, 
+			CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULTY", 70, 
 				200, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			if( 1 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else if( 2 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else if( 3 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
 			
 			CGame::GetInstance( )->GetFont( )->Draw( "DARKNESS", 70, 
 				250, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
@@ -453,8 +611,36 @@ void CAuxiliaryState::Render( )
 			CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 100, 170, 
 				0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 			
-			CGame::GetInstance( )->GetFont( )->Draw( "RESOLUTION", 70, 
+			CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULTY", 70, 
 				200, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+
+			if( 1 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else if( 2 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+			}
+			else if( 3 == CGameplayState::GetInstance( )->GetDifficulty( ) )
+			{
+				CGame::GetInstance( )->GetFont( )->Draw( "NORMAL", 100, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "DIFFICULT", 220, 
+					220, 0.8f, D3DCOLOR_ARGB( 120, 255, 255, 255 ) );
+				CGame::GetInstance( )->GetFont( )->Draw( "ANTHONY", 375, 
+					220, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+			}
 			
 			CGame::GetInstance( )->GetFont( )->Draw( "DARKNESS", 70, 
 				250, 0.8f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
@@ -536,22 +722,22 @@ bool CAuxiliaryState::LoadConfig( const char* _file )
 	{
 		int nMusicVol( 0 );
 		int nSFXVol( 0 );
-		int nResolutionX( 0 );
-		int nResolutionY( 0 );
+		int nDifficulty( 0 );
 		int nDarkness( 0 );
 		int nWindowed( 0 );
 
 		ifs.read( ( char* )&nMusicVol, sizeof( int ) );
 		ifs.read( ( char* )&nSFXVol, sizeof( int ) );
-		ifs.read( ( char* )&nResolutionX, sizeof( int ) );
-		ifs.read( ( char* )&nResolutionY, sizeof( int ) );
+		ifs.read( ( char* )&nDifficulty, sizeof( int ) );
 		ifs.read( ( char* )&nDarkness, sizeof( int ) );
 		ifs.read( ( char* )&nWindowed, sizeof( int ) );
 
 		CGame::GetInstance( )->SetMusicVolume( nMusicVol );
 		CGame::GetInstance( )->SetSoundFXVolume( nSFXVol );
-		
+	
 		m_nBrightness = nDarkness;
+
+		CGameplayState::GetInstance( )->SetDifficulty( nDifficulty );	
 		CGame::GetInstance( )->SetBrightness( m_nBrightness );
 		CGame::GetInstance( )->SetFSValue( nWindowed );
 
@@ -578,15 +764,13 @@ bool CAuxiliaryState::SaveConfig( const char* _file )
 	{ 
 		int nMusicVol( CGame::GetInstance( )->GetMusicVolume( ) );
 		int nSFXVol( CGame::GetInstance( )->GetSoundFXVolume( ) );
-		int nResolutionX( 0 );
-		int nResolutionY( 0 );
+		int nDifficulty( CGameplayState::GetInstance( )->GetDifficulty( ) );
 		int nDarkness( CGame::GetInstance( )->GetBrightness( ) );
 		int nWindowed( CGame::GetInstance( )->GetFSValue( ) );
 
 		ofs.write( ( char* )&nMusicVol, sizeof( int ) );
 		ofs.write( ( char* )&nSFXVol, sizeof( int ) );
-		ofs.write( ( char* )&nResolutionX, sizeof( int ) );
-		ofs.write( ( char* )&nResolutionY, sizeof( int ) );
+		ofs.write( ( char* )&nDifficulty, sizeof( int ) );
 		ofs.write( ( char* )&nDarkness, sizeof( int ) );
 		ofs.write( ( char* )&nWindowed, sizeof( int ) );
 	} ofs.close( );

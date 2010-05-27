@@ -361,7 +361,7 @@ void CSpellFactory::CreateEnemyFire(CCharacter * pShooter, CBase * pTarget)
 
 	newfire->ShotBy(false);
 
-	newfire->SetPosX(pShooter->GetPosX() + pShooter->GetWidth() * .5f);
+	newfire->SetPosX(pShooter->GetPosX() + pShooter->GetWidth() * 0.5f);
 	newfire->SetPosY(pShooter->GetPosY() - 2);
 
 
