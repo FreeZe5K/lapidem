@@ -244,7 +244,7 @@ void CGameplayState::Enter( )
 	else
 	{
 		m_pPlayerOne->SetPosX( pEntry->GetPosX( ) );
-		m_pPlayerOne->SetPosY( pEntry->GetPosY( ) );
+		m_pPlayerOne->SetPosY( pEntry->GetPosY( ) - 96);
 
 		/////////////////
 		//Bug # 4 Fix
@@ -253,7 +253,7 @@ void CGameplayState::Enter( )
 		if(m_pPlayerTwo)
 		{
 			m_pPlayerTwo->SetPosX( pEntry->GetPosX( ) );
-			m_pPlayerTwo->SetPosY( pEntry->GetPosY( ) );
+			m_pPlayerTwo->SetPosY( pEntry->GetPosY( ) - 96);
 		}
 
 		//////////////
