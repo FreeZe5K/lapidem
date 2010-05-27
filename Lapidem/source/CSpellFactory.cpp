@@ -1135,7 +1135,6 @@ void CSpellFactory::CreateSpear(CSpell* pIce, CSpell* pWind)
 	pSpell->SetLifespan(5.0f);
 	pSpell->SetHeight(32);
 	pSpell->SetWidth(64);
-	//pSpell->SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource\\graphics\\Lapidem_IceSpear.png", D3DCOLOR_XRGB(255, 255, 255)));
 	pSpell->ShotBy(true);
 
 	pSpell->SetSound(pIce->GetSound());

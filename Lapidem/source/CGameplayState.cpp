@@ -134,7 +134,7 @@ void CGameplayState::Enter( )
 	// - - - - - - - - - - - - - -
 	// Note by Pablo ::
 	// Background image will be handled by the CLevel.
-	m_nImageID[0]   = m_pTM->LoadTexture( "resource/graphics/placeholderArt.png");
+	m_nImageID[0]   = -1;
 	m_nImageID[1]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_ISinglePlayer.png" );
 	m_nImageID[2]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_IMultiPlayer.png" );
 	m_nImageID[3]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_Minimap.png" );
@@ -873,7 +873,6 @@ void CGameplayState::Exit( )
 	m_pTM->UnloadTexture( m_nImageID[3] );
 	m_pTM->UnloadTexture( m_nImageID[2] );
 	m_pTM->UnloadTexture( m_nImageID[1] );
-	m_pTM->UnloadTexture( m_nImageID[0] );
 	m_pCoM->RemoveAllObjects( );
 
 
