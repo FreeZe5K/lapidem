@@ -22,10 +22,14 @@ void CAuxiliaryState::Enter( )
 	m_nChoice       = 0;
 	m_nCreditScroll = 500;
 	m_nHowToAlpha   = 215;
+	m_nHowToCurrent = 1;
+	m_nHowToTimer   = 0;
 
 	m_nImageID[0]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_MainMenuBG.png" );
-	m_nImageID[1]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_HowToPlayOne.png" );
-	m_nImageID[2]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_PressAnyKey.png" );
+	m_nImageID[1]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_HowToPlayPlayer1.png" );
+	m_nImageID[2]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_HowToPlayPlayer2.png" );
+	m_nImageID[3]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_HowToPlayGamepad.png" );
+	m_nImageID[4]   = m_pTM->LoadTexture( "resource/graphics/Lapidem_PressAnyKey.png" );
 
 	CGameplayState::GetInstance( )->SetPlayerReachedEnd( false );
 	m_HS.Load( "resource/data/scores.bin" );
@@ -137,7 +141,16 @@ bool CAuxiliaryState::Input( )
 	else if( m_nState == 2 ) // How To Play
 	{
 		if( m_pDI->CheckBufferedKeysEx( ) || m_pDI->JoystickCheckBufferedButtons() != -1)
-			CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
+		{
+			if( m_nHowToTimer > 75 )
+			{
+				m_nHowToCurrent = m_nHowToCurrent + 1;
+				m_nHowToTimer = 0;
+			}
+
+			if( m_nHowToCurrent > 3 )
+				CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
+		}
 	}
 	else if( m_nState == 3 ) // Credits
 	{
@@ -196,6 +209,8 @@ void CAuxiliaryState::Update( float fET )
 	{ /* High Scores */ }
 	else if( m_nState == 2 )
 	{ 
+		m_nHowToTimer++;
+
 		if( m_nHowToAlpha < 180 )
 			m_nHowToAlpha = 255;
 		else --m_nHowToAlpha;
@@ -211,10 +226,10 @@ void CAuxiliaryState::Render( )
 {
 	if( m_nState == 2 )
 	{
-		m_pTM->Draw( m_nImageID[1], 0, 0, 1.0f, 1.0f, 
+		m_pTM->Draw( m_nImageID[m_nHowToCurrent], 0, 0, 1.0f, 1.0f, 
 		NULL, 0.0f, 0.0f, 0.0f, ARGB( 200, 255, 255, 255 ) );
 		
-		m_pTM->Draw( m_nImageID[2], 0, 0, 1.0f, 1.0f, 
+		m_pTM->Draw( m_nImageID[4], 0, 0, 1.0f, 1.0f, 
 		NULL, 0.0f, 0.0f, 0.0f, ARGB( m_nHowToAlpha, 255, 255, 255 ) );
 	}
 	else

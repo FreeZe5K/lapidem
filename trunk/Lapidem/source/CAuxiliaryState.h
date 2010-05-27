@@ -44,10 +44,12 @@ private:
 	int                     m_nBrightness;
 	bool                    m_bFullScreenON;
 
+	int                     m_nHowToTimer;
+	int                     m_nHowToCurrent;
 	int                     m_nState;
 	int                     m_nChoice;
 	int                     m_nHowToAlpha;
-	int                     m_nImageID[3];
+	int                     m_nImageID[5];
 	int                     m_nCreditScroll;
 
 	/////////////////////////
