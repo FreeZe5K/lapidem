@@ -16,6 +16,7 @@
 #include "StickyNumbers.h"
 
 
+#define CHANGE_ANIM if(m_fChangeAnimationTimer >= 1.0f)
 
 CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock* Flock )
 {
@@ -23,6 +24,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 	m_bIsFrozen     = false;
 	m_fFrozenSpeed  = 0.5f;
 	m_fFreezeTimer  = 0.0f;
+	m_fChangeAnimationTimer = 0.76f;
 
 
 	if(!boss)
@@ -129,6 +131,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 		SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Doctorboss.png"));
 		m_nHealth = 1500 + (CSpellFactory::GetInstance()->GetIceLevel() + CSpellFactory::GetInstance()->GetWindLevel() + CSpellFactory::GetInstance()->GetEarthLevel() + CSpellFactory::GetInstance()->GetFireLevel()) * 15;
 		m_SpellType = OBJ_SHIELD;
+		m_fScale = 1.0f;
 		currDirec = RIGHT;
 		SetAnimation(5,0);
 	}
@@ -141,6 +144,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 		SetVelX(0.0f);
 		SetVelY(0.0f);
 		SetHeight(60);
+		m_fScale = 1.0f;
 		SetWidth(50);
 		SetImage(CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapidem_WomanBoss.png", D3DCOLOR_XRGB(0, 0, 0)));
 		m_nHealth = 1500;
@@ -350,9 +354,22 @@ void CEnemy::Update( float fElapsedTime )
 		}
 	}
 	animation->Update(fElapsedTime);
-	if( GetVelX( ) < 0 )
-		IsRotated = true;
-	else IsRotated = false; 
+	CHANGE_ANIM
+	{
+		if(GetVelX() <30)
+		{
+			IsRotated = true;
+		}
+		else if(GetVelX() >-30)
+		{
+			IsRotated = false;
+		}
+		m_fChangeAnimationTimer =0.0f;
+	}
+	else
+	{
+		m_fChangeAnimationTimer += fElapsedTime;
+	}
 }
 
 void CEnemy::Render()
@@ -423,8 +440,8 @@ RECT CEnemy::GetCollisionRect(float fElapsedTime)
 	pleasework.top         += LONG( GetPosY( ) + GetVelY( ) * fElapsedTime );
 	pleasework.bottom      += LONG( GetPosY( ) + GetVelY( ) * fElapsedTime );
 
-	SetWidth(pleasework.right - pleasework.left);
-	SetHeight(draw.bottom- draw.top);
+	SetWidth(pleasework.right - pleasework.left + temp.left- draw.left);
+	SetHeight(draw.bottom- draw.top+ temp.top - draw.top);
 
 	return pleasework;
 }
