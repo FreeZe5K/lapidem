@@ -43,18 +43,7 @@ void CGameOver::Enter( )
 
 bool CGameOver::Input( )
 {
-	if( 1 == m_nState )
-	{
-		// Set the state to high scores
-		if( m_bIsAllowedToExit )
-		{
-		CAuxiliaryState::GetInstance( )->SetMenuState( 1 );
-		CGame::GetInstance( )->ChangeState( CAuxiliaryState::GetInstance( ) );
-		}
 
-	}
-	else if( 2 == m_nState )
-	{
 		// Set the state to high scores
 		/*if( m_bIsAllowedToExit )
 		{
@@ -84,7 +73,7 @@ bool CGameOver::Input( )
 		else if( m_pDI->KeyPressedEx ( DIK_RIGHT ) )
 			m_nLetterSelection++;	
 	
-	}
+	
 
 	return true;
 }
@@ -114,18 +103,13 @@ void CGameOver::Render( )
 	if( 1 == m_nState ) // Player lost
 	{
 		m_pTM->Draw( m_nImageID[0], 0, 0 );
-		if( 0 == m_nCondition ) // Timer ran out
-		{
-		}
-		else if( 1 == m_nCondition ) // Health ran out
-		{
-		}
+		
 	}
 	else if( 2 == m_nState ) // Player won
 	{
 		m_pTM->Draw( m_nImageID[1], 0, 0 );
 
-
+	}
 		char cBuffer[128];
 		char szFirstLetter[] = "a";
 		char szSecondLetter[] = "a";
@@ -173,9 +157,8 @@ void CGameOver::Render( )
 		//		220, 400, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 			420, 400, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
+		
 
-
-	}
 }
 
 void CGameOver::Exit( )

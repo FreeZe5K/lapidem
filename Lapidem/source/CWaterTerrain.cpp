@@ -27,6 +27,16 @@ CWaterTerrain::~CWaterTerrain()
 
 void CWaterTerrain::Update(float fElapsedTime)
 {
+		if(m_nCurrDistance > m_nDistanceToFlood)
+	{
+		m_bIsFlooding = false;
+		/*this->SetTileID(0);
+		this->SetDamage(0);*/
+
+
+		this->SetActive(false);
+	}
+
 	if(m_bIsFlooding)
 	{
 		m_fCurrTime += fElapsedTime;
@@ -64,7 +74,7 @@ void CWaterTerrain::Update(float fElapsedTime)
 			}
 			if(!m_bTopUnFloodable)
 			{
-				if(m_bLeftUnFloodable && m_bRightUnFloodable)
+				if(m_bLeftUnFloodable && m_bRightUnFloodable && m_nCurrDistance < m_nDistanceToFlood)
 				{
 					pTopTerrain = (CTerrainBase*)pLevel->GetTile((int)this->GetPosX(), (int)this->GetPosY() - this->GetHeight());
 					if(pTopTerrain->GetTypeTerrain() != T_BOUNDARY)
@@ -103,8 +113,7 @@ void CWaterTerrain::Update(float fElapsedTime)
 	if(Corona_ObjectManager::GetInstance()->IsOnScreen(m_pControlTile) && !m_bIsFlooding)
 		m_bIsFlooding = true;
 
-	if(m_nCurrDistance >= m_nDistanceToFlood && !m_bIsFlooding)
-		this->SetActive(false);
+
 }
 
 void CWaterTerrain::HandleCollision(CBase* pBase)
