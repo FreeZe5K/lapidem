@@ -40,7 +40,6 @@ void CCharacter::Render( )
 
 void CCharacter::Update( float fElapsedTime )
 {
-
 	CBase::Update( fElapsedTime );
 	if( animation )
 	{

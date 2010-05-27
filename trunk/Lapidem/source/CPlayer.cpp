@@ -152,7 +152,8 @@ void CPlayer::Update( float fElapsedTime )
 	{
 		CHANGE_ANIM
 		{
-			SetAnimation( 0, 0 );
+			if(!m_bIsJumping)
+				SetAnimation( 0, 0 );
 		}
 
 		if( DI->KeyDown( DIK_W ) || DI->KeyDown( DIK_UP ) || 
@@ -171,7 +172,8 @@ void CPlayer::Update( float fElapsedTime )
 	{
 		CHANGE_ANIM
 		{
-			SetAnimation( 0,0 );
+			if(!m_bIsJumping)
+				SetAnimation( 0,0 );
 		}
 
 		if( DI->KeyDown( DIK_W ) || DI->KeyDown( DIK_UP ) || 
@@ -190,19 +192,13 @@ void CPlayer::Update( float fElapsedTime )
 		( GetPlayerID( ) == 2 && DI->KeyDown( DIK_UP ) ) || 
 		DI->JoystickDPadDown( 2, GetPlayerID( ) - 1 ) )
 		currDirec = UP;
-	else 
-	{
-		CHANGE_ANIM
-		{
-			SetAnimation( 0, 4 );
-		}
-	}
 
 	if(DI->JoystickGetLStickXNormalized( GetPlayerID() - 1) < 0)
 	{
 		CHANGE_ANIM
 		{
-			SetAnimation(0,4);
+			if(!m_bIsJumping)
+				SetAnimation(0,0);
 		}
 
 		if(DI->JoystickGetLStickYNormalized(GetPlayerID() - 1) < 0)
@@ -216,7 +212,8 @@ void CPlayer::Update( float fElapsedTime )
 	{
 		CHANGE_ANIM
 		{
-			SetAnimation(0 , 0);
+			if(!m_bIsJumping)
+				SetAnimation(0 , 0);
 		}
 
 		if(DI->JoystickGetLStickYNormalized(GetPlayerID() - 1) < 0)
@@ -282,6 +279,18 @@ void CPlayer::Update( float fElapsedTime )
 			SetAnimation(0,4);
 		}
 	}*/	
+
+	if(GetVelY() > 100)
+	{
+		SetAnimation(0,3);
+		animation->SetFrameNum(3);
+		m_bIsJumping = true;
+	}
+	else if(GetVelX() == 0 && !m_bIsJumping)
+	{
+		CHANGE_ANIM
+			SetAnimation(0,4);
+	}
 
 	//////////////////////////////
 	// Bug #1 Fix

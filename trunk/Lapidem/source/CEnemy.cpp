@@ -262,8 +262,8 @@ void CEnemy::Update( float fElapsedTime )
 			{
 				m_fWaitTimer = m_fWaitTimer + fElapsedTime;
 
-				if(m_SpellType !=OBJ_WIND)
-					SetPosY( GetPosY( ) + 150.0f * fElapsedTime );
+				/*if(m_SpellType !=OBJ_WIND)
+					SetPosY( GetPosY( ) + 150.0f * fElapsedTime );*/
 
 				
 				char* pleasework = animation->GetTrigger();
