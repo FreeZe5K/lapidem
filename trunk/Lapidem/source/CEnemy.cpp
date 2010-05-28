@@ -51,7 +51,7 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 			m_SpellType    = OBJ_EARTH;
 			currDirec      = RIGHT;
 			m_nAnimation = m_SpellType +1;
-			m_fScale = .8f;
+			m_fScale = .65f;
 			SetAnimation(OBJ_EARTH +1,0);
 		} break;
 	case OBJ_FIRE:
