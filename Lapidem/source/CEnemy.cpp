@@ -15,6 +15,8 @@
 #include "CTerrainBase.h"
 #include "StickyNumbers.h"
 
+#include "CEmitter.h"
+
 
 #define CHANGE_ANIM if(m_fChangeAnimationTimer >= 1.0f)
 
@@ -190,9 +192,12 @@ CEnemy::~CEnemy( )
 	if(!(rand() % 20))
 	{
 		newpickup->SetType(OBJ_T3SPELL);
-		newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_SuperEnergy.png"));
+		//newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_SuperEnergy.png"));
 		newpickup->SetWidth(32);
 		newpickup->SetHeight(32);
+		CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/powerSpecial.lapipt",newpickup->GetPosX(),newpickup->GetPosY());
+		newpickup->SetEmitter(hahaiworknow);
+		CParticleManager::GetInstance()->AddEmitter(newpickup->GetEmitter());
 
 	}
 	else
@@ -201,30 +206,43 @@ CEnemy::~CEnemy( )
 		if(GetEleType() == OBJ_EARTH)
 		{
 			newpickup->SetEleType(OBJ_EARTH);
-			newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_EarthEnergy.png"));
+			//newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_EarthEnergy.png"));
 			newpickup->SetWidth(64);
 			newpickup->SetHeight(48);
+		CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/powerEarth.lapipt",newpickup->GetPosX(),newpickup->GetPosY());
+		newpickup->SetEmitter(hahaiworknow);
+		CParticleManager::GetInstance()->AddEmitter(newpickup->GetEmitter());
 		}
 		else if(GetEleType() == OBJ_FIRE)
 		{
 			newpickup->SetEleType(OBJ_FIRE);
-			newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_FireEnergy.png"));
+			//newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_FireEnergy.png"));
 			newpickup->SetWidth(64);
 			newpickup->SetHeight(48);
+		CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/powerFire.lapipt",newpickup->GetPosX(),newpickup->GetPosY());
+		newpickup->SetEmitter(hahaiworknow);
+		CParticleManager::GetInstance()->AddEmitter(newpickup->GetEmitter());
 		}
 		else if(GetEleType() == OBJ_ICE)
 		{
 			newpickup->SetEleType(OBJ_ICE);
-			newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_IceEnergy.png"));
+			//newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_IceEnergy.png"));
 			newpickup->SetWidth(64);
 			newpickup->SetHeight(48);
+			
+		CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/powerIce.lapipt",newpickup->GetPosX(),newpickup->GetPosY());
+		newpickup->SetEmitter(hahaiworknow);
+		CParticleManager::GetInstance()->AddEmitter(newpickup->GetEmitter());
 		}
 		else
 		{
 			newpickup->SetEleType(OBJ_WIND);
-			newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_WindEnergy.png"));
+			//newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_WindEnergy.png"));
 			newpickup->SetWidth(64);
 			newpickup->SetHeight(58);
+		CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/powerWind.lapipt",newpickup->GetPosX(),newpickup->GetPosY());
+		newpickup->SetEmitter(hahaiworknow);
+		CParticleManager::GetInstance()->AddEmitter(newpickup->GetEmitter());
 		}
 	}
 	Corona_ObjectManager::GetInstance()->AddObject(newpickup);
