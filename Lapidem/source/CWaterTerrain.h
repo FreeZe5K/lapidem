@@ -9,6 +9,7 @@ class CWaterTerrain : public CTerrainBase//, public CLDevice
 	int m_nCurrDistance;
 
 	bool m_bIsFlooding;
+	bool m_bStartFlooding;
 
 	float m_fFloodSpeed;
 	float m_fCurrTime;
