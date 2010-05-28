@@ -226,7 +226,7 @@ void CSpellFactory::CreateEarth(CCharacter* pShooter, int nTier)
 				newearth->SetPosY(pShooter->GetPosY() + pShooter->GetHeight());
 				newearth->SetVelX(0.0f);
 				newearth->SetVelY(-75.0f);
-				newearth->SetDamage(20 + 4* m_nEarthLVL);
+				newearth->SetDamage(0 + 4* m_nEarthLVL);
 				newearth->SetLifespan(15.0f + 1.5f* m_nEarthLVL);
 				newearth->SetActive(true);
 				newearth->SetTier(nTier);
@@ -512,7 +512,7 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 				}
 			}
 
-			newfire->SetDamage(12 + (3 * m_nFireLVL));
+			newfire->SetDamage(6 + (3 * m_nFireLVL));
 			newfire->SetDOT(3 + (1 * (m_nFireLVL>>1)));
 			newfire->SetLifespan(7.5f);
 			newfire->SetActive(true);
@@ -534,7 +534,7 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 			newfire->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() - 32);
 			newfire->SetVelX(100);
 			newfire->SetVelY(50);
-			newfire->SetDamage(2 + (2 * m_nFireLVL));
+			newfire->SetDamage(1 + (2 * m_nFireLVL));
 			newfire->SetDOT(3);
 			newfire->SetLifespan(10.f);
 			newfire->SetTier(nTier);
@@ -704,7 +704,7 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 				}
 			}
 
-			newice->SetDamage( 12 + 2 * m_nIceLVL );
+			newice->SetDamage( 6 + 2 * m_nIceLVL );
 			newice->SetSlow( 10.0f + 2.0f * m_nIceLVL );
 			newice->SetWidth( 32 );
 			newice->SetHeight( 16 );
@@ -729,7 +729,7 @@ void CSpellFactory::CreateIce(CCharacter* pShooter, int nTier)
 			newice->SetPosY( pShooter->GetPosY( ) + pShooter->GetHeight( ) * .25f);
 			newice->SetVelX( 50 );
 			newice->SetVelY( 0 );
-			newice->SetDamage( 5 + 2 * m_nIceLVL );
+			newice->SetDamage( 2 + 2 * m_nIceLVL );
 			newice->SetSlow( 75.0f + 2.0f * m_nIceLVL );
 			newice->SetWidth( 16);
 			newice->SetHeight( 8 );
@@ -878,7 +878,7 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 
 				newwind->SetActive(true);
 				newwind->SetElement(OBJ_WIND);
-				newwind->SetDamage(10 + m_nWindLVL);
+				newwind->SetDamage(5 + m_nWindLVL);
 				newwind->SetPushBack(10.0f + 5 * m_nWindLVL);
 				newwind->SetLifespan(5.0f);
 				newwind->SetTier(nTier);
@@ -1007,7 +1007,7 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 				/////////////////
 				newwind->SetActive(true);
 				newwind->SetElement(OBJ_WIND);
-				newwind->SetDamage(10 + m_nWindLVL);
+				newwind->SetDamage(2 + m_nWindLVL);
 				newwind->SetPushBack(10.0f + 5 *m_nWindLVL);
 				newwind->SetLifespan(.4f);
 				newwind->SetTier(nTier);
@@ -1032,7 +1032,7 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 				((CPlayer*)pShooter)->SetShielded(true);
 				newwind->SetActive(true);
 				newwind->SetElement(OBJ_WIND);
-				newwind->SetDamage(0);
+				newwind->SetDamage(m_nWindLVL);
 				newwind->SetPushBack(5.0f + 5 *m_nWindLVL);
 				newwind->SetLifespan(30.0f);
 				newwind->SetTier(nTier);
