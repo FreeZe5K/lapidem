@@ -2,7 +2,7 @@
 #include "stdheaders.h"
 #include "CTerrainBase.h"
 
-
+#include "CTAirCurrent.h"
 #define PILLAR_HEIGHT 80
 
 struct Vector2d
@@ -331,6 +331,14 @@ void CEarth::HandleCollision(float fElapsedTime, CBase* pObject )
 				}
 				pObject->MoveOutOf( this, fElapsedTime );
 			}
+
+		
+		}
+
+		if( pObject->GetType() == OBJ_EVENT && ((CTerrainBase*)pObject)->GetTypeTerrain() == AIR_CURRENT )
+		{
+			((CTAirCurrent*)pObject)->SetTransform(3.0f);
+			
 		}
 	}
 	else if( 2 == GetTier( ) )
