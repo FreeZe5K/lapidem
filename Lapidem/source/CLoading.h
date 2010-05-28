@@ -13,6 +13,8 @@ private:
 	int                     m_nCurrentProgress;
 	int                     m_nProposedProgress;
 
+	bool                    m_bLoadedFromInGame;
+
 	CLoading( )  { /* DO NOTHING */ }
 	~CLoading( ) { /* DO NOTHING */ }
 	CLoading( const CLoading& );
@@ -26,6 +28,9 @@ public:
 	void Update( float );
 	void Render( );
 	void Exit( );
+
+	bool GetLoadedFromInGame( )         { return m_bLoadedFromInGame;    }
+	void SetLoadedFromInGame( bool _b ) { m_bLoadedFromInGame = _b;      }
 
 	void SetProgress( int );
 };

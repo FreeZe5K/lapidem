@@ -45,6 +45,12 @@ void CLoading::Exit( )
 {
 	m_pTM->UnloadTexture( m_nProgressID );
 	m_pTM->UnloadTexture( m_nBackgroundID );
+
+	if( m_bLoadedFromInGame )
+	{
+		m_bLoadedFromInGame = false;
+		CGame::GetInstance( )->PopState( );
+	}
 }
 
 void CLoading::SetProgress( int _prop )

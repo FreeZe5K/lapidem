@@ -341,6 +341,7 @@ bool CPauseMenuState::Input( )
 					CGameplayState::GetInstance( )->GetPlayerTwo( )->setIceEnergy( 
 						CMenuState::GetInstance( )->GetSlotOne( ).manaP2.nIce );
 				}
+
 				CLoading::GetInstance( )->SetProgress( 500 );
 
 				CGameplayState::GetInstance( )->SetPlayerOneScore( 
@@ -350,8 +351,10 @@ bool CPauseMenuState::Input( )
 
 				m_nChoice  = 0;
 				m_nState   = 0;
-				CGame::GetInstance( )->SetPaused( false );
+				
+				CLoading::GetInstance( )->SetLoadedFromInGame( true );
 				CLoading::GetInstance( )->SetProgress( 640 );
+				CGame::GetInstance( )->SetPaused( false );
 			}
 			else if( m_nChoice == 1 ) // Load slot 2
 			{
@@ -412,8 +415,10 @@ bool CPauseMenuState::Input( )
 
 				m_nChoice  = 0;
 				m_nState   = 0;
-				CGame::GetInstance( )->SetPaused( false );
+				
+				CLoading::GetInstance( )->SetLoadedFromInGame( true );
 				CLoading::GetInstance( )->SetProgress( 640 );
+				CGame::GetInstance( )->SetPaused( false );
 			}
 			else if( m_nChoice == 2 ) // Load slot 3
 			{
@@ -474,8 +479,10 @@ bool CPauseMenuState::Input( )
 
 				m_nChoice  = 0;
 				m_nState   = 0;
-				CGame::GetInstance( )->SetPaused( false );
+				
+				CLoading::GetInstance( )->SetLoadedFromInGame( true );
 				CLoading::GetInstance( )->SetProgress( 640 );
+				CGame::GetInstance( )->SetPaused( false );
 			} 
 			else 
 			{
