@@ -1,4 +1,3 @@
 t3 twitch fix
-loading in pause
 
 balance.

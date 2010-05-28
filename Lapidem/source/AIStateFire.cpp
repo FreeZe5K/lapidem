@@ -5,25 +5,11 @@
 
 int AIStateFire::Update( float fElapsedTime, CEnemy* theEnemy )
 {
-
 	fireTimer -= fElapsedTime;
 
-	//int nBottomX, nBottomY;
 	CLevel* pLevel = CGameplayState::GetInstance()->GetLevel();
 
-	//int nDistanceToNext = theEnemy->GetVelX() > 0 ? (theEnemy->GetWidth() + (pLevel->GetTileWidth()>>1)) : -(pLevel->GetTileWidth()>>1);
-
-	//nBottomX = (int)(theEnemy->GetPosX() + nDistanceToNext + theEnemy->GetVelX() * fElapsedTime);
-	//nBottomY = (int)(theEnemy->GetPosY()) + theEnemy->GetHeight() + (pLevel->GetTileHeight()>>1);
-
-	CTerrainBase* pTerrain = NULL ;// ;(CTerrainBase*)pLevel->GetTile(nBottomX, nBottomY);
-
-	//if(pTerrain)
-	//{
-	//	if(pTerrain->GetTypeTerrain() == T_EMPTY)		// empty tile
-	//		theEnemy->SetVelX(-theEnemy->GetVelX());	// turning back
-	//		
-	//}
+	CTerrainBase* pTerrain = NULL;
 
 	float posx, posy;
 	posx = CGameplayState::GetInstance( )->GetPlayerOne( )->GetPosX( );
@@ -31,8 +17,6 @@ int AIStateFire::Update( float fElapsedTime, CEnemy* theEnemy )
 
 	posx = posx - theEnemy->GetPosX( );
 	posy = posy - theEnemy->GetPosY( );
-
-	/*posx = posx + posy*/;
 
 	CPlayer* two = CGameplayState::GetInstance( )->GetPlayerTwo( );
 
@@ -51,59 +35,18 @@ int AIStateFire::Update( float fElapsedTime, CEnemy* theEnemy )
 	if(posx < 200 && posx > -200)
 		if(posy < 150 && posy > -150)
 			return 1;
-	//float dist2( 1000 );
 
-	//if( two )
-	//{
-	//	float posx2 = two->GetPosX() - theEnemy->GetPosX();
-	//	float posy2 = two->GetPosY() - theEnemy->GetPosY();
-
-	//	posy2 = posy2 * posy2;
-	//	posx2 = posx2 * posx2;
-
-	//	posx2 += posy2;
-
-	//	dist2 = sqrt(posx2);
-	//}
-
-	//float dist = sqrt( posx );
-
-	//if( dist2 < dist && dist2 < 300 )
-	//{
-	//	if( dist2 < 100 )
-	//	{
-	//		if( two->GetPosX( ) > theEnemy->GetPosX( ) )
-	//			theEnemy->SetVelX( -150.0f );
-	//		else if( two->GetPosX( ) > theEnemy->GetPosX( ) )
-	//			theEnemy->SetVelX( 150.0f );
-	//	}
-
-	//	theEnemy->SetVelX( 0 );
-	//	return 2;
-	//}
-	//else if( dist < 300 )
-	//{
-	//	CPlayer* one = CGameplayState::GetInstance( )->GetPlayerOne( );
-	//	if( dist < 100 )
-	//	{
-	//		if( one->GetPosX( ) > theEnemy->GetPosX( ) )
-	//			theEnemy->SetVelX( -150.0f );
-	//		else if( one->GetPosX( ) > theEnemy->GetPosX( ) )
-	//			theEnemy->SetVelX( 150.0f );
-	//	} 
-	//	return 1;
-	//}
-		pTerrain = (CTerrainBase*)CheckPassable(pLevel, theEnemy, fElapsedTime);
-		if(pTerrain && fireTimer <= 0.0f)
+	pTerrain = (CTerrainBase*)CheckPassable(pLevel, theEnemy, fElapsedTime);
+	if(pTerrain && fireTimer <= 0.0f)
+	{
+		if(pTerrain->GetTypeTerrain() == T_BOUNDARY)
+			theEnemy->SetVelX( -theEnemy->GetVelX() );
+		else
 		{
-			if(pTerrain->GetTypeTerrain() == T_BOUNDARY)
-				theEnemy->SetVelX( -theEnemy->GetVelX() );
-			else
-			{
 			CSpellFactory::GetInstance()->CreateEnemyFire(theEnemy, pTerrain);
 			fireTimer = 1.0f;
-			}
 		}
+	}
 
 
 	return 0;
@@ -122,15 +65,18 @@ CBase* AIStateFire::CheckPassable(CLevel* pLevel, CBase* pObject, float fElapsed
 	CTerrainBase* pTerrain = NULL;
 
 	if(pObject->GetVelX() < 0)
-		pTerrain = (CTerrainBase*)pLevel->GetTile(pObject->GetPosX() - 16, pObject->GetPosY() + pObject->GetHeight() * .5f + pObject->GetVelY() * fElapsedTime);
+		pTerrain = ( CTerrainBase* )pLevel->GetTile( int( pObject->GetPosX( ) - 16 ), 
+		 int( pObject->GetPosY( ) + pObject->GetHeight( ) * 0.5f + pObject->GetVelY( ) * fElapsedTime ) );
 	else
-		pTerrain = (CTerrainBase*)pLevel->GetTile(pObject->GetPosX() + pObject->GetWidth() + 16 + pObject->GetVelX() * fElapsedTime, pObject->GetPosY() + pObject->GetHeight() * .5f + pObject->GetVelY() * fElapsedTime);
-		
-		if(pTerrain && pTerrain->GetType() != OBJ_EVENT)
-		{
-			if(pTerrain->GetTypeTerrain() != T_EMPTY)
-				return pTerrain;
-		}
+		pTerrain = ( CTerrainBase* )pLevel->GetTile( int( pObject->GetPosX( ) + pObject->GetWidth() + 
+		16 + pObject->GetVelX( ) * fElapsedTime ), int( pObject->GetPosY( ) + pObject->GetHeight( ) * 0.5f + 
+		pObject->GetVelY( ) * fElapsedTime ) );
+
+	if(pTerrain && pTerrain->GetType() != OBJ_EVENT)
+	{
+		if(pTerrain->GetTypeTerrain() != T_EMPTY)
+			return pTerrain;
+	}
 
 	return NULL;
 }

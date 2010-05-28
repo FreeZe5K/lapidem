@@ -375,33 +375,6 @@ void CPlayer::Update( float fElapsedTime )
 }
 RECT CPlayer::GetCollisionRect(float fElapsedTime)
 {
-	/*RECT temp = animation->GetFrames()->CollisionRect;
-	RECT draw = animation->GetFrames()->DrawRect;
-	RECT pleasework;
-
-	if(!IsRotated || (GetEleType() == OBJ_WIND && IsRotated))
-	{
-		pleasework.left    = LONG( ( temp.left - draw.left )* m_fScale );
-		pleasework.right   = LONG( pleasework.left + ( ( temp.right - temp.left) * m_fScale) );
-		pleasework.top     = LONG( ( temp.top - draw.top ) * m_fScale );
-		pleasework.bottom  = LONG( pleasework.top + ( ( temp.bottom - temp.top ) * m_fScale ) );
-	}
-	else
-	{
-		POINT anchor = animation->GetFrames()->AnchorPoint;
-
-		pleasework.left    = LONG( ( ( temp.left - draw.left ) * m_fScale )  - ( ( temp.left - anchor.x ) * m_fScale ) );
-		pleasework.right   = LONG( pleasework.left + ( ( temp.right - temp.left ) * m_fScale ) );
-		pleasework.top     = LONG( ( temp.top - draw.top ) * m_fScale );
-		pleasework.bottom  = LONG( pleasework.top + ( ( temp.bottom - temp.top ) *m_fScale ) );
-	}
-
-	pleasework.left        += LONG( GetPosX( ) + GetVelX( ) * fElapsedTime );
-	pleasework.right       += LONG( GetPosX( ) + GetVelX( ) * fElapsedTime );
-	pleasework.top         += LONG( GetPosY( ) + GetVelY( ) * fElapsedTime );
-	pleasework.bottom      += LONG( GetPosY( ) + GetVelY( ) * fElapsedTime );
-	*/
-
 	RECT  AnimationCollisionRect = animation->GetFrames()->CollisionRect;
 	RECT  AnimationRenderRect    = animation->GetFrames()->DrawRect;
 	POINT AnimationAnchorPoint   = animation->GetFrames()->AnchorPoint;
@@ -411,23 +384,24 @@ RECT CPlayer::GetCollisionRect(float fElapsedTime)
 
 	if(!IsRotated)
 	{
-		collisionRect.top    = GetPosY();
-		collisionRect.bottom = GetPosY() + (AnimationRenderRect.bottom   - AnimationCollisionRect.top);
-		collisionRect.left   = GetPosX() + (AnimationCollisionRect.left  - AnimationRenderRect.left) - (AnimationCollisionRect.left - AnimationAnchorPoint.x);
-		collisionRect.right  = GetPosX() + ((AnimationCollisionRect.left - AnimationRenderRect.left)   + (AnimationCollisionRect.right - AnimationCollisionRect.left))- (AnimationCollisionRect.left - AnimationAnchorPoint.x);
+		collisionRect.top    = LONG( GetPosY( ) );
+		collisionRect.bottom = LONG( GetPosY( ) + ( AnimationRenderRect.bottom   - AnimationCollisionRect.top ) );
+		collisionRect.left   = LONG( GetPosX( ) + ( AnimationCollisionRect.left  - AnimationRenderRect.left ) - ( AnimationCollisionRect.left - AnimationAnchorPoint.x ) );
+		collisionRect.right  = LONG( GetPosX( ) + ( ( AnimationCollisionRect.left - AnimationRenderRect.left) + 
+			(AnimationCollisionRect.right - AnimationCollisionRect.left))- (AnimationCollisionRect.left - AnimationAnchorPoint.x) );
 	}
 	else
 	{
-		collisionRect.top    = GetPosY();
-		collisionRect.bottom = GetPosY() + (AnimationRenderRect.bottom   - AnimationCollisionRect.top);
-		collisionRect.left   = GetPosX() + (AnimationCollisionRect.left  - AnimationRenderRect.left);
-		collisionRect.right  = GetPosX() + ((AnimationCollisionRect.left - AnimationRenderRect.left)   + (AnimationCollisionRect.right - AnimationCollisionRect.left));
+		collisionRect.top    = LONG( GetPosY());
+		collisionRect.bottom = LONG( GetPosY() + (AnimationRenderRect.bottom   - AnimationCollisionRect.top) );
+		collisionRect.left   = LONG( GetPosX() + (AnimationCollisionRect.left  - AnimationRenderRect.left) );
+		collisionRect.right  = LONG( GetPosX() + ((AnimationCollisionRect.left - AnimationRenderRect.left)   + (AnimationCollisionRect.right - AnimationCollisionRect.left)));
 	}
 
-	collisionRect.top    = collisionRect.top    + GetVelY() * fElapsedTime;
-	collisionRect.bottom = collisionRect.bottom + GetVelY() * fElapsedTime;
-	collisionRect.left   = collisionRect.left   + GetVelX() * fElapsedTime;
-	collisionRect.right  = collisionRect.right  + GetVelX() * fElapsedTime;
+	collisionRect.top    = LONG( collisionRect.top    + GetVelY() * fElapsedTime );
+	collisionRect.bottom = LONG( collisionRect.bottom + GetVelY() * fElapsedTime );
+	collisionRect.left   = LONG( collisionRect.left   + GetVelX() * fElapsedTime );
+	collisionRect.right  = LONG( collisionRect.right  + GetVelX() * fElapsedTime );
 		
 	return collisionRect;
 
