@@ -115,12 +115,20 @@ void CGameplayState::Enter( )
 
 	m_pWM->Stop( CGame::GetInstance( )->GetMainMenuMusic( ) );
 
-	if( 1 == m_nSlotLoadedFrom )
-		m_nCurrentLevel = CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel;
-	else if( 2 == m_nSlotLoadedFrom )
-		m_nCurrentLevel = CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel;
-	else if( 3 == m_nSlotLoadedFrom )
-		m_nCurrentLevel = CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel;
+	if( CMenuState::GetInstance( )->GetFirstTime( ) )
+	{
+		m_nCurrentLevel = 1;
+		CMenuState::GetInstance( )->SetFirstTime( false );
+	}
+	else
+	{
+		if( 1 == m_nSlotLoadedFrom )
+			m_nCurrentLevel = CAuxiliaryState::GetInstance( )->GetSlotInfoOne( )._nCurrentLevel;
+		else if( 2 == m_nSlotLoadedFrom )
+			m_nCurrentLevel = CAuxiliaryState::GetInstance( )->GetSlotInfoTwo( )._nCurrentLevel;
+		else if( 3 == m_nSlotLoadedFrom )
+			m_nCurrentLevel = CAuxiliaryState::GetInstance( )->GetSlotInfoThree( )._nCurrentLevel;
+	}
 
 	if( m_nCurrentLevel == 1 || m_nCurrentLevel < 1 || m_nCurrentLevel > 3 )
 		m_pWM->Play( CGame::GetInstance( )->GetLevelOneMusic( ), DSBPLAY_LOOPING );

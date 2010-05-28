@@ -168,11 +168,13 @@ bool CMenuState::Input( )
 			if( m_nChoice == 0 ) // Single Player
 			{
 				m_nPlayerCount = 1;
+				m_bSinglePlayersFirstTime = true;
 				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
 			}
 			else if( m_nChoice == 1 ) // Two Player
 			{
 				m_nPlayerCount = 2; 
+				m_bSinglePlayersFirstTime = true;
 				CGameplayState::GetInstance( )->bTwoPlayerMode( true );
 				CGame::GetInstance( )->ChangeState( CGameplayState::GetInstance( ) );
 			}
