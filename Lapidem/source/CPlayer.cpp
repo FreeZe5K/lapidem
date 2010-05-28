@@ -327,7 +327,7 @@ void CPlayer::Update( float fElapsedTime )
 	{
 		m_fDrownTimer -= fElapsedTime;
 		
-		if(DI->KeyDown(DIK_W))
+		if(DI->KeyDown(DIK_W) || DI->JoystickDPadDown(2, GetPlayerID() - 1) || DI->JoystickGetLStickYNormalized(GetPlayerID() - 1) < 0)
 			SetVelY(-125);
 		else
 			SetVelY(25);
