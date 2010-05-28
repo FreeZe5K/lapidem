@@ -13,7 +13,7 @@ void CGameOver::Enter( )
 	m_pDS               = CSGD_DirectSound::GetInstance( );
 	m_pWM               = CSGD_WaveManager::GetInstance( );
 	m_pDI               = CSGD_DirectInput::GetInstance( );
-
+	m_fDelay = 0.0f;
 	m_nExitTimer        = 0;
 	m_bIsAllowedToExit  = false;
 
@@ -44,36 +44,62 @@ void CGameOver::Enter( )
 bool CGameOver::Input( )
 {
 
-		// Set the state to high scores
-		/*if( m_bIsAllowedToExit )
-		{
-		CAuxiliaryState::GetInstance( )->SetMenuState( 1 );
-		CGame::GetInstance( )->ChangeState( CAuxiliaryState::GetInstance( ) );
-		}*/
+	// Set the state to high scores
+	/*if( m_bIsAllowedToExit )
+	{
+	CAuxiliaryState::GetInstance( )->SetMenuState( 1 );
+	CGame::GetInstance( )->ChangeState( CAuxiliaryState::GetInstance( ) );
+	}*/
 
-		if( m_pDI->KeyPressedEx( DIK_RETURN) ||m_pDI->KeyPressedEx( DIK_ESCAPE) || m_pDI->KeyPressedEx( DIK_SPACE ) )
+	if( m_HS.Try( m_CurrScore.score ) )
+	{
+
+		if( m_fDelay > 0.2f)
 		{
-			if( m_HS.Try( m_CurrScore.score ) )
+
+
+			if( m_pDI->KeyPressedEx( DIK_RETURN) ||m_pDI->KeyPressedEx( DIK_ESCAPE) || m_pDI->KeyPressedEx( DIK_SPACE ) || m_pDI->JoystickButtonPressed( 0 ) || m_pDI->JoystickButtonPressed( 1 ))
 			{
 				m_HS.Add( m_CurrScore.score, m_CurrScore.name );
+
+
+				m_fDelay = 0.0f;
+				CAuxiliaryState::GetInstance( )->SetMenuState( 1 );
+				CGame::GetInstance( )->ChangeState( CAuxiliaryState::GetInstance( ) );
+
 			}
 
-		CAuxiliaryState::GetInstance( )->SetMenuState( 1 );
-		CGame::GetInstance( )->ChangeState( CAuxiliaryState::GetInstance( ) );
+			if( m_pDI->KeyDown( DIK_UP )  || m_pDI->JoystickDPadDown( 2 ) || m_pDI->JoystickGetLStickYNormalized() < 0 )
+			{m_fDelay = 0.0f;
+			m_CurrScore.name[m_nLetterSelection] += 1;
+			}
+			else if( m_pDI->KeyDown( DIK_DOWN )  || m_pDI->JoystickDPadDown( 3 ) || m_pDI->JoystickGetLStickYNormalized() > 0 )
+			{
+				m_fDelay = 0.0f;
+				m_CurrScore.name[m_nLetterSelection] -= 1;
+			}
+
+			else if( m_pDI->KeyDown( DIK_LEFT )  || m_pDI->JoystickDPadDown( 0 ) || m_pDI->JoystickGetLStickXNormalized() < 0 )
+			{
+				m_fDelay = 0.0f;
+				m_nLetterSelection--;
+			}
+			else if( m_pDI->KeyDown( DIK_RIGHT )  || m_pDI->JoystickDPadDown( 1 ) || m_pDI->JoystickGetLStickXNormalized() > 0 )
+			{
+				m_fDelay = 0.0f;
+				m_nLetterSelection++;
+			}
 
 		}
+	}else
+	{
+		if( m_bIsAllowedToExit )
+	{
+	CAuxiliaryState::GetInstance( )->SetMenuState( 1 );
+	CGame::GetInstance( )->ChangeState( CAuxiliaryState::GetInstance( ) );
+	}
+	}
 
-		if( m_pDI->KeyPressedEx ( DIK_UP ) )
-			m_CurrScore.name[m_nLetterSelection] += 1;
-		else if( m_pDI->KeyPressedEx ( DIK_DOWN ) )
-			m_CurrScore.name[m_nLetterSelection] -= 1;
-
-		else if( m_pDI->KeyPressedEx ( DIK_LEFT ) )
-			m_nLetterSelection--;
-		else if( m_pDI->KeyPressedEx ( DIK_RIGHT ) )
-			m_nLetterSelection++;	
-	
-	
 
 	return true;
 }
@@ -83,6 +109,7 @@ void CGameOver::Update( float fDT )
 	if( ++m_nExitTimer > 250 )
 		m_bIsAllowedToExit = true;
 
+	m_fDelay += fDT;
 
 
 	if( m_nLetterSelection > 2 )
@@ -103,13 +130,17 @@ void CGameOver::Render( )
 	if( 1 == m_nState ) // Player lost
 	{
 		m_pTM->Draw( m_nImageID[0], 0, 0 );
-		
+
 	}
 	else if( 2 == m_nState ) // Player won
 	{
 		m_pTM->Draw( m_nImageID[1], 0, 0 );
 
 	}
+
+
+	if( m_HS.Try( m_CurrScore.score ) )
+	{
 		char cBuffer[128];
 		char szFirstLetter[] = "a";
 		char szSecondLetter[] = "a";
@@ -157,7 +188,8 @@ void CGameOver::Render( )
 		//		220, 400, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
 		CGame::GetInstance( )->GetFont( )->Draw( cBuffer, 
 			420, 400, 0.7f, D3DCOLOR_ARGB( 255, 255, 255, 255 ) );
-		
+	}
+
 
 }
 

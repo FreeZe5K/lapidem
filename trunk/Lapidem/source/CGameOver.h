@@ -20,6 +20,7 @@ private:
 	int       m_nCondition;
 	int       m_nExitTimer;
 
+	float m_fDelay;
 	int       m_nImageID[2];
 
 	bool      m_bIsAllowedToExit;

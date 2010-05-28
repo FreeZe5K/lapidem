@@ -14,6 +14,7 @@ CWaterTerrain::CWaterTerrain()
 	m_nNumFlooded = 0;
 	m_nDistanceToFlood = 0;
 	m_pControlTile = 0;
+	m_bStartFlooding = false;
 
 	//Corona_EventHandler::GetInstance()->RegisterClient(this, "Flood Tile");
 	//Corona_EventHandler::GetInstance()->RegisterClient(this, "Flood Level");
@@ -37,7 +38,7 @@ void CWaterTerrain::Update(float fElapsedTime)
 		this->SetActive(false);
 	}
 
-	if(m_bIsFlooding)
+	if(m_bStartFlooding)
 	{
 		m_fCurrTime += fElapsedTime;
 
@@ -105,13 +106,16 @@ void CWaterTerrain::Update(float fElapsedTime)
 			m_fCurrTime = 0.0f;
 		}	//m_fCurrTime >= m_fFloodSpeed
 		if(m_bLeftUnFloodable && m_bRightUnFloodable && m_bTopUnFloodable || m_nCurrDistance >= m_nDistanceToFlood)
-			m_bIsFlooding = false;
+			m_bStartFlooding = false;
 
 
 	}
 
 	if(Corona_ObjectManager::GetInstance()->IsOnScreen(m_pControlTile) && !m_bIsFlooding)
 		m_bIsFlooding = true;
+
+	if( m_bIsFlooding )
+		m_bStartFlooding = true;
 
 
 }

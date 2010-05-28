@@ -1018,7 +1018,7 @@ void CSpellFactory::CreateWind(CCharacter* pShooter, int nTier)
 				newwind->Release();
 
 
-				CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/aircurent.lapipt",0,0);
+				CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/aircurrent.lapipt",0,0);
 				newwind->SetEmitter(hahaiworknow);
 				CParticleManager::GetInstance()->AddEmitter(newwind->GetEmitter());
 
