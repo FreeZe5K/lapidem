@@ -1237,8 +1237,11 @@ void CSpellFactory::CreateEnemyIce(CCharacter * pShooter, CBase * pTarget)
 	newIce->SetElement(OBJ_ICE);
 	newIce->ShotBy(false);
 
-	newIce->SetPosX(pShooter->GetPosX() + pShooter->GetWidth()  * .5f);
-	newIce->SetPosY(pShooter->GetPosY() + pShooter->GetHeight() * .25f);
+	if(pShooter->GetPosX() < pTarget->GetPosX())
+		newIce->SetPosX(pShooter->GetPosX() + pShooter->GetWidth() + 3);
+	else
+		newIce->SetPosX(pShooter->GetPosX() - 3);
+	newIce->SetPosY(pShooter->GetPosY() - 30);
 	//////////////////////////////
 	// Bug #6 Fix
 	//
@@ -1266,8 +1269,9 @@ void CSpellFactory::CreateEnemyIce(CCharacter * pShooter, CBase * pTarget)
 	newIce->SetLifespan(5.0f);
 	newIce->SetActive(true);
 	newIce->SetTier(1);
-
-	newIce->SetWidth(32);
+	newIce->SetSlow(0.0);
+	newIce->SetDirection(RIGHT);
+	newIce->SetWidth(16);
 	newIce->SetHeight(16);
 
 	Corona_ObjectManager::GetInstance()->AddObject(newIce);
