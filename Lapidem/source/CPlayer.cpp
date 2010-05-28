@@ -22,6 +22,7 @@ CPlayer::CPlayer( )
 	m_fDrownTimer      = 0.0f;
 	m_nHealth          = 200; 
 	m_nType            = OBJ_PLAYER; 
+	currAnimation =0;
 	m_nFireEnergy	   = 0;
 	m_nEarthEnergy	   = 0;
 	m_nWindEnergy	   = 0;

@@ -39,7 +39,7 @@ void CEnemySpawner::Update(float fElapsedTime)
 					{
 						m_pEnemy->Release();
 					}*/
-					m_pEnemy = new CEnemy((EleType)typetospawn, GetPosX() + i*20, GetPosY() + (20 * i%4)  ,false, pleasework);
+					m_pEnemy = new CEnemy((EleType)typetospawn, GetPosX() + i * 20, GetPosY() + (20 * i%4)  ,false, pleasework);
 					pleasework->AddMember(m_pEnemy);
 					Corona_ObjectManager::GetInstance()->AddObject(m_pEnemy);
 				m_pEnemy->Release();

@@ -97,43 +97,56 @@ int AIStateWind::Update( float fElapsedTime, CEnemy* pEnemy)
 					}
 					else
 					{
-						pEnemy->SetVelX(float(rand() %300 - 150));
-						pEnemy->SetVelY(float(rand() %300 - 150));
+						pEnemy->SetVelX(float(rand() %200 - 100));
+						pEnemy->SetVelY(float(rand() %200 - 100));
 					}
 				}
 				else if(!m_pFlock->IsAttacking())	// not attacking yet and not the leader
 				{
-					/*float myvelx = pEnemy->GetVelX();
-					float myvely = pEnemy->GetVelY();
 
-					float flockvelx = m_pFlock->GetLeader()->GetVelX();
-					float flockvely = m_pFlock->GetLeader()->GetVelY();
-
-					float diffvelx = flockvelx - myvelx;
-					float diffvely = flockvely - myvely;*/
-
-					//pEnemy->SetVelX(pEnemy->GetVelX() + ((int)diffvelx/2));
-					//pEnemy->SetVelY(pEnemy->GetVelY() + ((int)diffvely/2));
 					if(!m_pFlock->GetShocked())		// im not shocked i act normally
 					{
 						pEnemy->SetVelX(m_pFlock->GetAverageXVel(pEnemy->GetPosX(), pEnemy->GetPosY(), m_fInfluence));
 						pEnemy->SetVelY(m_pFlock->GetAverageYVel(pEnemy->GetPosX(), pEnemy->GetPosY(), m_fInfluence));
-						if(pEnemy->GetVelX() < -150)
+						if(pEnemy->GetVelX() < -100)
 						{
-							pEnemy->SetVelX(-150);
+							pEnemy->SetVelX(-100);
 						}
-						else if(pEnemy->GetVelX() < -150)
+						else if(pEnemy->GetVelX() > 100)
 						{
-							pEnemy->SetVelX(-150);
+							pEnemy->SetVelX(100);
 						}
-						if(pEnemy->GetVelY() < -150)
+						if(pEnemy->GetVelY() < -100)
 						{
-							pEnemy->SetVelY(-150);
+							pEnemy->SetVelY(-100);
 						}
 
-						else if(pEnemy->GetVelY() < -150)
+						else if(pEnemy->GetVelY() > 100)
 						{
-							pEnemy->SetVelY(-150);
+							pEnemy->SetVelY(100);
+						}
+						int player1dist = int(m_pFlock->CalculateDistance(pEnemy->GetPosX(), pEnemy->GetPosY(),CGameplayState::GetInstance()->GetPlayerOne()->GetPosX(),CGameplayState::GetInstance()->GetPlayerOne()->GetPosY()));
+						int player2dist = 1000;
+						if(CGameplayState::GetInstance()->GetPlayerTwo() != NULL)
+						{
+							player2dist = int(m_pFlock->CalculateDistance(pEnemy->GetPosX(), pEnemy->GetPosY(),CGameplayState::GetInstance()->GetPlayerTwo()->GetPosX(),CGameplayState::GetInstance()->GetPlayerTwo()->GetPosY()));
+						}
+
+						if(player1dist < player2dist)
+						{
+							if(player1dist < 200)
+							{
+								m_pFlock->SetAttacking(true);
+								m_pFlock->SetTarget(CGameplayState::GetInstance()->GetPlayerOne());
+							}
+						}
+						else
+						{
+							if(player2dist < 200)
+							{
+								m_pFlock->SetAttacking(true);
+								m_pFlock->SetTarget(CGameplayState::GetInstance()->GetPlayerTwo());
+							}
 						}
 					}
 					else			// holy crap i am freakin shocked our leader died what do i do
@@ -209,11 +222,7 @@ int AIStateWind::Update( float fElapsedTime, CEnemy* pEnemy)
 			}
 			m_pFlock->RemoveMember(pEnemy);
 			m_pFlock = NULL;
-			/* MAY NOT NEED THIS
-			m_pFlock = new CFlock();
-			m_pFlock->AddMember(pEnemy);
-			m_pFlock->SetPosX(pEnemy->GetPosX());
-			m_pFlock->SetPosY(pEnemy->GetPosY());*/
+			
 		}
 	}
 	else //aww man... i have no flock... ill create my own.
@@ -227,8 +236,7 @@ int AIStateWind::Update( float fElapsedTime, CEnemy* pEnemy)
 		Corona_ObjectManager::GetInstance()->AddObject(m_pFlock);
 		m_pFlock->Release();
 	}
-
-	//if(pEnemy->GetPosX() < 0 ||
+	
 	return 0;
 }
 void AIStateWind::Attack( CCharacter* pTarget, CCharacter* pEnemy)
@@ -240,9 +248,11 @@ bool AIStateWind::CheckPassable(CLevel* pLevel, CBase* pObject, float fElapsedTi
 	int nTilesToCheck = pObject->GetHeight() / pLevel->GetTileHeight();
 
 	int nDistanceToNext = pObject->GetVelX() > 0 ? (pObject->GetWidth() + (pLevel->GetTileWidth()>>1)) : -(pLevel->GetTileWidth()>>1);
+	int nDistanceToNexty = pObject->GetVelY() > 0 ? (pObject->GetHeight() + (pLevel->GetTileHeight()>>1)) : -(pLevel->GetTileHeight()>>1);
 
 	int nPosX = (int)(pObject->GetPosX() + nDistanceToNext + pObject->GetVelX() * fElapsedTime);
-	int nPosY = (int)pObject->GetPosY();
+	int nPosY = (int)(pObject->GetPosY() + nDistanceToNexty + pObject->GetVelY() * fElapsedTime);
+
 	CTerrainBase* pTerrain;
 
 	for(int i = 0; i < nTilesToCheck; ++i)
@@ -268,27 +278,34 @@ int AIStateWind::AttackUpdate(CPlayer* pTarget, CEnemy* pEnemy, float fElapsedTi
 	tVector2D targetpos;
 	targetpos._x= pTarget->GetPosX();
 	targetpos._y= pTarget->GetPosY() - 30;
+	
+	tVector2D toTarget;
+	toTarget._x= targetpos._x - enemypos._x;
+	toTarget._y= targetpos._y - enemypos._y;
 
+
+	tVector2D tRotation;
+	tRotation._x = -1.0f;
+	tRotation._y = 1.0f;
+	
+	float rotation = Lapidem_Math::GetInstance()->AngleBetweenVectors(toTarget,tRotation);
+
+
+	if(toTarget._x >0)
+	{
+		rotation *= -1;
+	}
 
 	tVector2D enemyvelocity;
-	enemyvelocity._x = pEnemy->GetVelX()/*100.0f*/;
-	enemyvelocity._y = pEnemy->GetVelY() /*100.0f*/;
+	enemyvelocity._x = 0;
+	enemyvelocity._y = -50* fElapsedTime * 100;
 
-	float angle = Lapidem_Math::GetInstance()->AngleBetweenVectors(targetpos,enemypos);
 
-	enemyvelocity = Lapidem_Math::GetInstance()->Vector2DRotate(enemyvelocity,angle);
+	enemyvelocity = Lapidem_Math::GetInstance()->Vector2DRotate(enemyvelocity,rotation);
 
-	if(pEnemy->GetPosX() > pTarget->GetPosX())
-	{
-		pEnemy->SetVelX(enemyvelocity._x/*pEnemy->GetVelX() + enemyvelocity._x * fElapsedTime * 100*/);
-		pEnemy->SetVelY(enemyvelocity._y/*pEnemy->GetVelY() + enemyvelocity._y * fElapsedTime * 100*/);
-	}
-	else
-	{
-		pEnemy->SetVelX(-enemyvelocity._x/*pEnemy->GetVelX() + enemyvelocity._x * fElapsedTime*/);
-		pEnemy->SetVelY(enemyvelocity._y/*pEnemy->GetVelY() + enemyvelocity._y * fElapsedTime*/);
-	}
-
+	
+	pEnemy->SetVelX(pEnemy->GetVelX() + enemyvelocity._x);
+	pEnemy->SetVelY(pEnemy->GetVelY() + enemyvelocity._y);
 
 	if(pEnemy->GetVelX() > 100.0f)
 	{
