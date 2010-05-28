@@ -1,10 +1,4 @@
-change energy representation
 t3 twitch fix
-fire enemy render/collision
-ice  enemy work
-sister needs new starting location
 loading in pause
 
 balance.
-
-high score asking if you don't get a high score

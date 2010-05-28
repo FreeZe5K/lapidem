@@ -63,6 +63,8 @@ private:
 	int                     m_nImageID;
 	int                     m_nAttractTimer;
 
+	bool                    m_bSinglePlayersFirstTime;
+
 	CSGD_Direct3D           *m_pD3D;
 	CSGD_TextureManager     *m_pTM;
 	CSGD_DirectSound        *m_pDS;
@@ -87,6 +89,9 @@ public:
 
 	void ResetAttractTimer( )      { m_nAttractTimer  = 0;   }
 	void SetPlayerCount( int _i )  { m_nPlayerCount   = _i;  }
+
+	void SetFirstTime( bool _b )   { m_bSinglePlayersFirstTime = _b;     }
+	bool GetFirstTime( )           { return m_bSinglePlayersFirstTime;   }
 
 	bool Load( int );
 

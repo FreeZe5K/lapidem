@@ -290,30 +290,192 @@ bool CPauseMenuState::Input( )
 		{
 			if( m_nChoice == 0 ) // Load slot 1
 			{
+				CGame::GetInstance( )->PushState( CLoading::GetInstance( ) );
+				CLoading::GetInstance( )->SetProgress( 0 );
+
 				CGameplayState::GetInstance( )->GetLevel( )->Clear( );
+				CLoading::GetInstance( )->SetProgress( 50 );
+
 				CMenuState::GetInstance( )->Load( 1 );
-				CGameplayState::GetInstance( )->SetSlotLoaded( 1 );
+				CLoading::GetInstance( )->SetProgress( 100 );
+				
+				CGameplayState::GetInstance( )->GetLevel( )->GetEntryPoint( )->
+					SetPosX( float( CMenuState::GetInstance( )->GetSlotOne( ).nPositionX ) );
+				CGameplayState::GetInstance( )->GetPlayerOne( )->SetPosX( 
+					float( CMenuState::GetInstance( )->GetSlotOne( ).nPositionX ) );
+				CGameplayState::GetInstance( )->GetLevel( )->GetEntryPoint( )->
+					SetPosY( float( CMenuState::GetInstance( )->GetSlotOne( ).nPositionY ) );
+				CGameplayState::GetInstance( )->GetPlayerOne( )->SetPosY( 
+					float( CMenuState::GetInstance( )->GetSlotOne( ).nPositionY ) );
+
+				CGameplayState::GetInstance( )->GetPlayerOne( )->setWindEnergy( 
+					CMenuState::GetInstance( )->GetSlotOne( ).manaP1.nAir );
+				CGameplayState::GetInstance( )->GetPlayerOne( )->setFireEnergy( 
+					CMenuState::GetInstance( )->GetSlotOne( ).manaP1.nFire );
+				CGameplayState::GetInstance( )->GetPlayerOne( )->setEarthEnergy( 
+					CMenuState::GetInstance( )->GetSlotOne( ).manaP1.nEarth );
+				CGameplayState::GetInstance( )->GetPlayerOne( )->setIceEnergy( 
+					CMenuState::GetInstance( )->GetSlotOne( ).manaP1.nIce );
+
+				CGameplayState::GetInstance( )->GetPlayerOne( )->SetHealth( 
+					CMenuState::GetInstance( )->GetSlotOne( ).nPlayerOneHealth );
+
+				CLoading::GetInstance( )->SetProgress( 350 );
+
+				if( 2 == CMenuState::GetInstance( )->GetSlotOne( ).nPlayerCount )
+				{
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->SetHealth( 
+						CMenuState::GetInstance( )->GetSlotOne( ).nPlayerTwoHealth );
+
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->SetPosX( 
+						float( CMenuState::GetInstance( )->GetSlotOne( ).nPlayerTwoPosX ) );
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->SetPosY( 
+						float( CMenuState::GetInstance( )->GetSlotOne( ).nPlayerTwoPosY ) );
+
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->setWindEnergy( 
+						CMenuState::GetInstance( )->GetSlotOne( ).manaP2.nAir );
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->setFireEnergy( 
+						CMenuState::GetInstance( )->GetSlotOne( ).manaP2.nFire );
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->setEarthEnergy( 
+						CMenuState::GetInstance( )->GetSlotOne( ).manaP2.nEarth );
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->setIceEnergy( 
+						CMenuState::GetInstance( )->GetSlotOne( ).manaP2.nIce );
+				}
+				CLoading::GetInstance( )->SetProgress( 500 );
+
+				CGameplayState::GetInstance( )->SetPlayerOneScore( 
+					CMenuState::GetInstance( )->GetSlotOne( ).nPlayerOneScore );
+				CGameplayState::GetInstance( )->SetPlayerOneScore( 
+					CMenuState::GetInstance( )->GetSlotOne( ).nPlayerTwoScore );
+
 				CGame::GetInstance( )->SetPaused( false );
+				CLoading::GetInstance( )->SetProgress( 640 );
 			}
 			else if( m_nChoice == 1 ) // Load slot 2
 			{
+				CGame::GetInstance( )->PushState( CLoading::GetInstance( ) );
+				CLoading::GetInstance( )->SetProgress( 0 );
+
 				CGameplayState::GetInstance( )->GetLevel( )->Clear( );
+				CLoading::GetInstance( )->SetProgress( 50 );
+
 				CMenuState::GetInstance( )->Load( 2 );
-				CGameplayState::GetInstance( )->SetSlotLoaded( 2 );
+				CLoading::GetInstance( )->SetProgress( 100 );
+
+				CGameplayState::GetInstance( )->GetLevel( )->GetEntryPoint( )->SetPosX( 
+					float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionX ) );
+				CGameplayState::GetInstance( )->GetPlayerOne( )->SetPosX( 
+					float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionX ) );
+				CGameplayState::GetInstance( )->GetLevel( )->GetEntryPoint( )->SetPosY( 
+					float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionY ) );
+				CGameplayState::GetInstance( )->GetPlayerOne( )->SetPosY( 
+					float( CMenuState::GetInstance( )->GetSlotTwo( ).nPositionY ) );
+
+				CGameplayState::GetInstance( )->GetPlayerOne( )->setWindEnergy( 
+					CMenuState::GetInstance( )->GetSlotTwo( ).manaP1.nAir );
+				CGameplayState::GetInstance( )->GetPlayerOne( )->setFireEnergy( 
+					CMenuState::GetInstance( )->GetSlotTwo( ).manaP1.nFire );
+				CGameplayState::GetInstance( )->GetPlayerOne( )->setEarthEnergy( 
+					CMenuState::GetInstance( )->GetSlotTwo( ).manaP1.nEarth );
+				CGameplayState::GetInstance( )->GetPlayerOne( )->setIceEnergy( 
+					CMenuState::GetInstance( )->GetSlotTwo( ).manaP1.nIce );
+
+				CGameplayState::GetInstance( )->GetPlayerOne( )->SetHealth( 
+					CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerOneHealth );
+
+				if( 2 == CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerCount )
+				{
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->SetHealth( 
+						CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerTwoHealth );
+
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->SetPosX( 
+						float( CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerTwoPosX ) );
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->SetPosY( 
+						float( CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerTwoPosY ) );
+
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->setWindEnergy( 
+						CMenuState::GetInstance( )->GetSlotTwo( ).manaP2.nAir );
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->setFireEnergy( 
+						CMenuState::GetInstance( )->GetSlotTwo( ).manaP2.nFire );
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->setEarthEnergy( 
+						CMenuState::GetInstance( )->GetSlotTwo( ).manaP2.nEarth );
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->setIceEnergy( 
+						CMenuState::GetInstance( )->GetSlotTwo( ).manaP2.nIce );
+				}
+
+				CGameplayState::GetInstance( )->SetPlayerOneScore( 
+					CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerOneScore );
+				CGameplayState::GetInstance( )->SetPlayerTwoScore( 
+					CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerTwoScore );
+
 				CGame::GetInstance( )->SetPaused( false );
+				CLoading::GetInstance( )->SetProgress( 640 );
 			}
 			else if( m_nChoice == 2 ) // Load slot 3
 			{
+				CGame::GetInstance( )->PushState( CLoading::GetInstance( ) );
+				CLoading::GetInstance( )->SetProgress( 0 );
+
 				CGameplayState::GetInstance( )->GetLevel( )->Clear( );
+				CLoading::GetInstance( )->SetProgress( 50 );
+
 				CMenuState::GetInstance( )->Load( 3 );
-				CGameplayState::GetInstance( )->SetSlotLoaded( 3 );
+				CLoading::GetInstance( )->SetProgress( 100 );
+
+				CGameplayState::GetInstance( )->GetLevel( )->GetEntryPoint( )->SetPosX( 
+					float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionX ) );
+				CGameplayState::GetInstance( )->GetPlayerOne( )->SetPosX( 
+					float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionX ) );
+				CGameplayState::GetInstance( )->GetLevel( )->GetEntryPoint( )->SetPosY( 
+					float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionY ) );
+				CGameplayState::GetInstance( )->GetPlayerOne( )->SetPosY( 
+					float( CMenuState::GetInstance( )->GetSlotThree( ).nPositionY ) );
+
+				CGameplayState::GetInstance( )->GetPlayerOne( )->setWindEnergy( 
+					CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nAir );
+				CGameplayState::GetInstance( )->GetPlayerOne( )->setFireEnergy( 
+					CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nFire );
+				CGameplayState::GetInstance( )->GetPlayerOne( )->setEarthEnergy( 
+					CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nEarth );
+				CGameplayState::GetInstance( )->GetPlayerOne( )->setIceEnergy( 
+					CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nIce );
+
+				CGameplayState::GetInstance( )->GetPlayerOne( )->SetHealth( 
+					CMenuState::GetInstance( )->GetSlotThree( ).nPlayerOneHealth );
+
+				if( 2 == CMenuState::GetInstance( )->GetSlotThree( ).nPlayerCount )
+				{
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->SetHealth( 
+						CMenuState::GetInstance( )->GetSlotThree( ).nPlayerTwoHealth );
+
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->SetPosX( float( 
+						CMenuState::GetInstance( )->GetSlotThree( ).nPlayerTwoPosX ) );
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->SetPosY( float( 
+						CMenuState::GetInstance( )->GetSlotThree( ).nPlayerTwoPosY ) );
+
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->setWindEnergy( 
+						CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nAir );
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->setFireEnergy( 
+						CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nFire );
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->setEarthEnergy( 
+						CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nEarth );
+					CGameplayState::GetInstance( )->GetPlayerTwo( )->setIceEnergy( 
+						CMenuState::GetInstance( )->GetSlotThree( ).manaP2.nIce );
+				}
+
+				CGameplayState::GetInstance( )->SetPlayerOneScore( 
+					CMenuState::GetInstance( )->GetSlotThree( ).nPlayerOneScore );
+				CGameplayState::GetInstance( )->SetPlayerTwoScore( 
+					CMenuState::GetInstance( )->GetSlotThree( ).nPlayerTwoScore );
+
 				CGame::GetInstance( )->SetPaused( false );
+				CLoading::GetInstance( )->SetProgress( 640 );
 			} 
 			else 
 			{
 				m_nState   = 0; // Back
 				m_nChoice  = 0;
-			}
+			} 
 		}
 	}
 
@@ -980,6 +1142,7 @@ void CPauseMenuState::Render( )
 
 void CPauseMenuState::Exit( )
 {
+	m_pTM->UnloadTexture( m_nImageID );
 }
 
 bool CPauseMenuState::SaveGame( int _nSlot )
@@ -1212,9 +1375,6 @@ bool CPauseMenuState::SaveGame( int _nSlot )
 		_tSlotOne._manaP1._nEarth     = CGameplayState::GetInstance( )->GetPlayerOne( )->GetEarthEnergy( );
 		_tSlotOne._manaP1._nIce       = CGameplayState::GetInstance( )->GetPlayerOne( )->GetIceEnergy( );
 		_tSlotOne._manaP1._nAir       = CGameplayState::GetInstance( )->GetPlayerOne( )->GetWindEnergy( );
-
-		// TODO ::
-		//      ^ Probably going to crash...
 
 		CAuxiliaryState::GetInstance( )->UpdateSlotInfo( "resource/data/Lapidem_SlotInfo.bin", 1 );
 	}
