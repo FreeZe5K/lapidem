@@ -381,6 +381,7 @@ void CLevel::LoadNewLevel( char* filename )
 					//newEvent->Release();
 
 					Corona_ObjectManager::GetInstance()->AddObject(newEvent);
+					//newEvent->Release();
 				} break;
 			case AIR_CURRENT:
 				{

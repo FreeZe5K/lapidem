@@ -325,7 +325,7 @@ bool CGameplayState::Input( )
 			m_pPlayerOne->SetAttack(2);
 	}
 
-	if( m_pDI->KeyPressed( DIK_T ) || m_pDI->JoystickButtonDown( 2 ))
+	if( m_pDI->KeyDown( DIK_T ) || m_pDI->JoystickButtonDown( 2 ))
 	{	
 			m_pPlayerOne->SetAttack(3);
 			//m_pPlayerOne->Attack( 3 );
