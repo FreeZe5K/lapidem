@@ -14,8 +14,8 @@
 
 CIce::CIce( ) : CSpell( )
 {
+	m_pEmitter = NULL;
 }
-
 CIce::~CIce( )
 {
 	if( GetImage( ) >= 0 )
