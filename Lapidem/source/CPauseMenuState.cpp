@@ -348,6 +348,8 @@ bool CPauseMenuState::Input( )
 				CGameplayState::GetInstance( )->SetPlayerOneScore( 
 					CMenuState::GetInstance( )->GetSlotOne( ).nPlayerTwoScore );
 
+				m_nChoice  = 0;
+				m_nState   = 0;
 				CGame::GetInstance( )->SetPaused( false );
 				CLoading::GetInstance( )->SetProgress( 640 );
 			}
@@ -408,6 +410,8 @@ bool CPauseMenuState::Input( )
 				CGameplayState::GetInstance( )->SetPlayerTwoScore( 
 					CMenuState::GetInstance( )->GetSlotTwo( ).nPlayerTwoScore );
 
+				m_nChoice  = 0;
+				m_nState   = 0;
 				CGame::GetInstance( )->SetPaused( false );
 				CLoading::GetInstance( )->SetProgress( 640 );
 			}
@@ -468,6 +472,8 @@ bool CPauseMenuState::Input( )
 				CGameplayState::GetInstance( )->SetPlayerTwoScore( 
 					CMenuState::GetInstance( )->GetSlotThree( ).nPlayerTwoScore );
 
+				m_nChoice  = 0;
+				m_nState   = 0;
 				CGame::GetInstance( )->SetPaused( false );
 				CLoading::GetInstance( )->SetProgress( 640 );
 			} 
