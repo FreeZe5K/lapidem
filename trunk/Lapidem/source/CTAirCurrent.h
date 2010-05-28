@@ -20,4 +20,6 @@ public:
 	void HandleCollision(CBase*);
 	DIRECTION GetDirection() {return shotDirect;}
 
+	void SetTransform(float _f) { m_fTransformTimer = _f; }
+
 };

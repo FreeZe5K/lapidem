@@ -55,6 +55,7 @@ void CTAirCurrent::HandleCollision(CBase * collidingObject)
 
 	if(collidingObject->GetType() == OBJ_SPELL && ((CSpell*)collidingObject)->GetElement() == OBJ_EARTH)
 		m_fTransformTimer = 3.0f;
+
 	SetCollided( false );
 
 }
