@@ -1,0 +1,12 @@
+change energy representation
+t3 twitch fix
+fire enemy render/collision
+ice  enemy work
+sister needs new starting location
+loading in pause
+centering pause screen
+print out survey
+
+balance.
+
+high score asking if you don't get a high score
