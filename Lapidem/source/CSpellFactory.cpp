@@ -561,8 +561,8 @@ void CSpellFactory::CreateFire(CCharacter* pShooter, int nTier)
 
 	case 3:
 		{
-			newfire->SetPosX( CCamera::GetCamera()->GetXOffset() + 5 );
-			newfire->SetPosY( CCamera::GetCamera()->GetYOffset() + 5);
+			newfire->SetPosX( CCamera::GetCamera()->GetXOffset() + 16 );
+			newfire->SetPosY( CCamera::GetCamera()->GetYOffset() + 1);
 			newfire->SetVelX(750);
 			newfire->SetVelY(50);
 			newfire->SetDamage(5 + (2 * m_nFireLVL));

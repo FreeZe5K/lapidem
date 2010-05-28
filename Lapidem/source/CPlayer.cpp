@@ -597,9 +597,16 @@ void CPlayer::HandleCollision(float fElapsedTime, CBase * collidingObject )
 			{
 				m_bIsTouching = true;
 
+				
 				if(m_fDrownTimer <= 0)
 				{
+				m_bIsJumping = false;
+
+					if( TerraType == T_WATER && collidingObject->GetPosY() <= GetPosY() )
 					TakeDamage(10);
+					else if( TerraType == T_LAVA )
+					TakeDamage(10);
+
 					m_fDrownTimer = .5f;
 				}
 				return;
