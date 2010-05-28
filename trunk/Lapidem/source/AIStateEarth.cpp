@@ -42,13 +42,13 @@ int AIStateEarth::Update( float fElapsedTime, CEnemy* theEnemy )
 		posy2 = two->GetPosY() - theEnemy->GetPosY();
 
 		if (posx2 < posx)
-			if(posx2 < 150 && posx2 > -150)
-				if(posy2 < 100 && posy2 > -100)
+			if(posx2 < 200 && posx2 > -200)
+				if(posy2 < 150 && posy2 > -150)
 					return 2;
 	}
 
-	if(posx < 150 && posx > -150)
-		if(posy < 100 && posy > -100)
+	if(posx < 200 && posx > -200)
+		if(posy < 150 && posy > -150)
 			return 1;
 	//float dist2( 1000 );
 
