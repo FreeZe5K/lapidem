@@ -427,7 +427,7 @@ void CEnemy::Render()
 			else if( animation->GetImageID( ) != -1 && !IsRotated )
 			{
 				CSGD_TextureManager::GetInstance( )->Draw( animation->GetImageID( ), 
-					int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) + GetWidth( ) ), 
+					int( GetPosX( ) - CCamera::GetCamera( )->GetXOffset( ) + GetWidth()), 
 					int( GetPosY( ) - CCamera::GetCamera( )->GetYOffset( ) ),
 					-m_fScale, m_fScale, &animation->GetFrames( )->DrawRect );
 			} else CBase::Render( );
@@ -437,11 +437,11 @@ void CEnemy::Render()
 
 RECT CEnemy::GetCollisionRect(float fElapsedTime)
 {
-	RECT temp = animation->GetFrames()->CollisionRect;
+	/*RECT temp = animation->GetFrames()->CollisionRect;
 	RECT draw = animation->GetFrames()->DrawRect;
 	RECT pleasework;
 
-	if(IsRotated)
+	if(!IsRotated || (GetEleType() == OBJ_WIND && IsRotated))
 	{
 		pleasework.left    = LONG( ( temp.left - draw.left )* m_fScale );
 		pleasework.right   = LONG( pleasework.left + ( ( temp.right - temp.left) * m_fScale) );
@@ -467,7 +467,36 @@ RECT CEnemy::GetCollisionRect(float fElapsedTime)
 		SetWidth(draw.right - draw.left);
 		SetHeight(draw.bottom- draw.top);
 	}
-	return pleasework;
+	return pleasework;*/
+
+	RECT  AnimationCollisionRect = animation->GetFrames()->CollisionRect;
+	RECT  AnimationRenderRect    = animation->GetFrames()->DrawRect;
+	POINT AnimationAnchorPoint   = animation->GetFrames()->AnchorPoint;
+
+	RECT collisionRect = { };
+
+
+	if(IsRotated || (GetEleType() == OBJ_WIND && !IsRotated))
+	{
+		collisionRect.top    = GetPosY();
+		collisionRect.bottom = GetPosY() + (AnimationRenderRect.bottom   - AnimationCollisionRect.top) * m_fScale;
+		collisionRect.left   = GetPosX() + (AnimationCollisionRect.left  - AnimationRenderRect.left)   * m_fScale - (AnimationCollisionRect.left - AnimationAnchorPoint.x);
+		collisionRect.right  = GetPosX() + ((AnimationCollisionRect.left - AnimationRenderRect.left)   + (AnimationCollisionRect.right - AnimationCollisionRect.left)) * m_fScale - (AnimationCollisionRect.left - AnimationAnchorPoint.x);
+	}
+	else
+	{
+		collisionRect.top    = GetPosY();
+		collisionRect.bottom = GetPosY() + (AnimationRenderRect.bottom   - AnimationCollisionRect.top) * m_fScale;
+		collisionRect.left   = GetPosX() + (AnimationCollisionRect.left  - AnimationRenderRect.left)   * m_fScale;
+		collisionRect.right  = GetPosX() + ((AnimationCollisionRect.left - AnimationRenderRect.left)   + (AnimationCollisionRect.right - AnimationCollisionRect.left)) * m_fScale;
+	}
+
+	collisionRect.top    = collisionRect.top    + GetVelY() * fElapsedTime;
+	collisionRect.bottom = collisionRect.bottom + GetVelY() * fElapsedTime;
+	collisionRect.left   = collisionRect.left   + GetVelX() * fElapsedTime;
+	collisionRect.right  = collisionRect.right  + GetVelX() * fElapsedTime;
+		
+	return collisionRect;
 }
 
 void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
@@ -516,14 +545,7 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 			int nRectWidth    = r.right - r.left;
 			int nRectHeight   = r.bottom - r.top;
 
-			if( nRectHeight > nRectWidth )
-			{
-				if( this->GetPosX( ) > collidingObject->GetPosX( ) )
-					SetPosX( GetPosX( ) + nRectWidth );
-				else if ( this->GetPosX() < collidingObject->GetPosX( ) )
-					SetPosX( GetPosX( ) - nRectWidth );
-			}
-			else if( nRectHeight < nRectWidth ) 
+			if( nRectHeight < nRectWidth ) 
 			{
 				if( this->GetPosY( ) > collidingObject->GetPosY( ) )
 					SetPosY( GetPosY( ) + nRectHeight );
@@ -533,6 +555,14 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 					SetVelY(0.0);
 				}
 			}
+			else if( nRectHeight > nRectWidth )
+			{
+				if( this->GetPosX( ) > collidingObject->GetPosX( ) )
+					SetPosX( GetPosX( ) + nRectWidth );
+				else if ( this->GetPosX() < collidingObject->GetPosX( ) )
+					SetPosX( GetPosX( ) - nRectWidth );
+			}
+			
 		}
 	}
 	else if( collidingObject->GetType( ) == OBJ_SPELL && ( ( CSpell* )collidingObject )->PlayerShot( ) )

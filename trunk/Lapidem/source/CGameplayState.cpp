@@ -617,24 +617,17 @@ void CGameplayState::Update( float fET )
 
 
 	//TODO IF trigger = dead do this junk
-	if( m_pPlayerOne->GetHealth( ) <= 0 )
-	{
-		m_pPlayerOne->SetAnimation(0,1);
-		if(strcmp(m_pPlayerOne->GetTrigger(),"Dead") ==0)
-		{
-			m_pPlayerOne->SetFainted(true);
-		}
-	}
-	if( m_pPlayerTwo)
-	{
-		if( m_pPlayerTwo->GetHealth( ) <= 0 )
-		{
-			if(strcmp(m_pPlayerTwo->GetTrigger(), "Dead") == 0)
-			{
-				m_pPlayerTwo->SetFainted(true);
-			}
-		}
-	}
+	
+	//if( m_pPlayerTwo)
+	//{
+	//	if( m_pPlayerTwo->GetHealth( ) <= 0 )
+	//	{
+	//		if(strcmp(m_pPlayerTwo->GetTrigger(), "Dead") == 0)
+	//		{
+	//			m_pPlayerTwo->SetFainted(true);
+	//		}
+	//	}
+	//}
 
 	if( m_pPlayerOne->GetFainted()  )//&& m_pPlayerTwo )
 	{
@@ -651,20 +644,7 @@ void CGameplayState::Update( float fET )
 		}
 	}
 
-	if(m_pPlayerOne->GetAnimationType() ==2)
-	{
-		if(strcmp(m_pPlayerOne->GetTrigger(),"Attack") ==0)
-		{
-			m_pPlayerOne->Attack( m_pPlayerOne->GetAttackType() );	
-		}
-		
-		if(strcmp(m_pPlayerOne->GetTrigger(),"Done") ==0)
-		{
-			
-			m_pPlayerOne->SetAnimation(0,0);
-			
-		}
-	}
+	
 #ifdef _DEBUG
 	CProfiler::GetInstance( )->Start( "Profiler End" );
 	CProfiler::GetInstance( )->End( "CGameplay Update" );

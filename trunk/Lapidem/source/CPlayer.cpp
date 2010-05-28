@@ -279,6 +279,29 @@ void CPlayer::Update( float fElapsedTime )
 			SetAnimation(0,4);
 		}
 	}*/	
+	if(GetAnimationType() == 2)
+	{
+		if(strcmp(GetTrigger(),"Attack") ==0)
+		{
+			Attack( GetAttackType() );	
+		}
+		
+		if(strcmp(GetTrigger(),"Done") ==0)
+		{
+			
+			SetAnimation(0,0);
+			
+		}
+	}
+
+	if( GetHealth( ) <= 0 )
+	{
+		SetAnimation(0,1);
+		if(strcmp(GetTrigger(),"Dead") ==0)
+		{
+			SetFainted(true);
+		}
+	}
 
 	if(GetVelY() > 100)
 	{
