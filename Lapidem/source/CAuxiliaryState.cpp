@@ -142,7 +142,7 @@ bool CAuxiliaryState::Input( )
 	{
 		if( m_pDI->CheckBufferedKeysEx( ) || m_pDI->JoystickCheckBufferedButtons() != -1)
 		{
-			if( m_nHowToTimer > 75 )
+			if( m_nHowToTimer > 45 )
 			{
 				m_nHowToCurrent = m_nHowToCurrent + 1;
 				m_nHowToTimer = 0;
