@@ -47,7 +47,7 @@ bool CAuxiliaryState::Input( )
 				m_nChoice = 5;
 		}
 
-		if( m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed( 3 ) || m_pDI->JoystickGetLStickXEASYized() > 0)
+		if( m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed( 3 ) || m_pDI->JoystickGetLStickXNormalized() > 0)
 		{
 			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
 

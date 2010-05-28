@@ -52,7 +52,7 @@ bool CMenuState::Input( )
 
 	if( 0 == m_nState ) // Main menu
 	{
-		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) || m_pDI->JoystickGetLStickYEASYized() < 0 )
+		if( m_pDI->KeyPressed( DIK_UP )  || m_pDI->JoystickDPadPressed( 2 ) || m_pDI->JoystickGetLStickYNormalized() < 0 )
 		{
 			m_nAttractTimer = 0;
 			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
@@ -61,7 +61,7 @@ bool CMenuState::Input( )
 				m_nChoice = 5;
 		}
 
-		if( m_pDI->KeyPressed( DIK_DOWN )  || m_pDI->JoystickDPadPressed( 3 ) || m_pDI->JoystickGetLStickYEASYized() > 0 )
+		if( m_pDI->KeyPressed( DIK_DOWN )  || m_pDI->JoystickDPadPressed( 3 ) || m_pDI->JoystickGetLStickYNormalized() > 0 )
 		{
 			m_nAttractTimer = 0;
 			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
