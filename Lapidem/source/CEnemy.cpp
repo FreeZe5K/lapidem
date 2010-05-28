@@ -526,6 +526,9 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 
 			int TerraType = ( ( CTerrainBase* )collidingObject )->GetTypeTerrain( );
 
+			if(TerraType == T_LAVA)
+				TakeDamage(1);
+
 			RECT r;
 			IntersectRect( &r, & this->GetCollisionRect( fElapsedTime ), &collidingObject->GetCollisionRect( fElapsedTime ) );
 
