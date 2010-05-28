@@ -33,93 +33,93 @@ CEnemy::CEnemy( EleType ElementToBe, float initx, float inity, int boss, CFlock*
 
 	if(!boss)
 	{
-	switch( ElementToBe )
-	{
-	case OBJ_EARTH:
+		switch( ElementToBe )
 		{
-			currState = new AIStateEarth( );
-			SetHeight( 100 );
-			SetWidth( 135 );
-			SetPosX(initx);
-			SetPosY(inity - GetHeight());
-			SetVelX(25.0f);
-			SetVelY(0.0f);
-			( ( AIStateEarth* )currState )->SetInitPos( int( GetPosX( ) ), int( GetPosY( ) ) );
-			SetHeight( 80 );
-			SetWidth( 135 );
-			m_nHealth      = 80 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetWindLevel() * 10);
-			m_SpellType    = OBJ_EARTH;
-			currDirec      = RIGHT;
-			m_nAnimation = m_SpellType +1;
-			m_fScale = .65f;
-			SetAnimation(OBJ_EARTH +1,0);
-		} break;
-	case OBJ_FIRE:
-		{
-			currState = new AIStateFire( );
-			SetPosX(initx);
-			SetPosY(inity - 55);
-			SetVelX(75.0f);
-			SetVelY(0.0f);
-			SetHeight( 54 );
-			SetWidth ( 32 );
-			m_nHealth      = 50 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetEarthLevel() * 7);
-			m_SpellType    = OBJ_FIRE;
-			currDirec      = RIGHT;
-			m_fScale = 0.5f;
-			m_nAnimation = m_SpellType +1;
-			SetAnimation(OBJ_FIRE +1,0);
-
-		} break;
-	case OBJ_ICE:
-		{
-			currState = new AIStateIce( );
-			SetPosX(initx);
-			SetPosY(inity - 55);
-			SetVelX(50.0f);
-			SetVelY(0.0f);
-			SetHeight( 64 );
-			SetWidth ( 64 );
-			SetAnimation(1,0);
-			m_nHealth      = 50 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetFireLevel() * 7);
-			m_SpellType    = OBJ_ICE;
-			m_fScale = 0.5f;
-			currDirec      = RIGHT;
-			m_nAnimation = m_SpellType +1;
-			SetAnimation(OBJ_ICE +1,0);
-		} break;
-	case OBJ_WIND:
-		{
-			currState = new AIStateWind();
-			SetPosX(initx);
-			SetPosY(inity);
-			m_fScale = 0.4f;
-			
-			((AIStateWind*)currState)->SetFlock((CFlock*)Flock);
-			SetVelX((float)(rand()%150));
-			SetVelY((float)(rand()%150));
-			if(rand()%2)
+		case OBJ_EARTH:
 			{
+				currState = new AIStateEarth( );
+				SetHeight( 100 );
+				SetWidth( 135 );
+				SetPosX(initx);
+				SetPosY(inity - GetHeight());
+				SetVelX(25.0f);
+				SetVelY(0.0f);
+				( ( AIStateEarth* )currState )->SetInitPos( int( GetPosX( ) ), int( GetPosY( ) ) );
+				SetHeight( 80 );
+				SetWidth( 135 );
+				m_nHealth      = 80 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetWindLevel() * 10);
+				m_SpellType    = OBJ_EARTH;
+				currDirec      = RIGHT;
+				m_nAnimation = m_SpellType +1;
+				m_fScale = .65f;
+				SetAnimation(OBJ_EARTH +1,0);
+			} break;
+		case OBJ_FIRE:
+			{
+				currState = new AIStateFire( );
+				SetPosX(initx);
+				SetPosY(inity - 55);
+				SetVelX(75.0f);
+				SetVelY(0.0f);
+				SetHeight( 54 );
+				SetWidth ( 32 );
+				m_nHealth      = 50 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetEarthLevel() * 7);
+				m_SpellType    = OBJ_FIRE;
+				currDirec      = RIGHT;
+				m_fScale = 0.5f;
+				m_nAnimation = m_SpellType +1;
+				SetAnimation(OBJ_FIRE +1,0);
+
+			} break;
+		case OBJ_ICE:
+			{
+				currState = new AIStateIce( );
+				SetPosX(initx);
+				SetPosY(inity - 55);
+				SetVelX(50.0f);
+				SetVelY(0.0f);
+				SetHeight( 64 );
+				SetWidth ( 64 );
+				SetAnimation(1,0);
+				m_nHealth      = 50 * CGameplayState::GetInstance()->GetDifficulty() + (CSpellFactory::GetInstance()->GetFireLevel() * 7);
+				m_SpellType    = OBJ_ICE;
+				m_fScale = 0.5f;
+				currDirec      = RIGHT;
+				m_nAnimation = m_SpellType +1;
+				SetAnimation(OBJ_ICE +1,0);
+			} break;
+		case OBJ_WIND:
+			{
+				currState = new AIStateWind();
+				SetPosX(initx);
+				SetPosY(inity);
+				m_fScale = 0.4f;
+
+				((AIStateWind*)currState)->SetFlock((CFlock*)Flock);
 				SetVelX((float)(rand()%150));
 				SetVelY((float)(rand()%150));
-			}
-			else
-			{
-				SetVelX(rand()%150 * -1.0f);
-				SetVelY(rand()%150 * -1.0f);
-			}
-			
-			SetHeight(16);
-			SetWidth(16);
-			m_nHealth = 25 * CGameplayState::GetInstance()->GetDifficulty() + CSpellFactory::GetInstance()->GetIceLevel() * 5;
-			m_SpellType = OBJ_WIND;
-			currDirec = RIGHT;
-			m_nAnimation = m_SpellType +1;
-			SetAnimation(OBJ_WIND +1,0);
-			currAnimation = NULL;
-			break;
-		} 
-	}
+				if(rand()%2)
+				{
+					SetVelX((float)(rand()%150));
+					SetVelY((float)(rand()%150));
+				}
+				else
+				{
+					SetVelX(rand()%150 * -1.0f);
+					SetVelY(rand()%150 * -1.0f);
+				}
+
+				SetHeight(16);
+				SetWidth(16);
+				m_nHealth = 25 * CGameplayState::GetInstance()->GetDifficulty() + CSpellFactory::GetInstance()->GetIceLevel() * 5;
+				m_SpellType = OBJ_WIND;
+				currDirec = RIGHT;
+				m_nAnimation = m_SpellType +1;
+				SetAnimation(OBJ_WIND +1,0);
+				currAnimation = NULL;
+				break;
+			} 
+		}
 	}
 
 
@@ -209,9 +209,9 @@ CEnemy::~CEnemy( )
 			//newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_EarthEnergy.png"));
 			newpickup->SetWidth(64);
 			newpickup->SetHeight(48);
-		CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/powerEarth.lapipt",newpickup->GetPosX(),newpickup->GetPosY());
-		newpickup->SetEmitter(hahaiworknow);
-		CParticleManager::GetInstance()->AddEmitter(newpickup->GetEmitter());
+			CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/powerEarth.lapipt",newpickup->GetPosX(),newpickup->GetPosY());
+			newpickup->SetEmitter(hahaiworknow);
+			CParticleManager::GetInstance()->AddEmitter(newpickup->GetEmitter());
 		}
 		else if(GetEleType() == OBJ_FIRE)
 		{
@@ -219,9 +219,9 @@ CEnemy::~CEnemy( )
 			//newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_FireEnergy.png"));
 			newpickup->SetWidth(64);
 			newpickup->SetHeight(48);
-		CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/powerFire.lapipt",newpickup->GetPosX(),newpickup->GetPosY());
-		newpickup->SetEmitter(hahaiworknow);
-		CParticleManager::GetInstance()->AddEmitter(newpickup->GetEmitter());
+			CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/powerFire.lapipt",newpickup->GetPosX(),newpickup->GetPosY());
+			newpickup->SetEmitter(hahaiworknow);
+			CParticleManager::GetInstance()->AddEmitter(newpickup->GetEmitter());
 		}
 		else if(GetEleType() == OBJ_ICE)
 		{
@@ -229,10 +229,10 @@ CEnemy::~CEnemy( )
 			//newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_IceEnergy.png"));
 			newpickup->SetWidth(64);
 			newpickup->SetHeight(48);
-			
-		CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/powerIce.lapipt",newpickup->GetPosX(),newpickup->GetPosY());
-		newpickup->SetEmitter(hahaiworknow);
-		CParticleManager::GetInstance()->AddEmitter(newpickup->GetEmitter());
+
+			CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/powerIce.lapipt",newpickup->GetPosX(),newpickup->GetPosY());
+			newpickup->SetEmitter(hahaiworknow);
+			CParticleManager::GetInstance()->AddEmitter(newpickup->GetEmitter());
 		}
 		else
 		{
@@ -240,9 +240,9 @@ CEnemy::~CEnemy( )
 			//newpickup->SetImage( CSGD_TextureManager::GetInstance()->LoadTexture("resource/graphics/Lapid_WindEnergy.png"));
 			newpickup->SetWidth(64);
 			newpickup->SetHeight(58);
-		CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/powerWind.lapipt",newpickup->GetPosX(),newpickup->GetPosY());
-		newpickup->SetEmitter(hahaiworknow);
-		CParticleManager::GetInstance()->AddEmitter(newpickup->GetEmitter());
+			CEmitter* hahaiworknow = CParticleManager::GetInstance()->LoadEmitter("resource/data/powerWind.lapipt",newpickup->GetPosX(),newpickup->GetPosY());
+			newpickup->SetEmitter(hahaiworknow);
+			CParticleManager::GetInstance()->AddEmitter(newpickup->GetEmitter());
 		}
 	}
 	Corona_ObjectManager::GetInstance()->AddObject(newpickup);
@@ -257,7 +257,7 @@ void CEnemy::Update( float fElapsedTime )
 	}
 	if(m_nHealth >0)
 	{
-		
+
 		Frame * currFrame = (animation->GetAllFrames())[animation->GetFrame()];
 
 		if(LastFrame && currAnimation == 2 || currAnimation == 1)
@@ -300,7 +300,7 @@ void CEnemy::Update( float fElapsedTime )
 					m_fShotTimer = 2.0f;
 					animation->Reset();
 					SetAnimation(m_nAnimation,2);
-					
+
 				}
 			}
 			else
@@ -308,9 +308,9 @@ void CEnemy::Update( float fElapsedTime )
 				m_fWaitTimer = m_fWaitTimer + fElapsedTime;
 
 				/*if(m_SpellType !=OBJ_WIND)
-					SetPosY( GetPosY( ) + 150.0f * fElapsedTime );*/
+				SetPosY( GetPosY( ) + 150.0f * fElapsedTime );*/
 
-				
+
 				char* pleasework = animation->GetTrigger();
 				if(strcmp(pleasework, "Done") == 0)
 				{	
@@ -324,7 +324,7 @@ void CEnemy::Update( float fElapsedTime )
 					}
 					animation->Reset();
 					SetAnimation(m_nAnimation,0);
-					
+
 					m_fWaitTimer = 0.0f;
 				}
 
@@ -455,38 +455,6 @@ void CEnemy::Render()
 
 RECT CEnemy::GetCollisionRect(float fElapsedTime)
 {
-	/*RECT temp = animation->GetFrames()->CollisionRect;
-	RECT draw = animation->GetFrames()->DrawRect;
-	RECT pleasework;
-
-	if(!IsRotated || (GetEleType() == OBJ_WIND && IsRotated))
-	{
-		pleasework.left    = LONG( ( temp.left - draw.left )* m_fScale );
-		pleasework.right   = LONG( pleasework.left + ( ( temp.right - temp.left) * m_fScale) );
-		pleasework.top     = LONG( ( temp.top - draw.top ) * m_fScale );
-		pleasework.bottom  = LONG( pleasework.top + ( ( temp.bottom - temp.top ) * m_fScale ) );
-	}
-	else
-	{
-		POINT anchor = animation->GetFrames()->AnchorPoint;
-
-		pleasework.left    = LONG( ( ( temp.left - draw.left ) * m_fScale )  - ( ( temp.left - anchor.x ) * m_fScale ) );
-		pleasework.right   = LONG( pleasework.left + ( ( temp.right - temp.left ) * m_fScale ) );
-		pleasework.top     = LONG( ( temp.top - draw.top ) * m_fScale );
-		pleasework.bottom  = LONG( pleasework.top + ( ( temp.bottom - temp.top ) *m_fScale ) );
-	}
-
-	pleasework.left        += LONG( GetPosX( ) + GetVelX( ) * fElapsedTime );
-	pleasework.right       += LONG( GetPosX( ) + GetVelX( ) * fElapsedTime );
-	pleasework.top         += LONG( GetPosY( ) + GetVelY( ) * fElapsedTime );
-	pleasework.bottom      += LONG( GetPosY( ) + GetVelY( ) * fElapsedTime );
-	if(!dynamic_cast<AIStateWind*>(currState))
-	{
-		SetWidth(draw.right - draw.left);
-		SetHeight(draw.bottom- draw.top);
-	}
-	return pleasework;*/
-
 	RECT  AnimationCollisionRect = animation->GetFrames()->CollisionRect;
 	RECT  AnimationRenderRect    = animation->GetFrames()->DrawRect;
 	POINT AnimationAnchorPoint   = animation->GetFrames()->AnchorPoint;
@@ -496,24 +464,25 @@ RECT CEnemy::GetCollisionRect(float fElapsedTime)
 
 	if(IsRotated || (GetEleType() == OBJ_WIND && !IsRotated))
 	{
-		collisionRect.top    = GetPosY();
-		collisionRect.bottom = GetPosY() + (AnimationRenderRect.bottom   - AnimationCollisionRect.top) * m_fScale;
-		collisionRect.left   = GetPosX() + (AnimationCollisionRect.left  - AnimationRenderRect.left)   * m_fScale - (AnimationCollisionRect.left - AnimationAnchorPoint.x);
-		collisionRect.right  = GetPosX() + ((AnimationCollisionRect.left - AnimationRenderRect.left)   + (AnimationCollisionRect.right - AnimationCollisionRect.left)) * m_fScale - (AnimationCollisionRect.left - AnimationAnchorPoint.x);
+		collisionRect.top    = LONG( GetPosY( ) );
+		collisionRect.bottom = LONG( GetPosY() + (AnimationRenderRect.bottom   - AnimationCollisionRect.top ) * m_fScale );
+		collisionRect.left   = LONG( GetPosX() + (AnimationCollisionRect.left  - AnimationRenderRect.left )   * m_fScale - (AnimationCollisionRect.left - AnimationAnchorPoint.x ) );
+		collisionRect.right  = LONG( GetPosX() + ((AnimationCollisionRect.left - AnimationRenderRect.left )   + 
+			( AnimationCollisionRect.right - AnimationCollisionRect.left ) ) * m_fScale - ( AnimationCollisionRect.left - AnimationAnchorPoint.x ) );
 	}
 	else
 	{
-		collisionRect.top    = GetPosY();
-		collisionRect.bottom = GetPosY() + (AnimationRenderRect.bottom   - AnimationCollisionRect.top) * m_fScale;
-		collisionRect.left   = GetPosX() + (AnimationCollisionRect.left  - AnimationRenderRect.left)   * m_fScale;
-		collisionRect.right  = GetPosX() + ((AnimationCollisionRect.left - AnimationRenderRect.left)   + (AnimationCollisionRect.right - AnimationCollisionRect.left)) * m_fScale;
+		collisionRect.top    = LONG( GetPosY( ) );
+		collisionRect.bottom = LONG( GetPosY( ) + ( AnimationRenderRect.bottom    - AnimationCollisionRect.top ) * m_fScale );
+		collisionRect.left   = LONG( GetPosX( ) + ( AnimationCollisionRect.left   - AnimationRenderRect.left )   * m_fScale );
+		collisionRect.right  = LONG( GetPosX( ) + ( ( AnimationCollisionRect.left - AnimationRenderRect.left )   + ( AnimationCollisionRect.right - AnimationCollisionRect.left ) ) * m_fScale );
 	}
 
-	collisionRect.top    = collisionRect.top    + GetVelY() * fElapsedTime;
-	collisionRect.bottom = collisionRect.bottom + GetVelY() * fElapsedTime;
-	collisionRect.left   = collisionRect.left   + GetVelX() * fElapsedTime;
-	collisionRect.right  = collisionRect.right  + GetVelX() * fElapsedTime;
-		
+	collisionRect.top    = LONG( collisionRect.top    + GetVelY( ) * fElapsedTime );
+	collisionRect.bottom = LONG( collisionRect.bottom + GetVelY( ) * fElapsedTime );
+	collisionRect.left   = LONG( collisionRect.left   + GetVelX( ) * fElapsedTime );
+	collisionRect.right  = LONG( collisionRect.right  + GetVelX( ) * fElapsedTime );
+
 	return collisionRect;
 }
 
@@ -580,7 +549,7 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 				else if ( this->GetPosX() < collidingObject->GetPosX( ) )
 					SetPosX( GetPosX( ) - nRectWidth );
 			}
-			
+
 		}
 	}
 	else if( collidingObject->GetType( ) == OBJ_SPELL && ( ( CSpell* )collidingObject )->PlayerShot( ) )
@@ -588,7 +557,7 @@ void CEnemy::HandleCollision(float fElapsedTime, CBase* collidingObject )
 		int spelltype = ((CSpell*)collidingObject)->GetElement();
 		int DamageToTake = ((CSpell*)collidingObject)->GetDamage();
 		int EleType	= GetEleType();
-		
+
 		if( EleType == OBJ_SHIELD)
 			return;
 		else if(EleType == OBJ_NONE)
