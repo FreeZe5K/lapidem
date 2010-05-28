@@ -47,7 +47,7 @@ bool CAuxiliaryState::Input( )
 				m_nChoice = 5;
 		}
 
-		if( m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed( 3 ) || m_pDI->JoystickGetLStickXNormalized() > 0)
+		if( m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickDPadPressed( 3 ) || m_pDI->JoystickGetLStickXNormalized() > 0 )
 		{
 			m_pWM->Play( CGame::GetInstance( )->GetMenuTick( ) );
 
@@ -135,14 +135,16 @@ bool CAuxiliaryState::Input( )
 	}
 	else if( m_nState == 1 ) // High Scores
 	{
-		if( m_pDI->CheckBufferedKeysEx( ) || m_pDI->JoystickCheckBufferedButtons() != -1)
+		if( m_pDI->CheckBufferedKeysEx( ) || m_pDI->JoystickCheckBufferedButtons() != -1 )
 			CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
 	}
 	else if( m_nState == 2 ) // How To Play
 	{
-		if( m_pDI->CheckBufferedKeysEx( ) || m_pDI->JoystickCheckBufferedButtons() != -1)
+		if( m_pDI->CheckBufferedKeysEx( ) || m_pDI->KeyPressed( DIK_LEFT ) || 
+			m_pDI->KeyPressed( DIK_RIGHT ) || m_pDI->KeyPressed( DIK_UP ) || 
+			m_pDI->KeyPressed( DIK_DOWN ) || m_pDI->JoystickCheckBufferedButtons( ) != -1 )
 		{
-			if( m_nHowToTimer > 45 )
+			if( m_nHowToTimer > 25 )
 			{
 				m_nHowToCurrent = m_nHowToCurrent + 1;
 				m_nHowToTimer = 0;
@@ -154,7 +156,7 @@ bool CAuxiliaryState::Input( )
 	}
 	else if( m_nState == 3 ) // Credits
 	{
-		if( m_pDI->CheckBufferedKeysEx( ) || m_pDI->JoystickCheckBufferedButtons() != -1)
+		if( m_pDI->CheckBufferedKeysEx( ) || m_pDI->JoystickCheckBufferedButtons() != -1 )
 			CGame::GetInstance( )->ChangeState( CMenuState::GetInstance( ) );
 	}
 
