@@ -1,5 +1,0 @@
-Control Options
-	Keybinding?
-	Reverse Axis
-	Speed of Motion
-How to Play
