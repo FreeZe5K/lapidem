@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LapidemWorldEditor", "LapidemWorldEditor\LapidemWorldEditor.csproj", "{2D7F6FAF-6E09-4D31-B682-0DA39E9ADEFD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2D7F6FAF-6E09-4D31-B682-0DA39E9ADEFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D7F6FAF-6E09-4D31-B682-0DA39E9ADEFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D7F6FAF-6E09-4D31-B682-0DA39E9ADEFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D7F6FAF-6E09-4D31-B682-0DA39E9ADEFD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

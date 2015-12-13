@@ -1,0 +1,8 @@
+C:\Users\Sam\Documents\sgp\AnimationEditor2.0\AnimationEditor2.0\AnimationEditor2.0\bin\Debug\AnimationEditor2.0.exe
+C:\Users\Sam\Documents\sgp\AnimationEditor2.0\AnimationEditor2.0\AnimationEditor2.0\bin\Debug\AnimationEditor2.0.pdb
+C:\Users\Sam\Documents\sgp\AnimationEditor2.0\AnimationEditor2.0\AnimationEditor2.0\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Sam\Documents\sgp\AnimationEditor2.0\AnimationEditor2.0\AnimationEditor2.0\obj\Debug\AnimationEditor2._0.Form1.resources
+C:\Users\Sam\Documents\sgp\AnimationEditor2.0\AnimationEditor2.0\AnimationEditor2.0\obj\Debug\AnimationEditor2._0.Properties.Resources.resources
+C:\Users\Sam\Documents\sgp\AnimationEditor2.0\AnimationEditor2.0\AnimationEditor2.0\obj\Debug\AnimationEditor2.0.csproj.GenerateResource.Cache
+C:\Users\Sam\Documents\sgp\AnimationEditor2.0\AnimationEditor2.0\AnimationEditor2.0\obj\Debug\AnimationEditor2.0.exe
+C:\Users\Sam\Documents\sgp\AnimationEditor2.0\AnimationEditor2.0\AnimationEditor2.0\obj\Debug\AnimationEditor2.0.pdb

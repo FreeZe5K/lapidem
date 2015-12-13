@@ -1,0 +1,8 @@
+C:\Users\Pablo Leon\Desktop\LapidemWorldEditor\LapidemWorldEditor\bin\Release\LapidemWorldEditor.exe
+C:\Users\Pablo Leon\Desktop\LapidemWorldEditor\LapidemWorldEditor\bin\Release\LapidemWorldEditor.pdb
+C:\Users\Pablo Leon\Desktop\LapidemWorldEditor\LapidemWorldEditor\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Pablo Leon\Desktop\LapidemWorldEditor\LapidemWorldEditor\obj\Release\LapidemWorldEditor.Form1.resources
+C:\Users\Pablo Leon\Desktop\LapidemWorldEditor\LapidemWorldEditor\obj\Release\LapidemWorldEditor.Properties.Resources.resources
+C:\Users\Pablo Leon\Desktop\LapidemWorldEditor\LapidemWorldEditor\obj\Release\LapidemWorldEditor.csproj.GenerateResource.Cache
+C:\Users\Pablo Leon\Desktop\LapidemWorldEditor\LapidemWorldEditor\obj\Release\LapidemWorldEditor.exe
+C:\Users\Pablo Leon\Desktop\LapidemWorldEditor\LapidemWorldEditor\obj\Release\LapidemWorldEditor.pdb

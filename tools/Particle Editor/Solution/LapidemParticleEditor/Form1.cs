@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -338,9 +338,6 @@ namespace LapidemParticleEditor
                         writer2.Write((float)(m_Particles.MaxAccelX));
                         writer2.Write((float)(m_Particles.MaxAccelY));
 
-                        // - - - - - - - - - - - - - - - -
-                        // Fix this . . .
-                        // - - - - - - - - - - - - - - - -
                         writer2.Write(Convert.ToInt32(m_Particles.SourceBlend));
                         writer2.Write(Convert.ToInt32(m_Particles.DestinationBlend));
 
@@ -492,9 +489,6 @@ namespace LapidemParticleEditor
                 m_Particles.EndColor = Color.FromArgb(_rand.Next(256),
                     _rand.Next(256), _rand.Next(256), _rand.Next(256));
 
-                //m_Particles.DestinationBlend = _rand.Next(15);
-                //m_Particles.SourceBlend = _rand.Next(15);
-
                 m_Particles.StartScaleX = _rand.Next(0, 3);
                 m_Particles.StartScaleY = _rand.Next(0, 3);
 
@@ -585,16 +579,16 @@ namespace LapidemParticleEditor
                     m_Particles.ImgID = ManagedTextureManager.Instance.LoadTexture(openFileDialog1.FileName, 0);
 
                     int index;
+                    
                     for (index = openFileDialog1.FileName.Length - 1; index >= 0; --index)
-                    {
                         if (openFileDialog1.FileName[index] == '\\')
                             break;
-                    }
+                    
                     string relative = "";
                     ++index;
+                    
                     for (; index < openFileDialog1.FileName.Length; ++index)
                         relative += openFileDialog1.FileName[index];
-
 
                     m_Particles.ImgFileName = relative;
                 }
@@ -900,6 +894,5 @@ namespace LapidemParticleEditor
         }
 
         #endregion // HELPER / RENDER FUNCTIONS
-
     }
 }
